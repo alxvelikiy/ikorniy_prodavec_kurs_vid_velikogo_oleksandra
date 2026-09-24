@@ -59,6 +59,18 @@ function classify(card) {
   return { relevance: 'medium', relevance_note: 'не вдалося однозначно класифікувати автоматично — потребує ручної звірки' };
 }
 
+// UA<->RU пари однієї зустрічі (з manifest.json: M01-M15, крім M06-09 UA,
+// які взагалі виключені зі списку джерел як дублі RU01-04 - див. Ф0).
+// Переклад != дослівний збіг рядків, тому це не авто-дедуп по тексту, а
+// позначка "у цієї картки є пара іншою мовою по тій самій зустрічі" -
+// для ручної звірки при синтезі, а не для автоматичного відкидання.
+const SAME_MEETING_PAIR = {};
+for (let i = 1; i <= 15; i++) {
+  const nn = String(i).padStart(2, '0');
+  SAME_MEETING_PAIR[`ОБ-UA${nn}`] = `ОБ-RU${nn}`;
+  SAME_MEETING_PAIR[`ОБ-RU${nn}`] = `ОБ-UA${nn}`;
+}
+
 const files = fs.readdirSync(CARDS_DIR).filter(f => f.endsWith('.jsonl'));
 const allCards = []; // {file, idx, obj}
 for (const f of files.sort()) {
@@ -85,6 +97,7 @@ for (const item of allCards) {
   const { relevance, relevance_note } = classify(item.obj);
   item.obj.relevance = relevance;
   item.obj.relevance_note = relevance_note;
+  item.obj.same_meeting_pair_source = SAME_MEETING_PAIR[item.obj.source_id] || null;
 }
 
 // перезаписати кожен файл, зберігаючи порожні-шардові рядки як були

@@ -1,1 +1,21 @@
-[]
+[
+ {
+  "card_id": "M01-UA_c01_01",
+  "source_id": "ОБ-UA01",
+  "chunk": "M01-UA_c01",
+  "type": "mentor_number",
+  "text_verbatim": "Так, по вчорашньому у тебе виходить 39 дзвонков, із них 4 закази на продаж, правильно?",
+  "locator": "(1:18 - 1:39)",
+  "speaker": "Мовець 1",
+  "basis": "слова наставника",
+  "lesson_hint": "щоденний розбір показників менеджера (дзвінки/замовлення)",
+  "note": null,
+  "is_duplicate": false,
+  "duplicate_of": null,
+  "relevance": "medium",
+  "relevance_note": "не вдалося однозначно класифікувати автоматично — потребує ручної звірки",
+  "same_meeting_pair_source": "ОБ-RU01",
+  "_file": "M01-UA_c01.jsonl",
+  "_reason": "quote not found verbatim in shard"
+ }
+]
