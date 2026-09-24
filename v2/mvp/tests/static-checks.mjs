@@ -27,6 +27,17 @@ R.check('content.curated-valid', curatedErr === 0, `помилок ${curatedErr}
 if (strict) R.check('content.all-12-lessons', missing.length === 0, missing.length ? 'бракує уроків ' + missing.join(', ') : '12 з 12');
 else if (missing.length) console.log('  · без розмітки: уроки ' + missing.join(', '));
 
+// 1б. Сервер тренера звіряє фрази тією самою нормалізацією, що й збірка
+{
+  const { normText: coachNorm } = await import('../../coach/lib/verbatim.mjs');
+  const { normText: libNorm, lessonRaw } = await import('../tools/content-lib.mjs');
+  const samples = [];
+  for (let n = 1; n <= 12; n++) samples.push(lessonRaw(n));
+  samples.push('«Лапки» — “інші” ’апостроф‘ **жирний** a\u00A0b –—');
+  const diff = samples.filter(t => coachNorm(t) !== libNorm(t)).length;
+  R.check('content.coach-normalization-same', diff === 0, diff ? `розбіжностей ${diff}` : '12 уроків + зразок — однаково');
+}
+
 // 2. source_ref
 const src = fs.readFileSync(path.join(V2, 'site', 'assets', 'trainer-data.js'), 'utf8');
 const w = {}; new Function('window', src)(w); const T = w.TRAINER;

@@ -67,14 +67,17 @@
   // =====================================================================
   // 3. Розбір відповіді у три рядки: Що сказано → Чому → Що сказати натомість
   // =====================================================================
-  // o: {good:bool, said, why, instead, lesson, rule}
+  // o: {good:bool, said, why, instead, lesson, rule, neutral?, verdict?, insteadHtml?}
+  //  neutral — розбір без оцінки (офлайн-режим тренера: звір зі зразком з уроку)
   function fb3(o) {
-    var good = !!o.good;
-    return '<div class="fb3 ' + (good ? 'is-good' : 'is-bad') + '" role="status">' +
-      '<p class="fb3-verdict">' + (good ? 'Так' : 'Не зовсім') + '</p>' +
+    var good = !!o.good, neutral = !!o.neutral;
+    var cls = neutral ? 'is-neutral' : good ? 'is-good' : 'is-bad';
+    return '<div class="fb3 ' + cls + '" role="status">' +
+      '<p class="fb3-verdict">' + esc(o.verdict || (neutral ? 'Звір зі зразком з уроку' : good ? 'Так' : 'Не зовсім')) + '</p>' +
       '<p class="fb3-said"><b>Що сказано:</b> ' + esc(o.said) + '</p>' +
-      '<p class="fb3-why"><b>' + (good ? 'Чому це добре для клієнта:' : 'Чому це погано для клієнта:') + '</b> ' + esc(cap(o.why)) + '</p>' +
-      '<p class="fb3-instead"><b>' + (good ? 'Що сказати в дзвінку:' : 'Що сказати натомість:') + '</b> ' + esc(o.instead) + '</p>' +
+      '<p class="fb3-why"><b>' + (neutral ? 'Чому це важливо для клієнта:' : good ? 'Чому це добре для клієнта:' : 'Чому це погано для клієнта:') + '</b> ' + esc(cap(o.why)) + '</p>' +
+      (o.insteadHtml ? '<div class="fb3-instead"><b>' + (good ? 'Що сказати в дзвінку:' : 'Що сказати натомість:') + '</b> ' + o.insteadHtml + '</div>'
+        : '<p class="fb3-instead"><b>' + (good ? 'Що сказати в дзвінку:' : 'Що сказати натомість:') + '</b> ' + esc(o.instead) + '</p>') +
       (o.lesson ? srcLine(o.lesson, o.rule) : '') +
       '</div>';
   }

@@ -662,6 +662,14 @@ function main() {
   const trainerReport = { errors: [], warnings: [] };
   const trainer = buildTrainerData({ showStats: SHOW_STATS, report: trainerReport });
   fs.writeFileSync(path.join(OUT, 'assets', 'trainer-data.js'), '// Згенеровано v2/build/build.mjs — не редагувати вручну\nwindow.TRAINER=' + JSON.stringify(trainer) + ';\n', 'utf8');
+  // --- ІІ-тренер: тексти уроків у тому вигляді, як їх показує сайт (без блоків статистики), — для дослівної
+  // звірки фраз, які радить тренер (v2/coach/lib/coach-core.mjs)
+  {
+    const coachData = path.join(ROOT, 'coach', 'data');
+    fs.mkdirSync(coachData, { recursive: true });
+    const lessonsTxt = LESSONS.map(l => ({ n: l[0], title: l[1], text: displayedLessonRaw(l[0], SHOW_STATS).replace(/^:::stat[\s\S]*?^:::\s*$/gm, '').replace(/<!--[\s\S]*?-->/g, '') }));
+    fs.writeFileSync(path.join(coachData, 'lessons.json'), JSON.stringify(lessonsTxt), 'utf8');
+  }
   const rvHero = renderCover({ назва: 'Повторення', підзаголовок: 'До п\'яти карток на день. Те, що знаєш, повертається через 1, 3, 7 і 14 днів; те, у чому помилявся, — частіше.', образ: 'чек-лист перевірка' }, 'course', { eyebrow: 'Ikorka Shop · курс новачка' });
   generated.push({ slug: 'povtorennia', html: shellPage({ activeSlug: 'povtorennia', title: 'Повторення', description: 'Картки для повторення з інтервалами', heroHtml: rvHero, bodyHtml: '<div id="review-app" class="review-app mvp-app"><p class="lesson-body">Картки завантажуються…</p></div><noscript><p class="lesson-body">Повторення працює з увімкненим JavaScript.</p></noscript>', prev: null, next: null, pageSlug: 'povtorennia', pageKind: 'review' }) });
   for (const pg of buildMvpPages({ shellPage, renderCover, trainer })) generated.push(pg);

@@ -1,6 +1,6 @@
 {
  "name": "e2e-1-2-3",
- "at": "2026-09-24T21:38:22.405Z",
+ "at": "2026-09-24T21:50:49.240Z",
  "passed": 99,
  "failed": 0,
  "items": [
@@ -372,7 +372,7 @@
   {
    "id": "3.sim.state",
    "ok": true,
-   "detail": "{\"tried\":[1,0],\"solved\":true,\"firstGood\":false,\"t\":1790285892002}"
+   "detail": "{\"tried\":[1,0],\"solved\":true,\"firstGood\":false,\"t\":1790286638890}"
   },
   {
    "id": "3.sim.next-scene",

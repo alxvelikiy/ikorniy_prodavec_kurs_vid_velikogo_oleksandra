@@ -2,6 +2,7 @@
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
@@ -20,13 +21,15 @@ export const CHROME = process.env.CHROME_PATH || '/opt/pw-browsers/chromium-1194
 export async function startServer({ port = 4173, env = {} } = {}) {
   const coach = path.join(V2, 'coach', 'server.mjs');
   if (fs.existsSync(coach) && env.STATIC_ONLY !== '1') {
-    const child = spawn(process.execPath, [coach], { env: { ...process.env, PORT: String(port), COACH_MOCK: '1', ANTHROPIC_API_KEY: '', ...env }, stdio: ['ignore', 'pipe', 'pipe'] });
+    // лічильники тестового сервера — у тимчасовому файлі, щоб не з'їдати добовий ліміт справжнього
+    const usage = path.join(os.tmpdir(), `ikorka-coach-usage-${port}-${Date.now()}.json`);
+    const child = spawn(process.execPath, [coach], { env: { ...process.env, PORT: String(port), COACH_MOCK: '1', ANTHROPIC_API_KEY: '', COACH_USAGE_FILE: usage, ...env }, stdio: ['ignore', 'pipe', 'pipe'] });
     let out = '';
     child.stdout.on('data', d => { out += d; });
     child.stderr.on('data', d => { out += d; });
     for (let i = 0; i < 50; i++) {
       await new Promise(r => setTimeout(r, 100));
-      try { await fetchText(`http://127.0.0.1:${port}/index.html`); return { url: `http://127.0.0.1:${port}`, close: () => child.kill(), log: () => out, kind: 'coach' }; } catch (e) { /* ще стартує */ }
+      try { await fetchText(`http://127.0.0.1:${port}/index.html`); return { url: `http://127.0.0.1:${port}`, close: () => { child.kill(); try { fs.unlinkSync(usage); } catch (e) { /* */ } }, log: () => out, usageFile: usage, kind: 'coach' }; } catch (e) { /* ще стартує */ }
     }
     child.kill();
     throw new Error('coach server did not start: ' + out);
