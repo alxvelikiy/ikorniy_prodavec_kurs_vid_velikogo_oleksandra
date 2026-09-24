@@ -1,0 +1,562 @@
+[
+ {
+  "chunk_id": "fc01",
+  "files": [
+   {
+    "id": "C001",
+    "path": "2025-04-29 10-20 0997980749 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C002",
+    "path": "2025-06-08 14-28 0962671929 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C003",
+    "path": "2025-07-10 16-30 0639642272 incoming.txt",
+    "r_i_f": "incoming"
+   },
+   {
+    "id": "C004",
+    "path": "2025-11-11 12-49 0505720479 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C005",
+    "path": "2025-11-11 12-53 0505720479 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C006",
+    "path": "2026-03-24 11-04 0660444670 incoming.txt",
+    "r_i_f": "incoming"
+   },
+   {
+    "id": "C007",
+    "path": "2026-03-25 12-12 0979473721 incoming.txt",
+    "r_i_f": "incoming"
+   },
+   {
+    "id": "C008",
+    "path": "2026-03-25 16-44 0993882312 incoming.txt",
+    "r_i_f": "incoming"
+   }
+  ]
+ },
+ {
+  "chunk_id": "fc02",
+  "files": [
+   {
+    "id": "C009",
+    "path": "2026-03-25 18-07 0976102695 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C010",
+    "path": "2026-03-26 12-21 0660895543 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C011",
+    "path": "2026-03-26 12-33 0669098745 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C012",
+    "path": "2026-03-26 15-58 0677339137 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C013",
+    "path": "2026-03-26 18-48 0983730655 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C014",
+    "path": "2026-03-26 18-53 0982325210 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C015",
+    "path": "2026-04-04 15-22 0979720098 incoming.txt",
+    "r_i_f": "incoming"
+   },
+   {
+    "id": "C016",
+    "path": "2026-04-23 12-06 0508381185 outgoing.txt",
+    "r_i_f": "reactivation"
+   }
+  ]
+ },
+ {
+  "chunk_id": "fc03",
+  "files": [
+   {
+    "id": "C017",
+    "path": "2026-04-27 12-05 0968670461 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C018",
+    "path": "2026-04-27 17-35 0967102342 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C019",
+    "path": "2026-04-28 14-33 0661952649 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C020",
+    "path": "2026-04-28 15-06 0984631855 incoming.txt",
+    "r_i_f": "incoming"
+   },
+   {
+    "id": "C021",
+    "path": "2026-04-28 15-25 0954965262 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C022",
+    "path": "2026-04-29 10-06 0987393073 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C023",
+    "path": "2026-04-29 14-13 0675213982 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C024",
+    "path": "2026-04-29 14-41 0980896695 outgoing.txt",
+    "r_i_f": "reactivation"
+   }
+  ]
+ },
+ {
+  "chunk_id": "fc04",
+  "files": [
+   {
+    "id": "C025",
+    "path": "2026-04-29 14-57 0994757693 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C026",
+    "path": "2026-04-29 18-01 0682818525 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C027",
+    "path": "2026-04-30 10-59 0665057637 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C028",
+    "path": "2026-04-30 11-57 0967393713 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C029",
+    "path": "2026-04-30 11-59 0996685038 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C030",
+    "path": "2026-04-30 12-09 0963832891 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C031",
+    "path": "2026-04-30 12-20 0961866435 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C032",
+    "path": "2026-04-30 12-30 0951361026 outgoing.txt",
+    "r_i_f": "reactivation"
+   }
+  ]
+ },
+ {
+  "chunk_id": "fc05",
+  "files": [
+   {
+    "id": "C033",
+    "path": "2026-05-14 15-17 0939503141 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C034",
+    "path": "2026-05-20 12-10 0669927544 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C035",
+    "path": "2026-08-25 15-31 0987667862 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C036",
+    "path": "2026-08-28 16-18 0984497111 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C037",
+    "path": "2026-09-21 11-21 0689198708 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C038",
+    "path": "2026-09-21 11-52 0667193326 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C039",
+    "path": "2026-09-22 16-50 0679414892 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C040",
+    "path": "2026-09-23 10-03 0975557102 outgoing.txt",
+    "r_i_f": "reactivation"
+   }
+  ]
+ },
+ {
+  "chunk_id": "fc06",
+  "files": [
+   {
+    "id": "C041",
+    "path": "2026-09-23 10-21 0989374168 incoming.txt",
+    "r_i_f": "incoming"
+   },
+   {
+    "id": "C042",
+    "path": "2026-09-23 10-22 0667251560 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C043",
+    "path": "2026-09-23 10-54 0992743806 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C044",
+    "path": "2026-09-23 10-59 0962205618 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C045",
+    "path": "2026-09-23 11-02 0687553112 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C046",
+    "path": "2026-09-23 11-23 0980818396 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C047",
+    "path": "2026-09-23 12-08 0973590043 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C048",
+    "path": "2026-09-23 12-39 0976077929 incoming.txt",
+    "r_i_f": "incoming"
+   }
+  ]
+ },
+ {
+  "chunk_id": "fc07",
+  "files": [
+   {
+    "id": "C049",
+    "path": "2026-09-23 12-54 0974343035 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C050",
+    "path": "2026-09-23 14-44 0990863552 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C051",
+    "path": "2026-09-23 15-06 0990863552 incoming.txt",
+    "r_i_f": "incoming"
+   },
+   {
+    "id": "C052",
+    "path": "2026-09-23 15-12 0963019313 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C053",
+    "path": "2026-09-23 15-30 0669504985 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C054",
+    "path": "2026-09-23 15-54 0677664857 outgoing.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C055",
+    "path": "5711883108.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C056",
+    "path": "5751965710.txt",
+    "r_i_f": "reactivation"
+   }
+  ]
+ },
+ {
+  "chunk_id": "fc08",
+  "files": [
+   {
+    "id": "C057",
+    "path": "5766825422.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C058",
+    "path": "5767704965.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C059",
+    "path": "5767709307.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C060",
+    "path": "5778609671.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C061",
+    "path": "5838682622.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C062",
+    "path": "5855190393.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C063",
+    "path": "5897981618.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C064",
+    "path": "5916651891.txt",
+    "r_i_f": "reactivation"
+   }
+  ]
+ },
+ {
+  "chunk_id": "fc09",
+  "files": [
+   {
+    "id": "C065",
+    "path": "5929725316.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "C066",
+    "path": "6122352423.txt",
+    "r_i_f": "fblead"
+   },
+   {
+    "id": "C067",
+    "path": "6122380329.txt",
+    "r_i_f": "fblead"
+   },
+   {
+    "id": "C068",
+    "path": "6123051715.txt",
+    "r_i_f": "fblead"
+   },
+   {
+    "id": "C069",
+    "path": "6123111622.txt",
+    "r_i_f": "fblead"
+   },
+   {
+    "id": "C070",
+    "path": "6123166970.txt",
+    "r_i_f": "fblead"
+   },
+   {
+    "id": "C071",
+    "path": "6124498220 (1).txt",
+    "r_i_f": "fblead"
+   },
+   {
+    "id": "C072",
+    "path": "6124657080.txt",
+    "r_i_f": "fblead"
+   }
+  ]
+ },
+ {
+  "chunk_id": "fc10",
+  "files": [
+   {
+    "id": "C073",
+    "path": "6124691582.txt",
+    "r_i_f": "fblead"
+   },
+   {
+    "id": "E01",
+    "path": "x/etalon_01.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E02",
+    "path": "x/etalon_02.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E03",
+    "path": "x/etalon_03.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E04",
+    "path": "x/etalon_04.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E05",
+    "path": "x/etalon_05.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E06",
+    "path": "x/etalon_06.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E07",
+    "path": "x/etalon_07.docx.txt",
+    "r_i_f": "reactivation"
+   }
+  ]
+ },
+ {
+  "chunk_id": "fc11",
+  "files": [
+   {
+    "id": "E08",
+    "path": "x/etalon_08.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E09",
+    "path": "x/etalon_09.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E10",
+    "path": "x/etalon_10.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E11",
+    "path": "x/etalon_11.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E12",
+    "path": "x/etalon_12.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E13",
+    "path": "x/etalon_13.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E14",
+    "path": "x/etalon_14.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E15",
+    "path": "x/etalon_15.docx.txt",
+    "r_i_f": "reactivation"
+   }
+  ]
+ },
+ {
+  "chunk_id": "fc12",
+  "files": [
+   {
+    "id": "E16",
+    "path": "x/etalon_16.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E17",
+    "path": "x/etalon_17.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E18",
+    "path": "x/etalon_18.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E19",
+    "path": "x/etalon_19.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E20",
+    "path": "x/etalon_20.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E21",
+    "path": "x/etalon_21.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E22",
+    "path": "x/etalon_22.docx.txt",
+    "r_i_f": "incoming"
+   },
+   {
+    "id": "E23",
+    "path": "x/etalon_23.docx.txt",
+    "r_i_f": "reactivation"
+   }
+  ]
+ },
+ {
+  "chunk_id": "fc13",
+  "files": [
+   {
+    "id": "E24",
+    "path": "x/etalon_24.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E25",
+    "path": "x/etalon_25.docx.txt",
+    "r_i_f": "reactivation"
+   },
+   {
+    "id": "E26",
+    "path": "x/etalon_26.docx.txt",
+    "r_i_f": "reactivation"
+   }
+  ]
+ }
+]
