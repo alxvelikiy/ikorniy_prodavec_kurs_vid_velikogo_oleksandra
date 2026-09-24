@@ -93,6 +93,49 @@ function pairMeta(sourceId) {
   };
 }
 
+const SHARDS_DIR = path.join(ROOT, 'v2/corpus/_shards');
+
+function jaccardWords(a, b) {
+  const wa = new Set(norm(a).split(' ').filter(Boolean));
+  const wb = new Set(norm(b).split(' ').filter(Boolean));
+  if (wa.size === 0 || wb.size === 0) return 0;
+  let inter = 0;
+  for (const w of wa) if (wb.has(w)) inter++;
+  const union = new Set([...wa, ...wb]).size;
+  return inter / union;
+}
+
+// context_before/context_after: 1 сусідній абзац-репліка з файлу-шарда,
+// знайдений по місцю входження text_verbatim (той самий поділ на абзаци,
+// що й _build_shards.mjs: розрив по порожньому рядку). Якщо цитата
+// зустрічається в шарді >1 разу дослівно - позначаємо ambiguous_location.
+const shardParaCache = new Map();
+function getParas(chunk) {
+  if (shardParaCache.has(chunk)) return shardParaCache.get(chunk);
+  const p = path.join(SHARDS_DIR, chunk + '.txt');
+  if (!fs.existsSync(p)) { shardParaCache.set(chunk, null); return null; }
+  const text = fs.readFileSync(p, 'utf8');
+  const paras = text.split(/\n\s*\n/);
+  shardParaCache.set(chunk, paras);
+  return paras;
+}
+function findContext(chunk, quote) {
+  const paras = getParas(chunk);
+  if (!paras) return { context_before: null, context_after: null, ambiguous_location: null };
+  const q = norm(quote);
+  const matches = [];
+  for (let i = 0; i < paras.length; i++) {
+    if (norm(paras[i]).includes(q)) matches.push(i);
+  }
+  if (matches.length === 0) return { context_before: null, context_after: null, ambiguous_location: 'quote not found in any paragraph (shard boundary or split artifact)' };
+  const i = matches[0];
+  return {
+    context_before: i > 0 ? paras[i - 1].trim().slice(0, 400) : null,
+    context_after: i < paras.length - 1 ? paras[i + 1].trim().slice(0, 400) : null,
+    ambiguous_location: matches.length > 1 ? `quote matched ${matches.length} paragraphs in shard - took first` : null,
+  };
+}
+
 const files = fs.readdirSync(CARDS_DIR).filter(f => f.endsWith('.jsonl'));
 const allCards = []; // {file, idx, obj}
 for (const f of files.sort()) {
@@ -104,18 +147,31 @@ for (const f of files.sort()) {
   });
 }
 
-// дедуплікація за нормалізованим text_verbatim, порядок = порядок файлів (sort) + порядок рядків
+// Дедуплікація: ТІЛЬКИ близький/точний збіг тексту (rule власника: RU і UA
+// версії однієї зустрічі НЕ вважати дублями за змістом - вони різними
+// мовами і RU може містити матеріал, якого немає в UA; позначаємо дубль
+// лише коли текст майже співпадає). Тому:
+//  - точний нормалізований збіг -> дубль завжди
+//  - "майже збіг" (Jaccard по словах >= 0.9) -> дубль ТІЛЬКИ якщо обидві
+//    картки однієї мови (не пара primary/UA з різних source_id за pairMeta)
 const seen = new Map(); // normText -> first card_id
-for (const item of allCards) {
+for (let idx = 0; idx < allCards.length; idx++) {
+  const item = allCards[idx];
   const key = norm(item.obj.text_verbatim);
   if (seen.has(key)) {
     item.obj.is_duplicate = true;
     item.obj.duplicate_of = seen.get(key);
+    item.obj.duplicate_reason = 'exact normalized text match';
   } else {
     seen.set(key, item.obj.card_id);
     item.obj.is_duplicate = false;
     item.obj.duplicate_of = null;
+    item.obj.duplicate_reason = null;
   }
+  const ctx = findContext(item.obj.chunk, item.obj.text_verbatim);
+  item.obj.context_before = ctx.context_before;
+  item.obj.context_after = ctx.context_after;
+  item.obj.ambiguous_location = ctx.ambiguous_location;
   const { relevance, relevance_note } = classify(item.obj);
   item.obj.relevance = relevance;
   item.obj.relevance_note = relevance_note;
@@ -124,6 +180,32 @@ for (const item of allCards) {
   item.obj.pair_id = pair_id;
   item.obj.primary_lang = primary_lang;
   item.obj.is_primary_source = is_primary_source;
+}
+
+// Друга проходка: "майже дублі" (Jaccard по словах >= 0.9), ТІЛЬКИ між
+// картками ОДНАКОВОЇ мови джерела (source_id має однаковий префікс UA/RU)
+// - явно НЕ звіряємо між UA і RU версіями однієї зустрічі (rule власника:
+// RU може містити матеріал, якого немає в UA, це не дублі за змістом,
+// навіть якщо обидва описують ту саму тему).
+function langOf(sourceId) {
+  const m = /^ОБ-(UA|RU)/.exec(sourceId || '');
+  return m ? m[1] : (sourceId || '').slice(0, 3); // для N-джерел просто group by source_id
+}
+for (let i = 0; i < allCards.length; i++) {
+  const a = allCards[i].obj;
+  if (a.is_duplicate) continue; // вже позначено точним збігом
+  for (let j = 0; j < i; j++) {
+    const b = allCards[j].obj;
+    if (langOf(a.source_id) !== langOf(b.source_id)) continue; // різні мови/джерела - не порівнюємо
+    if (a.pair_id && b.pair_id && a.pair_id === b.pair_id && a.source_id !== b.source_id) continue; // UA/RU пара - ніколи не дублі
+    const sim = jaccardWords(a.text_verbatim, b.text_verbatim);
+    if (sim >= 0.9) {
+      a.is_duplicate = true;
+      a.duplicate_of = b.card_id;
+      a.duplicate_reason = `near-duplicate text (Jaccard=${sim.toFixed(2)}), same language/source`;
+      break;
+    }
+  }
 }
 
 // перезаписати кожен файл, зберігаючи порожні-шардові рядки як були

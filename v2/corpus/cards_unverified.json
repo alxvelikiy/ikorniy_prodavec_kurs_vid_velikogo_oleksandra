@@ -18,6 +18,12 @@
   "pair_id": "M01",
   "primary_lang": "ru",
   "is_primary_source": false,
+  "duplicate_reason": null,
+  "context_before": null,
+  "context_after": null,
+  "ambiguous_location": "quote not found in any paragraph (shard boundary or split artifact)",
+  "contract_valid": true,
+  "contract_missing_fields": [],
   "_file": "M01-UA_c01.jsonl",
   "_reason": "quote not found verbatim in shard"
  },
@@ -40,6 +46,14 @@
   "pair_id": "M03",
   "primary_lang": "ru",
   "is_primary_source": true,
+  "duplicate_reason": null,
+  "context_before": null,
+  "context_after": null,
+  "ambiguous_location": "quote not found in any paragraph (shard boundary or split artifact)",
+  "contract_valid": false,
+  "contract_missing_fields": [
+   "lesson_hint"
+  ],
   "_file": "M03-RU_c01.jsonl",
   "_reason": "quote not found verbatim in shard"
  },
@@ -62,7 +76,44 @@
   "pair_id": "M04",
   "primary_lang": "ru",
   "is_primary_source": true,
+  "duplicate_reason": null,
+  "context_before": "Смотри, есть девчата, кого можешь послушать. Послушай про Дананну. Послушай Валю Горбунову.",
+  "context_after": "Не обязательно. У них прекрасно тоже получается по результатам, так что попробуй.",
+  "ambiguous_location": null,
+  "contract_valid": false,
+  "contract_missing_fields": [
+   "speaker",
+   "lesson_hint"
+  ],
   "_file": "M04-RU_c04.jsonl",
+  "_reason": "quote not found verbatim in shard"
+ },
+ {
+  "card_id": "M06-RU_c03_09",
+  "source_id": "ОБ-RU06",
+  "chunk": "M06-RU_c03",
+  "type": "example",
+  "text_verbatim": "Как решить проблема? Супер. И теперь результат.",
+  "locator": "рядок 29 (36:46-37:49)",
+  "speaker": "Мовець 1",
+  "basis": "слова наставника",
+  "lesson_hint": "крок «рішення» у структурі",
+  "note": null,
+  "is_duplicate": false,
+  "duplicate_of": null,
+  "duplicate_reason": null,
+  "context_before": null,
+  "context_after": null,
+  "ambiguous_location": "quote not found in any paragraph (shard boundary or split artifact)",
+  "relevance": "medium",
+  "relevance_note": "не вдалося однозначно класифікувати автоматично — потребує ручної звірки",
+  "same_meeting_pair_source": "ОБ-UA06",
+  "pair_id": "M06",
+  "primary_lang": "ru",
+  "is_primary_source": true,
+  "contract_valid": true,
+  "contract_missing_fields": [],
+  "_file": "M06-RU_c03.jsonl",
   "_reason": "quote not found verbatim in shard"
  }
 ]
