@@ -1,13 +1,9 @@
 {
  "total_shards": 82,
- "covered": 41,
+ "covered": 45,
  "empty": 3,
- "missing": 38,
+ "missing": 34,
  "missing_chunks": [
-  "M07-RU_c02",
-  "M09-RU_c01",
-  "M09-RU_c02",
-  "M10-UA_c01",
   "M10-UA_c02",
   "M10-UA_c03",
   "M10-UA_c04",
@@ -213,8 +209,8 @@
    "card_count": 26
   },
   "M07-RU_c02": {
-   "status": "MISSING",
-   "card_count": 0
+   "status": "COVERED",
+   "card_count": 13
   },
   "M08-RU_c01": {
    "status": "COVERED",
@@ -225,16 +221,16 @@
    "card_count": 9
   },
   "M09-RU_c01": {
-   "status": "MISSING",
-   "card_count": 0
+   "status": "COVERED",
+   "card_count": 15
   },
   "M09-RU_c02": {
-   "status": "MISSING",
-   "card_count": 0
+   "status": "COVERED",
+   "card_count": 5
   },
   "M10-UA_c01": {
-   "status": "MISSING",
-   "card_count": 0
+   "status": "COVERED",
+   "card_count": 19
   },
   "M10-UA_c02": {
    "status": "MISSING",

@@ -46,12 +46,12 @@ M06-RU_c02 | COVERED | cards: 38
 M06-RU_c03 | COVERED | cards: 28
 M06-RU_c04 | COVERED | cards: 10
 M07-RU_c01 | COVERED | cards: 26
-M07-RU_c02 | MISSING | NO RESULT (not processed yet)
+M07-RU_c02 | COVERED | cards: 13
 M08-RU_c01 | COVERED | cards: 11
 M08-RU_c02 | COVERED | cards: 9
-M09-RU_c01 | MISSING | NO RESULT (not processed yet)
-M09-RU_c02 | MISSING | NO RESULT (not processed yet)
-M10-UA_c01 | MISSING | NO RESULT (not processed yet)
+M09-RU_c01 | COVERED | cards: 15
+M09-RU_c02 | COVERED | cards: 5
+M10-UA_c01 | COVERED | cards: 19
 M10-UA_c02 | MISSING | NO RESULT (not processed yet)
 M10-UA_c03 | MISSING | NO RESULT (not processed yet)
 M10-UA_c04 | MISSING | NO RESULT (not processed yet)
