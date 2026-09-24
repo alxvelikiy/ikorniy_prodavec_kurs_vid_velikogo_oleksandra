@@ -510,7 +510,136 @@ async function slice4(browser, base, R) {
   }
 }
 
-const SLICES = { 1: slice1, 2: slice2, 3: slice3, 4: slice4 };
+// ---------------- Зріз 5: перевірка готовності, керівник, експорт/імпорт, доступність ----------------
+async function readDownload(page, trigger) {
+  const [dl] = await Promise.all([page.waitForEvent('download'), trigger()]);
+  const p = await dl.path();
+  return { name: dl.suggestedFilename(), text: fs.readFileSync(p, 'utf8') };
+}
+async function slice5(browser, base, R) {
+  // Перевірка готовності: усі 12 уроків упереміш, поріг, картка слабких тем
+  {
+    const { page, ctx, errors } = await openPage(browser, base + '/perevirka.html');
+    R.check('5.final.no-popup-on-load', (await popupsOnLoad(page, 1500)).length === 0);
+    const card = page.locator('.mvp-final');
+    await click(page, card.locator('[data-conf="4"]'));
+    const lessonsSeen = new Set(); let total = 0, wrongLeft = 5, guard = 0, fb3ok = true;
+    while (await card.locator('.mvp-result').count() === 0 && guard++ < 40) {
+      const prog = await card.locator('.mvp-progress').textContent();
+      const m = /з (\d+) · урок (\d+)/.exec(prog); if (m) { total = +m[1]; lessonsSeen.add(+m[2]); }
+      await answer(page, card, !(wrongLeft-- > 0));
+      const p = await fb3Parts(card.locator('.mvp-q.answered .fb3'));
+      if (!(p.said && p.why && p.instead)) fb3ok = false;
+      await click(page, card.locator('.mvp-next-q'));
+    }
+    R.check('5.final.all-12-lessons-mixed', lessonsSeen.size === 12 && total === 24, `${total} питань, уроків: ${lessonsSeen.size}`);
+    R.check('5.final.fb3-every-answer', fb3ok);
+    const res = await card.locator('.mvp-result').textContent();
+    R.check('5.final.threshold', /Ще не готово/.test(res) && /19\/24/.test(res), norm(res));
+    R.check('5.final.weak-topics', await card.locator('.mvp-weakcard li').count() >= 1, (await card.locator('.mvp-weakcard li').count()) + ' слабких тем');
+    R.check('5.final.compare', /Впевненість 4\/5/.test(await card.locator('.mvp-compare').textContent()));
+    let st = await readState(page);
+    R.check('5.final.saved', st.final.length === 1 && st.final[0].pct === 79 && st.final[0].pass === false && st.final[0].weak.length >= 1, JSON.stringify(st.final[0]));
+    // друга спроба — усі правильні
+    await click(page, card.locator('.mvp-again'));
+    await click(page, card.locator('[data-conf="5"]'));
+    guard = 0;
+    while (await card.locator('.mvp-result').count() === 0 && guard++ < 40) { await answer(page, card, true); await click(page, card.locator('.mvp-next-q')); }
+    R.check('5.final.pass', /Готовність підтверджено/.test(await card.locator('.mvp-result').textContent()) && /Слабких тем немає/.test(await card.locator('.mvp-weakcard').textContent()));
+    R.check('5.final.console', errors.length === 0, errors.join(' | '));
+    await ctx.close();
+  }
+  // «Сьогодні» після курсу і перевірки
+  {
+    const lessons = {}; for (let n = 1; n <= 12; n++) lessons[n] = { tries: {}, test: { passed: true, pct: 100 } };
+    const { page, ctx, errors } = await openPage(browser, base + '/index.html', { state: stateWith({ lessons, final: [{ t: Date.now(), pct: 92, pass: true, conf: 4, total: 24, weak: [] }] }) });
+    R.check('5.today.course-done', /Готовність підтверджено: 92%/.test(await page.locator('.mvp-next').textContent()));
+    R.check('5.today.console', errors.length === 0, errors.join(' | '));
+    await ctx.close();
+  }
+  // Режим керівника: зведення, JSON/CSV, перегляд файлу новачка
+  {
+    const lessons = { 1: { tries: {}, test: { passed: true, pct: 86, runs: 2 } }, 2: { tries: { '2-p0': { ok: true } } } };
+    const deck = [{ id: 'deck-1', text: 'Клієнтка сказала «дорого», не знаю, що відповісти', t: Date.now() }];
+    const { page, ctx, errors } = await openPage(browser, base + '/kerivnyku.html', { state: stateWith({ lessons, deck, days: { [dayKey(new Date())]: true } }) });
+    R.check('5.mgr.table', await page.locator('#manager-app .mgr-table tbody tr').first().count() === 1 && await page.locator('#manager-app .mgr-card').first().locator('tbody tr').count() === 12);
+    R.check('5.mgr.one-pager', await page.locator('.mgr-lesson').count() === 12 && await page.locator('.mgr-lesson .mgr-rules li').count() >= 36, (await page.locator('.mgr-lesson .mgr-rules li').count()) + ' правил');
+    const js = await readDownload(page, () => page.locator('.mgr-json').click());
+    const exp = JSON.parse(js.text);
+    R.check('5.mgr.export-json', /^ikorka-progres-.*\.json$/.test(js.name) && exp.v === 1 && exp.lessons['1'].test.pct === 86 && exp.kind === 'ikorka-progress', js.name);
+    R.check('5.mgr.export-no-deck-texts', exp.deck.length === 1 && !('text' in exp.deck[0]) && !js.text.includes('дорого'), 'тексти особистої колоди не експортуються керівнику');
+    const csv = await readDownload(page, () => page.locator('.mgr-csv').click());
+    const lines = csv.text.replace(/^﻿/, '').split(/\r\n/);
+    R.check('5.mgr.export-csv', csv.text.charCodeAt(0) === 0xfeff && /^Урок;Назва;День;Статус/.test(lines[0]) && lines.slice(1, 13).every((l, i) => l.startsWith(String(i + 1) + ';')) && /зараховано;86/.test(lines[1]), lines.slice(0, 2).join(' | '));
+    // файл новачка: показується, але не змінює прогрес на цьому пристрої
+    const novice = stateWith({ lessons: { 1: { test: { passed: true, pct: 100 } }, 3: { test: { passed: true, pct: 90 } } }, pos: { 'urok-04': { id: '"><img src=x onerror=alert(1)>', text: 'x' } } });
+    await page.setInputFiles('#mgr-file', { name: 'novachok.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(novice)) });
+    await page.waitForSelector('.mgr-view .mgr-table');
+    R.check('5.mgr.view-novice-file', /Зараховано уроків: 2\/12/.test(await page.locator('.mgr-view').textContent()));
+    R.check('5.mgr.no-injection', await page.locator('.mgr-view img').count() === 0);
+    R.check('5.mgr.local-unchanged', (await readState(page)).lessons['1'].test.pct === 86);
+    await page.setInputFiles('#mgr-file', { name: 'bad.json', mimeType: 'application/json', buffer: Buffer.from('{"hello":1}') });
+    await page.waitForSelector('.mgr-view .mvp-result.no');
+    R.check('5.mgr.bad-file', /не файл прогресу/.test(await page.locator('.mgr-view').textContent()));
+    R.check('5.mgr.no-hscroll', (await noHorizontalScroll(page)).ok);
+    R.check('5.mgr.console', errors.length === 0, errors.join(' | '));
+    await ctx.close();
+  }
+  // «Сьогодні»: резервна копія (експорт → імпорт у чистому браузері)
+  {
+    const lessons = { 1: { tries: {}, test: { passed: true, pct: 100 } }, 2: { tries: {}, test: { passed: true, pct: 86 } } };
+    const a = await openPage(browser, base + '/index.html', { state: stateWith({ lessons, deck: [{ id: 'deck-7', text: 'Клієнт мовчить після ціни', t: Date.now() }] }) });
+    const js = await readDownload(a.page, () => a.page.locator('.bk-export').click());
+    R.check('5.backup.export', JSON.parse(js.text).lessons['2'].test.pct === 86 && js.text.includes('Клієнт мовчить'), js.name);
+    R.check('5.backup.console-a', a.errors.length === 0, a.errors.join(' | '));
+    await a.ctx.close();
+    const b = await openPage(browser, base + '/index.html');
+    R.check('5.backup.clean-start', /0 з 12/.test(await b.page.locator('.mvp-ring-cap').textContent()));
+    await b.page.setInputFiles('#bk-file', { name: 'backup.json', mimeType: 'application/json', buffer: Buffer.from(js.text) });
+    await b.page.waitForSelector('.bk-yes');
+    R.check('5.backup.confirm-step', /зараховано 2\/12/.test(await b.page.locator('.bk-msg').textContent()));
+    await Promise.all([b.page.waitForNavigation(), b.page.locator('.bk-yes').click()]);
+    await b.page.waitForSelector('#today-app .mvp-today');
+    R.check('5.backup.import', /2 з 12/.test(await b.page.locator('.mvp-ring-cap').textContent()) && (await readState(b.page)).deck.length === 1);
+    R.check('5.backup.console-b', b.errors.length === 0, b.errors.join(' | '));
+    await b.ctx.close();
+  }
+  // Доступність: axe-core (WCAG 2 A/AA) на ключових сторінках у світлій і темній темах; клавіатура
+  {
+    const axeSrc = fs.readFileSync(path.join(V2, 'mvp', 'tests', 'node_modules', 'axe-core', 'axe.min.js'), 'utf8');
+    const pages = ['index', 'urok-01', 'urok-04', 'povtorennia', 'trenazher', 'trener', 'perevirka', 'kerivnyku', 'den-01'];
+    const summary = [];
+    let serious = 0;
+    for (const theme of ['light', 'dark']) {
+      for (const slug of pages) {
+        const { page, ctx } = await openPage(browser, base + '/' + slug + '.html', { theme });
+        await page.waitForTimeout(250);
+        await page.addScriptTag({ content: axeSrc });
+        const res = await page.evaluate(async () => {
+          const r = await window.axe.run(document, { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'] }, resultTypes: ['violations'] });
+          return r.violations.map(v => ({ id: v.id, impact: v.impact, n: v.nodes.length, sample: v.nodes.slice(0, 2).map(x => x.target.join(' ')) }));
+        });
+        const bad = res.filter(v => v.impact === 'serious' || v.impact === 'critical');
+        serious += bad.length;
+        if (res.length) summary.push(`${theme}/${slug}: ` + res.map(v => `${v.id}(${v.impact},${v.n})`).join(', '));
+        await ctx.close();
+      }
+    }
+    if (summary.length) console.log('    axe: ' + summary.join('\n    axe: '));
+    R.check('5.a11y.axe-wcag-aa', serious === 0, serious ? `серйозних порушень: ${serious}` : `${pages.length} сторінок × 2 теми — без серйозних порушень` + (summary.length ? ` (незначних: ${summary.length})` : ''));
+    // клавіатура: SOS відкривається з клавіатури, перший Tab — посилання «до змісту»
+    const { page, ctx, errors } = await openPage(browser, base + '/urok-01.html');
+    await page.keyboard.press('Tab');
+    R.check('5.a11y.skip-link-first', await page.evaluate(() => document.activeElement && document.activeElement.classList.contains('skip-link')));
+    await page.focus('.sos-fab'); await page.keyboard.press('Enter');
+    R.check('5.a11y.sos-keyboard', await page.locator('.sos-panel').isVisible() && await page.evaluate(() => document.activeElement.id === 'sos-q'));
+    await page.keyboard.press('Escape');
+    R.check('5.a11y.console', errors.length === 0, errors.join(' | '));
+    await ctx.close();
+  }
+}
+
+const SLICES = { 1: slice1, 2: slice2, 3: slice3, 4: slice4, 5: slice5 };
 
 (async () => {
   const srv = await startServer({ port: 4173 + Math.floor(Math.random() * 500) });

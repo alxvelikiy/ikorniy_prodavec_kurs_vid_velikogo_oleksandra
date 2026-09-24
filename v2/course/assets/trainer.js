@@ -516,6 +516,7 @@
       '<text x="50" y="57" text-anchor="middle" class="mvp-ring-num">' + Math.round(pct) + '%</text></svg>';
   }
   function nextStep() {
+    if (passedCount() === 12) return null; // усі уроки зараховано — далі перевірка готовності
     for (var i = 0; i < ROUTE.length; i++) {
       var it = ROUTE[i];
       if (!itemDone(it)) return it;
@@ -549,9 +550,12 @@
     if (nx) {
       var label = nx.kind === 'urok' ? (started(nx.n) ? 'Продовжити: ' : 'Почати: ') + nx.title : 'Відкрити: ' + (nx.kind === 'day' ? nx.title + ' — план дня' : nx.title);
       var href = nx.slug + '.html' + (nx.kind === 'urok' && started(nx.n) && st.pos[nx.slug] ? '#' + st.pos[nx.slug].id : '');
-      nxHtml = '<p class="mvp-kicker">Наступний крок</p><p class="mvp-next-title">' + esc(nx.title) + '</p><a class="mvp-btn primary big" href="' + href + '">' + esc(label) + '</a>';
+      nxHtml = '<p class="mvp-kicker">Наступний крок</p><p class="mvp-next-title">' + esc(nx.title) + '</p><a class="mvp-btn primary big" href="' + esc(href) + '">' + esc(label) + '</a>';
     } else {
-      nxHtml = '<p class="mvp-kicker">Наступний крок</p><p class="mvp-next-title">Усі 12 уроків зараховано</p><a class="mvp-btn primary big" href="perevirka.html">Пройти перевірку готовності</a>';
+      var lastFinal = (st.final || [])[(st.final || []).length - 1];
+      nxHtml = lastFinal && lastFinal.pass
+        ? '<p class="mvp-kicker">Курс пройдено</p><p class="mvp-next-title">Готовність підтверджено: ' + lastFinal.pct + '%</p><a class="mvp-btn primary big" href="povtorennia.html">Повторення</a> <a class="mvp-btn ghost" href="perevirka.html">Пройти перевірку ще раз</a>'
+        : '<p class="mvp-kicker">Наступний крок</p><p class="mvp-next-title">Усі 12 уроків зараховано</p><a class="mvp-btn primary big" href="perevirka.html">Пройти перевірку готовності</a>';
     }
     var due = rvDueList().length;
     var extra = '';
@@ -999,6 +1003,250 @@
       navigator.serviceWorker.register('sw.js').catch(function () {});
     }
   } catch (e) { /* без офлайн-кешу */ }
+
+  // =====================================================================
+  // 12. Зріз 5 — перевірка готовності (усі 12 уроків упереміш), режим керівника, експорт/імпорт прогресу
+  // =====================================================================
+  var FINAL_PASS = 80;
+  function finalItems(seed) {
+    var items = [];
+    T.lessons.forEach(function (l) {
+      var chosen = shuffle(l.quiz.map(function (q) { return quizItem(q, l.n); }), seed + l.n).slice(0, 2);
+      if (chosen.length < 2) chosen = chosen.concat(shuffle(l.quotes.map(function (c) { return quoteItem(c, l.n); }), seed + l.n * 3).slice(0, 2 - chosen.length));
+      if (chosen.length < 2) chosen = chosen.concat(shuffle(l.pairs.filter(function (p) { return p.good; }).map(function (p) { return pairItem(p, l.n, hashStr(p.id) + 11); }), seed + l.n * 5).slice(0, 2 - chosen.length));
+      items = items.concat(chosen);
+    });
+    return shuffle(items, seed * 7 + 1);
+  }
+  function renderFinal() {
+    var app = document.getElementById('final-app');
+    if (!app) return;
+    if (!Array.isArray(st.final)) st.final = [];
+    var card = el('section', 'mvp-card mvp-test mvp-final');
+    card.setAttribute('aria-label', 'Перевірка готовності');
+    app.innerHTML = ''; app.appendChild(card);
+    function intro() {
+      var last = st.final[st.final.length - 1];
+      var n = finalItems(1).length, pc = passedCount();
+      card.innerHTML = '<div class="mvp-test-head"><p class="mvp-card-title">Перевірка готовності</p>' + (last ? '<span class="mvp-progress">Останній результат: ' + last.pct + '%' + (last.pass ? ' · пройдено' : '') + '</span>' : '') + '</div>' +
+        '<p>' + n + ' питань з усіх 12 уроків упереміш — по два з кожного. Поріг — ' + FINAL_PASS + ' % правильних. Після — картка тем, які варто повторити.</p>' +
+        (pc < 12 ? '<p class="mvp-hint">Зараховано ' + pc + '/12 уроків. Пройти перевірку можна й зараз — вона покаже, що вже засвоєно.</p>' : '') +
+        '<p class="mvp-q-title" id="conf-final">Наскільки впевнені, що готові до дзвінків? (1–5)</p>' +
+        '<div class="mvp-conf" role="group" aria-labelledby="conf-final">' + [1, 2, 3, 4, 5].map(function (c) { return '<button type="button" class="mvp-btn" data-conf="' + c + '">' + c + '</button>'; }).join('') + '</div>' +
+        '<p class="mvp-hint">1 — зовсім не впевнені, 5 — повністю впевнені. Після перевірки порівняємо з результатом.</p>';
+      [].forEach.call(card.querySelectorAll('[data-conf]'), function (b) { b.addEventListener('click', function () { run(parseInt(b.getAttribute('data-conf'), 10)); }); });
+    }
+    function run(conf) {
+      var items = finalItems(st.final.length + 1), k = 0, res = [];
+      card.innerHTML = '<div class="mvp-test-head"><p class="mvp-card-title">Перевірка готовності</p><span class="mvp-progress" aria-live="polite"></span></div><div class="mvp-test-body"></div>';
+      var body = card.querySelector('.mvp-test-body'), prog = card.querySelector('.mvp-progress');
+      function next() {
+        body.innerHTML = '';
+        if (k >= items.length) return finish(conf, items, res);
+        var it = items[k];
+        prog.textContent = 'Питання ' + (k + 1) + ' з ' + items.length + ' · урок ' + it.lesson;
+        var box = renderChoice(body, it, function (ok) {
+          res.push({ id: it.id, lesson: it.lesson, rule: it.rule, ok: ok });
+          k++;
+          var nb = el('button', 'mvp-btn primary mvp-next-q', k < items.length ? 'Далі' : 'Результат'); nb.type = 'button';
+          nb.addEventListener('click', next);
+          box.appendChild(nb); nb.focus();
+        });
+        var f = box.querySelector('.mvp-opt'); if (f && k > 0) f.focus();
+      }
+      next();
+    }
+    function finish(conf, items, res) {
+      var ok = res.filter(function (r) { return r.ok; }).length, total = res.length;
+      var pct = Math.round(ok / total * 100), pass = pct >= FINAL_PASS;
+      var weak = {};
+      res.forEach(function (r) {
+        rvAdd(r.id, !r.ok);
+        if (!r.ok) { var w = weak[r.lesson] || (weak[r.lesson] = { n: r.lesson, wrong: 0, rules: {} }); w.wrong++; if (r.rule) w.rules[r.rule] = true; }
+      });
+      var weakList = Object.keys(weak).map(function (n) { return weak[n]; }).sort(function (a, b) { return b.wrong - a.wrong || a.n - b.n; });
+      st.final.push({ t: Date.now(), pct: pct, pass: pass, conf: conf, total: total, weak: weakList.map(function (w) { return w.n; }) });
+      save();
+      var cmpPct = conf * 20;
+      var cmp = Math.abs(cmpPct - pct) <= 20 ? 'оцінка приблизно збігається з результатом.' : (cmpPct > pct ? 'впевненість вища за результат — пройди теми нижче.' : 'знаєш більше, ніж здавалось.');
+      var html = '<p class="mvp-result ' + (pass ? 'ok' : 'no') + '">' + (pass ? 'Готовність підтверджено ✓' : 'Ще не готово (поріг ' + FINAL_PASS + ' %)') + ' — правильно ' + ok + '/' + total + ' (' + pct + '%).</p>' +
+        '<p class="mvp-compare">Впевненість ' + conf + '/5, результат ' + pct + '%: ' + cmp + '</p>';
+      html += '<section class="mvp-weakcard" aria-label="Слабкі теми"><p class="mvp-card-title">Слабкі теми</p>' + (weakList.length ? '<ul class="mvp-weak">' + weakList.map(function (w) {
+        var l = L(w.n);
+        return '<li><a href="' + l.href + '"><b>Урок ' + w.n + '. ' + esc(l.title) + '</b></a> — помилок: ' + w.wrong + Object.keys(w.rules).map(function (c) { var r = ruleByCode(c); return r ? '<br><span class="mvp-muted"><b>' + esc(c) + '</b> ' + esc(cap(r.text)) + '</span>' : ''; }).join('') + '</li>';
+      }).join('') + '</ul><p class="mvp-hint">Питання з помилками додано в «Повторення» — вони повернуться вже завтра.</p>' : '<p>Слабких тем немає — усі відповіді правильні.</p>') + '</section>';
+      card.innerHTML = '<div class="mvp-test-head"><p class="mvp-card-title">Перевірка готовності</p></div><div class="mvp-test-res" tabindex="-1">' + html + '</div>' +
+        '<div class="mvp-row"><button type="button" class="mvp-btn mvp-again">Пройти ще раз</button><a class="mvp-btn primary" href="povtorennia.html">До повторення</a><a class="mvp-btn ghost" href="index.html">До «Сьогодні»</a></div>';
+      card.querySelector('.mvp-again').addEventListener('click', intro);
+      card.querySelector('.mvp-test-res').focus();
+    }
+    intro();
+  }
+
+  // ---------- Прогрес: зведення, експорт, імпорт ----------
+  function progressSummary(s) {
+    var rows = T.lessons.map(function (l) {
+      var x = (s.lessons || {})[l.n] || {}, t = x.test || null, tries = Object.keys(x.tries || {}).length;
+      var status = t && t.passed ? 'зараховано' : (t || tries || (s.pos || {})[l.slug]) ? 'розпочато' : 'не розпочато';
+      return { n: l.n, title: l.title, day: l.day, status: status, pct: t ? t.pct : null, runs: t ? (t.runs || 1) : 0, conf: t && t.conf ? t.conf : null };
+    });
+    var rv = s.review || {};
+    var sims = s.sim || {};
+    var fin = (s.final || [])[(s.final || []).length - 1] || null;
+    return {
+      rows: rows,
+      passed: rows.filter(function (r) { return r.status === 'зараховано'; }).length,
+      days: Object.keys(s.days || {}).length,
+      reviewCards: Object.keys(rv).length,
+      weakCards: Object.keys(rv).filter(function (k) { return (rv[k].lapses || 0) > 0; }).length,
+      simSolved: Object.keys(sims).filter(function (k) { return sims[k] && sims[k].solved; }).length,
+      simFirstWrong: Object.keys(sims).filter(function (k) { return sims[k] && sims[k].firstGood === false; }).length,
+      final: fin ? { pct: fin.pct, pass: !!fin.pass, date: new Date(fin.t).toLocaleDateString('uk-UA'), weak: fin.weak || [] } : null,
+      goal: s.goal ? { code: s.goal.code, answered: s.goal.answered || null } : null,
+      deckCount: (s.deck || []).length,
+      coach: s.coach || null,
+    };
+  }
+  function summaryHtml(sum) {
+    var rows = sum.rows.map(function (r) {
+      return '<tr><td>' + r.n + '</td><td>' + esc(r.title) + '</td><td>' + r.day + '</td><td>' + esc(r.status) + '</td><td>' + (r.pct == null ? '—' : r.pct + '%') + '</td><td>' + (r.runs || '—') + '</td></tr>';
+    }).join('');
+    return '<div class="mgr-scroll"><table class="mgr-table"><caption class="sr-only">Прогрес по уроках</caption><thead><tr><th scope="col">Урок</th><th scope="col">Назва</th><th scope="col">День</th><th scope="col">Статус</th><th scope="col">Перевірка</th><th scope="col">Спроб</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+      '<ul class="mgr-facts">' +
+      '<li>Зараховано уроків: <b>' + sum.passed + '/12</b> · днів навчання: <b>' + sum.days + '</b></li>' +
+      '<li>Перевірка готовності: <b>' + (sum.final ? sum.final.pct + '% (' + (sum.final.pass ? 'пройдено' : 'не пройдено') + ', ' + esc(sum.final.date) + ')' + (sum.final.weak.length ? ' · слабкі уроки: ' + sum.final.weak.join(', ') : '') : 'ще не пройдено') + '</b></li>' +
+      '<li>Симулятор: пройдено сцен <b>' + sum.simSolved + '/' + (T.sim || []).length + '</b>, з першою помилкою — ' + sum.simFirstWrong + '</li>' +
+      '<li>Повторення: карток <b>' + sum.reviewCards + '</b>, з них із помилками — ' + sum.weakCards + '</li>' +
+      '<li>Ціль на дзвінки: ' + (sum.goal ? '<b>правило ' + esc(sum.goal.code) + '</b>' + (sum.goal.answered ? ' — «' + esc(sum.goal.answered) + '»' : '') : 'не обрано') + '</li>' +
+      '<li>Складні клієнти в особистій колоді: ' + sum.deckCount + ' (тексти в експорт для керівника не потрапляють)</li>' +
+      '</ul>';
+  }
+  function download(name, mime, text) {
+    try {
+      var blob = new Blob([text], { type: mime });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = name; a.hidden = true;
+      document.body.appendChild(a); a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+      return true;
+    } catch (e) { return false; }
+  }
+  function csvOf(sum) {
+    var q = function (v) { v = v == null ? '' : String(v); return /[";\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+    var lines = [['Урок', 'Назва', 'День', 'Статус', 'Перевірка уроку, %', 'Спроб'].join(';')];
+    sum.rows.forEach(function (r) { lines.push([r.n, q(r.title), r.day, q(r.status), r.pct == null ? '' : r.pct, r.runs].join(';')); });
+    lines.push('');
+    lines.push(['Зараховано уроків', sum.passed].join(';'));
+    lines.push(['Днів навчання', sum.days].join(';'));
+    lines.push(['Перевірка готовності, %', sum.final ? sum.final.pct : ''].join(';'));
+    lines.push(['Сцен симулятора пройдено', sum.simSolved].join(';'));
+    lines.push(['Карток повторення', sum.reviewCards].join(';'));
+    return '﻿' + lines.join('\r\n');
+  }
+  // Експорт для керівника — без текстів особистої колоди; резервна копія для себе — повний стан
+  function managerExport(s) {
+    var out = JSON.parse(JSON.stringify(s));
+    out.deck = (s.deck || []).map(function (d) { return { id: d.id, t: d.t }; });
+    out.exported = new Date().toISOString(); out.kind = 'ikorka-progress';
+    return out;
+  }
+  function sanitizeState(o) {
+    if (!o || typeof o !== 'object' || o.v !== 1 || !o.lessons || typeof o.lessons !== 'object') return null;
+    var b = blank(), out = {};
+    Object.keys(b).forEach(function (k) {
+      var v = o[k];
+      if (v === undefined || v === null) out[k] = b[k];
+      else if (Array.isArray(b[k])) out[k] = Array.isArray(v) ? v : b[k];
+      else if (b[k] !== null && typeof b[k] === 'object') out[k] = (typeof v === 'object' && !Array.isArray(v)) ? v : b[k];
+      else out[k] = v;
+    });
+    var idOk = function (x) { return typeof x === 'string' && /^[\w\-]{1,80}$/.test(x); };
+    Object.keys(out.pos).forEach(function (k) { var p = out.pos[k]; if (!idOk(k) || !p || !idOk(p.id)) delete out.pos[k]; else out.pos[k] = { id: p.id, text: String(p.text || '').slice(0, 120), t: +p.t || 0 }; });
+    if (out.last && !(idOk(out.last.slug) && idOk(out.last.id))) out.last = null;
+    out.deck = out.deck.filter(function (d) { return d && idOk(d.id); }).map(function (d) { return { id: d.id, text: maskDigits(String(d.text || '')).slice(0, 400), t: +d.t || Date.now() }; }).filter(function (d) { return d.text; });
+    if (out.goal && !(typeof out.goal.code === 'string' && /^\d+\.\d+$/.test(out.goal.code))) out.goal = null;
+    return out;
+  }
+  function replaceState(o) {
+    Object.keys(st).forEach(function (k) { delete st[k]; });
+    Object.keys(o).forEach(function (k) { st[k] = o[k]; });
+    save();
+  }
+  function readJsonFile(file, cb) {
+    if (!file) return;
+    if (file.size > 2e6) return cb(null, 'Файл завеликий.');
+    var r = new FileReader();
+    r.onload = function () { var j = null; try { j = JSON.parse(String(r.result)); } catch (e) { j = null; } cb(j, j ? '' : 'Це не файл прогресу (JSON).'); };
+    r.onerror = function () { cb(null, 'Не вдалося прочитати файл.'); };
+    r.readAsText(file);
+  }
+  var stamp = function () { return dayKey(); };
+
+  function renderManager() {
+    var app = document.getElementById('manager-app');
+    if (!app) return;
+    app.innerHTML = '';
+    var mine = el('section', 'mvp-card mgr-card');
+    mine.setAttribute('aria-label', 'Прогрес на цьому пристрої');
+    mine.innerHTML = '<p class="mvp-card-title">Прогрес на цьому пристрої</p>' + summaryHtml(progressSummary(st)) +
+      '<div class="mvp-row"><button type="button" class="mvp-btn primary mgr-json">Завантажити JSON</button><button type="button" class="mvp-btn mgr-csv">Завантажити CSV</button><span class="mvp-muted mgr-msg" aria-live="polite"></span></div>';
+    app.appendChild(mine);
+    mine.querySelector('.mgr-json').addEventListener('click', function () {
+      var ok = download('ikorka-progres-' + stamp() + '.json', 'application/json', JSON.stringify(managerExport(st), null, 1));
+      mine.querySelector('.mgr-msg').textContent = ok ? 'Файл збережено.' : 'Не вдалося зберегти файл.';
+    });
+    mine.querySelector('.mgr-csv').addEventListener('click', function () {
+      var ok = download('ikorka-progres-' + stamp() + '.csv', 'text/csv;charset=utf-8', csvOf(progressSummary(st)));
+      mine.querySelector('.mgr-msg').textContent = ok ? 'Файл збережено.' : 'Не вдалося зберегти файл.';
+    });
+    var other = el('section', 'mvp-card mgr-card');
+    other.setAttribute('aria-label', 'Прогрес новачка з файлу');
+    other.innerHTML = '<p class="mvp-card-title">Відкрити файл новачка</p><p class="mvp-muted">Файл JSON, який новачок завантажив на цій сторінці. Він лише показується тут і не змінює прогрес на цьому пристрої.</p>' +
+      '<label class="sos-label" for="mgr-file">Файл прогресу (.json)</label><input id="mgr-file" type="file" accept=".json,application/json"><div class="mgr-view" aria-live="polite"></div>';
+    app.appendChild(other);
+    other.querySelector('#mgr-file').addEventListener('change', function (e) {
+      var view = other.querySelector('.mgr-view');
+      readJsonFile(e.target.files[0], function (j, err) {
+        var s = sanitizeState(j);
+        if (!s) { view.innerHTML = '<p class="mvp-result no">' + esc(err || 'Це не файл прогресу тренажера.') + '</p>'; return; }
+        var sum = progressSummary(s);
+        view.innerHTML = '<p class="mvp-sub" style="margin-top:10px;font-weight:700">Файл: ' + esc(e.target.files[0].name) + '</p>' + summaryHtml(sum) + '<div class="mvp-row"><button type="button" class="mvp-btn mgr-csv2">CSV з цього файлу</button></div>';
+        view.querySelector('.mgr-csv2').addEventListener('click', function () { download('ikorka-progres-novachka-' + stamp() + '.csv', 'text/csv;charset=utf-8', csvOf(sum)); });
+      });
+    });
+  }
+
+  // резервна копія прогресу на «Сьогодні»: експорт/імпорт JSON
+  function backupCard(host) {
+    var box = el('section', 'mvp-card mvp-backup');
+    box.setAttribute('aria-label', 'Мій прогрес: файл');
+    box.innerHTML = '<p class="mvp-card-title">Мій прогрес</p><p class="mvp-muted">Прогрес зберігається лише в цьому браузері. Збережи файл, щоб перенести його на інший пристрій або показати керівнику.</p>' +
+      '<div class="mvp-row"><button type="button" class="mvp-btn bk-export">Зберегти файл прогресу</button><button type="button" class="mvp-btn ghost bk-import">Відновити з файлу</button><input id="bk-file" type="file" accept=".json,application/json" hidden></div><div class="bk-msg" aria-live="polite"></div>';
+    host.appendChild(box);
+    var msg = box.querySelector('.bk-msg');
+    box.querySelector('.bk-import').addEventListener('click', function () { box.querySelector('#bk-file').click(); });
+    box.querySelector('.bk-export').addEventListener('click', function () {
+      var out = JSON.parse(JSON.stringify(st)); out.exported = new Date().toISOString(); out.kind = 'ikorka-progress';
+      msg.innerHTML = download('ikorka-progres-' + stamp() + '.json', 'application/json', JSON.stringify(out, null, 1)) ? '<p class="mvp-muted">Файл збережено.</p>' : '<p class="mvp-muted">Не вдалося зберегти файл.</p>';
+    });
+    box.querySelector('#bk-file').addEventListener('change', function (e) {
+      readJsonFile(e.target.files[0], function (j, err) {
+        var s = sanitizeState(j);
+        e.target.value = '';
+        if (!s) { msg.innerHTML = '<p class="mvp-result no">' + esc(err || 'Це не файл прогресу тренажера.') + '</p>'; return; }
+        var sum = progressSummary(s);
+        msg.innerHTML = '<p>У файлі: зараховано <b>' + sum.passed + '/12</b> уроків, карток повторення — ' + sum.reviewCards + '. Замінити ним поточний прогрес у цьому браузері?</p><div class="mvp-row"><button type="button" class="mvp-btn primary bk-yes">Так, замінити</button><button type="button" class="mvp-btn ghost bk-no">Скасувати</button></div>';
+        msg.querySelector('.bk-no').addEventListener('click', function () { msg.innerHTML = ''; });
+        msg.querySelector('.bk-yes').addEventListener('click', function () { replaceState(s); location.reload(); });
+        msg.querySelector('.bk-yes').focus();
+      });
+    });
+  }
+
+  if (KIND === 'perevirka') renderFinal();
+  if (KIND === 'kerivnyku') renderManager();
+  if (KIND === 'index') { var tApp2 = document.getElementById('today-app'); if (tApp2) backupCard(tApp2); }
+  MVP.progressSummary = progressSummary; MVP.sanitizeState = sanitizeState; MVP.csvOf = csvOf; MVP.finalItems = finalItems;
 
   //__MODULES__
 })();

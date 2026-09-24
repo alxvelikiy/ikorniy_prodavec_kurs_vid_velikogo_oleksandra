@@ -2,7 +2,8 @@
 // Світлі значення — v2/DESIGN_SYSTEM.md (сайт). Темні — з мокапу уроку 9
 // (https://claude.ai/artifact/NYQEKmRVKqrUoT9NGLiN9B, project/Main.dc.html, palette у renderVals()).
 // Темний --brand не задається вручну, а обчислюється з світлого тим самим способом, що в мокапі:
-// mix(accent, 0.32) — кожен канал зсувається на 32% до білого. Це не інверсія кольорів.
+// mix(accent, 0.36) — кожен канал зсувається на 36% до білого (у мокапі 0.32; +4 п.п., щоб текст кольору бренду
+// на --surface-2 проходив WCAG AA 4.5:1 — MVP-тренажер, 2026-09-24). Це не інверсія кольорів.
 
 export function mix(hex, amt) {
   const h = hex.replace('#', '');
@@ -20,9 +21,10 @@ const BRAND = '#A8432B';
 
 export const LIGHT = {
   ink: '#23262B', canvas: '#F3F4F6', paper: '#FFFFFF',
-  brand: BRAND, info: '#1F6E6E', good: '#2E8B57', bad: '#B23A3A',
+  brand: BRAND, info: '#1F6E6E', good: '#277A4C', bad: '#B23A3A', // good: було #2E8B57 — білий текст на ньому 4.25:1 < AA
   'surface-2': '#EDEEF1', line: '#E3E6EA', 'text-dim': '#5B6472',
   'on-brand': '#FFFFFF',
+  'brand-text': BRAND, // текст кольору бренду на --brand-soft (5.0:1)
   'topnav-bg': 'rgba(255,255,255,.92)',
   'logo-plate': 'transparent',
   // обкладинки — колір по дню (рішення замовника 2026-09-23, пункт b)
@@ -36,9 +38,10 @@ export const LIGHT = {
 
 export const DARK = {
   ink: '#F2EDE7', canvas: '#1E1B19', paper: '#28241F',
-  brand: mix(BRAND, 0.32), info: '#3FA9A4', good: '#4CAF77', bad: '#E17169',
-  'surface-2': '#2F2A25', line: '#3A352F', 'text-dim': '#948C82', // muted мокапу, 4.65:1 на --paper
-  'on-brand': '#1E1B19', // білий на темному --brand дає 3.18:1 — нижче AA, тому темний текст (5.39:1)
+  brand: mix(BRAND, 0.36), info: '#3FA9A4', good: '#4CAF77', bad: '#E17169',
+  'surface-2': '#2F2A25', line: '#3A352F', 'text-dim': '#A09890', // muted мокапу був #948C82 (4.28:1 на --surface-2); тепер ≥4.9:1 на всіх темних фонах
+  'on-brand': '#1E1B19', // білий на темному --brand дає ~3:1 — нижче AA, тому темний текст (5.8:1)
+  'brand-text': mix(BRAND, 0.5), // текст кольору бренду на --brand-soft (≥4.75:1)
   'topnav-bg': 'rgba(30,27,25,.92)',
   'logo-plate': '#F2EDE7', // PNG-лого прозорий з темним написом — у темній темі лежить на світлій плашці
   // tint-1 = coverTint мокапу (#332721); решта — та сама світлість, відтінок дня

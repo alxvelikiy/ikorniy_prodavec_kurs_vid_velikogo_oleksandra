@@ -14,7 +14,7 @@ function renderList(block, ctx) {
     const lis = block.items.map(raw => {
       const item = renderListItem(raw, ctx);
       const id = `${ctx.pageSlug}-cb-${ctx.checklistCounter.n++}`;
-      return `<li class="check-item" data-check-id="${id}"><input type="checkbox"${item.checked ? ' checked' : ''}><span class="check-label">${item.html}</span>${item.revealHtml}</li>`;
+      return `<li class="check-item" data-check-id="${id}"><input type="checkbox" aria-labelledby="${id}-l"${item.checked ? ' checked' : ''}><span class="check-label" id="${id}-l">${item.html}</span>${item.revealHtml}</li>`;
     }).join('');
     return `<ul class="checklist">${lis}</ul>`;
   }

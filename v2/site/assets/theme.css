@@ -126,7 +126,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .lesson-toc{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:20;width:198px;max-height:60vh;overflow-y:auto;padding:12px 4px 12px 14px;border-left:2px solid var(--glass-line);display:none;}
 .lesson-toc .lt-label{font:800 10.5px 'Manrope',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;display:block;}
 .lesson-toc a{display:block;font-size:12.5px;line-height:1.5;color:var(--text-dim);text-decoration:none;padding:4px 0 4px 12px;border-left:2px solid transparent;margin-left:-14px;transition:color .15s,border-color .15s;}
-.lesson-toc a.lt-h3{padding-left:22px;font-size:11.5px;opacity:.85;}
+.lesson-toc a.lt-h3{padding-left:22px;font-size:11.5px;}
 .lesson-toc a:hover{color:var(--text);}
 .lesson-toc a.active{color:var(--neon-pink);border-left-color:var(--neon-pink);font-weight:700;}
 @media (min-width:1180px){.lesson-toc{display:block;}}

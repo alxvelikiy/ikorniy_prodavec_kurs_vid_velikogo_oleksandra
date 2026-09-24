@@ -13,7 +13,7 @@ main:focus{outline:none;}
 .mvp-card p + p{margin-top:6px;}
 .mvp-muted{color:var(--text-dim);font-size:13.5px;}
 .mvp-hint{margin-top:10px;font-size:12.5px;color:var(--text-dim);}
-.mvp-kicker{display:inline-block;font-size:12px;font-weight:800;color:var(--brand);background:var(--brand-soft);border-radius:100px;padding:3px 10px;margin-right:6px;}
+.mvp-kicker{display:inline-block;font-size:12px;font-weight:800;color:var(--brand-text);background:var(--brand-soft);border-radius:100px;padding:3px 10px;margin-right:6px;}
 .mvp-label{display:inline-block;font-size:11.5px;font-weight:700;color:var(--info);border:1px solid var(--info);border-radius:100px;padding:1px 8px;vertical-align:1px;white-space:nowrap;}
 .mvp-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center;}
 .mvp-btn{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:8px 14px;border-radius:10px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);font:700 14px/1.3 'Manrope',sans-serif;text-decoration:none;cursor:pointer;max-width:100%;text-align:left;}
@@ -197,6 +197,14 @@ button.term{font:inherit;color:inherit;background:none;border:none;border-bottom
 .coach-form textarea:disabled{opacity:.6;}
 
 /* ---------- керівник, особиста колода ---------- */
+.mgr-scroll{overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch;}
+.mgr-card{margin-bottom:14px;}
+.mgr-facts{margin:10px 0 0;padding-left:18px;font-size:14px;line-height:1.55;}
+.mgr-facts li{margin:3px 0;}
+.mgr-view{margin-top:8px;}
+.mvp-weakcard{margin-top:12px;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface-2);}
+.mvp-backup .bk-msg{margin-top:8px;}
+input[type=file]{max-width:100%;font:500 14px 'Manrope',sans-serif;color:var(--ink);}
 .mgr-table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:10px;}
 .mgr-table th,.mgr-table td{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left;vertical-align:top;}
 .mgr-lesson{margin-top:18px;}
@@ -220,3 +228,7 @@ button.term{font:inherit;color:inherit;background:none;border:none;border-bottom
   .sos-panel{right:8px;left:8px;width:auto;bottom:64px;}
   .coach-msg{max-width:100%;}
 }
+/* Контраст WCAG AA на тлі --brand-soft (головна цифра уроку) */
+.stat-hero .stat-hero-label{color:var(--brand-text);}
+.stat-hero .stat-hero-src,.stat-hero .stat-hero-src a{color:var(--ink);}
+.stat-hero .mvp-label{color:var(--ink);border-color:var(--ink);}

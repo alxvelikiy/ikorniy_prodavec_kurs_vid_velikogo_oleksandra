@@ -1,0 +1,168 @@
+{
+ "name": "e2e-5",
+ "at": "2026-09-24T21:58:33.210Z",
+ "passed": 32,
+ "failed": 0,
+ "items": [
+  {
+   "id": "5.final.no-popup-on-load",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.final.all-12-lessons-mixed",
+   "ok": true,
+   "detail": "24 питань, уроків: 12"
+  },
+  {
+   "id": "5.final.fb3-every-answer",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.final.threshold",
+   "ok": true,
+   "detail": "Ще не готово (поріг 80 %) — правильно 19/24 (79%)."
+  },
+  {
+   "id": "5.final.weak-topics",
+   "ok": true,
+   "detail": "4 слабких тем"
+  },
+  {
+   "id": "5.final.compare",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.final.saved",
+   "ok": true,
+   "detail": "{\"t\":1790287084572,\"pct\":79,\"pass\":false,\"conf\":4,\"total\":24,\"weak\":[6,5,10,12]}"
+  },
+  {
+   "id": "5.final.pass",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.final.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.today.course-done",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.today.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.mgr.table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.mgr.one-pager",
+   "ok": true,
+   "detail": "60 правил"
+  },
+  {
+   "id": "5.mgr.export-json",
+   "ok": true,
+   "detail": "ikorka-progres-2026-09-24.json"
+  },
+  {
+   "id": "5.mgr.export-no-deck-texts",
+   "ok": true,
+   "detail": "тексти особистої колоди не експортуються керівнику"
+  },
+  {
+   "id": "5.mgr.export-csv",
+   "ok": true,
+   "detail": "Урок;Назва;День;Статус;Перевірка уроку, %;Спроб | 1;Вступ;1;зараховано;86;2"
+  },
+  {
+   "id": "5.mgr.view-novice-file",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.mgr.no-injection",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.mgr.local-unchanged",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.mgr.bad-file",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.mgr.no-hscroll",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.mgr.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.backup.export",
+   "ok": true,
+   "detail": "ikorka-progres-2026-09-24.json"
+  },
+  {
+   "id": "5.backup.console-a",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.backup.clean-start",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.backup.confirm-step",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.backup.import",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.backup.console-b",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.a11y.axe-wcag-aa",
+   "ok": true,
+   "detail": "9 сторінок × 2 теми — без серйозних порушень"
+  },
+  {
+   "id": "5.a11y.skip-link-first",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.a11y.sos-keyboard",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.a11y.console",
+   "ok": true,
+   "detail": ""
+  }
+ ]
+}
