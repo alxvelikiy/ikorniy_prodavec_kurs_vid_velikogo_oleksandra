@@ -42,10 +42,10 @@ M05-UA_c01 | COVERED | cards: 25
 M05-UA_c02 | COVERED | cards: 9
 M05-RU_c01 | EMPTY | empty (see EMPTY_REASONS.md)
 M06-RU_c01 | COVERED | cards: 21
-M06-RU_c02 | MISSING | NO RESULT (not processed yet)
+M06-RU_c02 | COVERED | cards: 38
 M06-RU_c03 | COVERED | cards: 28
 M06-RU_c04 | COVERED | cards: 10
-M07-RU_c01 | MISSING | NO RESULT (not processed yet)
+M07-RU_c01 | COVERED | cards: 26
 M07-RU_c02 | MISSING | NO RESULT (not processed yet)
 M08-RU_c01 | COVERED | cards: 11
 M08-RU_c02 | COVERED | cards: 9
