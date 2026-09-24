@@ -1,0 +1,9 @@
+{
+  "name": "ikorka-mvp-tests",
+  "private": true,
+  "type": "module",
+  "description": "Автотести MVP-тренажера (headless Chromium)",
+  "dependencies": {
+    "playwright-core": "1.56"
+  }
+}

@@ -1,0 +1,138 @@
+{
+ "name": "e2e-1",
+ "at": "2026-09-24T21:22:43.381Z",
+ "passed": 26,
+ "failed": 0,
+ "items": [
+  {
+   "id": "1.today.ring",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.today.next-step",
+   "ok": true,
+   "detail": "Відкрити: Вступ"
+  },
+  {
+   "id": "1.today.route-5-days",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.today.no-popup-on-load",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.today.next-step-navigates",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.today.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.lesson.no-popup-on-load",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.lesson.rules-3-5",
+   "ok": true,
+   "detail": "5 правил"
+  },
+  {
+   "id": "1.lesson.attempts",
+   "ok": true,
+   "detail": "2 спроб"
+  },
+  {
+   "id": "1.lesson.attempt-before-text",
+   "ok": true,
+   "detail": "перед розділом «Чому це працює»"
+  },
+  {
+   "id": "1.lesson.attempt-fb3",
+   "ok": true,
+   "detail": "Що сказано «Зміст фрази» · Чому «Клієнт оцінює тон і впевненість голосу р» · Натомість ««[Ім'я], доброго дня. Це [ім'я] з компан»"
+  },
+  {
+   "id": "1.popup.section-pause",
+   "ok": true,
+   "detail": "після прокрутки до кінця розділу «Чому це працює»"
+  },
+  {
+   "id": "1.popup.non-modal",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.popup.skip-visible",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.popup.closed",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.term.tip",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.term.focus-returns",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.lesson.resume-banner",
+   "ok": true,
+   "detail": "Ви зупинились на розділі «Типові помилки».ПродовжитиСховати"
+  },
+  {
+   "id": "1.lesson.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.day.milestone",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.goal.picker",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.goal.saved",
+   "ok": true,
+   "detail": "{\"code\":\"1.1\",\"day\":1,\"set\":\"2026-09-24\",\"answered\":null}"
+  },
+  {
+   "id": "1.day.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.goal.check-on-entry",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.goal.answered",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.goal.console",
+   "ok": true,
+   "detail": ""
+  }
+ ]
+}

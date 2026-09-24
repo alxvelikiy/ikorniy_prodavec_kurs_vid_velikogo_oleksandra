@@ -58,35 +58,4 @@
     }
   } catch (e) { /* localStorage недоступний (приватний режим тощо) — курс працює і без збереження стану */ }
 })();
-
-(function () {
-  try {
-    var quizzes = document.querySelectorAll('.quiz-interactive[data-correct]');
-    for (var i = 0; i < quizzes.length; i++) {
-      (function (el) {
-        var correct = el.getAttribute('data-correct');
-        var fb = el.querySelector('.q-feedback');
-        var buttons = el.querySelectorAll('.quiz-opt');
-        var answered = false;
-        for (var j = 0; j < buttons.length; j++) {
-          buttons[j].addEventListener('click', function () {
-            if (answered) return;
-            answered = true;
-            var isCorrect = this.getAttribute('data-letter') === correct;
-            for (var k = 0; k < buttons.length; k++) {
-              buttons[k].disabled = true;
-              if (buttons[k].getAttribute('data-letter') === correct) buttons[k].classList.add('is-correct');
-            }
-            if (!isCorrect) this.classList.add('is-wrong');
-            if (fb) {
-              fb.hidden = false;
-              var why = el.getAttribute('data-why');
-              fb.textContent = (isCorrect ? 'Вірно.' : 'Невірно. Правильна відповідь: ' + correct + '.') + (why ? ' ' + why.charAt(0).toUpperCase() + why.slice(1) : '');
-              fb.className = 'q-feedback ' + (isCorrect ? 'good' : 'bad');
-            }
-          });
-        }
-      })(quizzes[i]);
-    }
-  } catch (e) { /* тест просто лишається без інтерактивності */ }
-})();
+// Тестові питання уроку обробляє assets/trainer.js (розбір у три рядки).

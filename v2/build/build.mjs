@@ -13,6 +13,12 @@ import { renderBody } from './lib/page.mjs';
 import { renderCover, renderCallFlow, renderObjectionTypesCards, renderVideo } from './lib/directives.mjs';
 import { videoIconSvg } from './lib/svg.mjs';
 import { tokensCss } from './lib/tokens.mjs';
+import { buildTrainerData, displayedLessonRaw, isHiddenStat, isMentorSource } from './lib/trainer.mjs';
+import { buildMvpPages } from './lib/mvp-pages.mjs';
+
+// Частки «N з M» з базою 26 / базою наставника / непідтвердженою базою за замовчуванням приховані
+// (MVP-рішення). SHOW_STATS=1 node v2/build/build.mjs — показати оригінальні числа.
+export const SHOW_STATS = /^(1|true|yes)$/i.test(process.env.SHOW_STATS || '');
 
 // Сторінки, де вже діє новий патерн уроку (донат Tier-1, сцена в картці з підписом).
 // Урок 1 затверджено замовником 2026-09-23 — патерн увімкнено для всіх 12 уроків.
@@ -185,14 +191,13 @@ function topNav(activeSlug) {
   const lessonLinks = LESSONS.map(([n, t, d]) => `<a href="${lessonHref(n)}"${activeSlug === 'urok-' + String(n).padStart(2, '0') ? ' class="active"' : ''}><b>${n}</b> ${t}<small>День ${d}</small></a>`).join('');
   const dayLinks = [1, 2, 3, 4, 5].map(d => `<a href="den-0${d}.html"${activeSlug === 'den-0' + d ? ' class="active"' : ''}>День ${d}</a>`).join('');
   const one = (href, label, slug) => `<a href="${href}"${slug === activeSlug ? ' class="active"' : ''}>${label}</a>`;
-  const sosLink = SOS_EXISTS ? `<a class="sos-btn${activeSlug === 'sos' ? ' active' : ''}" href="sos.html">SOS: скажи так</a>` : '';
   return `
   <div class="topnav"><div class="topnav-inner">
     <a class="brand" href="index.html"><img class="brand-logo" src="assets/ikorka-logo.png" alt="Ikorka Shop">курс новачка</a>
     <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Меню розділів">
       <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
     </button>
-    <nav id="site-nav">${one('index.html', 'Зміст', 'index')}${sosLink}<details class="navmenu"><summary>Уроки</summary><div class="navmenu-list lessons-menu">${lessonLinks}</div></details><details class="navmenu"><summary>Дні</summary><div class="navmenu-list">${dayLinks}</div></details>${one('video.html', 'Відео', 'video')}${one('dzvinky.html', 'Бібліотека дзвінків', 'dzvinky')}${one('povtorennia.html', 'Повторення', 'povtorennia')}</nav>
+    <nav id="site-nav">${one('index.html', 'Сьогодні', 'index')}<details class="navmenu"><summary>Уроки</summary><div class="navmenu-list lessons-menu">${lessonLinks}</div></details><details class="navmenu"><summary>Дні</summary><div class="navmenu-list">${dayLinks}</div></details><details class="navmenu"><summary>Тренажер</summary><div class="navmenu-list">${one('trenazher.html', 'Симулятор дзвінка', 'trenazher')}${one('trener.html', 'Розмова з ІІ-клієнтом', 'trener')}${one('perevirka.html', 'Перевірка готовності', 'perevirka')}</div></details>${one('povtorennia.html', 'Повторення', 'povtorennia')}<details class="navmenu"><summary>Ще</summary><div class="navmenu-list">${SOS_EXISTS ? one('sos.html', 'SOS: скажи так', 'sos') : ''}${one('video.html', 'Відео', 'video')}${one('dzvinky.html', 'Бібліотека дзвінків', 'dzvinky')}${one('kerivnyku.html', 'Керівнику', 'kerivnyku')}</div></details></nav>
     <form class="search-box" role="search"><input type="search" id="course-search" placeholder="Пошук по курсу" aria-label="Пошук по курсу" autocomplete="off"><div class="search-results" hidden></div></form>
     <button type="button" class="theme-btn" aria-pressed="false" aria-label="Темна тема" title="Темна тема"><svg class="ti-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><svg class="ti-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
   </div></div>`;
@@ -208,7 +213,7 @@ function pageNav(prev, next) {
   return `<div class="pagenav">${prevHtml}${nextHtml}</div>`;
 }
 
-function shellPage({ activeSlug, title, description, heroHtml, bodyHtml, prev, next, pageSlug = '', pageKind = '' }) {
+function shellPage({ activeSlug, title, description, heroHtml, bodyHtml, prev, next, pageSlug = '', pageKind = '', extraScripts = [] }) {
   return `<!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -224,12 +229,14 @@ ${description ? `<meta name="description" content="${escapeHtml(description)}">`
 <link rel="stylesheet" href="assets/style.css">
 <link rel="stylesheet" href="assets/theme.css">
 <link rel="stylesheet" href="assets/components.css">
+<link rel="stylesheet" href="assets/trainer.css">
 </head>
 <body>
+<a class="skip-link" href="#main-content">Перейти до змісту</a>
 <div id="page-meta" data-slug="${pageSlug}" data-kind="${pageKind}" hidden></div>
 ${topNav(activeSlug)}
 <div class="page-shell">
-<main>
+<main id="main-content" tabindex="-1">
 ${heroHtml}
 <div class="mockup-panel"><div class="lesson">
 ${bodyHtml}
@@ -240,10 +247,12 @@ ${pageNav(prev, next)}
 <footer class="sitefoot">Ikorka Shop · курс новачка · самостійне навчання, 5 днів</footer>
 <script src="assets/app.js"></script>
 <script src="assets/search-index.js"></script>
-<script src="assets/review-data.js"></script>
 <script src="assets/course.js"></script>
 <script src="assets/ui.js"></script>
 <script src="assets/audio.js"></script>
+<script src="assets/trainer-data.js"></script>
+<script src="assets/trainer.js"></script>
+${extraScripts.map(src => `<script src="${src}"></script>`).join('\n')}
 </body>
 </html>
 `;
@@ -252,9 +261,28 @@ ${pageNav(prev, next)}
 // ============================================================
 // 4. Побудова однієї сторінки уроку/дня/чзв/вступу
 // ============================================================
+function lessonNumOfSlug(slug) { const m = /^urok-(\d\d)$/.exec(slug); return m ? parseInt(m[1], 10) : null; }
+function readPageMd(entry) {
+  const n = lessonNumOfSlug(entry.slug);
+  return n ? displayedLessonRaw(n, SHOW_STATS) : read(entry.file);
+}
+// :::stat з часткою і внутрішнім джерелом — не показуємо (правило лишається в тексті уроку);
+// слова наставника — з міткою.
+function filterStats(blocks) {
+  const out = [];
+  for (const b of blocks) {
+    if (b.kind === 'directive' && b.type === 'stat') {
+      if (!SHOW_STATS && isHiddenStat(b.fields)) continue;
+      if (isMentorSource(b.fields['джерело'])) b.fields['мітка'] = 'Слова наставника';
+    }
+    out.push(b);
+  }
+  return out;
+}
+
 function buildContentPage(entry, videoByLesson, allPages, callsByLesson) {
-  const raw = read(entry.file);
-  let blocks = parseBlocks(raw);
+  const raw = readPageMd(entry);
+  let blocks = filterStats(parseBlocks(raw));
   const { hero, rest } = extractHero(blocks);
   let body = rest;
 
@@ -485,7 +513,7 @@ function buildIndexPage(pageMeta) {
   const heroHtml = `
   <div class="mockup-panel"><div class="cover tint-c1 course-cover">
     <span class="cover-eyebrow tag-c1">Ikorka Shop · курс новачка</span>
-    <h1 class="cover-title">Курс адаптації.<br><em>5 днів до відділу</em></h1>
+    <h1 class="cover-title">Сьогодні</h1>
     <p class="cover-sub">Самостійне навчання: 12 навичок дзвінка, дзвониш із першого дня, норма — 75 дзвінків на день.</p>
     <div class="cover-plaque"><span>Курс новачка · Ikorka Shop</span><span class="right">5 днів · 12 навичок</span></div>
   </div></div>`;
@@ -507,7 +535,6 @@ function buildIndexPage(pageMeta) {
     n++;
     let c2 = 0, c3 = 0;
     const subLis = [];
-    let openSub2 = false;
     for (const h of p.headings) {
       if (h.level === 2) {
         c2++; c3 = 0;
@@ -523,7 +550,6 @@ function buildIndexPage(pageMeta) {
         }
       }
     }
-    // прибрати порожні data-l3 маркери
     const cleanedSub = subLis.map(s => s.replace(' data-l3', '').replace('<ul class="toc-sub2"></ul>', ''));
     return `
     <li class="toc-page">
@@ -533,81 +559,30 @@ function buildIndexPage(pageMeta) {
   }).join('');
 
   const bodyHtml = `
-    <h2 id="karta-kursu">Карта курсу</h2>
-    <p class="lesson-body">П'ять днів, дванадцять навичок дзвінка. Кожен день — нові уроки, самостійні дзвінки з нормою 75 на день і вечірній саморозбір за чек-листом.</p>
-  `;
-
-  const sosBanner = SOS_EXISTS ? `
-  <a class="sos-index-banner" href="sos.html">
-    <div class="sib-txt"><h3>Не знаєш, що сказати? Відкрий SOS</h3><p>Готові фрази на конкретні ситуації в дзвінку — копіюй і кажи клієнту прямо зараз</p></div>
-    <span class="sib-cta">SOS: скажи так →</span>
-  </a>` : '';
-
-  const html = `<!DOCTYPE html>
-<html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Курс адаптації Ikorka Shop</title>
-<meta name="description" content="Курс адаптації менеджера Ikorka Shop — 5 днів самостійного навчання, 12 навичок дзвінка.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
-<link rel="stylesheet" href="assets/theme.css">
-<link rel="stylesheet" href="assets/components.css">
-</head>
-<body>
-<div id="page-meta" data-slug="index" data-kind="index" hidden></div>
-${topNav('index')}
-<div class="page-shell">
-<main>
-${heroHtml}
-<div class="mockup-panel"><div class="lesson">
-${bodyHtml}
-</div></div>
-${sosBanner}
-<div class="mockup-panel"><div class="lesson">
+<div id="today-app" class="today-app" aria-live="polite"><p class="lesson-body">Завантажую твій маршрут…</p></div>
+<noscript><p class="lesson-body">Увімкни JavaScript, щоб бачити наступний крок і прогрес. Без нього курс читається як звичайний сайт — почни з <a href="vstup.html">Вступу</a>.</p></noscript>
 <h2 id="uroky">Уроки курсу</h2>
 <div class="lesson-grid">${LESSONS.map(([n, t, d]) => `<a class="lesson-tile" href="${lessonHref(n)}"><span class="lt-num">${n}</span><span class="lt-name">${t}</span><span class="lt-day">День ${d}</span></a>`).join('')}</div>
-</div></div>
-<div class="mockup-panel"><div class="lesson howto">
-<h2 id="iak-korystuvatysia">Як користуватися курсом</h2>
-<div id="course-progress" class="progress-box"></div>
-<ol class="howto-steps">
-<li><b>Іди по порядку.</b> Вступ → День 1 → уроки дня → День 2 і далі. Кнопка «Наступне» внизу кожної сторінки веде правильним маршрутом.</li>
-<li><b>Зранку — уроки дня, решту дня — дзвінки.</b> Урок займає 15–25 хвилин, час читання видно на обкладинці. Норма — 75 дзвінків на день.</li>
-<li><b>Увечері — саморозбір.</b> Проходиш чек-лист дня і пишеш собі підсумок 3-2-1. Позначки в чек-листах зберігаються в цьому браузері.</li>
-<li><b>Позначай пройдене.</b> Внизу кожного уроку і дня є кнопка «Позначити як пройдене». Так росте прогрес, а за кожен повністю пройдений день відкривається зірка.</li>
-<li><b>Слухай, якщо зручніше.</b> Кнопка «Слухати урок» під обкладинкою: браузер читає текст уголос. Пауза, стоп, перемотування і швидкість — у тому ж рядку. Сам звук ніколи не вмикається.</li>
-<li><b>Відео дивись кнопкою «Дивитися тут».</b> Кнопка «Закрити відео» повністю вимикає звук. Одночасно грає тільки щось одне.</li>
-<li><b>Шукай і повторюй.</b> Поле «Пошук по курсу» вгорі знаходить слово на всіх сторінках. У розділі «Повторення» — картки з питаннями, які повертаються через 2, 7 і 30 днів.</li>
-<li><b>Застряг у дзвінку?</b> Відкрий <a href="sos.html">SOS: скажи так</a>: там реальні тупикові ситуації і готова фраза, що сказати.</li>
-</ol>
-</div></div>
-<div class="mockup-panel"><div class="toc-block" style="padding-top:26px;">
-<h3 style="padding:0 28px;font-family:'Manrope',sans-serif;font-size:18px;">Дні курсу</h3>
+<h2 id="dni-kursu">Дні курсу</h2>
 <div class="daymap">${dayCards}</div>
-</div></div>
-<div class="mockup-panel"><div class="toc-block">
+<h2 id="iak-korystuvatysia">Як користуватися тренажером</h2>
+<ol class="howto-steps">
+<li><b>Іди по кроку.</b> Вгорі цієї сторінки — один наступний крок. Уроки йдуть у порядку днів: зранку уроки дня, решту дня — дзвінки, норма — 75 дзвінків.</li>
+<li><b>Спершу спробуй, потім читай.</b> У кожному уроці питання стоїть перед поясненням. Помилка нічого не коштує: одразу побачиш правильну відповідь із цитатою з уроку.</li>
+<li><b>Перевір себе в кінці уроку.</b> Неправильні відповіді повертаються, доки не відповіси вірно. Урок зараховується, коли з першої спроби правильні щонайменше 80 %.</li>
+<li><b>Повторюй коротко.</b> У розділі «Повторення» — до п'яти карток на день: через 1, 3, 7 і 14 днів; те, у чому помилявся, повертається частіше.</li>
+<li><b>Тренуйся без ризику.</b> «Симулятор дзвінка» і «Розмова з ІІ-клієнтом» — сцени й заперечення з уроків і таблиці компанії.</li>
+<li><b>На дзвінку — кнопка «Я на дзвінку».</b> Вона внизу кожної сторінки: пошук за запереченням і шпаргалка етапів дзвінка, працює без інтернету.</li>
+</ol>
 <details class="full-toc">
-<summary style="padding:22px 28px;font-family:'Manrope',sans-serif;font-size:18px;cursor:pointer;">Повний зміст і якорі розділів (розгорнути)</summary>
-<ol style="list-style:none;margin:0;padding:0 28px 20px;">${tocItems}</ol>
-</details>
-</div></div>
-</main>
-</div>
-<footer class="sitefoot">Ikorka Shop · курс новачка · самостійне навчання, 5 днів</footer>
-<script src="assets/app.js"></script>
-<script src="assets/search-index.js"></script>
-<script src="assets/review-data.js"></script>
-<script src="assets/course.js"></script>
-<script src="assets/ui.js"></script>
-<script src="assets/audio.js"></script>
-</body>
-</html>
-`;
-  return html;
+<summary>Повний зміст і якорі розділів (розгорнути)</summary>
+<ol class="toc-list">${tocItems}</ol>
+</details>`;
+
+  return shellPage({
+    activeSlug: 'index', title: 'Сьогодні', description: 'Курс адаптації менеджера Ikorka Shop — наступний крок, прогрес і маршрут по днях.',
+    heroHtml, bodyHtml, prev: null, next: { slug: 'vstup', title: 'Вступ' }, pageSlug: 'index', pageKind: 'index',
+  });
 }
 
 // ============================================================
@@ -681,34 +656,22 @@ function main() {
   const dayLessonMap = Object.fromEntries([1, 2, 3, 4, 5].map(d => ['den-0' + d, LESSONS.filter(l => l[2] === d).map(l => `Урок ${l[0]}. ${l[1]}`)]));
   for (const p of pageMeta) if (p.kind === 'day') p.lessonsOfDay = dayLessonMap[p.slug] || [];
 
-  // --- Повторення: картки з блоків «Перевір себе»
-  const cards = [];
-  for (const e of navMeta.filter(x => x.kind === 'urok')) {
-    const md = read(e.file);
-    const sec = (md.split(/^## Перевір себе\s*$/m)[1] || '').split(/^## /m)[0];
-    const parts = sec.split(/^\*\*(\d+)\.\s*/m).slice(1);
-    for (let i = 0; i < parts.length; i += 2) {
-      const chunk = parts[i + 1];
-      const q = chunk.split('**')[0].trim();
-      const lines = chunk.split('**').slice(1).join('**').split('\n').map(l => l.trim()).filter(Boolean);
-      const o = lines.filter(l => /^[ABCАВС]\.\s/.test(l));
-      const ansLine = lines.find(l => /^(Правильна відповідь|Звір себе):/.test(l)) || '';
-      let a = ansLine.replace(/^(Правильна відповідь|Звір себе):\s*/, '');
-      if (o.length && /^[ABCАВС]\b/.test(a)) { const opt = o.find(x => x[0] === a[0]); if (opt) a = a + (opt ? ' (' + opt.slice(3) + ')' : ''); }
-      if (q && a) cards.push({ id: e.slug + '-' + parts[i], u: e.slug + '.html', l: e.navTitle, q, o, a: a.replace(/\*\*/g, '') });
-    }
-  }
-  fs.writeFileSync(path.join(OUT, 'assets', 'review-data.js'), 'window.REVIEW_CARDS=' + JSON.stringify(cards) + ';', 'utf8');
-  const rvHero = renderCover({ назва: 'Повторення', підзаголовок: 'Картки з питаннями з уроків. Те, що знаєш, повертається через 2, 7 і 30 днів; те, що забув, — завтра.', образ: 'чек-лист перевірка' }, 'course', { eyebrow: 'Ikorka Shop · курс новачка' });
-  generated.push({ slug: 'povtorennia', html: shellPage({ activeSlug: 'povtorennia', title: 'Повторення', description: 'Картки для повторення', heroHtml: rvHero, bodyHtml: '<div id="review-app" class="review-app"><p>Картки завантажуються…</p></div>', prev: null, next: null, pageSlug: 'povtorennia', pageKind: 'review' }) });
+  // --- MVP-тренажер: дані (window.TRAINER) і сторінки-оболонки
+  const trainerReport = { errors: [], warnings: [] };
+  const trainer = buildTrainerData({ showStats: SHOW_STATS, report: trainerReport });
+  fs.writeFileSync(path.join(OUT, 'assets', 'trainer-data.js'), '// Згенеровано v2/build/build.mjs — не редагувати вручну\nwindow.TRAINER=' + JSON.stringify(trainer) + ';\n', 'utf8');
+  const rvHero = renderCover({ назва: 'Повторення', підзаголовок: 'До п\'яти карток на день. Те, що знаєш, повертається через 1, 3, 7 і 14 днів; те, у чому помилявся, — частіше.', образ: 'чек-лист перевірка' }, 'course', { eyebrow: 'Ikorka Shop · курс новачка' });
+  generated.push({ slug: 'povtorennia', html: shellPage({ activeSlug: 'povtorennia', title: 'Повторення', description: 'Картки для повторення з інтервалами', heroHtml: rvHero, bodyHtml: '<div id="review-app" class="review-app mvp-app" aria-live="polite"><p class="lesson-body">Картки завантажуються…</p></div><noscript><p class="lesson-body">Повторення працює з увімкненим JavaScript.</p></noscript>', prev: null, next: null, pageSlug: 'povtorennia', pageKind: 'review' }) });
+  for (const pg of buildMvpPages({ shellPage, renderCover, trainer })) generated.push(pg);
+  const MVP_SLUGS = new Set(['povtorennia', 'trenazher', 'trener', 'perevirka', 'kerivnyku']);
 
   // --- Пошуковий індекс по всіх сторінках
   const strip = h => h.replace(/<script[\s\S]*?<\/script>|<svg[\s\S]*?<\/svg>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
   const index = [];
   for (const g of generated) {
-    if (g.slug === 'povtorennia') continue;
+    if (MVP_SLUGS.has(g.slug)) continue;
     const meta = pageMeta.find(p => p.slug === g.slug);
-    const main = (g.html.split('<main>')[1] || '').split('</main>')[0];
+    const main = (g.html.split(/<main[^>]*>/)[1] || '').split('</main>')[0];
     const pieces = main.split(/(<h[23] id="[^"]+"[^>]*>[\s\S]*?<\/h[23]>)/);
     const s = [{ id: '', h: '', x: strip(pieces[0]) }];
     for (let i = 1; i < pieces.length; i += 2) {
@@ -742,7 +705,7 @@ function main() {
   // ============================================================
   const report = { pages: generated.length, errors: [], warnings: [] };
 
-  const expectedSlugs = ['index', ...COURSE_ORDER.map(e => e.slug)];
+  const expectedSlugs = ['index', ...COURSE_ORDER.map(e => e.slug), 'povtorennia', 'trenazher', 'trener', 'perevirka', 'kerivnyku'];
   for (const s of expectedSlugs) {
     if (!fs.existsSync(path.join(OUT, `${s}.html`))) report.errors.push(`Відсутній файл ${s}.html`);
   }
@@ -818,6 +781,11 @@ function main() {
   console.log(`Сторінок згенеровано: ${report.pages} (очікувалось ${expectedSlugs.length})`);
   console.log(`Відео у video_map.json: ${videoByLesson.size ? [...videoByLesson.keys()].sort((a, b) => a - b).join(', ') : 'немає (video_map.json відсутній або порожній)'}`);
   console.log(`Стоп-лист (SPEC розд. 7) збігів у HTML: ${stopHits}`);
+  console.log(`Статистика «N з M»: ${SHOW_STATS ? 'ПОКАЗАНО (SHOW_STATS=1)' : 'приховано (за замовчуванням)'}`);
+  const tl = trainer.lessons;
+  console.log(`Тренажер: правил ${tl.reduce((a, l) => a + l.rules.length, 0)}, спроб до пояснення ${tl.reduce((a, l) => a + l.attempts.length, 0)}, тестових питань ${tl.reduce((a, l) => a + l.quiz.length, 0)}, пар ${tl.reduce((a, l) => a + l.pairs.length, 0)}, цитат ${tl.reduce((a, l) => a + l.quotes.length, 0)}, сцен ${tl.reduce((a, l) => a + l.scenes.length, 0)}, термінів ${trainer.glossary.length}, заперечень SOS ${trainer.sos.objections.length}`);
+  for (const w of trainerReport.warnings) console.log(' · ' + w);
+  for (const e of trainerReport.errors) report.errors.push(e);
   if (report.errors.length) {
     console.log(`\nПОМИЛКИ (${report.errors.length}):`);
     for (const e of report.errors) console.log(' - ' + e);

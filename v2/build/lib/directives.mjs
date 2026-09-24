@@ -190,7 +190,8 @@ function renderPqItem(fields) {
   if (!bar && !noChart && shareCmp && pcts.length >= 2 && pcts.every(v => v <= 100)) {
     bar = `<span class="pq-cols" role="img" aria-label="${escapeHtml(chyslo)}">${pcts.map((v, i) => `<span class="pq-col${i === 0 ? ' on' : ''}"><i style="height:${v}%"></i><b>${String(v).replace('.', ',')}%</b></span>`).join('')}</span>`;
   }
-  return `<div class="pq-item"><p class="pq-num">${inlineRender(chyslo)}</p>${bar}<p class="pq-text">${inlineRender(fields['підпис'] || '')}</p>${src ? `<p class="pq-src">Джерело: ${src}</p>` : ''}</div>`;
+  const mitka = fields['мітка'] ? `<span class="mvp-label">${escapeHtml(fields['мітка'])}</span>` : '';
+  return `<div class="pq-item">${mitka}<p class="pq-num">${inlineRender(chyslo)}</p>${bar}<p class="pq-text">${inlineRender(fields['підпис'] || '')}</p>${src ? `<p class="pq-src">Джерело: ${src}</p>` : ''}</div>`;
 }
 
 // Tier 1 за патерном мокапу уроку 9: донат поруч із числом і підписом.
@@ -221,7 +222,7 @@ function renderStatHero(fields) {
   <div class="stat-hero${donut ? '' : ' no-chart'}">
     ${donut ? donutSvg(parseInt(m[1], 10), parseInt(m[2], 10)) : ''}
     <div class="stat-hero-text">
-      <p class="stat-hero-label">Головна цифра уроку</p>
+      <p class="stat-hero-label">Головна цифра уроку${fields['мітка'] ? ` <span class="mvp-label">${escapeHtml(fields['мітка'])}</span>` : ''}</p>
       <p class="stat-hero-big">${escapeHtml(chyslo)}</p>
       <p class="stat-hero-main">${inlineRender(fields['підпис'] || '')}</p>
       ${src ? `<p class="stat-hero-src">Джерело: ${src}</p>` : ''}
@@ -300,7 +301,7 @@ export function renderQuiz(q, ctx) {
     `<button type="button" class="quiz-opt" data-letter="${escapeHtml(o.letter)}">${inlineRender(o.text)}</button>`
   ).join('');
   return `
-  <div class="quiz-q quiz-interactive" id="${id}" data-correct="${escapeHtml(q.correct)}"${q.why ? ` data-why="${escapeHtml(q.why)}"` : ''}>
+  <div class="quiz-q quiz-interactive" id="${id}" data-qnum="${escapeHtml(q.num)}" data-correct="${escapeHtml(q.correct)}"${q.why ? ` data-why="${escapeHtml(q.why)}"` : ''}>
     <div class="q-title">${escapeHtml(q.num)}. ${inlineRender(q.title)}</div>
     <div class="quiz-opts">${opts}</div>
     <p class="q-feedback" hidden></p>

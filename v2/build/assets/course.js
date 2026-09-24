@@ -197,16 +197,7 @@
   var ch = document.getElementById('chelendzh-dnia');
   if (ch) { ch.classList.add('challenge-h'); var nx = ch.nextElementSibling; if (nx) nx.classList.add('challenge-text'); }
 
-  // ---------- Питання на старт ----------
-  if (KIND === 'urok') {
-    var qh = document.getElementById('perevir-sebe'), firstQ = null, n = qh;
-    while (n && (n = n.nextElementSibling) && n.tagName !== 'H2') { if (/^\s*1\./.test(n.textContent)) { firstQ = n; break; } }
-    var firstH2 = lesson && lesson.querySelector('h2');
-    if (firstQ && firstH2) {
-      var hook = el('div', 'hook', '<div class="hook-label">Питання на старт</div><div class="hook-q">' + esc(firstQ.querySelector('strong') ? firstQ.querySelector('strong').textContent : firstQ.textContent.split('\n')[0]).replace(/^\s*1\.\s*/, '') + '</div><a href="#perevir-sebe">Спробуй відповісти подумки. Перевіриш себе в кінці уроку ↓</a>');
-      firstH2.parentNode.insertBefore(hook, firstH2);
-    }
-  }
+  // «Питання на старт» замінено «Спробою до пояснення» (assets/trainer.js).
 
   // ---------- Озвучення: «Слухати урок» ----------
   if (lesson && window.speechSynthesis && /urok|day|vstup|chzv/.test(KIND)) {
@@ -265,41 +256,12 @@
   // ---------- Прогрес: «Пройдено» ----------
   var done = load('ikorka-done', {});
   var nav = document.querySelector('.pagenav');
-  if (nav && /urok|day|vstup/.test(KIND)) {
+  // уроки зараховуються тестом у кінці (assets/trainer.js); кнопка лишається для вступу і днів
+  if (nav && /day|vstup/.test(KIND)) {
     var btn = el('button', 'done-btn'); btn.type = 'button';
     function paint() { btn.classList.toggle('on', !!done[SLUG]); btn.textContent = done[SLUG] ? '✓ Пройдено' : 'Позначити як пройдене'; }
     btn.addEventListener('click', function () { done[SLUG] = !done[SLUG]; save('ikorka-done', done); paint(); });
     paint(); nav.parentNode.insertBefore(btn, nav);
   }
-  var prog = document.getElementById('course-progress');
-  if (prog) {
-    var all = ['vstup'].concat(Object.keys(DAYS)); Object.keys(DAYS).forEach(function (d) { all = all.concat(DAYS[d]); });
-    var cnt = all.filter(function (s) { return done[s]; }).length, pct = Math.round(cnt / all.length * 100);
-    var badges = Object.keys(DAYS).map(function (d, i) {
-      var ok = [d].concat(DAYS[d]).every(function (s) { return done[s]; });
-      return '<span class="badge-day' + (ok ? ' on' : '') + '">' + (ok ? '★' : '☆') + ' День ' + (i + 1) + '</span>';
-    }).join('');
-    prog.innerHTML = '<div class="prog-top"><b>Твій прогрес: ' + pct + '%</b><span>' + cnt + ' з ' + all.length + ' сторінок пройдено</span></div><div class="prog-bar"><i style="width:' + pct + '%"></i></div><div class="badges">' + badges + '</div>';
-  }
-
-  // ---------- Повторення: картки з інтервалами ----------
-  var app = document.getElementById('review-app');
-  if (app && window.REVIEW_CARDS) {
-    var DAY = 864e5, st = load('ikorka-review', {}), now = Date.now();
-    var due = window.REVIEW_CARDS.filter(function (c) { return !st[c.id] || st[c.id].due <= now; });
-    var queue = due.slice(0, 12), qi = 0;
-    function show() {
-      if (qi >= queue.length) { app.innerHTML = '<div class="rv-card rv-empty"><h3>На сьогодні все</h3><p>Карток до повторення більше немає. Повертайся завтра: картки, які ти знав, повернуться через 2 дні, потім через тиждень і через місяць.</p></div>'; return; }
-      var c = queue[qi];
-      app.innerHTML = '<div class="rv-head">Картка ' + (qi + 1) + ' з ' + queue.length + ' · до повторення всього: ' + due.length + '</div>' +
-        '<div class="rv-card"><a class="rv-src" href="' + c.u + '#perevir-sebe">' + esc(c.l) + '</a><h3>' + esc(c.q) + '</h3>' +
-        (c.o.length ? '<ul>' + c.o.map(function (o) { return '<li>' + esc(o) + '</li>'; }).join('') + '</ul>' : '') +
-        '<button type="button" class="rv-show">Показати відповідь</button><div class="rv-ans" hidden><p>' + esc(c.a) + '</p>' +
-        '<div class="rv-btns"><button type="button" class="rv-no">Не знав</button><button type="button" class="rv-yes">Знав</button></div></div></div>';
-      app.querySelector('.rv-show').onclick = function () { this.hidden = true; app.querySelector('.rv-ans').hidden = false; };
-      app.querySelector('.rv-yes').onclick = function () { var s = st[c.id] || { step: 0 }; var gaps = [2, 7, 30]; s.due = Date.now() + gaps[Math.min(s.step, 2)] * DAY; s.step++; st[c.id] = s; save('ikorka-review', st); qi++; show(); };
-      app.querySelector('.rv-no').onclick = function () { st[c.id] = { step: 0, due: Date.now() + DAY }; save('ikorka-review', st); qi++; show(); };
-    }
-    show();
-  }
+  // Прогрес, «Сьогодні» і повторення — assets/trainer.js.
 })();

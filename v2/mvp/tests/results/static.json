@@ -1,0 +1,43 @@
+{
+ "name": "static",
+ "at": "2026-09-24T21:23:44.676Z",
+ "passed": 7,
+ "failed": 0,
+ "items": [
+  {
+   "id": "content.curated-valid",
+   "ok": true,
+   "detail": "помилок 0"
+  },
+  {
+   "id": "content.source-refs-verbatim",
+   "ok": true,
+   "detail": "702 посилань, недослівних 0"
+  },
+  {
+   "id": "stats.hidden-in-html",
+   "ok": true,
+   "detail": "жодної частки з базою 26 / базою наставника"
+  },
+  {
+   "id": "stats.hidden-in-trainer-data",
+   "ok": true,
+   "detail": "збігів 0"
+  },
+  {
+   "id": "privacy.no-phones",
+   "ok": true,
+   "detail": "v2/site, v2/coach, v2/mvp — чисто"
+  },
+  {
+   "id": "privacy.no-phones-in-branch-changes",
+   "ok": true,
+   "detail": "94 змінених файлів — чисто"
+  },
+  {
+   "id": "secrets.no-api-key",
+   "ok": true,
+   "detail": "845 файлів перевірено"
+  }
+ ]
+}
