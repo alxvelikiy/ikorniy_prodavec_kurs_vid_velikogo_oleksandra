@@ -161,6 +161,14 @@ button.term{font:inherit;color:inherit;background:none;border:none;border-bottom
 .sim-tile.solved{border-color:var(--good);}
 .sim-client{margin-top:10px;padding:12px 14px;border-radius:12px;background:var(--surface-2);border-left:3px solid var(--info);font-weight:600;line-height:1.5;}
 .sim-practice{margin-top:12px;padding:12px 14px;border-radius:12px;border:1.5px solid var(--brand);background:var(--brand-soft);}
+.sim-sit{margin-top:4px;line-height:1.55;}
+.sim-client small{display:block;font-size:11.5px;font-weight:800;color:var(--text-dim);letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px;}
+.sim-practice p + p{margin-top:6px;}
+.mvp-opt.is-tried{border-style:dashed;}
+.sim-tried{display:block;margin-top:4px;font-size:12px;font-weight:700;color:var(--text-dim);}
+.sim-head{margin-bottom:12px;}
+.sim-weak{margin-top:14px;}
+.sim-scene .mvp-card-title:focus{outline:none;}
 
 /* ---------- ІІ-тренер ---------- */
 .coach-status{display:inline-block;font-size:12.5px;font-weight:800;border-radius:100px;padding:3px 10px;border:1.5px solid var(--line);}

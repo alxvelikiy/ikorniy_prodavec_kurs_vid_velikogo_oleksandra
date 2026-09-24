@@ -671,7 +671,7 @@
         '<p>' + items.length + ' питань: тест уроку, «сильно чи слабко?» і типові помилки. Неправильні повернуться в кінці, доки не відповіси вірно. Урок зараховується, коли з першої спроби правильні щонайменше 80 %.</p>' +
         '<p class="mvp-q-title" id="conf-q-' + l.n + '">Наскільки впевнені, що знаєте матеріал уроку? (1–5)</p>' +
         '<div class="mvp-conf" role="group" aria-labelledby="conf-q-' + l.n + '">' + [1, 2, 3, 4, 5].map(function (c) { return '<button type="button" class="mvp-btn" data-conf="' + c + '">' + c + '</button>'; }).join('') + '</div>' +
-        '<p class="mvp-hint">1 — зовсім не впевнений, 5 — впевнений повністю. Потім порівняємо з результатом.</p>';
+        '<p class="mvp-hint">1 — зовсім не впевнені, 5 — повністю впевнені. Потім порівняємо з результатом.</p>';
       [].forEach.call(card.querySelectorAll('[data-conf]'), function (b) { b.addEventListener('click', function () { run(parseInt(b.getAttribute('data-conf'), 10)); }); });
     }
 
@@ -741,7 +741,7 @@
           show.remove();
           var rev = el('div', 'mvp-reveal', '<b>Звір себе:</b> ' + esc(o.answer));
           var g = el('div', 'mvp-row', '<span class="mvp-muted">Як вийшло?</span>');
-          ['Знав', 'Частково', 'Не знав'].forEach(function (lab, k) {
+          ['Знаю', 'Частково', 'Не знаю'].forEach(function (lab, k) {
             var b = el('button', 'mvp-btn', lab); b.type = 'button';
             b.addEventListener('click', function () { rvAdd(o.id, k > 0); save(); g.innerHTML = '<span class="mvp-muted">Записано: «' + lab + '».</span>'; });
             g.appendChild(b);
@@ -768,7 +768,7 @@
         show.remove();
         q.appendChild(el('div', 'mvp-reveal', answerHtml));
         var g = el('div', 'mvp-row', '<span class="mvp-muted">Як вийшло?</span>');
-        ['Знав', 'Частково', 'Не знав'].forEach(function (lab, k) {
+        ['Знаю', 'Частково', 'Не знаю'].forEach(function (lab, k) {
           var b = el('button', 'mvp-btn', lab); b.type = 'button';
           b.addEventListener('click', function () { rvGrade(id, k === 0); onDone(); });
           g.appendChild(b);
@@ -791,7 +791,7 @@
     var q = el('div', 'mvp-q'); host.appendChild(q);
     if (c.type === 'o') selfGrade(q, '<p class="mvp-q-lead"><span class="mvp-kicker">' + lessonLink(n) + '</span></p><p class="mvp-q-title">' + esc(c.data.q) + '</p>', '<b>Звір себе:</b> ' + esc(c.data.answer));
     else if (c.type === 'r') selfGrade(q, '<p class="mvp-q-lead"><span class="mvp-kicker">' + lessonLink(n) + '</span></p><p class="mvp-q-title">Згадай правило ' + esc(c.data.code) + '</p>', '<b>Правило ' + esc(c.data.code) + ':</b> ' + esc(cap(c.data.text)));
-    else if (c.type === 'deck') selfGrade(q, '<p class="mvp-q-lead"><span class="mvp-kicker">Моя колода</span></p><p class="mvp-q-title">Складний клієнт: ' + esc(c.data.text) + '</p><p class="mvp-q-sub">Що б ти сказав зараз? Проговори вголос, потім звір із SOS «Я на дзвінку».</p>', 'Знайди заперечення в SOS «Я на дзвінку» (кнопка внизу сторінки) і порівняй зі своєю відповіддю.');
+    else if (c.type === 'deck') selfGrade(q, '<p class="mvp-q-lead"><span class="mvp-kicker">Моя колода</span></p><p class="mvp-q-title">Складний клієнт: ' + esc(c.data.text) + '</p><p class="mvp-q-sub">Що скажеш зараз? Проговори вголос, потім звір із SOS «Я на дзвінку».</p>', 'Знайди заперечення в SOS «Я на дзвінку» (кнопка внизу сторінки) і порівняй зі своєю відповіддю.');
     return true;
   }
 
@@ -800,7 +800,7 @@
     box.setAttribute('aria-label', 'Складний клієнт сьогодні');
     box.innerHTML = '<p class="mvp-card-title">Складний клієнт сьогодні</p>' +
       '<p class="mvp-pii" role="note"><b>Увага:</b> не вписуй імена, телефони й адреси клієнтів — лише ситуацію і що він сказав.</p>' +
-      '<form class="deck-form"><label for="deck-text" class="sos-label">Що сказав клієнт і на чому ти застряг?</label><textarea id="deck-text" maxlength="400" placeholder="Напр.: клієнтка сказала «дорого, минулого разу було дешевше», я не знав, що відповісти"></textarea>' +
+      '<form class="deck-form"><label for="deck-text" class="sos-label">Що сказав клієнт і в чому складність?</label><textarea id="deck-text" maxlength="400" placeholder="Напр.: клієнтка сказала «дорого, минулого разу було дешевше», не знаю, що відповісти"></textarea>' +
       '<div class="mvp-row"><button type="submit" class="mvp-btn primary">Зберегти в мою колоду</button><span class="deck-msg mvp-muted" aria-live="polite"></span></div></form>';
     host.appendChild(box);
     box.querySelector('form').addEventListener('submit', function (e) {
@@ -868,6 +868,134 @@
   if (KIND === 'review') renderReview();
   if (KIND === 'index') { var tApp = document.getElementById('today-app'); if (tApp) deckForm(tApp); }
   MVP.deckForm = deckForm; MVP.maskDigits = maskDigits;
+
+  // =====================================================================
+  // 11. Зріз 3 — симулятор дзвінка: сцени з уроків (реплика клієнта → варіанти менеджера дослівно
+  //     з уроку → наслідок і розбір → спроба з іншим вибором → «що відпрацювати»)
+  // =====================================================================
+  function sceneById(id) {
+    var m = /^s(\d+)-/.exec(id || ''); var l = m && L(parseInt(m[1], 10));
+    if (!l) return null;
+    for (var i = 0; i < l.scenes.length; i++) if (l.scenes[i].id === id) return l.scenes[i];
+    return null;
+  }
+  function renderSim() {
+    var app = document.getElementById('sim-app');
+    if (!app) return;
+    var ids = (T.sim || []).filter(sceneById);
+    if (!st.sim || typeof st.sim !== 'object') st.sim = {};
+    function solvedCount() { return ids.filter(function (id) { return st.sim[id] && st.sim[id].solved; }).length; }
+
+    function list(focusId) {
+      app.innerHTML = '';
+      var head = el('section', 'mvp-card sim-head');
+      head.setAttribute('aria-label', 'Симулятор дзвінка');
+      head.innerHTML = '<div class="mvp-test-head"><p class="mvp-card-title">Симулятор дзвінка</p><span class="mvp-progress">Пройдено ' + solvedCount() + '/' + ids.length + '</span></div>' +
+        '<p>' + ids.length + ' сцен з уроків. Читаєш, що каже клієнт, обираєш відповідь і бачиш, чому вона працює або ні. Помилка — пробуєш інший варіант. У кінці сцени — що відпрацювати на дзвінках.</p>';
+      app.appendChild(head);
+      var grid = el('div', 'sim-list');
+      ids.forEach(function (id, k) {
+        var sc = sceneById(id), s = st.sim[id];
+        var b = el('button', 'sim-tile' + (s && s.solved ? ' solved' : ''), '<small>Сцена ' + (k + 1) + ' · Урок ' + sc.lesson + (s && s.solved ? ' · ✓ пройдено' : s && s.tried && s.tried.length ? ' · почато' : '') + '</small><span>' + esc(cap(sc.title)) + '</span>');
+        b.type = 'button'; b.setAttribute('data-scene', id);
+        b.addEventListener('click', function () { play(k); });
+        grid.appendChild(b);
+      });
+      app.appendChild(grid);
+      // що відпрацювати: сцени, де перша відповідь була неправильною
+      var weak = ids.filter(function (id) { return st.sim[id] && st.sim[id].firstGood === false; });
+      if (weak.length) {
+        var wk = el('section', 'mvp-card sim-weak');
+        wk.setAttribute('aria-label', 'Що відпрацювати');
+        wk.innerHTML = '<p class="mvp-card-title">Що відпрацювати</p><p class="mvp-muted">Сцени, де перша відповідь була неправильною.</p><ul class="mvp-weak">' + weak.map(function (id) {
+          var sc = sceneById(id), r = ruleByCode(sc.rule);
+          return '<li>' + (r ? '<b>' + esc(r.code) + '</b> ' + esc(cap(r.text)) : esc(cap(sc.title))) + (sc.practice ? '<br><span class="mvp-muted">' + esc(cap(sc.practice)) + '</span>' : '') + '</li>';
+        }).join('') + '</ul>';
+        app.appendChild(wk);
+      }
+      var f = focusId && app.querySelector('[data-scene="' + focusId + '"]');
+      if (f) f.focus();
+    }
+
+    function play(k) {
+      var id = ids[k], sc = sceneById(id);
+      var s = st.sim[id] || (st.sim[id] = { tried: [], solved: false });
+      if (!s.tried) s.tried = [];
+      var opts = shuffle(sc.options.map(function (o, i) { return { o: o, i: i }; }), hashStr(id));
+      var good = sc.options.filter(function (o) { return o.good; })[0];
+      var isLine = /«/.test(sc.client);
+      app.innerHTML = '';
+      var card = el('section', 'mvp-card sim-scene');
+      card.setAttribute('aria-label', 'Сцена ' + (k + 1) + ' з ' + ids.length);
+      card.innerHTML = '<div class="mvp-test-head"><p class="mvp-card-title" tabindex="-1">Сцена ' + (k + 1) + ' з ' + ids.length + '</p><span class="mvp-progress">' + lessonLink(sc.lesson) + '</span></div>' +
+        '<p class="sim-sit"><b>Ситуація:</b> ' + esc(cap(sc.title)) + '</p>' +
+        '<p class="sim-client"><small>' + (isLine ? 'Клієнт' : 'Що відбувається') + '</small>' + esc(cap(sc.client)) + '</p>' +
+        '<p class="mvp-q-title">Що скажеш?</p><div class="mvp-opts sim-opts" role="group" aria-label="Варіанти відповіді"></div><div class="sim-out" aria-live="polite"></div>' +
+        '<div class="mvp-row"><button type="button" class="mvp-btn ghost sim-back">← Усі сцени</button></div>';
+      app.appendChild(card);
+      card.querySelector('.sim-back').addEventListener('click', function () { list(id); });
+      var optsBox = card.querySelector('.sim-opts'), out = card.querySelector('.sim-out');
+
+      function round() {
+        optsBox.innerHTML = ''; out.innerHTML = '';
+        opts.forEach(function (x) {
+          var tried = s.tried.indexOf(x.i) >= 0;
+          var b = el('button', 'mvp-opt' + (tried ? ' is-tried' : ''), esc(x.o.text) + (tried ? ' <small class="sim-tried">уже обрано</small>' : ''));
+          b.type = 'button'; b.setAttribute('data-opt', String(x.i));
+          b.addEventListener('click', function () { choose(x, b); });
+          optsBox.appendChild(b);
+        });
+      }
+      function choose(x, b) {
+        [].forEach.call(optsBox.children, function (y) { y.disabled = true; });
+        b.classList.add(x.o.good ? 'is-correct' : 'is-wrong');
+        if (!s.tried.length) s.firstGood = !!x.o.good;
+        if (s.tried.indexOf(x.i) < 0) s.tried.push(x.i);
+        if (x.o.good) s.solved = true;
+        s.t = Date.now(); save();
+        var html = fb3({ good: x.o.good, said: x.o.text, why: x.o.why, instead: good ? good.text : '', lesson: sc.lesson, rule: sc.rule });
+        var r = ruleByCode(sc.rule);
+        if (x.o.good || s.tried.length >= sc.options.length) {
+          html += '<div class="sim-practice"><p><b>Що відпрацювати:</b> ' + esc(cap(sc.practice || '')) + '</p>' + (r ? '<p class="mvp-muted"><b>Правило ' + esc(r.code) + ':</b> ' + esc(cap(r.text)) + '</p>' : '') + '</div>';
+        }
+        out.innerHTML = html;
+        var row = el('div', 'mvp-row');
+        var untried = sc.options.length - s.tried.length;
+        if (untried > 0) {
+          var again = el('button', 'mvp-btn sim-again', x.o.good ? 'Подивитися інший варіант' : 'Спробувати інший варіант'); again.type = 'button';
+          again.addEventListener('click', function () { round(); var f = optsBox.querySelector('.mvp-opt:not(.is-tried)'); if (f) f.focus(); });
+          row.appendChild(again);
+        }
+        if (s.solved) {
+          if (k + 1 < ids.length) {
+            var nx = el('button', 'mvp-btn primary sim-next', 'Наступна сцена →'); nx.type = 'button';
+            nx.addEventListener('click', function () { play(k + 1); });
+            row.appendChild(nx);
+          } else {
+            var fin = el('button', 'mvp-btn primary sim-finish', 'До всіх сцен'); fin.type = 'button';
+            fin.addEventListener('click', function () { list(); });
+            row.appendChild(fin);
+          }
+        }
+        out.appendChild(row);
+        var focusBtn = row.querySelector('.sim-next, .sim-finish, .sim-again');
+        if (focusBtn) focusBtn.focus();
+      }
+      round();
+      var t = card.querySelector('.mvp-card-title'); if (t) t.focus();
+      try { card.scrollIntoView({ block: 'start' }); } catch (e) {}
+    }
+    list();
+  }
+  if (KIND === 'trenazher') renderSim();
+  MVP.sceneById = sceneById;
+
+  // Офлайн-кеш (service worker) — лише на зібраному сайті (у фрагментах курсу атрибута data-sw немає)
+  try {
+    if ('serviceWorker' in navigator && document.documentElement.hasAttribute('data-sw') && /^https?:$/.test(location.protocol)) {
+      navigator.serviceWorker.register('sw.js').catch(function () {});
+    }
+  } catch (e) { /* без офлайн-кешу */ }
 
   //__MODULES__
 })();

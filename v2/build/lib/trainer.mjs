@@ -173,7 +173,18 @@ export function buildTrainerData({ showStats = false, report }) {
     { d: 3, slug: 'den-03', lessons: [6, 7, 8] }, { d: 4, slug: 'den-04', lessons: [9, 10, 11] }, { d: 5, slug: 'den-05', lessons: [12] },
   ];
 
-  const data = { v: 1, showStats, lessons, days, glossary, sos, personas };
+  // Симулятор: 12 сцен, по одній з кожного уроку. Перевага — сцени з дослівною реплікою клієнта («…»)
+  // і трьома варіантами; однакові репліки клієнта не повторюються.
+  const sim = [];
+  const seenClient = new Set();
+  const nc = s => normText(s).replace(/[^\p{L}\p{N} ]/gu, '').trim();
+  for (const l of lessons) {
+    const ranked = l.scenes.map((s, i) => ({ s, i, score: (/«/.test(s.client) ? 2 : 0) + (s.options.length === 3 ? 1 : 0) }))
+      .sort((a, b) => b.score - a.score || a.i - b.i);
+    const pick = ranked.find(x => !seenClient.has(nc(x.s.client))) || ranked[0];
+    if (pick) { sim.push(pick.s.id); seenClient.add(nc(pick.s.client)); }
+  }
+  const data = { v: 1, showStats, lessons, days, glossary, sos, personas, sim };
 
   // Страховка: жодної частки «N з M» у даних тренажера, коли статистику приховано.
   if (!showStats) {

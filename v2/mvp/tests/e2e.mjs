@@ -208,7 +208,7 @@ async function slice2(browser, base, R) {
     if (await recall.count()) {
       await click(page, recall.locator('button', { hasText: 'Показати еталон' }));
       R.check('2.test.open-recall', await recall.locator('.mvp-reveal').count() === 1);
-      await click(page, recall.locator('button', { hasText: 'Не знав' }));
+      await click(page, recall.locator('button', { hasText: 'Не знаю' }));
       const st2 = await readState(page);
       R.check('2.test.open-recall-weak', (st2.review[L1.open[0].id] || {}).lapses >= 1);
     }
@@ -297,7 +297,109 @@ async function slice2(browser, base, R) {
   }
 }
 
-const SLICES = { 1: slice1, 2: slice2 };
+// ---------------- Зріз 3: практика без ІІ ----------------
+const sceneById = id => lessonN(+/^s(\d+)-/.exec(id)[1]).scenes.find(x => x.id === id);
+async function slice3(browser, base, R) {
+  // Дані симулятора: 8–12 сцен, 2–3 варіанти, рівно один правильний, є «що відпрацювати»
+  const ids = T.sim || [];
+  const badData = ids.filter(id => { const sc = sceneById(id); return !sc || sc.options.length < 2 || sc.options.length > 3 || sc.options.filter(o => o.good).length !== 1 || !sc.practice || !sc.client; });
+  R.check('3.sim.data', ids.length >= 8 && ids.length <= 12 && badData.length === 0, `${ids.length} сцен; некоректних ${badData.length}`);
+  {
+    const { page, ctx, errors } = await openPage(browser, base + '/trenazher.html');
+    const tiles = page.locator('#sim-app .sim-tile');
+    R.check('3.sim.list', await tiles.count() === ids.length, (await tiles.count()) + ' сцен у списку');
+    R.check('3.sim.no-popup-on-load', (await popupsOnLoad(page)).length === 0);
+    const sc = sceneById(ids[0]);
+    await click(page, tiles.first());
+    const scene = page.locator('.sim-scene');
+    R.check('3.sim.client-line', norm(await scene.locator('.sim-client').textContent()).includes(norm(sc.client).slice(1, 40)), norm(await scene.locator('.sim-client').textContent()).slice(0, 80));
+    const opts = scene.locator('.sim-opts .mvp-opt');
+    R.check('3.sim.options-verbatim', await opts.count() === sc.options.length && (await opts.allTextContents()).every(t => sc.options.some(o => norm(t).startsWith(norm(o.text)))), (await opts.count()) + ' варіанти дослівно з уроку');
+    // неправильний вибір → наслідок і розбір, «що відпрацювати» ще не показано
+    const badIdx = sc.options.findIndex(o => !o.good), goodIdx = sc.options.findIndex(o => o.good);
+    await click(page, scene.locator(`.mvp-opt[data-opt="${badIdx}"]`));
+    await expectFb3(R, '3.sim.fb3-on-wrong', scene.locator('.fb3'));
+    R.check('3.sim.practice-after-solve-only', await scene.locator('.sim-practice').count() === 0);
+    // повтор з іншим вибором
+    await click(page, scene.locator('.sim-again'));
+    R.check('3.sim.retry-marks-tried', await scene.locator('.mvp-opt.is-tried').count() === 1 && await scene.locator('.fb3').count() === 0);
+    await click(page, scene.locator(`.mvp-opt[data-opt="${goodIdx}"]`));
+    await expectFb3(R, '3.sim.fb3-on-good', scene.locator('.fb3'));
+    const pr = norm(await scene.locator('.sim-practice').textContent());
+    R.check('3.sim.what-to-practice', pr.includes(norm(sc.practice).slice(2, 40)), pr.slice(0, 90));
+    let st = await readState(page);
+    R.check('3.sim.state', st.sim[ids[0]].solved === true && st.sim[ids[0]].firstGood === false, JSON.stringify(st.sim[ids[0]]));
+    await click(page, scene.locator('.sim-next'));
+    R.check('3.sim.next-scene', /Сцена 2 з/.test(await page.locator('.sim-scene .mvp-card-title').textContent()));
+    await click(page, page.locator('.sim-back'));
+    R.check('3.sim.progress', /Пройдено 1\//.test(await page.locator('.sim-head .mvp-progress').textContent()), await page.locator('.sim-head .mvp-progress').textContent());
+    R.check('3.sim.weak-list', await page.locator('.sim-weak li').count() === 1, 'сцена з помилкою — у «Що відпрацювати»');
+    R.check('3.sim.focus-returns', await page.evaluate(() => document.activeElement && document.activeElement.getAttribute('data-scene')) === ids[1]);
+    // решта сцен: правильна відповідь → розбір у три частини і «що відпрацювати»
+    const bad = [];
+    for (let k = 1; k < ids.length; k++) {
+      const s2 = sceneById(ids[k]);
+      await click(page, page.locator(`.sim-tile[data-scene="${ids[k]}"]`));
+      await click(page, page.locator(`.sim-scene .mvp-opt[data-opt="${s2.options.findIndex(o => o.good)}"]`));
+      const p = await fb3Parts(page.locator('.sim-scene .fb3'));
+      if (!(p.said && p.why && p.instead) || await page.locator('.sim-scene .sim-practice').count() !== 1) bad.push(ids[k]);
+      await click(page, page.locator('.sim-back'));
+    }
+    R.check('3.sim.all-scenes', bad.length === 0, bad.length ? 'проблеми: ' + bad.join(', ') : `${ids.length - 1} сцен пройдено, у кожній розбір у три частини`);
+    R.check('3.sim.all-solved', new RegExp('Пройдено ' + ids.length + '/').test(await page.locator('.sim-head .mvp-progress').textContent()));
+    R.check('3.sim.console', errors.length === 0, errors.join(' | '));
+    await ctx.close();
+  }
+  // SOS «Я на дзвінку»
+  {
+    const { page, ctx, errors } = await openPage(browser, base + '/urok-04.html', { width: 375, height: 800 });
+    R.check('3.sos.closed-on-load', (await popupsOnLoad(page, 1500)).length === 0);
+    const fab = page.locator('.sos-fab');
+    R.check('3.sos.fab', await fab.isVisible());
+    await fab.click();
+    const panel = page.locator('.sos-panel');
+    R.check('3.sos.opens', await panel.isVisible() && await fab.getAttribute('aria-expanded') === 'true');
+    R.check('3.sos.non-modal', await panel.getAttribute('aria-modal') === 'false');
+    R.check('3.sos.focus-search', await page.evaluate(() => document.activeElement && document.activeElement.id) === 'sos-q');
+    await page.fill('#sos-q', 'дорого'); await page.waitForTimeout(350);
+    const items = panel.locator('.sos-item');
+    R.check('3.sos.search', await items.count() >= 1 && /дорого/i.test(await items.first().textContent()), (await items.count()) + ' результатів');
+    R.check('3.sos.say-from-lesson', await panel.locator('.sos-say').count() >= 1);
+    await page.fill('#sos-q', 'подумаю'); await page.waitForTimeout(350);
+    R.check('3.sos.search-2', await items.count() >= 1 && /подума/i.test(await items.first().textContent()));
+    await page.fill('#sos-q', 'щзщзщ'); await page.waitForTimeout(350);
+    R.check('3.sos.empty-hint', await panel.locator('.sos-none').isVisible());
+    await panel.locator('[data-tab="stages"]').click();
+    R.check('3.sos.stages', await panel.locator('[data-pane="stages"]').isVisible() && await panel.locator('.sos-skel').count() === 1 && await panel.locator('.sos-rules').count() === 12, (await panel.locator('.sos-rules').count()) + ' уроків із правилами');
+    R.check('3.sos.no-hscroll-375', (await noHorizontalScroll(page)).ok);
+    await page.keyboard.press('Escape'); await page.waitForTimeout(300);
+    R.check('3.sos.esc-closes', await page.locator('.sos-panel').count() === 0);
+    R.check('3.sos.focus-returns', await page.evaluate(() => document.activeElement && document.activeElement.classList.contains('sos-fab')));
+    R.check('3.sos.console', errors.length === 0, errors.join(' | '));
+    await ctx.close();
+  }
+  // Офлайн: після першого відкриття сайт і SOS працюють без мережі
+  {
+    const { page, ctx, errors } = await openPage(browser, base + '/index.html');
+    const ready = await page.evaluate(() => Promise.race([navigator.serviceWorker.ready.then(() => true), new Promise(r => setTimeout(() => r(false), 15000))]));
+    R.check('3.offline.sw-ready', ready);
+    await ctx.setOffline(true);
+    let loaded = false;
+    try { await page.goto(base + '/urok-04.html', { waitUntil: 'load', timeout: 15000 }); loaded = await page.locator('.lesson h2').count() > 0; } catch (e) { loaded = false; }
+    R.check('3.offline.lesson-from-cache', loaded);
+    if (loaded) {
+      await page.locator('.sos-fab').click();
+      await page.fill('#sos-q', 'подумаю'); await page.waitForTimeout(350);
+      R.check('3.offline.sos-search', await page.locator('.sos-panel .sos-item').count() >= 1);
+    }
+    await ctx.setOffline(false);
+    const real = errors.filter(e => !/ERR_INTERNET_DISCONNECTED/.test(e));
+    R.check('3.offline.console', real.length === 0, real.join(' | '));
+    await ctx.close();
+  }
+}
+
+const SLICES = { 1: slice1, 2: slice2, 3: slice3 };
 
 (async () => {
   const srv = await startServer({ port: 4173 + Math.floor(Math.random() * 500) });

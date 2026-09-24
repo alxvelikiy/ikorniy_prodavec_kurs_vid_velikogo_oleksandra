@@ -5,6 +5,7 @@
 // дописують v2/text/** та v2/audit/video_map.json.
 
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -215,7 +216,7 @@ function pageNav(prev, next) {
 
 function shellPage({ activeSlug, title, description, heroHtml, bodyHtml, prev, next, pageSlug = '', pageKind = '', extraScripts = [] }) {
   return `<!DOCTYPE html>
-<html lang="uk">
+<html lang="uk" data-sw="1">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -225,6 +226,7 @@ ${description ? `<meta name="description" content="${escapeHtml(description)}">`
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script>try{if(localStorage.getItem('ikorka-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<link rel="icon" type="image/png" href="assets/ikorka-logo.png">
 <link rel="stylesheet" href="assets/tokens.css">
 <link rel="stylesheet" href="assets/style.css">
 <link rel="stylesheet" href="assets/theme.css">
@@ -559,7 +561,7 @@ function buildIndexPage(pageMeta) {
   }).join('');
 
   const bodyHtml = `
-<div id="today-app" class="today-app" aria-live="polite"><p class="lesson-body">Завантажую твій маршрут…</p></div>
+<div id="today-app" class="today-app"><p class="lesson-body">Завантажую твій маршрут…</p></div>
 <noscript><p class="lesson-body">Увімкни JavaScript, щоб бачити наступний крок і прогрес. Без нього курс читається як звичайний сайт — почни з <a href="vstup.html">Вступу</a>.</p></noscript>
 <h2 id="uroky">Уроки курсу</h2>
 <div class="lesson-grid">${LESSONS.map(([n, t, d]) => `<a class="lesson-tile" href="${lessonHref(n)}"><span class="lt-num">${n}</span><span class="lt-name">${t}</span><span class="lt-day">День ${d}</span></a>`).join('')}</div>
@@ -661,7 +663,7 @@ function main() {
   const trainer = buildTrainerData({ showStats: SHOW_STATS, report: trainerReport });
   fs.writeFileSync(path.join(OUT, 'assets', 'trainer-data.js'), '// Згенеровано v2/build/build.mjs — не редагувати вручну\nwindow.TRAINER=' + JSON.stringify(trainer) + ';\n', 'utf8');
   const rvHero = renderCover({ назва: 'Повторення', підзаголовок: 'До п\'яти карток на день. Те, що знаєш, повертається через 1, 3, 7 і 14 днів; те, у чому помилявся, — частіше.', образ: 'чек-лист перевірка' }, 'course', { eyebrow: 'Ikorka Shop · курс новачка' });
-  generated.push({ slug: 'povtorennia', html: shellPage({ activeSlug: 'povtorennia', title: 'Повторення', description: 'Картки для повторення з інтервалами', heroHtml: rvHero, bodyHtml: '<div id="review-app" class="review-app mvp-app" aria-live="polite"><p class="lesson-body">Картки завантажуються…</p></div><noscript><p class="lesson-body">Повторення працює з увімкненим JavaScript.</p></noscript>', prev: null, next: null, pageSlug: 'povtorennia', pageKind: 'review' }) });
+  generated.push({ slug: 'povtorennia', html: shellPage({ activeSlug: 'povtorennia', title: 'Повторення', description: 'Картки для повторення з інтервалами', heroHtml: rvHero, bodyHtml: '<div id="review-app" class="review-app mvp-app"><p class="lesson-body">Картки завантажуються…</p></div><noscript><p class="lesson-body">Повторення працює з увімкненим JavaScript.</p></noscript>', prev: null, next: null, pageSlug: 'povtorennia', pageKind: 'review' }) });
   for (const pg of buildMvpPages({ shellPage, renderCover, trainer })) generated.push(pg);
   const MVP_SLUGS = new Set(['povtorennia', 'trenazher', 'trener', 'perevirka', 'kerivnyku']);
 
@@ -698,6 +700,41 @@ function main() {
     fs.writeFileSync(path.join(OUT, `${g.slug}.html`), fragment, 'utf8');
     fs.writeFileSync(path.join(SITE, `${g.slug}.html`), g.html, 'utf8');
     fs.cpSync(path.join(OUT, 'assets'), path.join(SITE, 'assets'), { recursive: true });
+  }
+
+  let swInfo = null;
+  // --- Офлайн: service worker сайту. Кешує всі сторінки і підключені ресурси; версія — хеш вмісту,
+  // тож після нової збірки старий кеш видаляється. Запити /api/ (ІІ-тренер) не кешуються.
+  {
+    const used = new Set();
+    for (const g of generated) for (const m of g.html.matchAll(/(?:src|href)="(assets\/[^"#?]+)"/g)) used.add(m[1]);
+    const files = [...generated.map(g => `${g.slug}.html`), ...[...used].sort()].filter(f => fs.existsSync(path.join(SITE, f)));
+    const h = crypto.createHash('sha1');
+    for (const f of files) h.update(f).update(fs.readFileSync(path.join(SITE, f)));
+    const CACHE = 'ikorka-' + h.digest('hex').slice(0, 12);
+    const swSrc = `// Згенеровано v2/build/build.mjs — офлайн-кеш сайту (уроки, SOS «Я на дзвінку», тренажер).
+const CACHE = ${JSON.stringify(CACHE)};
+const FILES = ${JSON.stringify(files)};
+self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting())); });
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith('ikorka-') && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
+});
+function put(req, res) { if (res && res.ok && res.type === 'basic') { const cp = res.clone(); caches.open(CACHE).then(c => c.put(req, cp)); } return res; }
+self.addEventListener('fetch', e => {
+  const r = e.request;
+  if (r.method !== 'GET') return;
+  const u = new URL(r.url);
+  if (u.origin !== self.location.origin || u.pathname.startsWith('/api/')) return;
+  if (r.mode === 'navigate') {
+    // сторінки: спершу мережа (свіжа версія), без мережі — з кешу
+    e.respondWith(fetch(r).then(res => put(r, res)).catch(() => caches.match(r, { ignoreSearch: true }).then(m => m || caches.match('index.html'))));
+    return;
+  }
+  e.respondWith(caches.match(r, { ignoreSearch: true }).then(m => m || fetch(r).then(res => put(r, res))));
+});
+`;
+    fs.writeFileSync(path.join(SITE, 'sw.js'), swSrc, 'utf8');
+    swInfo = { cache: CACHE, files: files.length };
   }
 
   // ============================================================
@@ -779,6 +816,7 @@ function main() {
 
   console.log('=== Ikorka Shop · build звіт ===');
   console.log(`Сторінок згенеровано: ${report.pages} (очікувалось ${expectedSlugs.length})`);
+  if (swInfo) console.log(`Офлайн-кеш (sw.js): ${swInfo.files} файлів, версія ${swInfo.cache}`);
   console.log(`Відео у video_map.json: ${videoByLesson.size ? [...videoByLesson.keys()].sort((a, b) => a - b).join(', ') : 'немає (video_map.json відсутній або порожній)'}`);
   console.log(`Стоп-лист (SPEC розд. 7) збігів у HTML: ${stopHits}`);
   console.log(`Статистика «N з M»: ${SHOW_STATS ? 'ПОКАЗАНО (SHOW_STATS=1)' : 'приховано (за замовчуванням)'}`);

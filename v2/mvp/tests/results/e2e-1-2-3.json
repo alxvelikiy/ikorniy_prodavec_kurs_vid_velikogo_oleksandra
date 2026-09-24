@@ -1,7 +1,7 @@
 {
- "name": "e2e-1-2",
- "at": "2026-09-24T21:31:05.659Z",
- "passed": 63,
+ "name": "e2e-1-2-3",
+ "at": "2026-09-24T21:38:22.405Z",
+ "passed": 99,
  "failed": 0,
  "items": [
   {
@@ -316,6 +316,186 @@
   },
   {
    "id": "2.deck.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sim.data",
+   "ok": true,
+   "detail": "12 сцен; некоректних 0"
+  },
+  {
+   "id": "3.sim.list",
+   "ok": true,
+   "detail": "12 сцен у списку"
+  },
+  {
+   "id": "3.sim.no-popup-on-load",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sim.client-line",
+   "ok": true,
+   "detail": "Що відбуваєтьсяВін вирішує одне: свій телефонує чи чергова реклама."
+  },
+  {
+   "id": "3.sim.options-verbatim",
+   "ok": true,
+   "detail": "3 варіанти дослівно з уроку"
+  },
+  {
+   "id": "3.sim.fb3-on-wrong",
+   "ok": true,
+   "detail": "Що сказано ««Чи подивилися на мою пропозицію? Ні? Ще» · Чому «Повторний дзвінок почато із закритого пи» · Натомість ««[Ім'я], доброго дня. Це [ім'я] з компан»"
+  },
+  {
+   "id": "3.sim.practice-after-solve-only",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sim.retry-marks-tried",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sim.fb3-on-good",
+   "ok": true,
+   "detail": "Що сказано ««[Ім'я], доброго дня. Це [ім'я] з компан» · Чому «За одну фразу закрито три питання клієнт» · Натомість ««[Ім'я], доброго дня. Це [ім'я] з компан»"
+  },
+  {
+   "id": "3.sim.what-to-practice",
+   "ok": true,
+   "detail": "Що відпрацювати: Перші 10 дзвінків сьогоднішньої норми з 75 зроби з одним фокусом: ім'я кл"
+  },
+  {
+   "id": "3.sim.state",
+   "ok": true,
+   "detail": "{\"tried\":[1,0],\"solved\":true,\"firstGood\":false,\"t\":1790285892002}"
+  },
+  {
+   "id": "3.sim.next-scene",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sim.progress",
+   "ok": true,
+   "detail": "Пройдено 1/12"
+  },
+  {
+   "id": "3.sim.weak-list",
+   "ok": true,
+   "detail": "сцена з помилкою — у «Що відпрацювати»"
+  },
+  {
+   "id": "3.sim.focus-returns",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sim.all-scenes",
+   "ok": true,
+   "detail": "11 сцен пройдено, у кожній розбір у три частини"
+  },
+  {
+   "id": "3.sim.all-solved",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sim.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sos.closed-on-load",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sos.fab",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sos.opens",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sos.non-modal",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sos.focus-search",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sos.search",
+   "ok": true,
+   "detail": "6 результатів"
+  },
+  {
+   "id": "3.sos.say-from-lesson",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sos.search-2",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sos.empty-hint",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sos.stages",
+   "ok": true,
+   "detail": "12 уроків із правилами"
+  },
+  {
+   "id": "3.sos.no-hscroll-375",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sos.esc-closes",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sos.focus-returns",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.sos.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.offline.sw-ready",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.offline.lesson-from-cache",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.offline.sos-search",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.offline.console",
    "ok": true,
    "detail": ""
   }

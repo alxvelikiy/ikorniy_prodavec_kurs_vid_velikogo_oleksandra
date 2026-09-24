@@ -18,8 +18,8 @@ export function buildMvpPages({ shellPage, renderCover, trainer }) {
     html: shellPage({
       activeSlug: 'trenazher', pageSlug: 'trenazher', pageKind: 'trenazher',
       title: 'Симулятор дзвінка', description: 'Сцени з уроків: реплика клієнта, вибір відповіді, наслідок і розбір',
-      heroHtml: cover('Симулятор дзвінка', 'Обери, що сказав би ти, — і подивись, що відбувається далі. Помилка тут нічого не коштує.'),
-      bodyHtml: `<div id="sim-app" class="mvp-app" aria-live="polite"><p class="lesson-body">Сцени завантажуються…</p></div>${noJs('Симулятор працює з увімкненим JavaScript.')}`,
+      heroHtml: cover('Симулятор дзвінка', 'Обери відповідь — і подивись, до чого вона веде. Помилка тут нічого не коштує.'),
+      bodyHtml: `<div id="sim-app" class="mvp-app"><p class="lesson-body">Сцени завантажуються…</p></div>${noJs('Симулятор працює з увімкненим JavaScript.')}`,
       prev: null, next: null,
     }),
   });
@@ -32,7 +32,7 @@ export function buildMvpPages({ shellPage, renderCover, trainer }) {
       title: 'Розмова з ІІ-клієнтом', description: 'Тренування заперечень з ІІ-клієнтом і розбір відповіді від тренера',
       heroHtml: cover('Розмова з ІІ-клієнтом', 'Клієнт висуває заперечення з таблиці компанії, ти відповідаєш — тренер розбирає за правилами уроків.'),
       bodyHtml: `<p class="mvp-pii" role="note"><b>Увага:</b> ${escapeHtml(PII_WARNING)}</p>
-<div id="coach-app" class="mvp-app" aria-live="polite"><p class="lesson-body">Тренер завантажується…</p></div>${noJs('Тренер працює з увімкненим JavaScript.')}`,
+<div id="coach-app" class="mvp-app"><p class="lesson-body">Тренер завантажується…</p></div>${noJs('Тренер працює з увімкненим JavaScript.')}`,
       prev: null, next: null, extraScripts: ['assets/coach.js'],
     }),
   });
@@ -44,7 +44,7 @@ export function buildMvpPages({ shellPage, renderCover, trainer }) {
       activeSlug: 'perevirka', pageSlug: 'perevirka', pageKind: 'perevirka',
       title: 'Перевірка готовності', description: 'Питання з усіх 12 уроків упереміш, поріг і картка слабких тем',
       heroHtml: cover('Перевірка готовності', 'Питання з усіх дванадцяти уроків упереміш. Після — картка тем, які варто повторити.'),
-      bodyHtml: `<div id="final-app" class="mvp-app" aria-live="polite"><p class="lesson-body">Перевірка завантажується…</p></div>${noJs('Перевірка працює з увімкненим JavaScript.')}`,
+      bodyHtml: `<div id="final-app" class="mvp-app"><p class="lesson-body">Перевірка завантажується…</p></div>${noJs('Перевірка працює з увімкненим JavaScript.')}`,
       prev: null, next: null,
     }),
   });
