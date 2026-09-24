@@ -1,0 +1,1504 @@
+{
+ "generated_by": "_build_manifest.mjs",
+ "generated_note": "Ф0 інвентаризація",
+ "total": 149,
+ "entries": [
+  {
+   "id": "E01",
+   "type": "эталон",
+   "path": "x/etalon_01.docx.txt",
+   "size_bytes": 5943,
+   "sha256": "e38c8293b912fe05791ae0d1ec1b7e6e07ec4bbe3973cb8c35a22a29dae7834c",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E02",
+   "type": "эталон",
+   "path": "x/etalon_02.docx.txt",
+   "size_bytes": 2276,
+   "sha256": "7ccca91a866670bcda5ae226e971efa978bcbd7dd5e4baaaa9cb22d9787935f3",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E03",
+   "type": "эталон",
+   "path": "x/etalon_03.docx.txt",
+   "size_bytes": 2787,
+   "sha256": "026367986c568deafb8d2e41dceefed6ea41b0ace4d31e22a602fa71838f92e6",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E04",
+   "type": "эталон",
+   "path": "x/etalon_04.docx.txt",
+   "size_bytes": 2143,
+   "sha256": "3bc040c50c2238c00f3e3a767fc017a299225cd48bdb32bb40d46b1804cfdb7d",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E05",
+   "type": "эталон",
+   "path": "x/etalon_05.docx.txt",
+   "size_bytes": 2585,
+   "sha256": "d35bf0f22e25fc5fb916fa6ea84e781c24aa5e957bf2e75e15b8ba60b1d2e48a",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E06",
+   "type": "эталон",
+   "path": "x/etalon_06.docx.txt",
+   "size_bytes": 2314,
+   "sha256": "39678646ed5dab21e4b144e6f4f24040f0413a852acd86fb4a287eef5a78576c",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E07",
+   "type": "эталон",
+   "path": "x/etalon_07.docx.txt",
+   "size_bytes": 2957,
+   "sha256": "78b603f5ac47b2dba0994e0865cb195886e7b8192b0e64c62b2d4a2050415abd",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E08",
+   "type": "эталон",
+   "path": "x/etalon_08.docx.txt",
+   "size_bytes": 6296,
+   "sha256": "67d10090687fcd155b51cf28e066d9aecd811d3b505b3ad24f914c4e5a89d405",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E09",
+   "type": "эталон",
+   "path": "x/etalon_09.docx.txt",
+   "size_bytes": 4378,
+   "sha256": "b233cc326ca9c42a4d1e00f1d628e04f8affc6f57dfd3be113922d11fd49a002",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E10",
+   "type": "эталон",
+   "path": "x/etalon_10.docx.txt",
+   "size_bytes": 1621,
+   "sha256": "1f16b0e6b51a42009a3015fe73f129c0323a4826e59d8c18dc8ec7f4157b12f2",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E11",
+   "type": "эталон",
+   "path": "x/etalon_11.docx.txt",
+   "size_bytes": 5488,
+   "sha256": "4ec0fb65a6fac3c7c6d35f3f5e573669c3834243e400ac8d3a6c6b9d28446aca",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E12",
+   "type": "эталон",
+   "path": "x/etalon_12.docx.txt",
+   "size_bytes": 3456,
+   "sha256": "5e0df9e0c38620307cb8c960e74d5d33ed7d8b684529e451f658cc22af9d5b34",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E13",
+   "type": "эталон",
+   "path": "x/etalon_13.docx.txt",
+   "size_bytes": 2421,
+   "sha256": "6a6d39da7a23742ac9200a2010e660a9c0feacc40baf1e404b6a670745dba092",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E14",
+   "type": "эталон",
+   "path": "x/etalon_14.docx.txt",
+   "size_bytes": 1161,
+   "sha256": "d0c3477ebf5e120d4662064b1aa57fcd3adf7df0ad361fa69d30321b9425fe05",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E15",
+   "type": "эталон",
+   "path": "x/etalon_15.docx.txt",
+   "size_bytes": 7994,
+   "sha256": "829e4a1b7152b07998a9208115d2dba8d46cea1379a5a64560172362845fa529",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E16",
+   "type": "эталон",
+   "path": "x/etalon_16.docx.txt",
+   "size_bytes": 4435,
+   "sha256": "a038e62537709492fd26ecb9825640c7874a1d53e88bcf37cb82463636b2dbec",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E17",
+   "type": "эталон",
+   "path": "x/etalon_17.docx.txt",
+   "size_bytes": 4150,
+   "sha256": "e3ff55b5026cb91d2cce92a379efc506bd79a90317c1b2d49f6752721ec68d1c",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E18",
+   "type": "эталон",
+   "path": "x/etalon_18.docx.txt",
+   "size_bytes": 6820,
+   "sha256": "9675f267be55f5dd16bc5b587a9e357f8b3404a90f4226ad36d6633d82986b78",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E19",
+   "type": "эталон",
+   "path": "x/etalon_19.docx.txt",
+   "size_bytes": 5276,
+   "sha256": "0de4fd8d7f07bae61a77795e5ae80ac613d554f359c72cd34a4c8752c918252c",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E20",
+   "type": "эталон",
+   "path": "x/etalon_20.docx.txt",
+   "size_bytes": 1720,
+   "sha256": "8e7726488f6c7b3e7ccbe9d8a9f6db5d978b8ab80c4e69cc6918a10967c23972",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E21",
+   "type": "эталон",
+   "path": "x/etalon_21.docx.txt",
+   "size_bytes": 8449,
+   "sha256": "874ca38d03526d6a419ac9e6e3a0744d0ca6bf1994126f4dd44de84fd0b4d014",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E22",
+   "type": "эталон",
+   "path": "x/etalon_22.docx.txt",
+   "size_bytes": 18267,
+   "sha256": "e5e5fd368b2cd36b38ee1a29796e8bfe0a6f26d7446ff70e7d6b06cb54a2b29b",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E23",
+   "type": "эталон",
+   "path": "x/etalon_23.docx.txt",
+   "size_bytes": 3784,
+   "sha256": "3f2b9b26d293392be9796a8ae5c0c4f92097e26caa037940ad5648470cbe9ab3",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E24",
+   "type": "эталон",
+   "path": "x/etalon_24.docx.txt",
+   "size_bytes": 16873,
+   "sha256": "e55adb85442070697c7ac3d88efeeb58eb44fccfb7f29c9f8513e29f5e0bf642",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E25",
+   "type": "эталон",
+   "path": "x/etalon_25.docx.txt",
+   "size_bytes": 3154,
+   "sha256": "10c9aa83e3d9551927ddbbffb1091093f87ce4a6b9c517b37e3d9e7264ad3af2",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "E26",
+   "type": "эталон",
+   "path": "x/etalon_26.docx.txt",
+   "size_bytes": 7347,
+   "sha256": "97f9bfcfa32b9303fbe8b741587df4e6420dd4622af23886a7250c9b6d5f9a11",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "C001",
+   "type": "звонок",
+   "path": "2025-04-29 10-20 0997980749 outgoing.txt",
+   "size_bytes": 5269,
+   "sha256": "c538faaa4d3e7e0a78b5cb8e9611f8269469e42a291d03f5c53c5de037aa5081",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C002",
+   "type": "звонок",
+   "path": "2025-06-08 14-28 0962671929 outgoing.txt",
+   "size_bytes": 5437,
+   "sha256": "62933c645ec2f4f607f5c83b1a6d5c871b373497e5a6ea1e643023fc544eab27",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": "Haiku: «відмова» з вигаданою цитатою; клієнтка обіцяє передзвонити сама"
+  },
+  {
+   "id": "C003",
+   "type": "звонок",
+   "path": "2025-07-10 16-30 0639642272 incoming.txt",
+   "size_bytes": 4420,
+   "sha256": "3c01094b68370b24b0e52848dab708f38b627e4d9411ec57302faca76a526850",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C004",
+   "type": "звонок",
+   "path": "2025-11-11 12-49 0505720479 outgoing.txt",
+   "size_bytes": 2228,
+   "sha256": "6c455f91777f1326cb627752a1f84ec834c4ac78d784e450f8a857eba88106be",
+   "dup_of": null,
+   "outcome_group": "відмова",
+   "note": null
+  },
+  {
+   "id": "C005",
+   "type": "звонок",
+   "path": "2025-11-11 12-53 0505720479 outgoing.txt",
+   "size_bytes": 3729,
+   "sha256": "97c95d11b5d9a2ee61dffc4eeb817e8e749e852adc4898d8084b74e9b98e677f",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C006",
+   "type": "звонок",
+   "path": "2026-03-24 11-04 0660444670 incoming.txt",
+   "size_bytes": 3475,
+   "sha256": "cce1b3fcaaa0095ba8d9831378075edb673c13e9a090a59f4b4fba390d70e7d3",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C007",
+   "type": "звонок",
+   "path": "2026-03-25 12-12 0979473721 incoming.txt",
+   "size_bytes": 6124,
+   "sha256": "b978f811de397548c47f362184920cfb85eb50ff750931867e6b1607859c158a",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": "Haiku: «успіх»; у записі замовлення не оформлене — менеджер передзвонить з варіантом"
+  },
+  {
+   "id": "C008",
+   "type": "звонок",
+   "path": "2026-03-25 16-44 0993882312 incoming.txt",
+   "size_bytes": 2756,
+   "sha256": "3eda2c1e05dfa3ce4784d7e9a5bdb0d5f8984cff9fd6472096d4e66958be5c68",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C009",
+   "type": "звонок",
+   "path": "2026-03-25 18-07 0976102695 outgoing.txt",
+   "size_bytes": 3674,
+   "sha256": "ee2eee7064a5d9f51cb65ca083239d8383a981843aa2ba8c5000523e739ce158",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C010",
+   "type": "звонок",
+   "path": "2026-03-26 12-21 0660895543 outgoing.txt",
+   "size_bytes": 2699,
+   "sha256": "6990be9bbe1dc3ec0d6b36db05d4dd37d7326640558dd7da30fca435a587beea",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C011",
+   "type": "звонок",
+   "path": "2026-03-26 12-33 0669098745 outgoing.txt",
+   "size_bytes": 2426,
+   "sha256": "0f279fdd0e56253d57d23de529f51268d6fcc46e6eb23bf35c3064de75afd87a",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C012",
+   "type": "звонок",
+   "path": "2026-03-26 15-58 0677339137 outgoing.txt",
+   "size_bytes": 2254,
+   "sha256": "47951b2528175f6bcb3ef6369c1fa258e26c94883ede18b779caef420c3b613e",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C013",
+   "type": "звонок",
+   "path": "2026-03-26 18-48 0983730655 outgoing.txt",
+   "size_bytes": 2865,
+   "sha256": "3625095d909fb243aec9b54bd4db5dd4ae3fe03cb1140ce79d68e0347939f6c4",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C014",
+   "type": "звонок",
+   "path": "2026-03-26 18-53 0982325210 outgoing.txt",
+   "size_bytes": 3025,
+   "sha256": "b7fe517abbac7515a65f489480ad5ab774c739d0a47d038ae0eb9b4e5daa5f3f",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": null
+  },
+  {
+   "id": "C015",
+   "type": "звонок",
+   "path": "2026-04-04 15-22 0979720098 incoming.txt",
+   "size_bytes": 2393,
+   "sha256": "21ef6c688703bcaf37ccd37e4781f2f9044d7f92c6fa3c6e1d702f40e1b29ebf",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C016",
+   "type": "звонок",
+   "path": "2026-04-23 12-06 0508381185 outgoing.txt",
+   "size_bytes": 6130,
+   "sha256": "71da08432cd0c114631b6ac1a871501346ea69cb030af5e10675f8fd9e5529c6",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C017",
+   "type": "звонок",
+   "path": "2026-04-27 12-05 0968670461 outgoing.txt",
+   "size_bytes": 4660,
+   "sha256": "206dda8c5d8eb864216cbd68ebd4d3d96cd0dcbd16ff97527c3b49e677e3f01d",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": null
+  },
+  {
+   "id": "C018",
+   "type": "звонок",
+   "path": "2026-04-27 17-35 0967102342 outgoing.txt",
+   "size_bytes": 3796,
+   "sha256": "4ca7260a8052269fd7c1fbc0f022cf8d5d50bce695cb371c1e17215673af5f55",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": null
+  },
+  {
+   "id": "C019",
+   "type": "звонок",
+   "path": "2026-04-28 14-33 0661952649 outgoing.txt",
+   "size_bytes": 3959,
+   "sha256": "c3a998f70e3a19aba7d4b4a0217a7c8fa7d68ab1f1035c6fce588f3f225d8a4d",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C020",
+   "type": "звонок",
+   "path": "2026-04-28 15-06 0984631855 incoming.txt",
+   "size_bytes": 5103,
+   "sha256": "cdd07db9e9c49079279f2eef534cb5876ce231f27ac2da81dfb6e34b3fa264d1",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": "вхідна скарга на якість, продажу в дзвінку не було (Haiku: «відмова»)"
+  },
+  {
+   "id": "C021",
+   "type": "звонок",
+   "path": "2026-04-28 15-25 0954965262 outgoing.txt",
+   "size_bytes": 2120,
+   "sha256": "161d2e527d2e1115254ede918db7824f6e04213b4d03c3e4943817ee18540e5a",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": null
+  },
+  {
+   "id": "C022",
+   "type": "звонок",
+   "path": "2026-04-29 10-06 0987393073 outgoing.txt",
+   "size_bytes": 8142,
+   "sha256": "e719dd250bf6ec571321311e4fabd6fde33a2103a7dfdc2fa2db4577a8c346ce",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C023",
+   "type": "звонок",
+   "path": "2026-04-29 14-13 0675213982 outgoing.txt",
+   "size_bytes": 4002,
+   "sha256": "53479d20eb29ac5d93ebd3cdeeb125673d801f8f847a75e3af1a965109a17978",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": null
+  },
+  {
+   "id": "C024",
+   "type": "звонок",
+   "path": "2026-04-29 14-41 0980896695 outgoing.txt",
+   "size_bytes": 5784,
+   "sha256": "253d9241cc8e8709909b7ebca1bd70b8cf4f0820d86bda521b3acc72a8d627dd",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C025",
+   "type": "звонок",
+   "path": "2026-04-29 14-57 0994757693 outgoing.txt",
+   "size_bytes": 5922,
+   "sha256": "b2dcdb70736130dacc2a473048ddcd502dd2882f976c2fb81e665f0bfd7c45f9",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C026",
+   "type": "звонок",
+   "path": "2026-04-29 18-01 0682818525 outgoing.txt",
+   "size_bytes": 8709,
+   "sha256": "6f1be2019bf1ace90f185de821368ab0e77b726f1beab106d53e9f4c7b96cb22",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C027",
+   "type": "звонок",
+   "path": "2026-04-30 10-59 0665057637 outgoing.txt",
+   "size_bytes": 3042,
+   "sha256": "420614f37b983422502585de17fbd94417ffa3c5ea47f9af9513ce66499cc365",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": "клієнтка просить каталог у месенджер; Haiku помилково виключив як «не про продаж»"
+  },
+  {
+   "id": "C028",
+   "type": "звонок",
+   "path": "2026-04-30 11-57 0967393713 outgoing.txt",
+   "size_bytes": 1973,
+   "sha256": "69aaa134076e34cffdd12cda44d9f252b74fbd1d070cdd65624b924b0647b1cf",
+   "dup_of": null,
+   "outcome_group": "відмова",
+   "note": "Haiku переплутав файли: тут відмова, не «інше»"
+  },
+  {
+   "id": "C029",
+   "type": "звонок",
+   "path": "2026-04-30 11-59 0996685038 outgoing.txt",
+   "size_bytes": 2221,
+   "sha256": "e3a4642d8eee906ff0a35d2d1346c217394657411f6bfc563043e02131d6471b",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": "Haiku переплутав файли: тут «інше», не відмова"
+  },
+  {
+   "id": "C030",
+   "type": "звонок",
+   "path": "2026-04-30 12-09 0963832891 outgoing.txt",
+   "size_bytes": 2518,
+   "sha256": "f8f46a945020ac3b9257f781f5c64d078625b85caec4d0be7b2de2dc6908fac3",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": "Haiku приписав цьому файлу цитату-відмову з файлу 12-20"
+  },
+  {
+   "id": "C031",
+   "type": "звонок",
+   "path": "2026-04-30 12-20 0961866435 outgoing.txt",
+   "size_bytes": 2338,
+   "sha256": "2ac17a36859ee9b71068aea28df45928f911c16f1ad253d070254f6db1c79d8e",
+   "dup_of": null,
+   "outcome_group": "відмова",
+   "note": "Haiku переплутав файли: тут відмова"
+  },
+  {
+   "id": "C032",
+   "type": "звонок",
+   "path": "2026-04-30 12-30 0951361026 outgoing.txt",
+   "size_bytes": 3398,
+   "sha256": "2d0edec6daae5a42a19a473c27bbcc9b72d8e97f2c0be340c77a0cb079ca7097",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": null
+  },
+  {
+   "id": "C033",
+   "type": "звонок",
+   "path": "2026-05-14 15-17 0939503141 outgoing.txt",
+   "size_bytes": 17430,
+   "sha256": "1b093a61ba949d1446a750ababeeab5515705fcd6b7fb2ab0f19c405168c1178",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C034",
+   "type": "звонок",
+   "path": "2026-05-20 12-10 0669927544 outgoing.txt",
+   "size_bytes": 12492,
+   "sha256": "866db59e62770cd00cd9330e92dbc453344c25b3ff995996ccbd0124ccd9887d",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C035",
+   "type": "звонок",
+   "path": "2026-08-25 15-31 0987667862 outgoing.txt",
+   "size_bytes": 6509,
+   "sha256": "2cffa06474cc3fba465eb49b6df60e0e9601f203c2e8cd0bd0e7994244b1ca32",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": "Haiku: «інше» — насправді замовлення оформлене"
+  },
+  {
+   "id": "C036",
+   "type": "звонок",
+   "path": "2026-08-28 16-18 0984497111 outgoing.txt",
+   "size_bytes": 6434,
+   "sha256": "f3082d861a5e215138fd8b1a0c9791a1bf2c62c5a9a41b71b76f93a2c2caf715",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C037",
+   "type": "звонок",
+   "path": "2026-09-21 11-21 0689198708 outgoing.txt",
+   "size_bytes": 3217,
+   "sha256": "d8bf7f5b668e031f8b8bffc1316e99f13b7970d4eed8e072131235261ced4123",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C038",
+   "type": "звонок",
+   "path": "2026-09-21 11-52 0667193326 outgoing.txt",
+   "size_bytes": 3278,
+   "sha256": "822e5c917e422a0d09c627aedf1bfc26a0635a1e00236fa22d5a71bf8efdf055",
+   "dup_of": null,
+   "outcome_group": "відмова",
+   "note": null
+  },
+  {
+   "id": "C039",
+   "type": "звонок",
+   "path": "2026-09-22 16-50 0679414892 outgoing.txt",
+   "size_bytes": 9521,
+   "sha256": "656cfb9aa5c7a2711790088a9712613a7660461456de57940937bbb8352e1f90",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C040",
+   "type": "звонок",
+   "path": "2026-09-23 10-03 0975557102 outgoing.txt",
+   "size_bytes": 4238,
+   "sha256": "ab00c101c57c0d11674ea3388bd66f47eeb79be5b74b4f294ffa9b6cc5956141",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C041",
+   "type": "звонок",
+   "path": "2026-09-23 10-21 0989374168 incoming.txt",
+   "size_bytes": 1960,
+   "sha256": "45c5b4cbdd195500ec3cba8997ee963b491c885983d00de05fc301a7d8f2d79e",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": null
+  },
+  {
+   "id": "C042",
+   "type": "звонок",
+   "path": "2026-09-23 10-22 0667251560 outgoing.txt",
+   "size_bytes": 4667,
+   "sha256": "bf6da33bfaedc1863ec06a356d536b2c1bafbd83531da89ba9fed6857bf86df5",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C043",
+   "type": "звонок",
+   "path": "2026-09-23 10-54 0992743806 outgoing.txt",
+   "size_bytes": 1588,
+   "sha256": "c5b2a310d84b820d258f50564da3428be5762aa8114dc58779455efdc4ac4d66",
+   "dup_of": null,
+   "outcome_group": "відмова",
+   "note": null
+  },
+  {
+   "id": "C044",
+   "type": "звонок",
+   "path": "2026-09-23 10-59 0962205618 outgoing.txt",
+   "size_bytes": 2029,
+   "sha256": "d8817423c8918b4d7875de5deac791b32a3b4dd1ae6b21961edb3917f2b89d81",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": null
+  },
+  {
+   "id": "C045",
+   "type": "звонок",
+   "path": "2026-09-23 11-02 0687553112 outgoing.txt",
+   "size_bytes": 2776,
+   "sha256": "60ebf9fa7d7c299eac8779d981f01658a0e1e67924cb0420f8e9b911dc84365b",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": null
+  },
+  {
+   "id": "C046",
+   "type": "звонок",
+   "path": "2026-09-23 11-23 0980818396 outgoing.txt",
+   "size_bytes": 5227,
+   "sha256": "a5456992666198ea6061a4b58e3d66cba73cac9f73dc38a1c6df3641df0debc5",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C047",
+   "type": "звонок",
+   "path": "2026-09-23 12-08 0973590043 outgoing.txt",
+   "size_bytes": 9502,
+   "sha256": "abfc3ba1e1e3a46ace261997a2d67f5b049d25560b0cc06091a8490a62175e71",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C048",
+   "type": "звонок",
+   "path": "2026-09-23 12-39 0976077929 incoming.txt",
+   "size_bytes": 5538,
+   "sha256": "6d21a84005824191128473717517e0abf081193b474f9e72515e3099b02c5f04",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C049",
+   "type": "звонок",
+   "path": "2026-09-23 12-54 0974343035 outgoing.txt",
+   "size_bytes": 5820,
+   "sha256": "328404f65ceaa3dda50ac111ded5213de9de5418ddad4822f8a96ec6ef6d87d7",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C050",
+   "type": "звонок",
+   "path": "2026-09-23 14-44 0990863552 outgoing.txt",
+   "size_bytes": 9543,
+   "sha256": "de33ea9054dbc5c6d808638d726722d9cb261ea67e2fedd7300cf4a886821842",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": "ПОГРАНИЧНИЙ: клієнтка просить час порадитися, менеджер «оформлює» без явної згоди; згода підтверджена лише в її повторному дзвінку 15:06 (набір навпіл із сусідкою). Sonnet: «передзвонити/подумає». Рахується як успіх з позначкою тиску."
+  },
+  {
+   "id": "C051",
+   "type": "звонок",
+   "path": "2026-09-23 15-06 0990863552 incoming.txt",
+   "size_bytes": 4478,
+   "sha256": "920d7ce68f304220cdcdd6570527c7b07eebd3f865afb4fd6833f34757606982",
+   "dup_of": null,
+   "outcome_group": "повторний контакт",
+   "note": null
+  },
+  {
+   "id": "C052",
+   "type": "звонок",
+   "path": "2026-09-23 15-12 0963019313 outgoing.txt",
+   "size_bytes": 6220,
+   "sha256": "29f6f7383e3386337895839951296e61d4010e983df76ce9eceda1a547ad2022",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": null
+  },
+  {
+   "id": "C053",
+   "type": "звонок",
+   "path": "2026-09-23 15-30 0669504985 outgoing.txt",
+   "size_bytes": 5171,
+   "sha256": "70cdf5dfd53ea5fc5fd25663e88e2234188d1e786c92920e1cefe8127cb12bec",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C054",
+   "type": "звонок",
+   "path": "2026-09-23 15-54 0677664857 outgoing.txt",
+   "size_bytes": 7835,
+   "sha256": "9d232a5f703fefe5330732a8f6d74aab99e3cd990aff86df9eb08254a85a4d36",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C055",
+   "type": "звонок",
+   "path": "5711883108.txt",
+   "size_bytes": 9689,
+   "sha256": "1a54dce8d6548d2aa74f973363764a319eaa9a3de3300358b7d3e71e90ffc1d7",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C056",
+   "type": "звонок",
+   "path": "5751965710.txt",
+   "size_bytes": 4582,
+   "sha256": "4696ab729a8d4cee235364835cfc82fa436e00219240ed96d266ee94c7d0aa3e",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": null
+  },
+  {
+   "id": "C057",
+   "type": "звонок",
+   "path": "5766825422.txt",
+   "size_bytes": 6307,
+   "sha256": "19f7f406783dd6d12eb33a9ab58249ff0d6ebbd61025e10d83e1a18ed73cf63f",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C058",
+   "type": "звонок",
+   "path": "5767704965.txt",
+   "size_bytes": 2562,
+   "sha256": "7f0ba1ff895ef8546c896583aee204a1e8dc5302c1a7cc9bdf7f1f56b6eaa89d",
+   "dup_of": null,
+   "outcome_group": "частина дзвінка",
+   "note": "запис обірваний на торзі; продовження — 5767709307 (той самий клієнт, Клевень) — рахується разом як один дзвінок"
+  },
+  {
+   "id": "C059",
+   "type": "звонок",
+   "path": "5767709307.txt",
+   "size_bytes": 928,
+   "sha256": "168e61f8bb3744ae06aaa9d95b4ad5530063361f91d2ea4e6170048b544b61e4",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": "продовження 5767704965"
+  },
+  {
+   "id": "C060",
+   "type": "звонок",
+   "path": "5778609671.txt",
+   "size_bytes": 11235,
+   "sha256": "b8216cd1b8d67ab7f75cd2f9622db46e2214bc504c76eaddb21d084cef3852f5",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C061",
+   "type": "звонок",
+   "path": "5838682622.txt",
+   "size_bytes": 8111,
+   "sha256": "d4984d1748835d65387db0fb06cb6a2f97999c9a17db1dd8d4771c66f47e8f8c",
+   "dup_of": null,
+   "outcome_group": "відмова",
+   "note": "Haiku приписав цитату з файлу 5897981618; клієнтка незадоволена минулим замовленням"
+  },
+  {
+   "id": "C062",
+   "type": "звонок",
+   "path": "5855190393.txt",
+   "size_bytes": 4311,
+   "sha256": "477563458f3356f1dca79af25b996215444cfa8bfdedb293f08b77a4643f87ac",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": "бронь з відправкою пізніше — не рахую як успіх без підтвердження"
+  },
+  {
+   "id": "C063",
+   "type": "звонок",
+   "path": "5897981618.txt",
+   "size_bytes": 7626,
+   "sha256": "ca175a41bdb7f1a9e8ac6427cda24958829c1e8e8ef1fc82c02087f1868444e5",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C064",
+   "type": "звонок",
+   "path": "5916651891.txt",
+   "size_bytes": 5028,
+   "sha256": "0b0acc81c69e2c2811a90f42f949d571cefcc8953d38c8be213699e6b72c1bb3",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C065",
+   "type": "звонок",
+   "path": "5929725316.txt",
+   "size_bytes": 6293,
+   "sha256": "d53a7276e6a150960c7f9e7158948a3e7422824747320681e595e4d83988d206",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C066",
+   "type": "звонок",
+   "path": "6122352423.txt",
+   "size_bytes": 2252,
+   "sha256": "25d22e2e87a588c700be6b317c265e9665375ef028daa8fdf4f139d438ddd0a9",
+   "dup_of": null,
+   "outcome_group": "інше",
+   "note": "Haiku: «undetermined»; за змістом — однозначно клієнтський діалог"
+  },
+  {
+   "id": "C067",
+   "type": "звонок",
+   "path": "6122380329.txt",
+   "size_bytes": 5364,
+   "sha256": "f4e351631eeccc2d0b7cde4f1beb7628814dd558177640fae4b0ecaeb99f2f15",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C068",
+   "type": "звонок",
+   "path": "6123051715.txt",
+   "size_bytes": 7645,
+   "sha256": "95c881934de2668f440bc4e0f36e29fa0059010a8ba2e243faf05227e4a7e3a2",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C069",
+   "type": "звонок",
+   "path": "6123111622.txt",
+   "size_bytes": 10512,
+   "sha256": "5e87d1f8620589caa028b330efcc60cbda51dcc81c5749ee4c80870808daeee9",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C070",
+   "type": "звонок",
+   "path": "6123166970.txt",
+   "size_bytes": 6889,
+   "sha256": "3d82d7800eafad7eb34dd2a6200c0d47b5bb68cfa877a7a3ca935f9b25e4d286",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C071",
+   "type": "звонок",
+   "path": "6124498220 (1).txt",
+   "size_bytes": 5349,
+   "sha256": "a1eb8a0b033dd6e0f142d9dbf500ddf8ac0e0986dc8b8c95bb178817ead0a392",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C072",
+   "type": "звонок",
+   "path": "6124657080.txt",
+   "size_bytes": 6758,
+   "sha256": "a126683c59ee53ccad46b34cbb37889e079fd6d1f6d5965289c7f147197caf2a",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C073",
+   "type": "звонок",
+   "path": "6124691582.txt",
+   "size_bytes": 14722,
+   "sha256": "c521d37c1f20f8166384b0c4deb36b97a84b413d8afbef476007bdf2a4305e45",
+   "dup_of": null,
+   "outcome_group": "успіх",
+   "note": null
+  },
+  {
+   "id": "C074",
+   "type": "звонок (дубль)",
+   "path": "2026-03-24 11-04 0660444670 incoming (2).txt",
+   "size_bytes": 3755,
+   "sha256": "712ea34ba1abddaaa0d4011c7e9637e776469a7554bbbd4585f82087030adc52",
+   "dup_of": "2026-03-24 11-04 0660444670 incoming.txt",
+   "outcome_group": null
+  },
+  {
+   "id": "C075",
+   "type": "звонок (дубль)",
+   "path": "2026-03-25 12-12 0979473721 incoming (2).txt",
+   "size_bytes": 6530,
+   "sha256": "c0ec6caf033a943853ffbd6cfcb4347dea92e97536509551e1bbb81881a76630",
+   "dup_of": "2026-03-25 12-12 0979473721 incoming.txt",
+   "outcome_group": null
+  },
+  {
+   "id": "C076",
+   "type": "звонок (дубль)",
+   "path": "2026-03-25 16-44 0993882312 incoming (2).txt",
+   "size_bytes": 2620,
+   "sha256": "b8429c19f8fa0586635e296472fdb497e4909855c61bf7e43cec2c211348bb4b",
+   "dup_of": "2026-03-25 16-44 0993882312 incoming.txt",
+   "outcome_group": null
+  },
+  {
+   "id": "C077",
+   "type": "звонок (дубль)",
+   "path": "2026-03-25 18-07 0976102695 outgoing (2).txt",
+   "size_bytes": 3912,
+   "sha256": "969d3e09bfa7576d761e06a04bca61afc410e09efd4c7cf9734113fb2516ab61",
+   "dup_of": "2026-03-25 18-07 0976102695 outgoing.txt",
+   "outcome_group": null
+  },
+  {
+   "id": "C078",
+   "type": "звонок (дубль)",
+   "path": "2026-03-26 12-21 0660895543 outgoing (2).txt",
+   "size_bytes": 2909,
+   "sha256": "75f7ca92f0aaa8844a93e0a1d9b77cabc168e5d15f423901c500cb22da292ce9",
+   "dup_of": "2026-03-26 12-21 0660895543 outgoing.txt",
+   "outcome_group": null
+  },
+  {
+   "id": "C079",
+   "type": "звонок (дубль)",
+   "path": "2026-03-26 12-33 0669098745 outgoing (2).txt",
+   "size_bytes": 2594,
+   "sha256": "b1bc03d91abd94f3402e0ed3141f38630a0ef23a0ce394f6333bf7cc631b0b97",
+   "dup_of": "2026-03-26 12-33 0669098745 outgoing.txt",
+   "outcome_group": null
+  },
+  {
+   "id": "C080",
+   "type": "звонок (дубль)",
+   "path": "2026-03-26 15-58 0677339137 outgoing (2).txt",
+   "size_bytes": 2506,
+   "sha256": "864bd76f16fc238a1795349e091abe4277ecd05975b860f14c6035ce804fb7dd",
+   "dup_of": "2026-03-26 15-58 0677339137 outgoing.txt",
+   "outcome_group": null
+  },
+  {
+   "id": "C081",
+   "type": "звонок (дубль)",
+   "path": "2026-03-26 18-48 0983730655 outgoing (2).txt",
+   "size_bytes": 3187,
+   "sha256": "5a6857c48ad6b5b75138b2fbb532010cf2a699665a4e52aa8328163a9e96ee51",
+   "dup_of": "2026-03-26 18-48 0983730655 outgoing.txt",
+   "outcome_group": null
+  },
+  {
+   "id": "C082",
+   "type": "звонок (дубль)",
+   "path": "2026-03-26 18-53 0982325210 outgoing (2).txt",
+   "size_bytes": 3193,
+   "sha256": "d692587a09264d1c5e10572aa6e18eeac7a49563802f38218a22609c44d82b9f",
+   "dup_of": "2026-03-26 18-53 0982325210 outgoing.txt",
+   "outcome_group": null
+  },
+  {
+   "id": "C083",
+   "type": "звонок (дубль)",
+   "path": "2026-09-21 11-21 0689198708 outgoing (2).txt",
+   "size_bytes": 3441,
+   "sha256": "019cacb55a543ac244e6ec0c98396ddbcf1776223d9738f4ef81a3add720de71",
+   "dup_of": "2026-09-21 11-21 0689198708 outgoing.txt",
+   "outcome_group": null
+  },
+  {
+   "id": "C084",
+   "type": "звонок (дубль)",
+   "path": "2026-09-21 11-52 0667193326 outgoing (2).txt",
+   "size_bytes": 3446,
+   "sha256": "7af56bb1250d2c0b93d45dc5ce51daa968b63b4d395faa8d9e0f95a181b0e8c4",
+   "dup_of": "2026-09-21 11-52 0667193326 outgoing.txt",
+   "outcome_group": null
+  },
+  {
+   "id": "C085",
+   "type": "звонок (виключено)",
+   "path": "5755675645.txt",
+   "size_bytes": 12187,
+   "sha256": "e3c27b54731f7da9da87e239403661517e6762557305b2ec34972a42d9c54ee8",
+   "dup_of": null,
+   "outcome_group": null,
+   "exclusion_reason": "дзвінок іншої компанії («Каф'єра», продаж кави), не Ікорка"
+  },
+  {
+   "id": "M01",
+   "type": "встреча",
+   "path": "x/train_01.docx.txt",
+   "variant": "ОБ-UA01",
+   "size_bytes": 38077,
+   "sha256": "273836a04c1f6cafc799952349b1403a2b4797b62130cb6cdf4883f00e8dbbb1",
+   "dup_of": null,
+   "outcome_group": null,
+   "ru_variant_path": "x/train_01.src.txt",
+   "ru_variant_id": "ОБ-RU01",
+   "ru_variant_sha256": "096e053eae6d8f4d8abc2f663437a961785b032664ebd0ddf3d2ab6f1fda7a74",
+   "ru_variant_size_bytes": 12828
+  },
+  {
+   "id": "M02",
+   "type": "встреча",
+   "path": "x/train_02.docx.txt",
+   "variant": "ОБ-UA02",
+   "size_bytes": 9231,
+   "sha256": "0e87601f338f4a330c3c8a323c43021aa573a4f63e2d1c5294dc09fa05848900",
+   "dup_of": null,
+   "outcome_group": null,
+   "ru_variant_path": "x/train_02.src.txt",
+   "ru_variant_id": "ОБ-RU02",
+   "ru_variant_sha256": "32afec580fe87d0f4790fc06548ead1dda7e9a383d0699c742d858870baf8d8f",
+   "ru_variant_size_bytes": 40471
+  },
+  {
+   "id": "M03",
+   "type": "встреча",
+   "path": "x/train_03.docx.txt",
+   "variant": "ОБ-UA03",
+   "size_bytes": 5664,
+   "sha256": "eeb5a69759c3ac6fdf7f3829012dd7f6d74097e92629483ccf284b41887f94d0",
+   "dup_of": null,
+   "outcome_group": null,
+   "ru_variant_path": "x/train_03.src.txt",
+   "ru_variant_id": "ОБ-RU03",
+   "ru_variant_sha256": "186b24be25e781c694e75fb70b0923729d90ef3e69c03e085b0651d0e437fdda",
+   "ru_variant_size_bytes": 3954
+  },
+  {
+   "id": "M04",
+   "type": "встреча",
+   "path": "x/train_04.docx.txt",
+   "variant": "ОБ-UA04",
+   "size_bytes": 39924,
+   "sha256": "340e34f6ec3afd89b6241880a1033462441e905678e9e6b4386be37865e196dc",
+   "dup_of": null,
+   "outcome_group": null,
+   "ru_variant_path": "x/train_04.src.txt",
+   "ru_variant_id": "ОБ-RU04",
+   "ru_variant_sha256": "7c1ddc0b5a771312b06ba0b24ff536fce53dead3808886d0d032022ebb0f27d3",
+   "ru_variant_size_bytes": 45295
+  },
+  {
+   "id": "M05",
+   "type": "встреча",
+   "path": "x/train_05.docx.txt",
+   "variant": "ОБ-UA05",
+   "size_bytes": 17920,
+   "sha256": "ea18792dfa4bfc16cb3c34b05449676c820a2fb94a5226edd8b2492526440746",
+   "dup_of": null,
+   "outcome_group": null,
+   "ru_variant_path": "x/train_05.src.txt",
+   "ru_variant_id": "ОБ-RU05",
+   "ru_variant_sha256": "37f25a5e4fd6d7ad9c990df4dce52136ac867a731906c381e4c833399da34935",
+   "ru_variant_size_bytes": 5396
+  },
+  {
+   "id": "M06",
+   "type": "встреча",
+   "path": "x/train_06.docx.txt",
+   "variant": "ОБ-UA06",
+   "size_bytes": 9853,
+   "sha256": "0588cdcadf5cec4c67268d917ada4a8ae64c3743e90601342d6c17f632cadaf0",
+   "dup_of": null,
+   "outcome_group": null,
+   "ru_variant_path": "x/train_06.src.txt",
+   "ru_variant_id": "ОБ-RU06",
+   "ru_variant_sha256": "8fb24439cbbc6950b27c574700e55a1a1d2802989f4fc6f29237ab6da5b226d5",
+   "ru_variant_size_bytes": 49477
+  },
+  {
+   "id": "M07",
+   "type": "встреча",
+   "path": "x/train_07.docx.txt",
+   "variant": "ОБ-UA07",
+   "size_bytes": 38341,
+   "sha256": "7ba6b621374ad31c1b68ea4ae4400f595a5abafd08d896c8e26c07a516cc27ad",
+   "dup_of": null,
+   "outcome_group": null,
+   "ru_variant_path": "x/train_07.src.txt",
+   "ru_variant_id": "ОБ-RU07",
+   "ru_variant_sha256": "af25323753e73526bfed01d6ae2b793f7aaf443373eedc1a4777415855bd1f00",
+   "ru_variant_size_bytes": 21289
+  },
+  {
+   "id": "M08",
+   "type": "встреча",
+   "path": "x/train_08.docx.txt",
+   "variant": "ОБ-UA08",
+   "size_bytes": 4847,
+   "sha256": "a43080fc28339134a1b65741ca84243054bc4248440cd4ad764858400a1e1c8a",
+   "dup_of": null,
+   "outcome_group": null,
+   "ru_variant_path": "x/train_08.src.txt",
+   "ru_variant_id": "ОБ-RU08",
+   "ru_variant_sha256": "47245449defe477c8dc8b5ed1d517107cf9b5b0773a5aa377a47042557fe08c3",
+   "ru_variant_size_bytes": 19660
+  },
+  {
+   "id": "M09",
+   "type": "встреча",
+   "path": "x/train_09.docx.txt",
+   "variant": "ОБ-UA09",
+   "size_bytes": 42726,
+   "sha256": "6fd8f3ad9d5f109f0738bb61b3cca26622344b52e22f42f07a7e5035b429d231",
+   "dup_of": null,
+   "outcome_group": null,
+   "ru_variant_path": "x/train_09.src.txt",
+   "ru_variant_id": "ОБ-RU09",
+   "ru_variant_sha256": "35f9b20f692d640a7e11713fb6564c7b3753f905b0784d949e15a9e095c7ab94",
+   "ru_variant_size_bytes": 17839
+  },
+  {
+   "id": "M10",
+   "type": "встреча",
+   "path": "x/train_10.docx.txt",
+   "variant": "ОБ-UA10",
+   "size_bytes": 65525,
+   "sha256": "565f8f647f5b37573325b6334cc934f5abce33da89a7ca2af3462435f57e1d28",
+   "dup_of": null,
+   "outcome_group": null,
+   "ru_variant_path": "x/train_10.src.txt",
+   "ru_variant_id": "ОБ-RU10",
+   "ru_variant_sha256": "1349fc277935288aadf6853193f4d913e02111c955c096fababc30cb06294360",
+   "ru_variant_size_bytes": 22269
+  },
+  {
+   "id": "M11",
+   "type": "встреча",
+   "path": "x/train_11.docx.txt",
+   "variant": "ОБ-UA11",
+   "size_bytes": 51116,
+   "sha256": "d49cdd0f8f9f574ffc2e0b4c8b7f410b9999ba0b7226fb5c1f13d3d43ed7b1a0",
+   "dup_of": null,
+   "outcome_group": null,
+   "ru_variant_path": "x/train_11.src.txt",
+   "ru_variant_id": "ОБ-RU11",
+   "ru_variant_sha256": "ab0bb2e63575a59fc96b39403428dffcd06aa24862e1de3aa1158a34f3ce6d98",
+   "ru_variant_size_bytes": 31024
+  },
+  {
+   "id": "M12",
+   "type": "встреча",
+   "path": "x/train_12.docx.txt",
+   "variant": "ОБ-UA12",
+   "size_bytes": 73571,
+   "sha256": "2fe3604d36b05f3623080936c7d0086a596eec63203e864222b7ebbae147abde",
+   "dup_of": null,
+   "outcome_group": null,
+   "ru_variant_path": "x/train_12.src.txt",
+   "ru_variant_id": "ОБ-RU12",
+   "ru_variant_sha256": "619d33e07ae5db585f7115eddcd75b1b1729bc4cd1548994c801ec74284fd0a0",
+   "ru_variant_size_bytes": 40068
+  },
+  {
+   "id": "M13",
+   "type": "встреча",
+   "path": "x/train_13.docx.txt",
+   "variant": "ОБ-UA13",
+   "size_bytes": 14135,
+   "sha256": "99307353b670d6a425e9e595b3d5888cc44d21ce9f6a392eac6480bba8c34164",
+   "dup_of": null,
+   "outcome_group": null,
+   "ru_variant_path": "x/train_13.src.txt",
+   "ru_variant_id": "ОБ-RU13",
+   "ru_variant_sha256": "104dd2ffb2aeddac273ef4f68ce4d9bbe5b370c1f426a015016a6c6cfe3aa2f5",
+   "ru_variant_size_bytes": 73527
+  },
+  {
+   "id": "M14",
+   "type": "встреча",
+   "path": "x/train_14.docx.txt",
+   "variant": "ОБ-UA14",
+   "size_bytes": 78802,
+   "sha256": "ea8e36f9e70c5001f621a7ba1f0c44c711256e123d4c73589ba59ef433622b7f",
+   "dup_of": null,
+   "outcome_group": null,
+   "ru_variant_path": null,
+   "ru_variant_id": null,
+   "ru_variant_sha256": null,
+   "ru_variant_size_bytes": null
+  },
+  {
+   "id": "M15",
+   "type": "встреча",
+   "path": "x/train_15.docx.txt",
+   "variant": "ОБ-UA15",
+   "size_bytes": 11361,
+   "sha256": "66a8448bbb55657afef3f990490fd3c93d045d58b6d6c7a4321b5474915fbaff",
+   "dup_of": null,
+   "outcome_group": null,
+   "ru_variant_path": null,
+   "ru_variant_id": null,
+   "ru_variant_sha256": null,
+   "ru_variant_size_bytes": null
+  },
+  {
+   "id": "N34",
+   "type": "встреча (Новий запис, тип A)",
+   "path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 34.txt",
+   "size_bytes": 39711,
+   "sha256": "2b3b851e03b2eb156febb488df33021622b44f3d982ad565d06df7a3a7338383",
+   "dup_of": null,
+   "outcome_group": null,
+   "note": "джерело контенту (зустріч), не дзвінок — не входить у пул 99"
+  },
+  {
+   "id": "N35",
+   "type": "встреча (Новий запис, тип A)",
+   "path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 35.txt",
+   "size_bytes": 67486,
+   "sha256": "a25567040abb659703bdea6f6e0d466424afc5a2acf8cb1b26f973aea237cd2f",
+   "dup_of": null,
+   "outcome_group": null,
+   "note": "джерело контенту (зустріч), не дзвінок — не входить у пул 99"
+  },
+  {
+   "id": "N36",
+   "type": "встреча (Новий запис, тип A)",
+   "path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 36.txt",
+   "size_bytes": 3951,
+   "sha256": "24c5141d99d261961c40982b5b40009d33ece5bb7d4071c4631da00ede00c092",
+   "dup_of": null,
+   "outcome_group": null,
+   "note": "джерело контенту (зустріч), не дзвінок — не входить у пул 99"
+  },
+  {
+   "id": "N37",
+   "type": "встреча (Новий запис, тип A)",
+   "path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 37.txt",
+   "size_bytes": 1252,
+   "sha256": "46f2d9dff991f211c98284e9e1d2b2cf29533b4d649537c51cebda87ecefd743",
+   "dup_of": null,
+   "outcome_group": null,
+   "note": "джерело контенту (зустріч), не дзвінок — не входить у пул 99"
+  },
+  {
+   "id": "N38",
+   "type": "встреча (Новий запис, тип A)",
+   "path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 38.txt",
+   "size_bytes": 4270,
+   "sha256": "2df9a49c0e88deae860bbdc33de8d4839728360a92df1034ffb639dc770ea54f",
+   "dup_of": null,
+   "outcome_group": null,
+   "note": "джерело контенту (зустріч), не дзвінок — не входить у пул 99"
+  },
+  {
+   "id": "N39",
+   "type": "встреча (Новий запис, тип A)",
+   "path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 39.txt",
+   "size_bytes": 39377,
+   "sha256": "9952bbae3ef7f11a52e69c73c7f9f7028af24bd1c92894c3dc1d38e9643ffe86",
+   "dup_of": null,
+   "outcome_group": null,
+   "note": "джерело контенту (зустріч), не дзвінок — не входить у пул 99"
+  },
+  {
+   "id": "N40",
+   "type": "встреча (Новий запис, тип A)",
+   "path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 40.txt",
+   "size_bytes": 39433,
+   "sha256": "a5f110177165cbbd3b18eeee048c4966d8eb053c49c1dce792038ade1c54f18e",
+   "dup_of": null,
+   "outcome_group": null,
+   "note": "джерело контенту (зустріч), не дзвінок — не входить у пул 99"
+  },
+  {
+   "id": "A01",
+   "type": "архів",
+   "path": "x/mentor_archive.xlsx.txt",
+   "size_bytes": 4957,
+   "sha256": "e69615fdd0d5af07a45c8c7f4ae82e64008c88f8954852a3a9b8661edb2337ec",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "A02",
+   "type": "архів",
+   "path": "x/mentor_structure.docx.txt",
+   "size_bytes": 10504,
+   "sha256": "7c8800ee4af64cebde01c98c7bc6f212775b85ed96635bd9ce5c822129a454e7",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "A03",
+   "type": "архів",
+   "path": "x/course_retail.docx.txt",
+   "size_bytes": 172859,
+   "sha256": "a3e0efce2ee0a259c4e5adf4c3d7c663329f0f940365a3951869ccb5a0b2390e",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "A04",
+   "type": "архів",
+   "path": "x/course_hot.docx.txt",
+   "size_bytes": 7013,
+   "sha256": "338216d988d43c82c846ba45a19d56f35f0a91c03084504da353920e9ce61206",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "A05",
+   "type": "архів",
+   "path": "x/skript_hb2.docx.txt",
+   "size_bytes": 8219,
+   "sha256": "849a9a05a1dbcd5bd167ef6977a0740ac28691db6da31749a264860d41b6481e",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "A06",
+   "type": "архів",
+   "path": "x/zaperechennya.docx.txt",
+   "size_bytes": 12247,
+   "sha256": "dcddcfb8144c5225dbe332471eca013a340744f726dd06c6e244dfa733a5ec63",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "A07",
+   "type": "архів",
+   "path": "x/pryama_liniya.docx.txt",
+   "size_bytes": 6644,
+   "sha256": "fbad163f4d6fe9b271cd8518cf6922221e8e4d6bac63957fc21dc4ceab2e5ac2",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "A08",
+   "type": "архів",
+   "path": "image_2025-10-16_19-43-34.png",
+   "size_bytes": 57351,
+   "sha256": "009b5fc390890293660b738ad598990356b161dfe5c9842c7ecbc04c82b83866",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "A09",
+   "type": "архів",
+   "path": "input/kurs_12_navykov_draft.md",
+   "size_bytes": 11425,
+   "sha256": "4bf969143b64bd5d4df2f1d4e7ba27370e17270b244e312547b3a5dd1ce7c97c",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "A10",
+   "type": "архів",
+   "path": "12 навичок.txt",
+   "size_bytes": 11573,
+   "sha256": "38ef40cda69304df64a591e62c78173d2740344077de9f2eae5bfc5cf1175be2",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "A11",
+   "type": "архів",
+   "path": "dogovoritsya-mozhno-obo-vsem-txt/Dogovoritsya_mozhno_obo_vsem txt.txt",
+   "size_bytes": 1129015,
+   "sha256": "e8499611805e0a7948f2bd6527b8c50f9e7c4d1bafbaf92cee75613470c76507",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "A12",
+   "type": "архів",
+   "path": "Текстовый документ.txt",
+   "size_bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "A13",
+   "type": "архів",
+   "path": "v2/audit/video_map.json",
+   "size_bytes": 4195,
+   "sha256": "30b0a258ab92fe4cbb7d9e486712917f16cafd712afe8c4b5d45d08368f4055e",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "A14",
+   "type": "архів",
+   "path": "v2/audit/chzv.md",
+   "size_bytes": 20395,
+   "sha256": "08486798bfdfffb159a24a03bee2d935cef33fd2b2e74ccd5d0d0e7582bca095",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "A15",
+   "type": "архів",
+   "path": "v2/audit/call_library.json",
+   "size_bytes": 3,
+   "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+   "dup_of": null,
+   "outcome_group": null
+  },
+  {
+   "id": "A16",
+   "type": "архів",
+   "path": "v2/audio-raw/ПРОЧИТАЙ.txt",
+   "size_bytes": 1432,
+   "sha256": "cdd554a508bba141878e2cf4fe01f3702a6d91a1bc5ae7039c2950c3ad0ad36b",
+   "dup_of": null,
+   "outcome_group": null
+  }
+ ]
+}
