@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ikorka Shop — макети стилю (6 шт.)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#2150F0;
+    --blue-deep:#15266E;
+    --lime:#B9F23D;
+    --lime-deep:#7CB816;
+    --coral:#FF6B4A;
+    --yellow:#FFC93C;
+    --ink:#14161A;
+    --paper:#FFFFFF;
+    --bg:#F1F5FA;
+    --grey:#5B6478;
+    --grey-line:#D7E0EC;
+    --card-radius:16px;
+    --shadow:0 14px 34px rgba(20,34,79,0.10);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:#E7ECF5;
+    font-family:'Manrope',sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    padding:0 0 80px;
+  }
+  h1,h2,h3,h4{font-family:'Unbounded',sans-serif;margin:0;}
+  p{margin:0;}
+  .intro{
+    max-width:900px;
+    margin:0 auto;
+    padding:28px 16px 8px;
+  }
+  .intro h1{font-size:20px;color:var(--blue-deep);}
+  .intro p{
+    font-family:'Manrope',sans-serif;
+    color:var(--grey);
+    font-size:14px;
+    margin-top:8px;
+    line-height:1.5;
+  }
+  .preview-block{
+    max-width:900px;
+    margin:0 auto;
+    padding:26px 16px 6px;
+  }
+  .preview-label{
+    font-family:'Manrope',sans-serif;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:.02em;
+    color:#8A93A8;
+    text-transform:none;
+    margin-bottom:10px;
+    padding-left:2px;
+  }
+  .mockup{
+    background:var(--paper);
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    border:1px solid #E2E8F3;
+  }
+
+  /* ============ MOCKUP 1 — COVER ============ */
+  .cover{
+    background:linear-gradient(180deg,#FFFFFF 0%, #F4F7FC 100%);
+    padding:40px 32px 0;
+    display:flex;
+    flex-direction:column;
+    min-height:480px;
+  }
+  .cover-eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    align-self:flex-start;
+    background:var(--bg);
+    border:1.5px solid var(--grey-line);
+    color:var(--blue-deep);
+    font-weight:700;
+    font-size:13px;
+    padding:6px 14px;
+    border-radius:100px;
+  }
+  .cover-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--lime-deep);}
+  .cover-title{
+    font-size:clamp(34px,7vw,56px);
+    line-height:1.04;
+    color:var(--ink);
+    margin-top:22px;
+    max-width:12ch;
+  }
+  .cover-title em{
+    font-style:normal;
+    background:linear-gradient(180deg,transparent 62%, var(--lime) 62%);
+  }
+  .cover-sub{
+    font-size:clamp(15px,2.6vw,18px);
+    color:var(--grey);
+    margin-top:16px;
+    max-width:34ch;
+    font-weight:600;
+    line-height:1.45;
+  }
+  .cover-art{
+    flex:1;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    margin-top:14px;
+  }
+  .cover-art svg{width:min(320px,80%);height:auto;}
+  .cover-plaque{
+    background:var(--blue);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:16px 32px;
+    font-weight:700;
+    font-size:14px;
+  }
+  .cover-plaque .right{
+    color:var(--lime);
+    font-family:'Unbounded',sans-serif;
+    font-size:13px;
+  }
+
+  /* ---- День cover (модифікатор, друга домінанта кольору) ---- */
+  .cover.day-cover{
+    background:linear-gradient(180deg,#F4FAE4 0%, #E4F4B9 100%);
+  }
+  .day-cover .cover-eyebrow{
+    background:#FFFFFF;
+    border-color:#CFE6A0;
+    color:var(--blue-deep);
+  }
+  .day-cover .cover-eyebrow .dot{background:var(--blue);}
+  .day-cover .cover-title em{
+    background:linear-gradient(180deg,transparent 62%, var(--blue) 62%);
+    color:var(--ink);
+  }
+  .day-cover .cover-plaque{
+    background:var(--ink);
+  }
+  .day-cover .cover-plaque .right{
+    color:var(--lime);
+  }
+
+  /* ============ MOCKUP 2 — LESSON + DATA ============ */
+  .lesson{padding:34px 28px 38px;}
+  .lesson .kicker{
+    color:var(--blue);
+    font-weight:800;
+    font-size:13px;
+    letter-spacing:.02em;
+  }
+  .lesson h2{
+    font-size:clamp(22px,4vw,28px);
+    color:var(--ink);
+    margin-top:8px;
+  }
+  .lesson-body{
+    font-size:15.5px;
+    line-height:1.7;
+    color:#2B3040;
+    margin-top:16px;
+    max-width:70ch;
+  }
+  .lesson-body + .lesson-body{margin-top:12px;}
+
+  .stat-panel{
+    margin:26px 0;
+    background:var(--bg);
+    border-radius:var(--card-radius);
+    padding:22px;
+    border:1px solid var(--grey-line);
+  }
+  .stat-panel-head{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:16px;
+  }
+  .stat-panel-head .chip{
+    background:var(--blue);
+    color:#fff;
+    font-family:'Unbounded',sans-serif;
+    font-size:11px;
+    padding:5px 10px;
+    border-radius:100px;
+  }
+  .stat-panel-head span.label{
+    font-weight:700;
+    font-size:13.5px;
+    color:var(--blue-deep);
+  }
+  .stat-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+  }
+  .stat-card{
+    background:var(--paper);
+    border-radius:14px;
+    padding:16px 14px 14px;
+    box-shadow:0 6px 16px rgba(20,34,79,0.06);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:10px;
+  }
+  .stat-card .ring-wrap{position:relative;width:84px;height:84px;}
+  .stat-card svg{width:84px;height:84px;}
+  .stat-card .big-num{
+    font-family:'Unbounded',sans-serif;
+    font-size:20px;
+    color:var(--blue-deep);
+  }
+  .stat-card.alt .big-num{color:var(--lime-deep);}
+  .stat-card.alt2 .big-num{color:#C77B00;}
+  .stat-card .num-caption{
+    font-size:12.5px;
+    line-height:1.4;
+    color:#3B4256;
+    font-weight:600;
+  }
+  .stat-source{
+    margin-top:14px;
+    font-size:11.5px;
+    color:#8992A6;
+    text-align:right;
+  }
+
+  /* ============ MOCKUP 3 — CARDS ============ */
+  .cardsec{padding:30px 24px 34px;background:var(--bg);}
+  .cardsec-head{max-width:640px;margin:0 auto 20px;text-align:center;}
+  .cardsec-head h2{font-size:clamp(20px,4vw,26px);color:var(--ink);}
+  .cardsec-head p{color:var(--grey);font-size:14px;margin-top:8px;font-weight:600;}
+  .cards-row{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    max-width:900px;
+    margin:0 auto;
+  }
+  .obj-card{
+    background:var(--paper);
+    border:1.5px solid #E3E9F3;
+    border-radius:var(--card-radius);
+    padding:20px 18px 18px;
+    box-shadow:var(--shadow);
+  }
+  .obj-card svg{width:44px;height:44px;}
+  .obj-card h3{
+    font-size:17px;
+    margin-top:14px;
+    color:var(--ink);
+  }
+  .obj-card .sub{
+    font-size:12.5px;
+    color:var(--blue);
+    font-weight:700;
+    margin-top:4px;
+  }
+  .obj-card hr{
+    border:none;
+    border-top:1px solid #E7ECF5;
+    margin:14px 0;
+  }
+  .obj-bit{display:flex;gap:8px;margin-top:10px;}
+  .obj-bit:first-of-type{margin-top:0;}
+  .obj-bit .ico{
+    width:18px;height:18px;flex:none;margin-top:2px;
+    border-radius:5px;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--bg);
+  }
+  .obj-bit .ico svg{width:11px;height:11px;}
+  .obj-bit p{font-size:13px;line-height:1.5;color:#3B4256;}
+  .obj-bit b{color:var(--ink);}
+
+  /* ============ MOCKUP 4 — FLOW ============ */
+  .flowsec{padding:32px 22px 38px;}
+  .flowsec-head{text-align:center;margin-bottom:26px;}
+  .flowsec-head h2{font-size:clamp(20px,4vw,26px);}
+  .flowsec-head p{color:var(--grey);font-size:14px;margin-top:8px;font-weight:600;}
+  .flow{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    max-width:420px;
+    margin:0 auto;
+  }
+  .flow-step{
+    width:100%;
+    background:var(--paper);
+    border:1.5px solid #E3E9F3;
+    border-radius:14px;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    box-shadow:0 6px 14px rgba(20,34,79,0.06);
+  }
+  .flow-step .num{
+    width:26px;height:26px;flex:none;
+    border-radius:50%;
+    background:var(--blue);
+    color:#fff;
+    font-family:'Unbounded',sans-serif;
+    font-size:11px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .flow-step .txt{font-weight:700;font-size:14.5px;color:var(--ink);}
+  .flow-step.optional{
+    border-style:dashed;
+    border-color:#B7C3DA;
+    background:#FBFCFE;
+  }
+  .flow-step.optional .num{background:#B7C3DA;color:#fff;}
+  .flow-tag{
+    font-size:11px;
+    font-weight:700;
+    color:var(--grey);
+    background:var(--bg);
+    padding:2px 9px;
+    border-radius:100px;
+    margin-left:auto;
+    white-space:nowrap;
+  }
+  .flow-arrow{height:26px;display:flex;align-items:center;justify-content:center;}
+  .flow-arrow svg{width:14px;height:26px;}
+  .flow-arrow.dashed svg{opacity:.55;}
+
+  .loop-zone{
+    width:100%;
+    border:1.5px dashed var(--blue);
+    border-radius:16px;
+    padding:14px;
+    background:#EEF2FE;
+    position:relative;
+  }
+  .loop-zone .loop-label{
+    position:absolute;
+    top:-12px;
+    left:14px;
+    background:var(--blue);
+    color:#fff;
+    font-size:10.5px;
+    font-weight:800;
+    padding:3px 10px;
+    border-radius:100px;
+    display:flex;
+    align-items:center;
+    gap:5px;
+  }
+  .loop-zone .loop-label svg{width:11px;height:11px;}
+  .loop-inner{display:flex;flex-direction:column;gap:10px;margin-top:6px;}
+  .loop-connector{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    color:var(--blue-deep);
+    font-size:11px;
+    font-weight:700;
+  }
+  .loop-connector svg{width:16px;height:16px;}
+
+  .branch-step{
+    width:100%;
+    margin-top:4px;
+  }
+  .branch-note{
+    text-align:center;
+    font-size:11.5px;
+    color:var(--grey);
+    font-weight:700;
+    margin:2px 0 8px;
+  }
+
+  /* ============ MOCKUP 5 — FAQ MEME COVER ============ */
+  .faqcover{
+    background:var(--coral);
+    padding:44px 26px;
+    position:relative;
+    overflow:hidden;
+    min-height:420px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+  .faqcover .badge{
+    align-self:flex-start;
+    background:var(--ink);
+    color:#fff;
+    font-family:'Unbounded',sans-serif;
+    font-size:12px;
+    padding:7px 16px;
+    border-radius:100px;
+  }
+  .faqcover h2{
+    color:#fff;
+    font-size:clamp(28px,7vw,46px);
+    line-height:1.24;
+    margin-top:20px;
+    max-width:13ch;
+    text-shadow:0 3px 0 rgba(0,0,0,0.12);
+  }
+  .faqcover h2 .hl{
+    background:var(--ink);
+    color:var(--yellow);
+    padding:2px 8px;
+    margin:0 2px;
+    display:inline-block;
+    transform:rotate(-1.5deg);
+    border-radius:6px;
+  }
+  .faqcover-art{
+    display:flex;
+    justify-content:center;
+    margin:14px 0 6px;
+  }
+  .faqcover-art svg{width:min(230px,72%);height:auto;}
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:640px){
+    .stat-grid{grid-template-columns:1fr;}
+    .cards-row{grid-template-columns:1fr;}
+    .cover{padding:32px 20px 0;}
+    .cover-plaque{padding:14px 20px;flex-direction:column;align-items:flex-start;gap:4px;}
+    .lesson{padding:26px 18px 30px;}
+    .cardsec{padding:26px 16px 28px;}
+    .flowsec{padding:26px 14px 30px;}
+    .faqcover{padding:34px 18px;}
+  }
+
+  footer.end{
+    max-width:900px;margin:30px auto 0;padding:0 16px;
+    color:#8A93A8;font-size:12px;text-align:center;
+  }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <h1>Ikorka Shop · текстовий курс — 6 макетів на затвердження стилю</h1>
+  <p>Ниже — шесть самостоятельных макетов для утверждения визуального стиля курса (курс текстовый, 5 дней). Весь текст на макетах — украинский (это контент для менеджеров); подписи над макетами — служебные, на русском, только для заказчика. Остальной курс не оформляется, пока стиль не согласован.</p>
+</div>
+
+<!-- ======================================================= -->
+<!-- MOCKUP 1 — COVER -->
+<!-- ======================================================= -->
+<div class="preview-block">
+  <p class="preview-label">Макет 1 — обкладинка уроку</p>
+  <div class="mockup">
+    <div class="cover">
+      <span class="cover-eyebrow"><span class="dot"></span>Урок 1 · День 1 з 5</span>
+      <h1 class="cover-title">Урок 1.<br><em>Вступ</em></h1>
+      <p class="cover-sub">Перші секунди вирішують, чи дослухає клієнт.</p>
+      <div class="cover-art">
+        <svg viewBox="0 0 320 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- велика картка-сидіння з графіком -->
+          <rect x="60" y="192" width="200" height="78" rx="20" fill="#FFFFFF" stroke="#14161A" stroke-width="3"/>
+          <path d="M76 240 L94 232 L112 222 L130 208" fill="none" stroke="#2150F0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M122 206 L130 208 L129 216" fill="none" stroke="#2150F0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="70" y="244" width="12" height="14" rx="3" fill="#B9F23D"/>
+          <rect x="88" y="236" width="12" height="22" rx="3" fill="#2150F0"/>
+          <rect x="106" y="226" width="12" height="32" rx="3" fill="#B9F23D"/>
+          <rect x="124" y="212" width="12" height="46" rx="3" fill="#2150F0"/>
+
+          <!-- ноги -->
+          <rect x="141" y="190" width="20" height="46" rx="10" fill="#15266E" stroke="#14161A" stroke-width="3" transform="rotate(-5 151 190)"/>
+          <rect x="179" y="190" width="20" height="46" rx="10" fill="#15266E" stroke="#14161A" stroke-width="3" transform="rotate(7 189 190)"/>
+          <ellipse cx="146" cy="234" rx="12" ry="6" fill="#14161A"/>
+          <ellipse cx="196" cy="234" rx="12" ry="6" fill="#14161A"/>
+
+          <!-- торс / піджак -->
+          <path d="M130 110 Q160 99 190 110 L184 152 Q182 178 178 192 L142 192 Q138 178 136 152 Z"
+                fill="#2150F0" stroke="#14161A" stroke-width="3" stroke-linejoin="round"/>
+          <!-- комір -->
+          <path d="M148 112 L160 121 L152 130 Z" fill="#FFFFFF" stroke="#14161A" stroke-width="2"/>
+          <path d="M172 112 L160 121 L168 130 Z" fill="#FFFFFF" stroke="#14161A" stroke-width="2"/>
+          <!-- краватка -->
+          <path d="M153 113 L167 113 L160 122 Z" fill="#7CB816"/>
+          <path d="M156 122 L164 122 L162 146 L160 152 L158 146 Z" fill="#B9F23D" stroke="#14161A" stroke-width="1.6" stroke-linejoin="round"/>
+
+          <!-- рукави і руки -->
+          <path d="M132 120 C110 134 103 159 111 182 L128 186 C123 165 128 141 146 124 Z" fill="#2150F0" stroke="#14161A" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M188 120 C210 134 217 159 209 182 L192 186 C197 165 192 141 174 124 Z" fill="#2150F0" stroke="#14161A" stroke-width="3" stroke-linejoin="round"/>
+          <circle cx="114" cy="184" r="10" fill="#F2C9A0" stroke="#14161A" stroke-width="2.5"/>
+          <circle cx="206" cy="184" r="10" fill="#F2C9A0" stroke="#14161A" stroke-width="2.5"/>
+
+          <!-- шия і голова -->
+          <rect x="150" y="94" width="20" height="22" fill="#F2C9A0"/>
+          <circle cx="160" cy="75" r="30" fill="#F2C9A0" stroke="#14161A" stroke-width="3"/>
+          <path d="M131 62 C133 40 187 40 189 62 C189 50 181 43 160 43 C139 43 131 50 131 62 Z" fill="#2B2320" stroke="#14161A" stroke-width="2" stroke-linejoin="round"/>
+
+          <!-- гарнітура -->
+          <path d="M132 66 C132 32 188 32 188 66" stroke="#14161A" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <circle cx="188" cy="70" r="9" fill="#14161A"/>
+          <path d="M188 79 C197 86 201 95 198 101" stroke="#14161A" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <circle cx="198" cy="102" r="4" fill="#14161A"/>
+
+          <!-- окуляри і обличчя -->
+          <rect x="141" y="69" width="17" height="13" rx="6" fill="none" stroke="#14161A" stroke-width="2.2"/>
+          <rect x="162" y="69" width="17" height="13" rx="6" fill="none" stroke="#14161A" stroke-width="2.2"/>
+          <path d="M158 75 L162 75" stroke="#14161A" stroke-width="2.2"/>
+          <circle cx="149.5" cy="75.5" r="2.2" fill="#14161A"/>
+          <circle cx="170.5" cy="75.5" r="2.2" fill="#14161A"/>
+          <path d="M150 88 Q160 94 170 88" stroke="#14161A" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+
+          <!-- плаваючі іконки навколо -->
+          <g>
+            <rect x="10" y="18" width="44" height="44" rx="13" fill="#FFFFFF" stroke="#14161A" stroke-width="2.4"/>
+            <path d="M23 30c-2 2-2 5 1 8l8 8c3 3 6 3 8 1l1-1c1-1 1-3 0-4l-3-3c-1-1-2-1-3 0l-1 1c-2-2-4-4-6-6l1-1c1-1 1-2 0-3l-3-3c-1-1-2-1-3 0z"
+                  fill="none" stroke="#2150F0" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+          </g>
+          <g>
+            <rect x="262" y="14" width="44" height="44" rx="13" fill="#FFFFFF" stroke="#14161A" stroke-width="2.4"/>
+            <rect x="276" y="30" width="5" height="14" rx="2.5" fill="#2150F0"/>
+            <rect x="284" y="23" width="5" height="28" rx="2.5" fill="#7CB816"/>
+            <rect x="292" y="33" width="5" height="8" rx="2.5" fill="#2150F0"/>
+          </g>
+          <g>
+            <rect x="6" y="150" width="52" height="44" rx="13" fill="#FFFFFF" stroke="#14161A" stroke-width="2.4"/>
+            <rect x="17" y="163" width="30" height="20" rx="4" fill="none" stroke="#2150F0" stroke-width="2.2"/>
+            <circle cx="25" cy="173" r="4" fill="#2150F0"/>
+            <rect x="32" y="169" width="11" height="2.4" rx="1.2" fill="#2150F0"/>
+            <rect x="32" y="175" width="8" height="2.4" rx="1.2" fill="#7CB816"/>
+          </g>
+        </svg>
+      </div>
+      <div class="cover-plaque">
+        <span>Курс новачка · Ikorka Shop</span>
+        <span class="right">День 1 з 5</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- MOCKUP 2 — DATA INSIDE LESSON TEXT -->
+<!-- ======================================================= -->
+<div class="preview-block">
+  <p class="preview-label">Макет 2 — дата-інфографіка всередині тексту уроку</p>
+  <div class="mockup">
+    <div class="lesson">
+      <span class="kicker">Що це</span>
+      <h2>Вступ — перша фраза дзвінка</h2>
+
+      <p class="lesson-body">Вступ — це перші секунди розмови, від «алло» клієнта до моменту, коли ти назвав привід дзвінка. За цей час клієнт ще не розбирає аргументів. Він вирішує одне: це свій чи чергова реклама. Від відповіді залежить, чи дослухає він тебе, чи скаже «нецікаво» і покладе слухавку.</p>
+
+      <p class="lesson-body">Ми не дзвонимо на випадкові номери. Ми дзвонимо людині, яка вже купувала в Ikorka, і в нас є те, чого немає в рекламному обдзвоні: її ім'я та історія замовлень. Вступ — це місце, де ти показуєш це в першій же фразі, ще до того, як назвеш причину дзвінка.</p>
+
+      <div class="stat-panel">
+        <div class="stat-panel-head">
+          <span class="chip">Дані</span>
+          <span class="label">Як звучить вступ у найкращих дзвінках відділу</span>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="ring-wrap">
+              <svg data-ring data-total="26" data-active="22" data-color="#2150F0" viewBox="0 0 120 120"></svg>
+            </div>
+            <div class="big-num">22 з 26</div>
+            <div class="num-caption">ім'я клієнта звучить раніше за назву компанії</div>
+          </div>
+          <div class="stat-card alt">
+            <div class="ring-wrap">
+              <svg data-ring data-total="26" data-active="13" data-color="#7CB816" viewBox="0 0 120 120"></svg>
+            </div>
+            <div class="big-num">13 з 26</div>
+            <div class="num-caption">привʼязка до минулої покупки вже в першій фразі</div>
+          </div>
+          <div class="stat-card alt2">
+            <div class="ring-wrap">
+              <svg data-ring data-total="26" data-active="8" data-color="#C77B00" viewBox="0 0 120 120"></svg>
+            </div>
+            <div class="big-num">8 з 26</div>
+            <div class="num-caption">роль, що підвищує статус: «ваш персональний менеджер»</div>
+          </div>
+        </div>
+        <p class="stat-source">Джерело: записи найкращих дзвінків відділу (26 дзвінків)</p>
+      </div>
+
+      <p class="lesson-body">При нормі 75 дзвінків на день вступ ти вимовляєш 75 разів. Це єдина частина розмови, яку можна довести до автоматизму вже за перший день: чотири елементи в одній фразі — ім'я клієнта, твоє ім'я, компанія, привʼязка до історії.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- MOCKUP 3 — CARDS: 3 TYPES OF OBJECTIONS -->
+<!-- ======================================================= -->
+<div class="preview-block">
+  <p class="preview-label">Макет 3 — карткова інфографіка «Три види заперечень»</p>
+  <div class="mockup">
+    <div class="cardsec">
+      <div class="cardsec-head">
+        <h2>Три види заперечень</h2>
+        <p>Спосіб відповіді залежить від типу, а не від слів клієнта</p>
+      </div>
+      <div class="cards-row">
+
+        <div class="obj-card">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 5 L40 11 V22 C40 32 33 39 24 43 C15 39 8 32 8 22 V11 Z" stroke="#2150F0" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M17 24 L22 29 L32 18" stroke="#2150F0" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3>Істинні</h3>
+          <div class="sub">аргументована відповідь</div>
+          <hr>
+          <div class="obj-bit">
+            <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#2150F0" stroke-width="2.4"/></svg></span>
+            <p><b>Приклади:</b> дорого, немає грошей, є ікра вдома, сумнів у якості.</p>
+          </div>
+          <div class="obj-bit">
+            <span class="ico"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="#2150F0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <p><b>Що робимо:</b> даємо 2–3 аргументи по суті й повертаємось до заклику до дії.</p>
+          </div>
+        </div>
+
+        <div class="obj-card">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="26" r="15" stroke="#2150F0" stroke-width="3"/>
+            <path d="M24 17V26L30 30" stroke="#2150F0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M17 6h14" stroke="#2150F0" stroke-width="3" stroke-linecap="round"/>
+            <path d="M24 6V10" stroke="#2150F0" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          <h3>Ситуативні</h3>
+          <div class="sub">коротка відповідь → одразу заклик до дії</div>
+          <hr>
+          <div class="obj-bit">
+            <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#2150F0" stroke-width="2.4"/></svg></span>
+            <p><b>Приклади:</b> Укрпошта, спека, «чому така низька ціна».</p>
+          </div>
+          <div class="obj-bit">
+            <span class="ico"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="#2150F0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <p><b>Що робимо:</b> одна-дві фрази по суті — і одразу «оформлюємо?».</p>
+          </div>
+        </div>
+
+        <div class="obj-card">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 20c4-6 10-9 18-9s14 3 18 9c-4 6-10 9-18 9S10 26 6 20Z" stroke="#2150F0" stroke-width="3" stroke-linejoin="round"/>
+            <circle cx="24" cy="20" r="5" stroke="#2150F0" stroke-width="3"/>
+            <path d="M12 34c3-2 7-3 12-3s9 1 12 3" stroke="#2150F0" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 6"/>
+          </svg>
+          <h3>Хибні</h3>
+          <div class="sub">виводимо на справжню причину</div>
+          <hr>
+          <div class="obj-bit">
+            <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#2150F0" stroke-width="2.4"/></svg></span>
+            <p><b>Приклади:</b> «не на часі», «я подумаю», «треба порадитись».</p>
+          </div>
+          <div class="obj-bit">
+            <span class="ico"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="#2150F0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <p><b>Що робимо:</b> зазвичай це означає, що ще є ікра вдома або фінансове питання — уточнюємо прямим питанням.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- MOCKUP 4 — FLOWCHART -->
+<!-- ======================================================= -->
+<div class="preview-block">
+  <p class="preview-label">Макет 4 — блок-схема «Шлях дзвінка»</p>
+  <div class="mockup">
+    <div class="flowsec">
+      <div class="flowsec-head">
+        <h2>Шлях дзвінка</h2>
+        <p>Від вступу до прощання — з петлею на запереченнях</p>
+      </div>
+
+      <div class="flow">
+
+        <div class="flow-step"><span class="num">1</span><span class="txt">Вступ</span></div>
+        <div class="flow-arrow"><svg viewBox="0 0 14 26"><path d="M7 0v20M2 16l5 8 5-8" fill="none" stroke="#B7C3DA" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+        <div class="flow-step"><span class="num">2</span><span class="txt">Гачок</span></div>
+        <div class="flow-arrow dashed"><svg viewBox="0 0 14 26"><path d="M7 0v20M2 16l5 8 5-8" fill="none" stroke="#B7C3DA" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 4"/></svg></div>
+
+        <div class="flow-step optional"><span class="num">3</span><span class="txt">Привʼязка до історії</span><span class="flow-tag">можна пропустити</span></div>
+        <div class="flow-arrow"><svg viewBox="0 0 14 26"><path d="M7 0v20M2 16l5 8 5-8" fill="none" stroke="#B7C3DA" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+        <div class="flow-step"><span class="num">4</span><span class="txt">Презентація сету</span></div>
+        <div class="flow-arrow"><svg viewBox="0 0 14 26"><path d="M7 0v20M2 16l5 8 5-8" fill="none" stroke="#B7C3DA" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+        <div class="flow-step"><span class="num">5</span><span class="txt">Ціна й умови</span></div>
+        <div class="flow-arrow"><svg viewBox="0 0 14 26"><path d="M7 0v20M2 16l5 8 5-8" fill="none" stroke="#B7C3DA" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+        <div class="loop-zone">
+          <span class="loop-label">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 0 1 14-5.3M20 5v5h-5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            петля — до 2–3 разів
+          </span>
+          <div class="loop-inner">
+            <div class="flow-step"><span class="num">6</span><span class="txt">Заклик до дії</span></div>
+            <div class="loop-connector">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l-3 3 3 3M18 9l3 3-3 3M3 12h18" stroke="#15266E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              після кожної відповіді — знову заклик
+            </div>
+            <div class="flow-step"><span class="num">7</span><span class="txt">Заперечення</span></div>
+          </div>
+        </div>
+
+        <div class="flow-arrow dashed"><svg viewBox="0 0 14 26"><path d="M7 0v20M2 16l5 8 5-8" fill="none" stroke="#B7C3DA" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 4"/></svg></div>
+        <div class="branch-note">тільки після повторного «дорого»</div>
+        <div class="flow-step optional branch-step"><span class="num">8</span><span class="txt">Альтернатива і спуск</span></div>
+        <div class="flow-arrow"><svg viewBox="0 0 14 26"><path d="M7 0v20M2 16l5 8 5-8" fill="none" stroke="#B7C3DA" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+        <div class="flow-step"><span class="num">9</span><span class="txt">Допродаж</span></div>
+        <div class="flow-arrow"><svg viewBox="0 0 14 26"><path d="M7 0v20M2 16l5 8 5-8" fill="none" stroke="#B7C3DA" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+        <div class="flow-step"><span class="num">10</span><span class="txt">Доставка й оплата</span></div>
+        <div class="flow-arrow"><svg viewBox="0 0 14 26"><path d="M7 0v20M2 16l5 8 5-8" fill="none" stroke="#B7C3DA" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+        <div class="flow-step"><span class="num">11</span><span class="txt">Підсумок і прощання</span></div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- MOCKUP 5 — FAQ MEME COVER -->
+<!-- ======================================================= -->
+<div class="preview-block">
+  <p class="preview-label">Макет 5 — обкладинка розділу ЧЗВ («мемна»)</p>
+  <div class="mockup">
+    <div class="faqcover">
+      <span class="badge">ЧЗВ</span>
+      <h2>Клієнт утретє каже <span class="hl">«не треба»</span>.<br>Що тепер?</h2>
+      <div class="faqcover-art">
+        <svg viewBox="0 0 260 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="130" cy="238" rx="82" ry="9" fill="rgba(0,0,0,0.14)"/>
+
+          <!-- ноги -->
+          <rect x="103" y="188" width="18" height="42" rx="9" fill="#15266E" stroke="#14161A" stroke-width="3"/>
+          <rect x="139" y="188" width="18" height="42" rx="9" fill="#15266E" stroke="#14161A" stroke-width="3"/>
+          <ellipse cx="112" cy="230" rx="11" ry="6" fill="#14161A"/>
+          <ellipse cx="148" cy="230" rx="11" ry="6" fill="#14161A"/>
+
+          <!-- торс / піджак -->
+          <path d="M92 112 Q130 99 168 112 L162 152 Q160 178 157 190 L103 190 Q100 178 98 152 Z"
+                fill="#2150F0" stroke="#14161A" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M112 114 L130 124 L120 134 Z" fill="#FFFFFF" stroke="#14161A" stroke-width="2"/>
+          <path d="M148 114 L130 124 L140 134 Z" fill="#FFFFFF" stroke="#14161A" stroke-width="2"/>
+          <path d="M124 115 L136 115 L130 125 Z" fill="#7CB816"/>
+          <path d="M126 125 L134 125 L132 150 L130 156 L128 150 Z" fill="#B9F23D" stroke="#14161A" stroke-width="1.6" stroke-linejoin="round"/>
+
+          <!-- руки здійняті вгору (розгублений жест) -->
+          <path d="M94 120 C72 112 56 92 60 72 L77 79 C74 94 82 106 101 114 Z" fill="#2150F0" stroke="#14161A" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M166 120 C188 112 204 92 200 72 L183 79 C186 94 178 106 159 114 Z" fill="#2150F0" stroke="#14161A" stroke-width="3" stroke-linejoin="round"/>
+          <circle cx="61" cy="66" r="11" fill="#F2C9A0" stroke="#14161A" stroke-width="2.5"/>
+          <circle cx="199" cy="66" r="11" fill="#F2C9A0" stroke="#14161A" stroke-width="2.5"/>
+          <path d="M54 60 L58 66 M64 58 L62 66" stroke="#14161A" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M196 58 L198 66 M206 60 L202 66" stroke="#14161A" stroke-width="1.8" stroke-linecap="round"/>
+
+          <!-- шия і голова -->
+          <rect x="120" y="96" width="20" height="22" fill="#F2C9A0"/>
+          <circle cx="130" cy="76" r="31" fill="#F2C9A0" stroke="#14161A" stroke-width="3"/>
+          <path d="M100 62 C102 39 158 39 160 62 C160 49 152 42 130 42 C109 42 101 49 100 62 Z" fill="#2B2320" stroke="#14161A" stroke-width="2" stroke-linejoin="round"/>
+
+          <!-- гарнітура -->
+          <path d="M102 67 C102 32 158 32 158 67" stroke="#14161A" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <circle cx="158" cy="71" r="9" fill="#14161A"/>
+          <path d="M158 80 C167 87 171 96 168 102" stroke="#14161A" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <circle cx="168" cy="103" r="4" fill="#14161A"/>
+
+          <!-- здивоване обличчя -->
+          <path d="M108 58 L124 64" stroke="#14161A" stroke-width="3" stroke-linecap="round"/>
+          <path d="M152 64 L168 58" stroke="#14161A" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="118" cy="76" r="8" fill="#FFFFFF" stroke="#14161A" stroke-width="2.2"/>
+          <circle cx="142" cy="76" r="8" fill="#FFFFFF" stroke="#14161A" stroke-width="2.2"/>
+          <circle cx="120" cy="77" r="3.2" fill="#14161A"/>
+          <circle cx="144" cy="77" r="3.2" fill="#14161A"/>
+          <ellipse cx="130" cy="92" rx="7" ry="9" fill="#14161A"/>
+          <path d="M164 56 C169 60 169 67 164 70 C159 67 159 60 164 56 Z" fill="#B7E4FF" stroke="#14161A" stroke-width="1.6"/>
+
+          <!-- бульбашки -->
+          <g>
+            <rect x="168" y="6" width="46" height="28" rx="10" fill="#fff" stroke="#14161A" stroke-width="3.5"/>
+            <path d="M174 34l-6 12 14-8Z" fill="#fff" stroke="#14161A" stroke-width="3.5" stroke-linejoin="round"/>
+            <text x="191" y="25" font-family="Unbounded, sans-serif" font-size="12" font-weight="700" fill="#14161A" text-anchor="middle">НІ</text>
+          </g>
+          <g>
+            <rect x="196" y="52" width="58" height="32" rx="11" fill="#fff" stroke="#14161A" stroke-width="3.5"/>
+            <path d="M202 82l-7 13 16-9Z" fill="#fff" stroke="#14161A" stroke-width="3.5" stroke-linejoin="round"/>
+            <text x="225" y="74" font-family="Unbounded, sans-serif" font-size="14" font-weight="700" fill="#FF6B4A" text-anchor="middle">НІ!</text>
+          </g>
+          <g>
+            <rect x="4" y="96" width="72" height="38" rx="13" fill="#14161A"/>
+            <path d="M18 132l-9 15 20-11Z" fill="#14161A"/>
+            <text x="40" y="120" font-family="Unbounded, sans-serif" font-size="17" font-weight="700" fill="#FFC93C" text-anchor="middle">НІ?!</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================= -->
+<!-- MOCKUP 6 — DAY COVER -->
+<!-- ======================================================= -->
+<div class="preview-block">
+  <p class="preview-label">Макет 6 — обкладинка дня (друга домінанта кольору)</p>
+  <div class="mockup">
+    <div class="cover day-cover">
+      <span class="cover-eyebrow"><span class="dot"></span>День 2 з 5</span>
+      <h1 class="cover-title">День 2.<br><em>Заперечення</em><br>і заклик до дії</h1>
+      <p class="cover-sub">Сьогодні вчишся не здаватися після першого «ні».</p>
+      <div class="cover-art">
+        <svg viewBox="0 0 260 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="134" cy="248" rx="78" ry="9" fill="rgba(20,22,26,0.10)"/>
+
+          <!-- ноги -->
+          <rect x="115" y="192" width="18" height="50" rx="9" fill="#15266E" stroke="#14161A" stroke-width="3"/>
+          <rect x="151" y="192" width="18" height="50" rx="9" fill="#15266E" stroke="#14161A" stroke-width="3"/>
+          <ellipse cx="124" cy="242" rx="11" ry="6" fill="#14161A"/>
+          <ellipse cx="160" cy="242" rx="11" ry="6" fill="#14161A"/>
+
+          <!-- торс / піджак -->
+          <path d="M104 114 Q134 102 164 114 L158 154 Q156 180 152 194 L116 194 Q112 180 110 154 Z"
+                fill="#2150F0" stroke="#14161A" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M120 116 L134 126 L126 136 Z" fill="#FFFFFF" stroke="#14161A" stroke-width="2"/>
+          <path d="M148 116 L134 126 L142 136 Z" fill="#FFFFFF" stroke="#14161A" stroke-width="2"/>
+          <path d="M128 117 L140 117 L134 127 Z" fill="#7CB816"/>
+          <path d="M130 127 L138 127 L136 152 L134 158 L132 152 Z" fill="#B9F23D" stroke="#14161A" stroke-width="1.6" stroke-linejoin="round"/>
+
+          <!-- рука розслаблена -->
+          <path d="M106 124 C90 132 84 152 90 174 L106 178 C102 160 104 142 116 128 Z" fill="#2150F0" stroke="#14161A" stroke-width="3" stroke-linejoin="round"/>
+          <circle cx="94" cy="176" r="10" fill="#F2C9A0" stroke="#14161A" stroke-width="2.5"/>
+
+          <!-- рука зі стиснутим кулаком — рішучий жест -->
+          <path d="M162 124 C178 128 189 138 187 151 L170 156 C170 144 166 134 152 128 Z" fill="#2150F0" stroke="#14161A" stroke-width="3" stroke-linejoin="round"/>
+          <circle cx="183" cy="150" r="11" fill="#F2C9A0" stroke="#14161A" stroke-width="2.8"/>
+          <path d="M177 147 L189 147 M177 153 L189 153" stroke="#14161A" stroke-width="1.6" stroke-linecap="round" opacity="0.55"/>
+          <path d="M196 132 L206 127 M198 142 L208 140" stroke="#14161A" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+
+          <!-- значок «тримаємо позицію» біля кулака -->
+          <g transform="translate(192,104)">
+            <path d="M18 2 L34 8 V20 C34 29 27 35 18 38 C9 35 2 29 2 20 V8 Z" fill="#FFFFFF" stroke="#14161A" stroke-width="2.4" stroke-linejoin="round"/>
+            <path d="M11 20 L16 25 L26 14" stroke="#2150F0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+
+          <!-- шия і голова -->
+          <rect x="124" y="98" width="20" height="20" fill="#F2C9A0"/>
+          <circle cx="134" cy="78" r="30" fill="#F2C9A0" stroke="#14161A" stroke-width="3"/>
+          <path d="M105 64 C107 42 161 42 163 64 C163 52 155 45 134 45 C113 45 105 52 105 64 Z" fill="#2B2320" stroke="#14161A" stroke-width="2" stroke-linejoin="round"/>
+
+          <!-- гарнітура -->
+          <path d="M106 69 C106 35 162 35 162 69" stroke="#14161A" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <circle cx="162" cy="73" r="9" fill="#14161A"/>
+          <path d="M162 82 C171 89 175 97 172 103" stroke="#14161A" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <circle cx="172" cy="104" r="4" fill="#14161A"/>
+
+          <!-- окуляри і впевнене обличчя -->
+          <rect x="115" y="71" width="17" height="13" rx="6" fill="none" stroke="#14161A" stroke-width="2.2"/>
+          <rect x="136" y="71" width="17" height="13" rx="6" fill="none" stroke="#14161A" stroke-width="2.2"/>
+          <path d="M132 77 L136 77" stroke="#14161A" stroke-width="2.2"/>
+          <circle cx="123.5" cy="77.5" r="2.2" fill="#14161A"/>
+          <circle cx="144.5" cy="77.5" r="2.2" fill="#14161A"/>
+          <path d="M114 64 L128 66" stroke="#14161A" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M140 66 L154 64" stroke="#14161A" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M122 90 Q134 96 146 89" stroke="#14161A" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="cover-plaque">
+        <span>Курс новачка · Ikorka Shop</span>
+        <span class="right">День 2 з 5</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="end">Ikorka Shop · v2/design/mockups.html · службовий превʼю-файл для узгодження стилю, не частина курсу</footer>
+
+<script>
+  (function(){
+    function polarPoint(cx, cy, r, angle){
+      return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) };
+    }
+    function renderRing(svg){
+      var total = parseInt(svg.getAttribute('data-total'), 10) || 0;
+      var active = parseInt(svg.getAttribute('data-active'), 10) || 0;
+      var color = svg.getAttribute('data-color') || '#2150F0';
+      var inactive = '#DEE6F2';
+      var cx = 60, cy = 60, r = 46, dotR = 6.4;
+      var frag = document.createDocumentFragment();
+      for (var i = 0; i < total; i++){
+        var angle = (i / total) * Math.PI * 2 - Math.PI / 2;
+        var p = polarPoint(cx, cy, r, angle);
+        var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', p.x.toFixed(2));
+        c.setAttribute('cy', p.y.toFixed(2));
+        c.setAttribute('r', dotR);
+        c.setAttribute('fill', i < active ? color : inactive);
+        frag.appendChild(c);
+      }
+      svg.appendChild(frag);
+    }
+    document.querySelectorAll('svg[data-ring]').forEach(renderRing);
+  })();
+</script>
+
+</body>
+</html>

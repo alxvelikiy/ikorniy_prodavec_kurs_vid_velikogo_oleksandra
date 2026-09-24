@@ -1,0 +1,183 @@
+/* ============================================================
+   AURA THEME v2 — synthwave/neon aquarium.
+   Токени контракту (--bg-deep, --bg-sky, --surface, --surface-2, --line,
+   --text, --text-dim, --neon-*) визначені в style.css :root — тут лише
+   використовуються, плюс лишені старі alias-змінні (--glow1 тощо) для
+   сумісності з рештою правил нижче.
+   ============================================================ */
+:root{
+  --glow1:var(--neon-pink); --glow2:var(--neon-orange);
+  --glass:var(--surface); --glass-line:var(--line);
+  --on-dark:var(--text); --on-dark-dim:var(--text-dim);
+}
+
+body{background:var(--bg-deep);}
+
+/* ============================================================
+   ПОРЯДОК ФОНОВИХ ШАРІВ (не міняти без потреби):
+   сцена synthwave, .aura + .scene (-3) → риби/ікра/водорості, .fx-back + .swim-diag (-2)
+   → скрим .scrim (-1) → контент, картки (0 і вище, звичайний потік)
+   → липкий topnav (40) і плеєр .tts (30) → дропдауни меню/пошуку (60) → нагорода .celebrate (80).
+   Риба й ікра пливуть ЗА картками (аквариумне скло): картки тепер майже непрозорі, тож усе
+   живе видно лише в проміжках між картками, у бокових відступах і на (напівпрозорих) обкладинках.
+   ============================================================ */
+.aura{
+  position:fixed;inset:0;z-index:-3;overflow:hidden;pointer-events:none;
+  background:
+    radial-gradient(120vw 60vh at 50% 8%, rgba(157,77,255,.16), transparent 60%),
+    linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-sky) 46%, #1B0E44 66%, var(--bg-deep) 100%);
+}
+/* зорі */
+.aura::before{
+  content:"";position:absolute;inset:0;opacity:.9;
+  background-image:
+    radial-gradient(1.6px 1.6px at 8% 12%,#fff 100%,transparent),
+    radial-gradient(1.2px 1.2px at 18% 6%,#fff 100%,transparent),
+    radial-gradient(1.6px 1.6px at 30% 18%,#fff 100%,transparent),
+    radial-gradient(1px 1px at 42% 9%,#fff 100%,transparent),
+    radial-gradient(1.6px 1.6px at 54% 22%,#fff 100%,transparent),
+    radial-gradient(1.2px 1.2px at 64% 7%,#fff 100%,transparent),
+    radial-gradient(1.6px 1.6px at 74% 16%,#fff 100%,transparent),
+    radial-gradient(1px 1px at 86% 10%,#fff 100%,transparent),
+    radial-gradient(1.6px 1.6px at 94% 24%,#fff 100%,transparent),
+    radial-gradient(1px 1px at 4% 30%,#fff 100%,transparent),
+    radial-gradient(1.2px 1.2px at 22% 32%,#fff 100%,transparent),
+    radial-gradient(1px 1px at 38% 28%,#fff 100%,transparent),
+    radial-gradient(1.4px 1.4px at 60% 33%,#fff 100%,transparent),
+    radial-gradient(1px 1px at 80% 30%,#fff 100%,transparent),
+    radial-gradient(1.2px 1.2px at 97% 34%,#fff 100%,transparent);
+  animation:twinkle 5s ease-in-out infinite alternate;
+}
+/* сонце: жовтий → рожевий градієнт із горизонтальними смугами */
+.aura::after{
+  content:"";position:absolute;left:50%;top:12%;
+  width:min(52vw,460px);height:min(52vw,460px);
+  transform:translate(-50%,-18%);border-radius:50%;
+  background:linear-gradient(180deg, var(--neon-yellow) 0%, var(--neon-orange) 48%, var(--neon-pink) 100%);
+  box-shadow:0 0 140px 30px rgba(255,138,0,.35), 0 0 260px 80px rgba(255,46,151,.12);
+  -webkit-mask-image:repeating-linear-gradient(0deg,#000 0 7px,transparent 7px 14px);
+  mask-image:repeating-linear-gradient(0deg,#000 0 7px,transparent 7px 14px);
+  opacity:.9;
+}
+@keyframes twinkle{from{opacity:.65;}to{opacity:1;}}
+
+/* хвиля-труба на стіні (наявний в розмітці svg з path.w1/w2/w3) — неон рожевий→жовтий→зелений */
+.aura svg{position:absolute;inset:0;width:100%;height:100%;opacity:.5;}
+.aura path{fill:none;stroke-width:3;stroke-linecap:round;filter:drop-shadow(0 0 6px currentColor);}
+.aura .w1{stroke:var(--neon-pink);color:var(--neon-pink);stroke-dasharray:16 26;animation:flow 20s linear infinite;opacity:.6;}
+.aura .w2{stroke:var(--neon-yellow);color:var(--neon-yellow);stroke-width:2;stroke-dasharray:10 22;opacity:.4;animation:flow 27s linear infinite reverse;}
+.aura .w3{stroke:var(--neon-green);color:var(--neon-green);stroke-width:2.2;stroke-dasharray:12 24;opacity:.35;animation:flow 33s linear infinite;}
+@keyframes flow{to{stroke-dashoffset:-720;}}
+
+@media (prefers-reduced-motion:reduce){.aura::before,.aura path{animation:none;}}
+
+/* ============ СКРИМ: затемнення між декораціями і контентом ============
+   Вертикальний градієнт (темніше зверху/знизу) + горизонтальне «плато» під центральною
+   колонкою контенту, що йде у прозорість до країв екрана — там, де риба й неон і мають бути
+   видні. https://travishorn.com/responsive-scrim/ */
+.scrim{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(5,2,16,.55) 0%, rgba(5,2,16,.12) 14%, rgba(5,2,16,.12) 86%, rgba(5,2,16,.55) 100%),
+    linear-gradient(90deg, transparent 0%, rgba(5,2,16,.72) min(240px,16vw), rgba(5,2,16,.72) calc(100% - min(240px,16vw)), transparent 100%);
+}
+
+/* ============ NAV / SHELL ============ */
+.topnav{background:rgba(6,2,17,.94);border-bottom:1px solid var(--glass-line);backdrop-filter:saturate(160%) blur(14px);}
+.topnav .brand{color:var(--neon-pink);}
+.topnav nav a{color:var(--on-dark-dim);}
+.topnav nav a:hover,.topnav nav a.active{background:rgba(255,46,151,.16);color:#fff;}
+
+.mockup-panel{background:var(--surface);backdrop-filter:blur(20px) saturate(120%);border:1px solid var(--glass-line);box-shadow:0 24px 70px rgba(0,0,0,.5),0 0 0 1px rgba(255,70,200,.06);}
+.mockup-panel:has(> .cover){background:transparent;border-color:var(--glass-line);backdrop-filter:none;}
+.lesson{background:var(--surface);backdrop-filter:blur(20px) saturate(120%);}
+
+/* ============ COVER ============ */
+.cover,.cover.day-cover,.cover.course-cover{background:linear-gradient(155deg,rgba(20,7,45,.92) 0%,rgba(40,12,70,.8) 55%,rgba(70,16,90,.6) 100%);backdrop-filter:blur(6px);}
+.cover-title,.day-cover .cover-title{color:var(--text);}
+.cover-title em,.day-cover .cover-title em,.course-cover .cover-title em{background:linear-gradient(90deg,var(--neon-pink),var(--neon-orange) 55%,var(--neon-yellow));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.cover-sub{color:var(--on-dark-dim);}
+.cover-eyebrow,.day-cover .cover-eyebrow{background:rgba(255,255,255,.06);border-color:var(--glass-line);color:var(--on-dark);}
+.cover-eyebrow .dot{background:var(--neon-green);}
+.cover-art{position:relative;}
+.cover-art::before{content:"";position:absolute;width:260px;height:260px;bottom:0;left:50%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,70,200,.4),rgba(255,70,200,0) 70%);}
+.cover-art svg{position:relative;}
+.cover-plaque,.day-cover .cover-plaque{background:linear-gradient(90deg,var(--neon-pink),var(--neon-orange),var(--neon-yellow));color:#140605;}
+.cover-plaque .right,.day-cover .cover-plaque .right{color:#140605;}
+.faqcover{background:linear-gradient(155deg,rgba(80,16,110,.95),rgba(30,8,60,.9));}
+
+.pagenav a{background:var(--glass);border-color:var(--glass-line);box-shadow:none;}
+.pagenav .pagenav-label{color:var(--on-dark-dim);}
+.pagenav .pagenav-title{color:var(--neon-pink);}
+footer.sitefoot{color:var(--on-dark-dim);}
+
+/* ============ ЗАГОЛОВКИ: неоновий градієнт лише на H1/H2 ============ */
+.lesson h2{background:linear-gradient(90deg,var(--neon-pink),var(--neon-orange) 60%,var(--neon-yellow));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.cardsec-head h3,.flowsec-head h3,.toc-day h3{color:var(--neon-pink);}
+
+/* ============ ПОШУК ============ */
+.search-box{position:relative;flex:1 1 220px;max-width:320px;}
+.search-box input{width:100%;padding:9px 14px;border-radius:100px;border:1px solid var(--glass-line);background:rgba(255,255,255,.07);color:#fff;font:600 13px 'Manrope',sans-serif;}
+.search-box input::placeholder{color:var(--on-dark-dim);}
+.search-results{position:absolute;right:0;top:calc(100% + 8px);width:min(520px,calc(100vw - 32px));max-height:70vh;overflow:auto;background:#0C0620;border:1px solid var(--glass-line);border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,.6);padding:6px;z-index:60;}
+.search-results a{display:block;padding:10px 12px;border-radius:10px;text-decoration:none;color:var(--text);}
+.search-results a:hover{background:rgba(255,138,0,.14);}
+.search-results b{display:block;font-size:13px;color:var(--neon-orange);}
+.search-results span{display:block;font-size:13px;color:var(--text-dim);margin-top:3px;line-height:1.45;}
+.search-results mark{background:var(--neon-yellow);color:#140605;border-radius:3px;padding:0 2px;}
+.search-results .none{padding:12px;font-size:13px;color:var(--text-dim);}
+
+/* ============ ПЛЕЄР ОЗВУЧЕННЯ ============ */
+.tts{position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:30;display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 14px;border-radius:16px;background:var(--glass);border:1px solid var(--glass-line);backdrop-filter:blur(10px);color:var(--on-dark);}
+.tts button,.tts select,.done-btn,.video-play,.rv-card button{font:700 13px 'Manrope',sans-serif;border-radius:100px;padding:8px 14px;border:0;cursor:pointer;}
+.tts-play{background:linear-gradient(90deg,var(--glow1),var(--glow2));color:#140605;}
+.tts-stop{background:rgba(255,255,255,.1);color:#fff;}
+.tts-stop:disabled{opacity:.4;cursor:default;}
+.tts-seek{flex:1 1 140px;accent-color:var(--glow2);}
+.tts-pos{font-size:12px;font-variant-numeric:tabular-nums;color:var(--on-dark-dim);}
+.tts select{background:rgba(255,255,255,.1);color:#fff;}
+.tts select option{color:#000;}
+.tts-note{flex-basis:100%;font-size:12px;color:var(--on-dark-dim);}
+.tts-note:empty{display:none;}
+.tts-current{background:linear-gradient(90deg,rgba(255,138,0,.25),rgba(255,138,0,0));border-radius:6px;}
+button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--glow2);outline-offset:2px;}
+
+/* ============ ВІДЕО ============ */
+.video-play{background:var(--surface-2);color:#fff;white-space:nowrap;border:1px solid var(--glass-line);}
+.video-play[aria-pressed="true"]{background:var(--neon-orange);color:#140605;}
+.video-embed{margin:10px 0 16px;}
+.video-embed iframe{width:100%;aspect-ratio:16/9;max-width:100%;border:0;border-radius:14px;background:#000;}
+.video-fallback{font-size:12px;color:var(--text-dim);margin-top:6px;}
+
+/* ============ ПРОГРЕС, ГАЧОК, ЧЕЛЕНДЖ ============ */
+.done-btn{align-self:center;background:var(--glass);color:var(--on-dark);border:1px solid var(--glass-line);padding:12px 22px;}
+.done-btn.on{background:linear-gradient(90deg,var(--neon-green),var(--neon-cyan));color:#062018;box-shadow:0 0 22px rgba(57,255,136,.35);}
+.progress-box{margin:14px 0 6px;padding:16px;border-radius:14px;background:var(--surface-2);border:1px solid var(--glass-line);color:var(--on-dark);}
+.prog-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:14px;}
+.prog-top span{color:var(--on-dark-dim);}
+.prog-bar{height:10px;border-radius:100px;background:rgba(255,255,255,.1);margin-top:10px;overflow:hidden;}
+.prog-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--glow1),var(--glow2));box-shadow:0 0 16px var(--glow2);}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.badge-day{font-size:12px;font-weight:800;padding:6px 12px;border-radius:100px;background:rgba(255,255,255,.08);color:var(--on-dark-dim);}
+.badge-day.on{background:linear-gradient(90deg,var(--glow1),var(--glow2));color:#140605;}
+.howto-steps{margin:14px 0 0;padding-left:22px;display:grid;gap:10px;line-height:1.6;font-size:15px;color:var(--text);}
+.hook{margin:0 0 22px;padding:16px 18px;border-radius:14px;background:var(--surface-2);border:1px solid var(--glass-line);color:var(--on-dark);}
+.hook-label{font:700 11px 'Unbounded',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--neon-cyan);}
+.hook-q{font:600 17px/1.4 'Unbounded',sans-serif;margin:8px 0;}
+.hook a{color:var(--neon-orange);font-size:13px;font-weight:700;}
+.challenge-h{background:linear-gradient(90deg,var(--neon-pink),var(--neon-yellow));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.challenge-text{padding:16px 18px;border-radius:14px;background:linear-gradient(120deg,rgba(255,46,151,.14),rgba(255,138,0,.14));border:1px solid var(--glass-line);color:var(--text);font-weight:700;box-shadow:0 0 30px rgba(255,138,0,.15);}
+
+/* ============ ПОВТОРЕННЯ ============ */
+.review-app{display:grid;gap:12px;}
+.rv-head{font-size:13px;color:var(--text-dim);font-weight:700;}
+.rv-card{padding:22px;border-radius:16px;background:var(--surface-2);border:1px solid var(--glass-line);color:var(--text);}
+.rv-card h3{font-size:18px;line-height:1.35;margin:8px 0 12px;color:var(--text);}
+.rv-card ul{margin:0 0 14px;padding-left:18px;line-height:1.6;}
+.rv-src{font-size:12px;font-weight:800;color:var(--neon-orange);text-decoration:none;}
+.rv-show{background:var(--neon-violet);color:#fff;}
+.rv-ans p{margin:6px 0 14px;line-height:1.6;color:var(--text);}
+.rv-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.rv-no{background:rgba(255,255,255,.08);color:var(--text);border:1.5px solid var(--glass-line);}
+.rv-yes{background:linear-gradient(90deg,var(--neon-green),var(--neon-cyan));color:#062018;}
+@media (max-width:640px){.search-box{max-width:none;flex-basis:100%;}.tts{top:env(safe-area-inset-top,0px);}}

@@ -1,0 +1,170 @@
+<div class="dgm dgm-progress">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap');
+
+.dgm-progress{
+  --paper:#F3EFE6; --ink:#14110F; --muted:#5F584F; --rule:#BDB5A6; --roe:#B8341A; --ice:#DFE5E2;
+  background:var(--paper); font-family:'Roboto Flex',sans-serif; max-width:100%;
+}
+@media (prefers-color-scheme: dark){
+  .dgm-progress:not([data-theme="light"]){ --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F; }
+}
+.dgm-progress[data-theme="dark"]{ --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F; }
+.dgm-progress svg{display:block;width:100%;height:auto;max-width:100%}
+.dgm-progress svg.v-mobile{display:none}
+@media (max-width:640px){
+  .dgm-progress svg.v-desktop{display:none}
+  .dgm-progress svg.v-mobile{display:block}
+}
+.dgm-progress rect.bg{fill:var(--paper)}
+.dgm-progress .tick{stroke:var(--rule);stroke-width:1;vector-effect:non-scaling-stroke}
+.dgm-progress .seg-past{fill:var(--ink)}
+.dgm-progress .seg-now{fill:var(--roe)}
+.dgm-progress .seg-future{fill:url(#ht-prog)}
+.dgm-progress .num-on-dark{fill:var(--paper)}
+.dgm-progress .num-on-light{fill:var(--ink)}
+.dgm-progress .ink{fill:var(--ink)}
+.dgm-progress .muted{fill:var(--muted)}
+.dgm-progress .roe{fill:var(--roe)}
+.dgm-progress .name{font-family:'Roboto Flex',sans-serif;font-weight:500;font-stretch:100%}
+.dgm-progress .mono{font-family:'Martian Mono',monospace;font-stretch:87.5%;letter-spacing:.04em;text-transform:uppercase}
+.dgm-progress .take{font-family:'Roboto Flex',sans-serif;font-size:1rem;line-height:1.5;color:var(--ink);margin:.9em .1em 0;max-width:64ch}
+.dgm-progress .take b{color:var(--roe);font-weight:700}
+</style>
+
+<svg class="v-desktop" viewBox="0 0 1300 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Прогресс 10 дней курса, норма 75 звонков в день">
+  <defs>
+    <pattern id="ht-prog" width="5" height="5" patternUnits="userSpaceOnUse">
+      <circle cx="2.5" cy="2.5" r="0.9" style="fill:var(--ink)"/>
+    </pattern>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1300" height="400"/>
+  <text class="mono muted" x="50" y="24" font-size="12">НОРМА 75 ЗВОНКОВ / ДЕНЬ — ЕДИНАЯ, С ДНЯ 1</text>
+
+  <!-- ticks -->
+  <g class="tick">
+    <line x1="50" y1="205" x2="50" y2="270"/><line x1="170" y1="205" x2="170" y2="270"/>
+    <line x1="290" y1="205" x2="290" y2="270"/><line x1="410" y1="205" x2="410" y2="270"/>
+    <line x1="530" y1="205" x2="530" y2="270"/><line x1="650" y1="205" x2="650" y2="270"/>
+    <line x1="770" y1="205" x2="770" y2="270"/><line x1="890" y1="205" x2="890" y2="270"/>
+    <line x1="1010" y1="205" x2="1010" y2="270"/><line x1="1130" y1="205" x2="1130" y2="270"/>
+    <line x1="1250" y1="205" x2="1250" y2="270"/>
+  </g>
+
+  <!-- segments: 1-3 past(solid), 4 now(roe), 5-10 future(raster) -->
+  <rect class="seg-past" x="50" y="210" width="118" height="50"/>
+  <rect class="seg-past" x="170" y="210" width="118" height="50"/>
+  <rect class="seg-past" x="290" y="210" width="118" height="50"/>
+  <rect class="seg-now"  x="410" y="210" width="118" height="50"/>
+  <rect class="seg-future" x="530" y="210" width="118" height="50"/>
+  <rect class="seg-future" x="650" y="210" width="118" height="50"/>
+  <rect class="seg-future" x="770" y="210" width="118" height="50"/>
+  <rect class="seg-future" x="890" y="210" width="118" height="50"/>
+  <rect class="seg-future" x="1010" y="210" width="118" height="50"/>
+  <rect class="seg-future" x="1130" y="210" width="118" height="50"/>
+
+  <!-- day numbers inside segments -->
+  <text class="mono num-on-dark" x="109" y="242" font-size="16" text-anchor="middle">01</text>
+  <text class="mono num-on-dark" x="229" y="242" font-size="16" text-anchor="middle">02</text>
+  <text class="mono num-on-dark" x="349" y="242" font-size="16" text-anchor="middle">03</text>
+  <text class="mono num-on-dark" x="469" y="242" font-size="16" text-anchor="middle">04</text>
+  <text class="mono num-on-light" x="589" y="242" font-size="16" text-anchor="middle">05</text>
+  <text class="mono num-on-light" x="709" y="242" font-size="16" text-anchor="middle">06</text>
+  <text class="mono num-on-light" x="829" y="242" font-size="16" text-anchor="middle">07</text>
+  <text class="mono num-on-light" x="949" y="242" font-size="16" text-anchor="middle">08</text>
+  <text class="mono num-on-light" x="1069" y="242" font-size="16" text-anchor="middle">09</text>
+  <text class="mono num-on-light" x="1189" y="242" font-size="16" text-anchor="middle">10</text>
+
+  <!-- "сегодня" marker on day 4 -->
+  <text class="mono roe" x="469" y="196" font-size="9" text-anchor="middle">ТЕКУЩИЙ ДЕНЬ</text>
+
+  <!-- focus + criteria under each segment -->
+  <g class="name ink" font-size="11" text-anchor="middle">
+    <text x="109" y="290">Быстрый старт:</text><text x="109" y="304">заход, повод, объём</text>
+    <text x="229" y="290">Разбор дня, скелет</text><text x="229" y="304">разговора, крючок</text>
+    <text x="349" y="290">Возражения:</text><text x="349" y="304">раннее и настоящее</text>
+    <text x="469" y="290" class="roe">Работа с базой:</text><text x="469" y="304" class="roe">персонализация, УТП</text>
+  </g>
+  <g class="name muted" font-size="11" text-anchor="middle">
+    <text x="589" y="290">Уверенность,</text><text x="589" y="304">темп, молчание</text>
+    <text x="709" y="290">Альтернатива,</text><text x="709" y="304">спуск, допродажа</text>
+    <text x="829" y="290">Побуждение к</text><text x="829" y="304">действию, закрытие</text>
+    <text x="949" y="290">Цель, продукт,</text><text x="949" y="304">работа с CRM</text>
+    <text x="1069" y="290">Чистота речи,</text><text x="1069" y="304">итог, прощание</text>
+    <text x="1189" y="290">Аттестация против</text><text x="1189" y="304">эталонных звонков</text>
+  </g>
+
+  <g class="mono muted" font-size="9" text-anchor="middle">
+    <text x="109" y="322">К-01</text>
+    <text x="229" y="322">К-02 К-05</text>
+    <text x="349" y="322">К-11</text>
+    <text x="469" y="322" class="roe">К-06 К-07</text>
+    <text x="589" y="322">К-03</text>
+    <text x="709" y="322">К-08</text>
+    <text x="829" y="322">К-10</text>
+    <text x="949" y="322">К-12</text>
+    <text x="1069" y="322">К-04 К-09</text>
+    <text x="1189" y="322">ВСЕ 12</text>
+  </g>
+</svg>
+
+<svg class="v-mobile" viewBox="0 0 420 1700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Прогресс 10 дней, вертикальная раскладка">
+  <defs>
+    <pattern id="ht-prog-m" width="5" height="5" patternUnits="userSpaceOnUse">
+      <circle cx="2.5" cy="2.5" r="0.9" style="fill:var(--ink)"/>
+    </pattern>
+  </defs>
+  <rect class="bg" x="0" y="0" width="420" height="1700"/>
+  <text class="mono muted" x="20" y="20" font-size="10">НОРМА 75 ЗВОНКОВ / ДЕНЬ — ЕДИНАЯ</text>
+
+  <!-- row helper: bar x=20 w=34, rows at y positions -->
+  <rect class="seg-past" x="20" y="34" width="34" height="120"/>
+  <rect class="seg-past" x="20" y="199" width="34" height="120"/>
+  <rect class="seg-past" x="20" y="364" width="34" height="120"/>
+  <rect class="seg-now"  x="20" y="529" width="34" height="120"/>
+  <rect class="seg-future" x="20" y="694" width="34" height="120"/>
+  <rect class="seg-future" x="20" y="859" width="34" height="120"/>
+  <rect class="seg-future" x="20" y="1024" width="34" height="120"/>
+  <rect class="seg-future" x="20" y="1189" width="34" height="120"/>
+  <rect class="seg-future" x="20" y="1354" width="34" height="120"/>
+  <rect class="seg-future" x="20" y="1519" width="34" height="120"/>
+
+  <text class="mono num-on-dark" x="37" y="100" font-size="14" text-anchor="middle">01</text>
+  <text class="mono num-on-dark" x="37" y="265" font-size="14" text-anchor="middle">02</text>
+  <text class="mono num-on-dark" x="37" y="430" font-size="14" text-anchor="middle">03</text>
+  <text class="mono num-on-dark" x="37" y="595" font-size="14" text-anchor="middle">04</text>
+  <text class="mono num-on-light" x="37" y="760" font-size="14" text-anchor="middle">05</text>
+  <text class="mono num-on-light" x="37" y="925" font-size="14" text-anchor="middle">06</text>
+  <text class="mono num-on-light" x="37" y="1090" font-size="14" text-anchor="middle">07</text>
+  <text class="mono num-on-light" x="37" y="1255" font-size="14" text-anchor="middle">08</text>
+  <text class="mono num-on-light" x="37" y="1420" font-size="14" text-anchor="middle">09</text>
+  <text class="mono num-on-light" x="37" y="1585" font-size="14" text-anchor="middle">10</text>
+
+  <g class="name ink" font-size="14">
+    <text x="70" y="70">Быстрый старт:</text><text x="70" y="90">заход, повод, объём</text>
+    <text x="70" y="235">Разбор дня, скелет</text><text x="70" y="255">разговора, крючок</text>
+    <text x="70" y="400">Возражения: раннее</text><text x="70" y="420">и настоящее</text>
+    <text x="70" y="565" class="roe">Работа с базой:</text><text x="70" y="585" class="roe">персонализация, УТП</text>
+    <text x="70" y="730" class="muted">Уверенность, темп,</text><text x="70" y="750" class="muted">молчание</text>
+    <text x="70" y="895" class="muted">Альтернатива, спуск,</text><text x="70" y="915" class="muted">допродажа</text>
+    <text x="70" y="1060" class="muted">Побуждение к</text><text x="70" y="1080" class="muted">действию, закрытие</text>
+    <text x="70" y="1225" class="muted">Цель, продукт,</text><text x="70" y="1245" class="muted">работа с CRM</text>
+    <text x="70" y="1390" class="muted">Чистота речи, итог,</text><text x="70" y="1410" class="muted">прощание</text>
+    <text x="70" y="1555" class="muted">Аттестация против</text><text x="70" y="1575" class="muted">эталонных звонков</text>
+  </g>
+  <g class="mono muted" font-size="10">
+    <text x="70" y="108">К-01</text>
+    <text x="70" y="273">К-02 К-05</text>
+    <text x="70" y="438">К-11</text>
+    <text x="70" y="603" class="roe">К-06 К-07 · ТЕКУЩИЙ ДЕНЬ</text>
+    <text x="70" y="768">К-03</text>
+    <text x="70" y="933">К-08</text>
+    <text x="70" y="1098">К-10</text>
+    <text x="70" y="1263">К-12</text>
+    <text x="70" y="1428">К-04 К-09</text>
+    <text x="70" y="1593">ВСЕ 12</text>
+  </g>
+</svg>
+
+<p class="take">Что запомнить: <b>норма 75 звонков в день не меняется ни разу за 10 дней</b> — растёт только число критериев, которые нужно удерживать одновременно.</p>
+</div>

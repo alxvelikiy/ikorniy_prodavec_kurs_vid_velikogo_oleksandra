@@ -1,0 +1,141 @@
+/* Ikorka Shop — курс новачка. Нові компоненти (Агент 6 «Сборщик»):
+   картка :::say «Скажи так», SOS-сторінка, посилання-джерело в :::stat, банер SOS на index.
+   Кольори — тільки токени дизайнера (контракт SPEC): --bg-deep/--surface/--surface-2/--line/--text/--text-dim/
+   --neon-pink/--neon-orange/--neon-yellow/--neon-violet/--neon-green/--neon-cyan.
+   Усі значення мають fallback на випадок, якщо theme.css ще не оголосив токени. */
+
+/* ============ SAY CARD («Скажи так») ============ */
+.say-card{
+  position:relative;
+  margin:22px 0;
+  display:flex;
+  gap:18px;
+  align-items:stretch;
+  border-radius:18px;
+  padding:20px 22px;
+  background:var(--surface, rgba(18,8,42,.78));
+  border:1px solid var(--line, rgba(255,70,200,.28));
+  box-shadow:0 18px 44px rgba(0,0,0,.35), 0 0 0 1px rgba(255,46,151,.05);
+  scroll-margin-top:78px;
+  overflow:hidden;
+}
+.say-card::before{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:radial-gradient(140% 90% at 0% 0%, rgba(255,46,151,.14), transparent 55%);
+}
+.say-art{flex:none;width:min(120px,30%);display:flex;align-items:center;justify-content:center;}
+.say-art svg{width:100%;height:auto;}
+.say-body{flex:1;min-width:0;position:relative;}
+.say-row{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;}
+.say-label{
+  align-self:flex-start;font-family:'Unbounded',sans-serif;font-size:10.5px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--neon-cyan,#2EF2FF);
+  background:rgba(46,242,255,.1);border:1px solid rgba(46,242,255,.3);border-radius:100px;padding:3px 10px;
+}
+.say-sit{margin:0;font-size:14px;line-height:1.5;color:var(--text-dim,#BBA9DA);}
+.say-plaque{
+  margin:0;border-radius:14px;padding:14px 16px;
+  background:var(--surface-2, rgba(34,14,70,.72));
+  border:1.5px solid var(--neon-pink,#FF2E97);
+  box-shadow:0 0 22px rgba(255,46,151,.28), inset 0 0 18px rgba(255,46,151,.08);
+}
+.say-tag{
+  display:inline-block;font-family:'Unbounded',sans-serif;font-size:11px;font-weight:800;
+  letter-spacing:.05em;color:var(--neon-pink,#FF2E97);margin-bottom:6px;
+}
+.say-phrase{margin:0;font-size:clamp(17px,2.6vw,20px);line-height:1.42;font-weight:700;color:var(--text,#F6EEFF);}
+.say-why{margin:12px 0 0;font-size:13.5px;line-height:1.55;color:var(--text-dim,#BBA9DA);}
+.say-why b{color:var(--text,#F6EEFF);}
+.say-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;}
+.say-copy{
+  font:700 13px 'Manrope',sans-serif;border:1.5px solid var(--neon-cyan,#2EF2FF);border-radius:100px;
+  padding:9px 16px;cursor:pointer;background:rgba(46,242,255,.08);color:var(--neon-cyan,#2EF2FF);
+  transition:background .15s,color .15s;
+}
+.say-copy:hover{background:var(--neon-cyan,#2EF2FF);color:#04141A;}
+.say-copy.copied{background:var(--neon-green,#39FF88);border-color:var(--neon-green,#39FF88);color:#04241A;}
+.say-more{font-size:12.5px;font-weight:700;color:var(--neon-orange,#FF8A00);text-decoration:none;}
+.say-more:hover{text-decoration:underline;}
+@media (max-width:640px){
+  .say-card{flex-direction:column;padding:18px;}
+  .say-art{width:96px;margin:0 auto;}
+}
+
+/* ============ :::stat — джерело-посилання ============ */
+.num-caption a.stat-source-link{color:var(--neon-cyan,#2EF2FF);font-weight:700;text-decoration:none;}
+.num-caption a.stat-source-link:hover{text-decoration:underline;}
+
+/* ============ TOP NAV — кнопка SOS ============ */
+.topnav nav a.sos-btn{
+  order:-1;
+  background:linear-gradient(90deg, var(--neon-pink,#FF2E97), var(--neon-orange,#FF8A00));
+  color:#1A0510!important;font-weight:800;box-shadow:0 0 18px rgba(255,46,151,.45);
+}
+.topnav nav a.sos-btn:hover{filter:brightness(1.08);}
+
+/* ============ INDEX — банер SOS ============ */
+.sos-index-banner{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  margin:0;padding:22px 26px;border-radius:20px;text-decoration:none;
+  background:linear-gradient(120deg, rgba(255,46,151,.22), rgba(157,77,255,.22)),var(--surface, rgba(18,8,42,.78));
+  border:1.5px solid var(--neon-pink,#FF2E97);
+  box-shadow:0 0 30px rgba(255,46,151,.22);
+}
+.sos-index-banner .sib-txt h3{margin:0;font-size:clamp(17px,3.4vw,21px);color:var(--text,#F6EEFF);}
+.sos-index-banner .sib-txt p{margin:6px 0 0;font-size:13.5px;color:var(--text-dim,#BBA9DA);font-weight:600;}
+.sos-index-banner .sib-cta{
+  flex:none;font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;color:#1A0510;
+  background:linear-gradient(90deg, var(--neon-pink,#FF2E97), var(--neon-orange,#FF8A00));
+  padding:12px 22px;border-radius:100px;white-space:nowrap;
+}
+
+/* ============ SOS PAGE ============ */
+.sos-cover{
+  background:linear-gradient(160deg, rgba(24,8,50,.94) 0%, rgba(46,10,58,.86) 55%, rgba(80,10,50,.7) 100%);
+  padding:44px 26px;position:relative;overflow:hidden;min-height:360px;
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.sos-cover .badge{
+  align-self:flex-start;font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;
+  color:var(--neon-pink,#FF2E97);background:rgba(255,46,151,.12);border:1px solid var(--neon-pink,#FF2E97);
+  padding:7px 16px;border-radius:100px;
+}
+.sos-cover h1{color:var(--text,#F6EEFF);font-size:clamp(28px,7vw,44px);line-height:1.2;margin-top:20px;max-width:18ch;}
+.sos-cover p.sub{color:var(--text-dim,#BBA9DA);font-weight:700;margin-top:10px;max-width:38ch;}
+.sos-cover-art{display:flex;justify-content:center;margin:14px 0 6px;}
+.sos-cover-art svg{width:min(220px,70%);height:auto;}
+
+.sos-filterbar{
+  position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:25;
+  margin:0 0 18px;padding:14px 16px;border-radius:16px;
+  background:var(--surface, rgba(18,8,42,.78));border:1px solid var(--line, rgba(255,70,200,.28));
+  backdrop-filter:blur(10px);
+  display:flex;flex-direction:column;gap:12px;
+}
+.sos-filterbar input{
+  width:100%;padding:11px 16px;border-radius:100px;border:1.5px solid var(--line, rgba(255,70,200,.28));
+  background:rgba(255,255,255,.05);color:var(--text,#F6EEFF);font:600 14px 'Manrope',sans-serif;
+}
+.sos-filterbar input::placeholder{color:var(--text-dim,#BBA9DA);}
+.sos-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.sos-chip{
+  font-size:12.5px;font-weight:700;color:var(--text-dim,#BBA9DA);text-decoration:none;
+  background:rgba(255,255,255,.05);border:1px solid var(--line, rgba(255,70,200,.28));
+  padding:6px 13px;border-radius:100px;white-space:nowrap;
+}
+.sos-chip:hover{color:var(--text,#F6EEFF);border-color:var(--neon-cyan,#2EF2FF);}
+.say-card.is-hidden{display:none;}
+.sos-empty{padding:20px;text-align:center;color:var(--text-dim,#BBA9DA);font-size:14px;}
+
+/* ============ ПОШУК — say-картки першими ============ */
+.search-say-block{border-bottom:1px solid var(--grey-line);margin-bottom:6px;padding-bottom:6px;}
+.search-say-label{
+  font-family:'Unbounded',sans-serif;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+  color:#fff;background:linear-gradient(90deg,#FF2E97,#FF8A00);display:inline-block;
+  padding:3px 10px;border-radius:100px;margin:4px 8px 8px;
+}
+.search-say-hit{display:block;padding:9px 12px;border-radius:10px;text-decoration:none;}
+.search-say-hit:hover{background:var(--bg);}
+.search-say-hit b{display:block;font-size:13px;color:#B8336A;}
+.search-say-hit span{display:block;font-size:12.5px;color:#4A3F3C;margin-top:3px;line-height:1.4;}
+.search-results .none a{color:var(--blue);font-weight:700;}

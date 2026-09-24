@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ikorka-course-preview",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["v2/build/preview-server.mjs"],
+      "port": 4173,
+      "autoPort": true
+    }
+  ]
+}

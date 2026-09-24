@@ -1,0 +1,241 @@
+<div class="dgm dgm-obj-tree">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap');
+
+.dgm-obj-tree{
+  --paper:#F3EFE6; --ink:#14110F; --muted:#5F584F; --rule:#BDB5A6; --roe:#B8341A; --ice:#DFE5E2;
+  background:var(--paper); font-family:'Roboto Flex',sans-serif; max-width:100%;
+}
+@media (prefers-color-scheme: dark){
+  .dgm-obj-tree:not([data-theme="light"]){ --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F; }
+}
+.dgm-obj-tree[data-theme="dark"]{ --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F; }
+.dgm-obj-tree svg{display:block;width:100%;height:auto;max-width:100%}
+.dgm-obj-tree svg.v-mobile{display:none}
+@media (max-width:640px){
+  .dgm-obj-tree svg.v-desktop{display:none}
+  .dgm-obj-tree svg.v-mobile{display:block}
+}
+.dgm-obj-tree rect.bg{fill:var(--paper)}
+.dgm-obj-tree .spine{stroke:var(--rule);stroke-width:1;vector-effect:non-scaling-stroke}
+.dgm-obj-tree .tick{stroke:var(--rule);stroke-width:1;vector-effect:non-scaling-stroke}
+.dgm-obj-tree .spine-accent{stroke:var(--roe);stroke-width:1.5;vector-effect:non-scaling-stroke}
+.dgm-obj-tree .ink{fill:var(--ink)}
+.dgm-obj-tree .muted{fill:var(--muted)}
+.dgm-obj-tree .roe{fill:var(--roe)}
+.dgm-obj-tree .icebg{fill:var(--ice)}
+.dgm-obj-tree .label{font-family:'Roboto Flex',sans-serif;font-weight:800;font-stretch:80%}
+.dgm-obj-tree .body{font-family:'Roboto Flex',sans-serif;font-weight:400}
+.dgm-obj-tree .mono{font-family:'Martian Mono',monospace;font-stretch:87.5%;letter-spacing:.04em;text-transform:uppercase}
+.dgm-obj-tree .take{font-family:'Roboto Flex',sans-serif;font-size:1rem;line-height:1.5;color:var(--ink);margin:.9em .1em 0;max-width:64ch}
+.dgm-obj-tree .take b{color:var(--roe);font-weight:700}
+</style>
+
+<svg class="v-desktop" viewBox="0 0 1320 1230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Дерево возражений: развилка до/после презентации, девять веток">
+  <rect class="bg" x="0" y="0" width="1320" height="1230"/>
+
+  <!-- Развилка 0 -->
+  <text class="mono ink" x="20" y="34" font-size="14">РАЗВИЛКА 0 — КОГДА ПРОЗВУЧАЛО ВОЗРАЖЕНИЕ?</text>
+  <line class="spine" x1="20" y1="46" x2="20" y2="1170"/>
+
+  <!-- ДО ПРЕЗЕНТАЦИИ -> A -->
+  <line class="tick" x1="20" y1="90" x2="60" y2="90"/>
+  <text class="mono muted" x="30" y="82" font-size="11">ДО ПРЕЗЕНТАЦИИ →</text>
+  <text class="label roe" x="70" y="94" font-size="15">A. Раннее («пожар»)</text>
+  <text class="body ink" x="280" y="82" font-size="12">«Не треба», «неактуально» —</text>
+  <text class="body ink" x="280" y="98" font-size="12">до того, как прозвучало предложение</text>
+  <text class="body ink" x="530" y="82" font-size="12">→ короткое признание без аргументов,</text>
+  <text class="body ink" x="530" y="98" font-size="12">сразу дальше по презентации</text>
+  <text class="body muted" x="880" y="82" font-size="12">Клиент дослушивает. Ошибка</text>
+  <text class="body muted" x="880" y="98" font-size="12">новичков — прощается: 4 звонка</text>
+
+  <!-- ПОСЛЕ ПРЕЗЕНТАЦИИ label + secondary spine for B..I -->
+  <text class="mono muted" x="30" y="150" font-size="11">ПОСЛЕ ПРЕЗЕНТАЦИИ → развилка по типу</text>
+  <line class="spine" x1="20" y1="160" x2="20" y2="1170"/>
+
+  <!-- B -->
+  <line class="tick" x1="20" y1="205" x2="60" y2="205"/>
+  <text class="label ink" x="70" y="200" font-size="15">B. Ложное после презентации</text>
+  <text class="mono muted" x="70" y="216" font-size="10">[ЛОЖНОЕ] — диагностика, не отказ</text>
+  <text class="body ink" x="280" y="197" font-size="12">«Подумаю», «порадюсь», «уезжаю»,</text>
+  <text class="body ink" x="280" y="213" font-size="12">«неудобно»</text>
+  <text class="body ink" x="530" y="197" font-size="12">→ один вопрос-гипотеза: «фінансове</text>
+  <text class="body ink" x="530" y="213" font-size="12">чи ще є ікра» — слово «чому» под запретом</text>
+  <text class="body muted" x="880" y="197" font-size="12">→ ~90% сводится к деньгам (C)</text>
+  <text class="body muted" x="880" y="213" font-size="12">или остатку (D)</text>
+
+  <!-- secondary spine B -> C,D -->
+  <line class="spine" x1="90" y1="222" x2="90" y2="470"/>
+
+  <!-- C -->
+  <line class="tick" x1="90" y1="300" x2="120" y2="300"/>
+  <text class="label ink" x="130" y="295" font-size="15">C. Финансовое</text>
+  <text class="mono roe" x="130" y="311" font-size="10">[ИСТИННОЕ] · [ПРАВИЛО] 2–3 аргумента</text>
+  <text class="body ink" x="340" y="292" font-size="12">«Дорого», «нет денег»,</text>
+  <text class="body ink" x="340" y="308" font-size="12">«пенсия не добавилась»</text>
+  <text class="body ink" x="560" y="284" font-size="12">→ 2–3 аргумента подряд (цена за банку,</text>
+  <text class="body ink" x="560" y="300" font-size="12">доставка, самый дорогой вид в подарок,</text>
+  <text class="body ink" x="560" y="316" font-size="12">срок годности) → снова закрытие</text>
+  <text class="body muted" x="930" y="292" font-size="12">ТОП-12: 1440→998, заказ;</text>
+  <text class="body muted" x="930" y="308" font-size="12">ТОП-06: перенос даты</text>
+
+  <!-- D -->
+  <line class="tick" x1="90" y1="400" x2="120" y2="400"/>
+  <text class="label ink" x="130" y="395" font-size="15">D. Остаток дома</text>
+  <text class="mono roe" x="130" y="411" font-size="10">[ИСТИННОЕ]</text>
+  <text class="body ink" x="340" y="392" font-size="12">«Ещё осталась икра»,</text>
+  <text class="body ink" x="340" y="408" font-size="12">«недавно брала»</text>
+  <text class="body ink" x="560" y="392" font-size="12">→ уточнить сколько и какого вида →</text>
+  <text class="body ink" x="560" y="408" font-size="12">докрутить недостающее; ценой не отвечать</text>
+  <text class="body muted" x="930" y="400" font-size="12">Переводит разговор в кросс-сейл</text>
+
+  <!-- E accent recommended -->
+  <line class="tick spine-accent" x1="20" y1="520" x2="60" y2="520"/>
+  <rect class="icebg" x="60" y="490" width="1230" height="72"/>
+  <text class="label roe" x="70" y="513" font-size="16">E. Жалоба на прошлый заказ</text>
+  <text class="mono roe" x="70" y="530" font-size="10">★ РЕКОМЕНДУЕМАЯ ВЕТКА</text>
+  <text class="body ink" x="280" y="510" font-size="12">«Одна сіль», «не доложили»,</text>
+  <text class="body ink" x="280" y="526" font-size="12">«не туди приїхало»</text>
+  <text class="body ink" x="530" y="502" font-size="12">→ выслушать → «розумію» → уточняющий</text>
+  <text class="body ink" x="530" y="518" font-size="12">вопрос → объяснение без обвинения →</text>
+  <text class="body ink" x="530" y="534" font-size="12">компенсация → новый оффер</text>
+  <text class="body roe" x="900" y="502" font-size="13" font-weight="700">6 из 6 звонков</text>
+  <text class="body roe" x="900" y="518" font-size="13" font-weight="700">закрыты в заказ</text>
+
+  <!-- F -->
+  <line class="tick" x1="20" y1="635" x2="60" y2="635"/>
+  <text class="label ink" x="70" y="630" font-size="15">F. Недоверие</text>
+  <text class="mono muted" x="70" y="646" font-size="10">⚠ приём на грани</text>
+  <text class="body ink" x="280" y="627" font-size="12">«Велика націнка буде?»,</text>
+  <text class="body ink" x="280" y="643" font-size="12">«а ви точно з Ікорки?»</text>
+  <text class="body ink" x="530" y="627" font-size="12">→ короткий ответ без оправданий →</text>
+  <text class="body ink" x="530" y="643" font-size="12">личная гарантия, прямой Viber</text>
+  <text class="body muted" x="880" y="627" font-size="12">Успех: ТОП-07, ТОП-09. Провал:</text>
+  <text class="body muted" x="880" y="643" font-size="12">ТОП-12 — оправдание усилило недоверие</text>
+
+  <!-- G -->
+  <line class="tick" x1="20" y1="750" x2="60" y2="750"/>
+  <text class="label ink" x="70" y="745" font-size="15">G. Ситуативное</text>
+  <text class="body ink" x="280" y="742" font-size="12">«Світло вимикають», «далеко</text>
+  <text class="body ink" x="280" y="758" font-size="12">до пошти», «не буду вдома»</text>
+  <text class="body ink" x="530" y="742" font-size="12">→ готовое решение: хранение,</text>
+  <text class="body ink" x="530" y="758" font-size="12">курьер, перенос даты отправки</text>
+  <text class="body muted" x="880" y="742" font-size="12">Успех: ТОП-06, 11, 24. Ошибка</text>
+  <text class="body muted" x="880" y="758" font-size="12">новичков — принять как отказ</text>
+
+  <!-- H -->
+  <line class="tick" x1="20" y1="850" x2="60" y2="850"/>
+  <text class="label ink" x="70" y="845" font-size="15">H. Беда клиента</text>
+  <text class="body ink" x="280" y="845" font-size="12">Горе в семье, обстрел, родственник на войне</text>
+  <text class="body ink" x="700" y="845" font-size="12">→ не продавать: посочувствовать, оставить контакт</text>
+  <text class="body muted" x="280" y="865" font-size="12">Единственный явный стоп в методике компании</text>
+
+  <!-- I -->
+  <line class="tick" x1="20" y1="945" x2="60" y2="945"/>
+  <text class="label ink" x="70" y="940" font-size="15">I. Отсрочка</text>
+  <text class="body ink" x="280" y="937" font-size="12">«Скиньте на Viber»,</text>
+  <text class="body ink" x="280" y="953" font-size="12">«перезвоните», «після зарплати»</text>
+  <text class="body ink" x="530" y="937" font-size="12">→ сначала попытка закрыть сейчас →</text>
+  <text class="body ink" x="530" y="953" font-size="12">если перезвон — конкретная дата + CRM</text>
+  <text class="body muted" x="880" y="945" font-size="12">Без даты — проигранный звонок</text>
+
+  <!-- footer meta -->
+  <text class="mono muted" x="20" y="1010" font-size="10">→ = ХОД МЕНЕДЖЕРА · [ЛОЖНОЕ]/[ИСТИННОЕ] = ТИП ВОЗРАЖЕНИЯ · ★ = РЕКОМЕНДУЕМАЯ ВЕТКА</text>
+</svg>
+
+<svg class="v-mobile" viewBox="0 0 420 3300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Дерево возражений, вертикальная раскладка">
+  <rect class="bg" x="0" y="0" width="420" height="3300"/>
+  <text class="mono ink" x="16" y="28" font-size="12">РАЗВИЛКА 0 — КОГДА ВОЗРАЗИЛ?</text>
+  <line class="spine" x1="16" y1="40" x2="16" y2="3260"/>
+
+  <!-- A -->
+  <line class="tick" x1="16" y1="78" x2="40" y2="78"/>
+  <text class="mono muted" x="40" y="66" font-size="10">ДО ПРЕЗЕНТАЦИИ</text>
+  <text class="label roe" x="40" y="90" font-size="15">A. Раннее («пожар»)</text>
+  <text class="body ink" x="40" y="112" font-size="12">«Не треба» — до предложения</text>
+  <text class="body ink" x="40" y="130" font-size="12">→ признание без аргументов,</text>
+  <text class="body ink" x="40" y="146" font-size="12">сразу дальше по презентации</text>
+  <text class="body muted" x="40" y="166" font-size="12">Дослушивает; ошибка — прощается: 4 звонка</text>
+
+  <text class="mono muted" x="40" y="220" font-size="10">ПОСЛЕ ПРЕЗЕНТАЦИИ → ПО ТИПУ</text>
+  <line class="spine" x1="16" y1="230" x2="16" y2="3260"/>
+
+  <!-- B -->
+  <line class="tick" x1="16" y1="270" x2="40" y2="270"/>
+  <text class="label ink" x="40" y="264" font-size="15">B. Ложное после презентации</text>
+  <text class="mono muted" x="40" y="282" font-size="9">[ЛОЖНОЕ] — диагностика</text>
+  <text class="body ink" x="40" y="302" font-size="12">«Подумаю», «порадюсь», «уезжаю»</text>
+  <text class="body ink" x="40" y="320" font-size="12">→ вопрос-гипотеза: «фінансове чи</text>
+  <text class="body ink" x="40" y="336" font-size="12">ще є ікра» — «чому» запрещено</text>
+  <text class="body muted" x="40" y="356" font-size="12">→ ~90% сводится к деньгам (C) или остатку (D)</text>
+
+  <line class="spine" x1="56" y1="374" x2="56" y2="720"/>
+
+  <!-- C -->
+  <line class="tick" x1="56" y1="420" x2="80" y2="420"/>
+  <text class="label ink" x="80" y="414" font-size="15">C. Финансовое</text>
+  <text class="mono roe" x="80" y="432" font-size="9">[ИСТИННОЕ] · правило 2–3 аргументов</text>
+  <text class="body ink" x="80" y="452" font-size="12">«Дорого», «нет денег»</text>
+  <text class="body ink" x="80" y="470" font-size="12">→ 2–3 аргумента подряд (банка,</text>
+  <text class="body ink" x="80" y="486" font-size="12">доставка, подарок, срок) →</text>
+  <text class="body ink" x="80" y="502" font-size="12">снова закрытие; спуск — на повторное «дорого»</text>
+  <text class="body muted" x="80" y="524" font-size="12">ТОП-12: 1440→998; ТОП-06: перенос даты</text>
+
+  <!-- D -->
+  <line class="tick" x1="56" y1="580" x2="80" y2="580"/>
+  <text class="label ink" x="80" y="574" font-size="15">D. Остаток дома</text>
+  <text class="mono roe" x="80" y="592" font-size="9">[ИСТИННОЕ]</text>
+  <text class="body ink" x="80" y="612" font-size="12">«Ещё осталась икра»</text>
+  <text class="body ink" x="80" y="630" font-size="12">→ уточнить сколько и какого вида →</text>
+  <text class="body ink" x="80" y="646" font-size="12">докрутить недостающее; ценой не отвечать</text>
+  <text class="body muted" x="80" y="668" font-size="12">Переводит в кросс-сейл</text>
+
+  <!-- E accent -->
+  <line class="tick spine-accent" x1="16" y1="800" x2="40" y2="800"/>
+  <rect class="icebg" x="40" y="750" width="364" height="130"/>
+  <text class="label roe" x="52" y="778" font-size="16">E. Жалоба на прошлый заказ</text>
+  <text class="mono roe" x="52" y="796" font-size="10">★ РЕКОМЕНДУЕМАЯ ВЕТКА</text>
+  <text class="body ink" x="52" y="816" font-size="12">«Одна сіль», «не доложили»</text>
+  <text class="body ink" x="52" y="834" font-size="12">→ выслушать → «розумію» →</text>
+  <text class="body ink" x="52" y="850" font-size="12">уточняющий вопрос → объяснение</text>
+  <text class="body ink" x="52" y="866" font-size="12">без обвинения → компенсация → оффер</text>
+  <text class="body roe" x="52" y="886" font-size="13" font-weight="700">6 из 6 закрыты в заказ</text>
+
+  <!-- F -->
+  <line class="tick" x1="16" y1="940" x2="40" y2="940"/>
+  <text class="label ink" x="40" y="934" font-size="15">F. Недоверие</text>
+  <text class="mono muted" x="40" y="952" font-size="10">⚠ приём на грани</text>
+  <text class="body ink" x="40" y="972" font-size="12">«Велика націнка?», «ви точно з Ікорки?»</text>
+  <text class="body ink" x="40" y="990" font-size="12">→ короткий ответ → личная гарантия,</text>
+  <text class="body ink" x="40" y="1006" font-size="12">прямой Viber</text>
+  <text class="body muted" x="40" y="1026" font-size="12">Успех ТОП-07,09; провал ТОП-12</text>
+
+  <!-- G -->
+  <line class="tick" x1="16" y1="1080" x2="40" y2="1080"/>
+  <text class="label ink" x="40" y="1074" font-size="15">G. Ситуативное</text>
+  <text class="body ink" x="40" y="1094" font-size="12">«Світло вимикають», «далеко до пошти»</text>
+  <text class="body ink" x="40" y="1112" font-size="12">→ готовое решение: хранение,</text>
+  <text class="body ink" x="40" y="1128" font-size="12">курьер, перенос даты</text>
+  <text class="body muted" x="40" y="1148" font-size="12">Успех ТОП-06,11,24; ошибка — принять как отказ</text>
+
+  <!-- H -->
+  <line class="tick" x1="16" y1="1200" x2="40" y2="1200"/>
+  <text class="label ink" x="40" y="1194" font-size="15">H. Беда клиента</text>
+  <text class="body ink" x="40" y="1214" font-size="12">Горе в семье, обстрел</text>
+  <text class="body ink" x="40" y="1232" font-size="12">→ не продавать: посочувствовать,</text>
+  <text class="body ink" x="40" y="1248" font-size="12">оставить контакт</text>
+  <text class="body muted" x="40" y="1268" font-size="12">Единственный явный стоп в методике</text>
+
+  <!-- I -->
+  <line class="tick" x1="16" y1="1320" x2="40" y2="1320"/>
+  <text class="label ink" x="40" y="1314" font-size="15">I. Отсрочка</text>
+  <text class="body ink" x="40" y="1334" font-size="12">«Скиньте на Viber», «перезвоните»</text>
+  <text class="body ink" x="40" y="1352" font-size="12">→ сначала попытка закрыть сейчас →</text>
+  <text class="body ink" x="40" y="1368" font-size="12">если перезвон — дата + фиксация в CRM</text>
+  <text class="body muted" x="40" y="1388" font-size="12">Без даты — проигранный звонок</text>
+
+  <text class="mono muted" x="16" y="1440" font-size="9">→ ХОД МЕНЕДЖЕРА · ★ РЕКОМЕНДУЕМАЯ ВЕТКА</text>
+</svg>
+
+<p class="take">Что запомнить: <b>до презентации возражение не обрабатывают вообще</b>; после — один вопрос-гипотеза решает 9 случаев из 10 без единого слова о цене.</p>
+</div>

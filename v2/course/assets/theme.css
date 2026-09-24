@@ -1,0 +1,147 @@
+/* ============================================================
+   ТЕМА — плоский світлий стиль (Wikipedia/Telegram-подібний): без фонової
+   анімації, без градієнтних заливок тексту, без неонового світіння.
+   Токени кольору визначені в style.css :root — тут лише використовуються.
+   ============================================================ */
+:root{
+  --glow1:var(--neon-pink); --glow2:var(--neon-orange);
+  --glass:var(--surface-2); --glass-line:var(--line);
+  --on-dark:var(--text); --on-dark-dim:var(--text-dim);
+}
+
+body{background:var(--bg-deep);}
+
+/* ============ NAV / SHELL ============ */
+.topnav{background:var(--topnav-bg);border-bottom:1px solid var(--glass-line);}
+.topnav .brand{color:var(--neon-pink);}
+.topnav nav a{color:var(--on-dark-dim);}
+.topnav nav a:hover,.topnav nav a.active{background:var(--glass);color:var(--text);}
+
+.mockup-panel{background:var(--surface);border:1px solid var(--glass-line);}
+.lesson{background:var(--surface);}
+
+/* ============ COVER ============
+   Кольорові градієнти обкладинок лишені в style.css (вже світлі, тонкі) —
+   тут нічого не перевизначаємо, і текст лишається чорним, без ефекту
+   "прозорий текст на градієнті". */
+.pagenav a{background:var(--glass);border-color:var(--glass-line);}
+.pagenav .pagenav-label{color:var(--on-dark-dim);}
+.pagenav .pagenav-title{color:var(--neon-pink);}
+footer.sitefoot{color:var(--on-dark-dim);}
+
+/* ============ ЗАГОЛОВКИ: суцільний колір, без градієнтного тексту ============ */
+.lesson h2{color:var(--text);}
+.cardsec-head h3,.flowsec-head h3,.toc-day h3{color:var(--neon-pink);}
+
+/* ============ ПОШУК ============ */
+.search-box{position:relative;flex:1 1 220px;max-width:320px;}
+.search-box input{width:100%;padding:9px 14px;border-radius:100px;border:1px solid var(--glass-line);background:var(--surface-2);color:var(--text);font:600 13px 'Manrope',sans-serif;}
+.search-box input::placeholder{color:var(--on-dark-dim);}
+.search-results{position:absolute;right:0;top:calc(100% + 8px);width:min(520px,calc(100vw - 32px));max-height:70vh;overflow:auto;background:var(--paper);border:1px solid var(--glass-line);border-radius:14px;box-shadow:var(--shadow-pop);padding:6px;z-index:60;}
+.search-results a{display:block;padding:10px 12px;border-radius:10px;text-decoration:none;color:var(--text);}
+.search-results a:hover{background:var(--surface-2);}
+.search-results b{display:block;font-size:13px;color:var(--neon-orange);}
+.search-results span{display:block;font-size:13px;color:var(--text-dim);margin-top:3px;line-height:1.45;}
+.search-results mark{background:var(--mark-bg);color:var(--text);border-radius:3px;padding:0 2px;}
+.search-results .none{padding:12px;font-size:13px;color:var(--text-dim);}
+
+/* ============ ПЛЕЄР ОЗВУЧЕННЯ ============ */
+.tts{position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:30;display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 14px;border-radius:16px;background:var(--glass);border:1px solid var(--glass-line);color:var(--on-dark);}
+.tts button,.tts select,.done-btn,.video-play,.rv-card button{font:700 13px 'Manrope',sans-serif;border-radius:100px;padding:8px 14px;border:0;cursor:pointer;}
+.tts-play{background:var(--neon-pink);color:var(--on-brand);}
+.tts-stop{background:var(--paper);color:var(--text);border:1px solid var(--glass-line);}
+.tts-stop:disabled{opacity:.4;cursor:default;}
+.tts-seek{flex:1 1 140px;accent-color:var(--neon-pink);}
+.tts-pos{font-size:12px;font-variant-numeric:tabular-nums;color:var(--on-dark-dim);}
+.tts select{background:var(--paper);color:var(--text);border:1px solid var(--glass-line);}
+.tts select option{color:var(--text);background:var(--paper);}
+.tts-note{flex-basis:100%;font-size:12px;color:var(--on-dark-dim);}
+.tts-note:empty{display:none;}
+.tts-current{background:var(--brand-soft);border-radius:6px;}
+button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--glow2);outline-offset:2px;}
+
+/* ============ ВІДЕО ============ */
+.video-play{background:var(--surface-2);color:var(--text);white-space:nowrap;border:1px solid var(--glass-line);}
+.video-play[aria-pressed="true"]{background:var(--neon-orange);color:var(--on-brand);}
+.video-embed{margin:10px 0 16px;}
+.video-embed iframe{width:100%;aspect-ratio:16/9;max-width:100%;border:0;border-radius:14px;background:#000;}
+.video-fallback{font-size:12px;color:var(--text-dim);margin-top:6px;}
+
+/* ============ ПРОГРЕС, ГАЧОК, ЧЕЛЕНДЖ ============ */
+.done-btn{align-self:center;background:var(--glass);color:var(--on-dark);border:1px solid var(--glass-line);padding:12px 22px;}
+.done-btn.on{background:var(--neon-green);color:var(--on-brand);}
+.progress-box{margin:14px 0 6px;padding:16px;border-radius:14px;background:var(--surface-2);border:1px solid var(--glass-line);color:var(--on-dark);}
+.prog-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:14px;}
+.prog-top span{color:var(--on-dark-dim);}
+.prog-bar{height:10px;border-radius:100px;background:var(--track);margin-top:10px;overflow:hidden;}
+.prog-bar i{display:block;height:100%;background:var(--neon-pink);}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.badge-day{font-size:12px;font-weight:800;padding:6px 12px;border-radius:100px;background:var(--paper);border:1px solid var(--glass-line);color:var(--on-dark-dim);}
+.badge-day.on{background:var(--neon-pink);border-color:var(--neon-pink);color:var(--on-brand);}
+.howto-steps{margin:14px 0 0;padding-left:22px;display:grid;gap:10px;line-height:1.6;font-size:15px;color:var(--text);}
+.hook{margin:0 0 22px;padding:16px 18px;border-radius:14px;background:var(--surface-2);border:1px solid var(--glass-line);color:var(--on-dark);}
+.hook-label{font:800 11px 'Manrope',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--info);}
+.hook-q{font:800 17px/1.4 'Manrope',sans-serif;margin:8px 0;}
+.hook a{color:var(--neon-orange);font-size:13px;font-weight:700;}
+.challenge-h{color:var(--neon-pink);}
+.challenge-text{padding:16px 18px;border-radius:14px;background:var(--challenge-bg);border:1px solid var(--glass-line);color:var(--text);font-weight:700;}
+
+/* ============ ПОВТОРЕННЯ ============ */
+.review-app{display:grid;gap:12px;}
+.rv-head{font-size:13px;color:var(--text-dim);font-weight:700;}
+.rv-card{padding:22px;border-radius:16px;background:var(--surface-2);border:1px solid var(--glass-line);color:var(--text);}
+.rv-card h3{font-size:18px;line-height:1.35;margin:8px 0 12px;color:var(--text);}
+.rv-card ul{margin:0 0 14px;padding-left:18px;line-height:1.6;}
+.rv-src{font-size:12px;font-weight:800;color:var(--neon-orange);text-decoration:none;}
+.rv-show{background:var(--surface);color:var(--neon-pink);border:1.5px solid var(--neon-pink);}
+.rv-ans p{margin:6px 0 14px;line-height:1.6;color:var(--text);}
+.rv-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.rv-no{background:var(--paper);color:var(--text);border:1.5px solid var(--glass-line);}
+.rv-yes{background:var(--neon-green);color:var(--on-brand);}
+
+/* ============ НАВІГАЦІЯ ПО УРОКАХ (спадне меню) ============ */
+.navmenu{position:relative;}
+.navmenu summary{list-style:none;cursor:pointer;font-size:12.5px;font-weight:700;color:var(--on-dark-dim);padding:7px 11px;border-radius:100px;}
+.navmenu summary::-webkit-details-marker{display:none;}
+.navmenu summary::after{content:" ▾";}
+.navmenu[open] summary,.navmenu summary:hover{background:var(--glass);color:var(--text);}
+.navmenu-list{display:none;position:absolute;left:0;top:calc(100% + 8px);z-index:60;min-width:180px;gap:2px;padding:8px;border-radius:14px;background:var(--paper);border:1px solid var(--glass-line);box-shadow:var(--shadow-pop);}
+.navmenu[open] .navmenu-list{display:grid;}
+.lessons-menu{min-width:min(340px,calc(100vw - 32px));max-height:70vh;overflow:auto;}
+.navmenu-list a{display:flex;gap:10px;align-items:baseline;padding:8px 10px;border-radius:10px;color:var(--on-dark);text-decoration:none;font-size:13.5px;font-weight:600;}
+.navmenu-list a b{min-width:22px;color:var(--brand);font-family:'Manrope',sans-serif;font-weight:800;font-size:12px;}
+.navmenu-list a small{margin-left:auto;color:var(--on-dark-dim);font-size:11px;white-space:nowrap;}
+.navmenu-list a:hover,.navmenu-list a.active{background:var(--glass);}
+.lesson-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:16px;}
+.lesson-tile{display:grid;gap:4px;padding:16px;border-radius:14px;background:var(--paper);color:var(--on-dark);text-decoration:none;border:1px solid var(--glass-line);transition:box-shadow .15s,transform .15s;}
+.lesson-tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-card);}
+.lt-num{font:800 26px 'Manrope',sans-serif;color:var(--brand);}
+.lt-name{font-weight:800;font-size:15px;line-height:1.3;}
+.lt-day{font-size:12px;color:var(--on-dark-dim);}
+
+/* ============ ПРОГРЕС ЧИТАННЯ УРОКУ (закріплена смужка) ============ */
+.read-progress{position:fixed;left:0;top:0;height:3px;width:0%;z-index:50;background:var(--neon-pink);pointer-events:none;transition:width .12s linear;}
+
+/* ============ ПЛАВАЮЧЕ МІНІ-ОГЛАВЛЕННЯ УРОКУ (scrollspy) ============ */
+.lesson-toc{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:20;width:198px;max-height:60vh;overflow-y:auto;padding:12px 4px 12px 14px;border-left:2px solid var(--glass-line);display:none;}
+.lesson-toc .lt-label{font:800 10.5px 'Manrope',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;display:block;}
+.lesson-toc a{display:block;font-size:12.5px;line-height:1.5;color:var(--text-dim);text-decoration:none;padding:4px 0 4px 12px;border-left:2px solid transparent;margin-left:-14px;transition:color .15s,border-color .15s;}
+.lesson-toc a.lt-h3{padding-left:22px;font-size:11.5px;opacity:.85;}
+.lesson-toc a:hover{color:var(--text);}
+.lesson-toc a.active{color:var(--neon-pink);border-left-color:var(--neon-pink);font-weight:700;}
+@media (min-width:1180px){.lesson-toc{display:block;}}
+
+@media (max-width:640px){
+  .search-box{max-width:none;flex-basis:100%;}
+  .tts{top:env(safe-area-inset-top,0px);}
+  .navmenu-list{position:fixed;left:16px;right:16px;top:auto;}
+  .sound-ctl{order:3;}
+}
+
+/* ============ Кнопка музики (маленька іконка) ============ */
+.sound-ctl{display:flex;gap:6px;}
+.snd-btn{width:32px;height:32px;padding:0;display:flex;align-items:center;justify-content:center;
+  font-size:14px;line-height:1;border-radius:50%;cursor:pointer;
+  background:var(--surface-2);border:1px solid var(--glass-line);color:var(--on-dark-dim);}
+.snd-btn:hover{color:var(--text);background:var(--glass);}
+.snd-btn.on{background:var(--neon-pink);border-color:var(--neon-pink);color:var(--on-brand);}

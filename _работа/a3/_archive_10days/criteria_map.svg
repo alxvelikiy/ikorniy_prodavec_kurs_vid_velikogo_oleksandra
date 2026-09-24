@@ -1,0 +1,249 @@
+<div class="dgm dgm-crit-map">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap');
+
+.dgm-crit-map{
+  --paper:#F3EFE6; --ink:#14110F; --muted:#5F584F; --rule:#BDB5A6; --roe:#B8341A; --ice:#DFE5E2;
+  background:var(--paper); font-family:'Roboto Flex',sans-serif; max-width:100%;
+}
+@media (prefers-color-scheme: dark){
+  .dgm-crit-map:not([data-theme="light"]){ --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F; }
+}
+.dgm-crit-map[data-theme="dark"]{ --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F; }
+.dgm-crit-map svg{display:block;width:100%;height:auto;max-width:100%}
+.dgm-crit-map svg.v-mobile{display:none}
+@media (max-width:640px){
+  .dgm-crit-map svg.v-desktop{display:none}
+  .dgm-crit-map svg.v-mobile{display:block}
+}
+.dgm-crit-map rect.bg{fill:var(--paper)}
+.dgm-crit-map .grid{stroke:var(--rule);stroke-width:1;vector-effect:non-scaling-stroke}
+.dgm-crit-map .ink{fill:var(--ink)}
+.dgm-crit-map .muted{fill:var(--muted)}
+.dgm-crit-map .roe{fill:var(--roe)}
+.dgm-crit-map .num{font-family:'Roboto Flex',sans-serif;font-weight:900;font-stretch:25%}
+.dgm-crit-map .num-solid{fill:var(--ink)}
+.dgm-crit-map .num-weak{fill:url(#ht-crit)}
+.dgm-crit-map .num-gap{fill:none;stroke:var(--roe);stroke-width:2}
+.dgm-crit-map .name{font-family:'Roboto Flex',sans-serif;font-weight:700;font-stretch:100%}
+.dgm-crit-map .phrase{font-family:'Roboto Flex',sans-serif;font-weight:400}
+.dgm-crit-map .mono{font-family:'Martian Mono',monospace;font-stretch:87.5%;letter-spacing:.04em;text-transform:uppercase}
+.dgm-crit-map .take{font-family:'Roboto Flex',sans-serif;font-size:1rem;line-height:1.5;color:var(--ink);margin:.9em .1em 0;max-width:64ch}
+.dgm-crit-map .take b{color:var(--roe);font-weight:700}
+</style>
+
+<svg class="v-desktop" viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Карта 12 критериев, сетка 4×3">
+  <defs>
+    <pattern id="ht-crit" width="5" height="5" patternUnits="userSpaceOnUse">
+      <circle cx="2.5" cy="2.5" r="0.9" class="ink" fill="currentColor" style="fill:var(--ink)"/>
+    </pattern>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1200" height="900"/>
+
+  <!-- grid lines: 4 cols x 3 rows, cells 300x300 -->
+  <g class="grid">
+    <line x1="0" y1="0" x2="1200" y2="0"/><line x1="0" y1="300" x2="1200" y2="300"/>
+    <line x1="0" y1="600" x2="1200" y2="600"/><line x1="0" y1="900" x2="1200" y2="900"/>
+    <line x1="0" y1="0" x2="0" y2="900"/><line x1="300" y1="0" x2="300" y2="900"/>
+    <line x1="600" y1="0" x2="600" y2="900"/><line x1="900" y1="0" x2="900" y2="900"/>
+    <line x1="1200" y1="0" x2="1200" y2="900"/>
+  </g>
+
+  <!-- Row 0: K01 K02 K03 K04 -->
+  <g transform="translate(0,0)">
+    <text class="num num-solid" x="24" y="118" font-size="92">01</text>
+    <text class="name ink" x="24" y="160" font-size="19">Заход</text>
+    <text class="phrase muted" x="24" y="182" font-size="12">Заход отмечен в 22 из 26 эталонных звонков</text>
+    <text class="mono muted" x="276" y="284" font-size="10" text-anchor="end">ДЕНЬ 01</text>
+  </g>
+  <g transform="translate(300,0)">
+    <text class="num num-solid" x="24" y="118" font-size="92">02</text>
+    <text class="name ink" x="24" y="160" font-size="19">Крючок</text>
+    <text class="phrase muted" x="24" y="182" font-size="12">Персональный повод до первого вопроса</text>
+    <text class="mono muted" x="276" y="284" font-size="10" text-anchor="end">ДЕНЬ 02</text>
+  </g>
+  <g transform="translate(600,0)">
+    <text class="num num-weak" x="24" y="118" font-size="92">03</text>
+    <text class="name ink" x="24" y="150" font-size="17">Уверенность, скорость,</text>
+    <text class="name ink" x="24" y="170" font-size="17">интонация, молчание</text>
+    <text class="phrase muted" x="24" y="192" font-size="12">Замера темпа и пауз нет — эталона нет</text>
+    <text class="mono muted" x="276" y="284" font-size="10" text-anchor="end">ДЕНЬ 05</text>
+  </g>
+  <g transform="translate(900,0)">
+    <text class="num num-gap" x="24" y="118" font-size="92">04</text>
+    <text class="name roe" x="24" y="150" font-size="17">Чистота речи и</text>
+    <text class="name roe" x="24" y="170" font-size="17">слова-паразиты</text>
+    <text class="phrase roe" x="24" y="192" font-size="12">Пробел: ни одного разбора паразита</text>
+    <text class="mono muted" x="276" y="284" font-size="10" text-anchor="end">ДЕНЬ 09</text>
+  </g>
+
+  <!-- Row 1: K05 K06 K07 K08 -->
+  <g transform="translate(0,300)">
+    <text class="num num-solid" x="24" y="418" font-size="92">05</text>
+    <text class="name ink" x="24" y="460" font-size="19">Соблюдение этапов</text>
+    <text class="phrase muted" x="24" y="482" font-size="12">Все 26 звонков — в 3 сценария</text>
+    <text class="mono muted" x="276" y="584" font-size="10" text-anchor="end">ДЕНЬ 02</text>
+  </g>
+  <g transform="translate(300,300)">
+    <text class="num num-solid" x="24" y="418" font-size="92">06</text>
+    <text class="name ink" x="24" y="460" font-size="19">Персонализация</text>
+    <text class="phrase muted" x="24" y="482" font-size="12">Имя клиента — 26 из 26 эталонных</text>
+    <text class="mono muted" x="276" y="584" font-size="10" text-anchor="end">ДЕНЬ 04</text>
+  </g>
+  <g transform="translate(600,300)">
+    <text class="num num-solid" x="24" y="418" font-size="92">07</text>
+    <text class="name ink" x="24" y="460" font-size="19">УТП озвучено</text>
+    <text class="phrase muted" x="24" y="482" font-size="12">Самый плотный критерий по установкам</text>
+    <text class="mono muted" x="276" y="584" font-size="10" text-anchor="end">ДЕНЬ 04</text>
+  </g>
+  <g transform="translate(900,300)">
+    <text class="num num-weak" x="24" y="418" font-size="92">08</text>
+    <text class="name ink" x="24" y="450" font-size="17">Альтернатива /</text>
+    <text class="name ink" x="24" y="470" font-size="17">спуск</text>
+    <text class="phrase muted" x="24" y="492" font-size="12">Явный спуск — только в 2 из 26</text>
+    <text class="mono muted" x="276" y="584" font-size="10" text-anchor="end">ДЕНЬ 06</text>
+  </g>
+
+  <!-- Row 2: K09 K10 K11 K12 -->
+  <g transform="translate(0,600)">
+    <text class="num num-weak" x="24" y="718" font-size="92">09</text>
+    <text class="name ink" x="24" y="750" font-size="17">Вежливое прощание,</text>
+    <text class="name ink" x="24" y="770" font-size="17">итог</text>
+    <text class="phrase muted" x="24" y="792" font-size="12">Наставник ни разу не разбирает прощание</text>
+    <text class="mono muted" x="276" y="884" font-size="10" text-anchor="end">ДЕНЬ 09</text>
+  </g>
+  <g transform="translate(300,600)">
+    <text class="num num-solid" x="24" y="718" font-size="92">10</text>
+    <text class="name ink" x="24" y="760" font-size="19">Побуждение к действию</text>
+    <text class="phrase muted" x="24" y="782" font-size="12">В 17 из 26 эталонных звонков</text>
+    <text class="mono muted" x="276" y="884" font-size="10" text-anchor="end">ДЕНЬ 07</text>
+  </g>
+  <g transform="translate(600,600)">
+    <text class="num num-solid" x="24" y="718" font-size="92">11</text>
+    <text class="name ink" x="24" y="750" font-size="17">Реакция на</text>
+    <text class="name ink" x="24" y="770" font-size="17">возражения</text>
+    <text class="phrase muted" x="24" y="792" font-size="12">Самый широко подтверждённый критерий</text>
+    <text class="mono muted" x="276" y="884" font-size="10" text-anchor="end">ДЕНЬ 03</text>
+  </g>
+  <g transform="translate(900,600)">
+    <text class="num num-solid" x="24" y="718" font-size="92">12</text>
+    <text class="name ink" x="24" y="750" font-size="17">Понимание цели и</text>
+    <text class="name ink" x="24" y="770" font-size="17">продукта</text>
+    <text class="phrase muted" x="24" y="792" font-size="12">Стратегическую цель сами не формулируют</text>
+    <text class="mono muted" x="276" y="884" font-size="10" text-anchor="end">ДЕНЬ 08</text>
+  </g>
+</svg>
+
+<svg class="v-mobile" viewBox="0 0 400 2400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Карта 12 критериев, сетка 2×6">
+  <defs>
+    <pattern id="ht-crit-m" width="5" height="5" patternUnits="userSpaceOnUse">
+      <circle cx="2.5" cy="2.5" r="0.9" style="fill:var(--ink)"/>
+    </pattern>
+  </defs>
+  <rect class="bg" x="0" y="0" width="400" height="2400"/>
+
+  <g class="grid">
+    <!-- horizontal separators: 6 rows of 400h -->
+    <line x1="0" y1="0" x2="400" y2="0"/><line x1="0" y1="400" x2="400" y2="400"/>
+    <line x1="0" y1="800" x2="400" y2="800"/><line x1="0" y1="1200" x2="400" y2="1200"/>
+    <line x1="0" y1="1600" x2="400" y2="1600"/><line x1="0" y1="2000" x2="400" y2="2000"/>
+    <line x1="0" y1="2400" x2="400" y2="2400"/>
+    <line x1="0" y1="0" x2="0" y2="2400"/><line x1="200" y1="0" x2="200" y2="2400"/><line x1="400" y1="0" x2="400" y2="2400"/>
+  </g>
+
+  <!-- Row 0: K01, K02 -->
+  <g transform="translate(0,0)">
+    <text class="num num-solid" x="18" y="150" font-size="80">01</text>
+    <text class="name ink" x="18" y="200" font-size="16">Заход</text>
+    <text class="phrase muted" x="18" y="222" font-size="10">22 из 26 звонков</text>
+    <text class="mono muted" x="182" y="380" font-size="9" text-anchor="end">ДЕНЬ 01</text>
+  </g>
+  <g transform="translate(200,0)">
+    <text class="num num-solid" x="18" y="150" font-size="80">02</text>
+    <text class="name ink" x="18" y="200" font-size="16">Крючок</text>
+    <text class="phrase muted" x="18" y="222" font-size="10">Повод до вопроса</text>
+    <text class="mono muted" x="182" y="380" font-size="9" text-anchor="end">ДЕНЬ 02</text>
+  </g>
+
+  <!-- Row 1: K03, K04 -->
+  <g transform="translate(0,400)">
+    <text class="num num-weak" x="18" y="550" font-size="80">03</text>
+    <text class="name ink" x="18" y="592" font-size="14">Уверенность,</text>
+    <text class="name ink" x="18" y="610" font-size="14">темп, молчание</text>
+    <text class="phrase muted" x="18" y="628" font-size="10">Эталона нет</text>
+    <text class="mono muted" x="182" y="780" font-size="9" text-anchor="end">ДЕНЬ 05</text>
+  </g>
+  <g transform="translate(200,400)">
+    <text class="num num-gap" x="18" y="550" font-size="80">04</text>
+    <text class="name roe" x="18" y="592" font-size="14">Чистота речи,</text>
+    <text class="name roe" x="18" y="610" font-size="14">паразиты</text>
+    <text class="phrase roe" x="18" y="628" font-size="10">Пробел</text>
+    <text class="mono muted" x="182" y="780" font-size="9" text-anchor="end">ДЕНЬ 09</text>
+  </g>
+
+  <!-- Row 2: K05, K06 -->
+  <g transform="translate(0,800)">
+    <text class="num num-solid" x="18" y="950" font-size="80">05</text>
+    <text class="name ink" x="18" y="992" font-size="14">Соблюдение</text>
+    <text class="name ink" x="18" y="1010" font-size="14">этапов</text>
+    <text class="phrase muted" x="18" y="1028" font-size="10">3 сценария из 26</text>
+    <text class="mono muted" x="182" y="1180" font-size="9" text-anchor="end">ДЕНЬ 02</text>
+  </g>
+  <g transform="translate(200,800)">
+    <text class="num num-solid" x="18" y="950" font-size="80">06</text>
+    <text class="name ink" x="18" y="1000" font-size="16">Персона-</text>
+    <text class="name ink" x="18" y="1018" font-size="16">лизация</text>
+    <text class="phrase muted" x="18" y="1036" font-size="10">Имя 26 из 26</text>
+    <text class="mono muted" x="182" y="1180" font-size="9" text-anchor="end">ДЕНЬ 04</text>
+  </g>
+
+  <!-- Row 3: K07, K08 -->
+  <g transform="translate(0,1200)">
+    <text class="num num-solid" x="18" y="1350" font-size="80">07</text>
+    <text class="name ink" x="18" y="1400" font-size="16">УТП озвучено</text>
+    <text class="phrase muted" x="18" y="1420" font-size="10">Самый плотный критерий</text>
+    <text class="mono muted" x="182" y="1580" font-size="9" text-anchor="end">ДЕНЬ 04</text>
+  </g>
+  <g transform="translate(200,1200)">
+    <text class="num num-weak" x="18" y="1350" font-size="80">08</text>
+    <text class="name ink" x="18" y="1392" font-size="14">Альтернатива /</text>
+    <text class="name ink" x="18" y="1410" font-size="14">спуск</text>
+    <text class="phrase muted" x="18" y="1428" font-size="10">Спуск в 2 из 26</text>
+    <text class="mono muted" x="182" y="1580" font-size="9" text-anchor="end">ДЕНЬ 06</text>
+  </g>
+
+  <!-- Row 4: K09, K10 -->
+  <g transform="translate(0,1600)">
+    <text class="num num-weak" x="18" y="1750" font-size="80">09</text>
+    <text class="name ink" x="18" y="1792" font-size="14">Прощание,</text>
+    <text class="name ink" x="18" y="1810" font-size="14">итог</text>
+    <text class="phrase muted" x="18" y="1828" font-size="10">Не разбирается наставником</text>
+    <text class="mono muted" x="182" y="1980" font-size="9" text-anchor="end">ДЕНЬ 09</text>
+  </g>
+  <g transform="translate(200,1600)">
+    <text class="num num-solid" x="18" y="1750" font-size="80">10</text>
+    <text class="name ink" x="18" y="1794" font-size="14">Побуждение</text>
+    <text class="name ink" x="18" y="1812" font-size="14">к действию</text>
+    <text class="phrase muted" x="18" y="1830" font-size="10">17 из 26</text>
+    <text class="mono muted" x="182" y="1980" font-size="9" text-anchor="end">ДЕНЬ 07</text>
+  </g>
+
+  <!-- Row 5: K11, K12 -->
+  <g transform="translate(0,2000)">
+    <text class="num num-solid" x="18" y="2150" font-size="80">11</text>
+    <text class="name ink" x="18" y="2192" font-size="14">Реакция на</text>
+    <text class="name ink" x="18" y="2210" font-size="14">возражения</text>
+    <text class="phrase muted" x="18" y="2228" font-size="10">Самый подтверждённый</text>
+    <text class="mono muted" x="182" y="2380" font-size="9" text-anchor="end">ДЕНЬ 03</text>
+  </g>
+  <g transform="translate(200,2000)">
+    <text class="num num-solid" x="18" y="2150" font-size="80">12</text>
+    <text class="name ink" x="18" y="2192" font-size="14">Цель и</text>
+    <text class="name ink" x="18" y="2210" font-size="14">продукт</text>
+    <text class="phrase muted" x="18" y="2228" font-size="10">Цель сами не формулируют</text>
+    <text class="mono muted" x="182" y="2380" font-size="9" text-anchor="end">ДЕНЬ 08</text>
+  </g>
+</svg>
+
+<p class="take">Что запомнить: <b>пробел один — К-04</b> (чистота речи): по нему нет ни одного разбора слова-паразита в реальной речи, только запрет.</p>
+</div>

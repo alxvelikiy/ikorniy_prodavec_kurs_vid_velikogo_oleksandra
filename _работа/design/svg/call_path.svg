@@ -1,0 +1,244 @@
+<div class="dgm dgm-call-path">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap');
+
+.dgm-call-path{
+  --paper:#F3EFE6; --ink:#14110F; --muted:#5F584F; --rule:#BDB5A6; --roe:#B8341A; --ice:#DFE5E2;
+  background:var(--paper);
+  font-family:'Roboto Flex',sans-serif;
+  max-width:100%;
+}
+@media (prefers-color-scheme: dark){
+  .dgm-call-path:not([data-theme="light"]){
+    --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F;
+  }
+}
+.dgm-call-path[data-theme="dark"]{
+  --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F;
+}
+.dgm-call-path svg{display:block;width:100%;height:auto;max-width:100%}
+.dgm-call-path svg.v-mobile{display:none}
+@media (max-width:640px){
+  .dgm-call-path svg.v-desktop{display:none}
+  .dgm-call-path svg.v-mobile{display:block}
+}
+.dgm-call-path rect.bg{fill:var(--paper)}
+.dgm-call-path .main{stroke:var(--roe);stroke-width:3;vector-effect:non-scaling-stroke;fill:none}
+.dgm-call-path .link{stroke:var(--ink);stroke-width:1.5;vector-effect:non-scaling-stroke;fill:none;stroke-dasharray:1 4;stroke-linecap:round}
+.dgm-call-path .optional{stroke:var(--ink);stroke-width:1.5;vector-effect:non-scaling-stroke;fill:none;stroke-dasharray:2 5;stroke-linecap:round;opacity:.85}
+.dgm-call-path .tick{stroke:var(--rule);stroke-width:1;vector-effect:non-scaling-stroke}
+.dgm-call-path .stop{fill:var(--roe)}
+.dgm-call-path .endpoint-fill{fill:url(#ht-call);stroke:var(--ink);stroke-width:1}
+.dgm-call-path .optional-stop{fill:var(--paper);stroke:var(--ink);stroke-width:1.5;vector-effect:non-scaling-stroke;stroke-dasharray:1 2}
+.dgm-call-path .ink{fill:var(--ink)}
+.dgm-call-path .muted{fill:var(--muted)}
+.dgm-call-path .roe{fill:var(--roe)}
+.dgm-call-path .name{font-family:'Roboto Flex','Segoe UI',sans-serif;font-weight:600;font-stretch:100%}
+.dgm-call-path .mono{font-family:'Martian Mono',monospace;font-stretch:87.5%;letter-spacing:.04em;text-transform:uppercase}
+.dgm-call-path .ht-dot{fill:var(--ink)}
+.dgm-call-path .paperbg{fill:var(--paper)}
+.dgm-call-path .take{font-family:'Roboto Flex',sans-serif;font-size:1rem;line-height:1.5;color:var(--ink);margin:.9em .1em 0;max-width:64ch}
+.dgm-call-path .take b{color:var(--roe);font-weight:700}
+</style>
+
+<svg class="v-desktop" viewBox="0 0 1420 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Путь звонка: 10 обязательных этапов, один опциональный шаг, две ошибочные ветки, цикл возражения-закрытие">
+  <defs>
+    <pattern id="ht-call" width="5" height="5" patternUnits="userSpaceOnUse">
+      <circle class="ht-dot" cx="2.5" cy="2.5" r="0.9"/>
+    </pattern>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1420" height="500"/>
+
+  <text class="mono muted" x="70" y="26" font-size="12">МЕДИАНА УСПЕШНОГО ЗВОНКА ≈ 2:26 (0:41–14:50)</text>
+
+  <!-- main line: 10 mandatory stops -->
+  <path class="main" pathLength="1" d="M70,270 H1339"/>
+  <g class="stop">
+    <circle cx="70" cy="270" r="6"/><circle cx="211" cy="270" r="6"/><circle cx="352" cy="270" r="6"/>
+    <circle cx="493" cy="270" r="6"/><circle cx="634" cy="270" r="6"/><circle cx="775" cy="270" r="6"/>
+    <circle cx="916" cy="270" r="6"/><circle cx="1057" cy="270" r="6"/><circle cx="1198" cy="270" r="6"/>
+    <circle cx="1339" cy="270" r="6"/>
+  </g>
+
+  <!-- optional bypass loop: "Привязка к истории, проверочный вопрос" between станция 1 (Повод) и 2 (Презентация) -->
+  <path class="optional" d="M240,270 C 240,190 322,190 322,270"/>
+  <circle class="optional-stop" cx="281" cy="184" r="6"/>
+  <text class="mono muted" x="281" y="150" font-size="9" text-anchor="middle">ОПЦИОНАЛЬНО — ПО СИТУАЦИИ</text>
+  <text class="name ink" x="281" y="134" font-size="12" text-anchor="middle">Привязка к истории,</text>
+  <text class="name ink" x="281" y="119" font-size="12" text-anchor="middle">проверочный вопрос</text>
+  <text class="mono muted" x="281" y="166" font-size="10" text-anchor="middle">К-06 · 16/26 · не обязателен</text>
+
+  <!-- cycle badge between Закрытие(634) and Возражения(775) -->
+  <rect class="paperbg" x="644" y="262" width="121" height="16"/>
+  <text class="mono muted" x="705" y="274" font-size="9" text-anchor="middle">К-10 × К-11 — ДО 3× ЗА МИН</text>
+
+  <!-- branch 1: ранняя ветка A — ошибка "прощается раньше времени" -->
+  <path class="link" d="M170,270 L120,410"/>
+  <circle class="endpoint-fill" cx="120" cy="410" r="7"/>
+  <text class="mono muted" x="120" y="432" font-size="10" text-anchor="middle">ВЕТКА A</text>
+  <text class="muted" x="120" y="448" font-size="11" text-anchor="middle">ошибка: прощается раньше —</text>
+  <text class="muted" x="120" y="462" font-size="11" text-anchor="middle">4 звонка</text>
+
+  <!-- branch 2: ветка I — без даты = проигранный звонок -->
+  <path class="link" d="M840,270 L900,410"/>
+  <circle class="endpoint-fill" cx="900" cy="410" r="7"/>
+  <text class="mono muted" x="900" y="432" font-size="10" text-anchor="middle">ВЕТКА I</text>
+  <text class="muted" x="900" y="448" font-size="11" text-anchor="middle">«скиньте у Viber» без даты —</text>
+  <text class="muted" x="900" y="462" font-size="11" text-anchor="middle">проигранный звонок</text>
+
+  <!-- station labels: index even -> above, odd -> below -->
+  <!-- 0 Приветствие (above) -->
+  <line class="tick" x1="70" y1="262" x2="70" y2="215"/>
+  <text class="mono roe" x="70" y="202" font-size="10" text-anchor="middle">К-01 · 25/26</text>
+  <text class="name ink" x="70" y="186" font-size="13" text-anchor="middle">Приветствие и</text>
+  <text class="name ink" x="70" y="171" font-size="13" text-anchor="middle">представление</text>
+
+  <!-- 1 Повод звонка (крючок) (below) -->
+  <line class="tick" x1="211" y1="278" x2="211" y2="300"/>
+  <text class="name ink" x="211" y="318" font-size="13" text-anchor="middle">Повод звонка</text>
+  <text class="name ink" x="211" y="333" font-size="13" text-anchor="middle">(крючок)</text>
+  <text class="mono roe" x="211" y="351" font-size="10" text-anchor="middle">К-02 · 26/26</text>
+
+  <!-- 2 Презентация набора (above) -->
+  <line class="tick" x1="352" y1="262" x2="352" y2="215"/>
+  <text class="mono muted" x="352" y="202" font-size="10" text-anchor="middle">К-07</text>
+  <text class="name ink" x="352" y="186" font-size="13" text-anchor="middle">Презентация</text>
+  <text class="name ink" x="352" y="171" font-size="13" text-anchor="middle">набора</text>
+
+  <!-- 3 Цена и условия (below) -->
+  <line class="tick" x1="493" y1="278" x2="493" y2="300"/>
+  <text class="name ink" x="493" y="318" font-size="13" text-anchor="middle">Цена и условия</text>
+  <text class="mono roe" x="493" y="336" font-size="10" text-anchor="middle">К-07 · 24/26 озвучили</text>
+  <text class="mono roe" x="493" y="350" font-size="10" text-anchor="middle">медиана ≈ 35 сек</text>
+
+  <!-- 4 Закрытие (above) -->
+  <line class="tick" x1="634" y1="262" x2="634" y2="215"/>
+  <text class="mono roe" x="634" y="202" font-size="10" text-anchor="middle">К-10 · 22/26</text>
+  <text class="name ink" x="634" y="186" font-size="13" text-anchor="middle">Закрытие</text>
+
+  <!-- 5 Обработка возражений (below) -->
+  <line class="tick" x1="775" y1="278" x2="775" y2="300"/>
+  <text class="name ink" x="775" y="318" font-size="13" text-anchor="middle">Обработка</text>
+  <text class="name ink" x="775" y="333" font-size="13" text-anchor="middle">возражений</text>
+  <text class="mono roe" x="775" y="351" font-size="10" text-anchor="middle">К-11 · 19/26</text>
+
+  <!-- 6 Альтернатива и спуск (above) -->
+  <line class="tick" x1="916" y1="262" x2="916" y2="215"/>
+  <text class="mono muted" x="916" y="202" font-size="10" text-anchor="middle">К-08 · спуск 2/26</text>
+  <text class="name ink" x="916" y="186" font-size="13" text-anchor="middle">Альтернатива</text>
+  <text class="name ink" x="916" y="171" font-size="13" text-anchor="middle">и спуск</text>
+
+  <!-- 7 Допродажа (below) -->
+  <line class="tick" x1="1057" y1="278" x2="1057" y2="300"/>
+  <text class="name ink" x="1057" y="318" font-size="13" text-anchor="middle">Допродажа</text>
+  <text class="mono muted" x="1057" y="336" font-size="10" text-anchor="middle">К-08 · 5/26</text>
+
+  <!-- 8 Логистика и фиксация (above) -->
+  <line class="tick" x1="1198" y1="262" x2="1198" y2="215"/>
+  <text class="mono muted" x="1198" y="202" font-size="10" text-anchor="middle">К-09 · 16/26 (М2 — 0/7)</text>
+  <text class="name ink" x="1198" y="186" font-size="13" text-anchor="middle">Логистика</text>
+  <text class="name ink" x="1198" y="171" font-size="13" text-anchor="middle">и фиксация</text>
+
+  <!-- 9 Итог и прощание (below) -->
+  <line class="tick" x1="1339" y1="278" x2="1339" y2="300"/>
+  <text class="name ink" x="1309" y="318" font-size="13" text-anchor="end">Итог и</text>
+  <text class="name ink" x="1309" y="333" font-size="13" text-anchor="end">прощание</text>
+  <text class="mono muted" x="1309" y="351" font-size="10" text-anchor="end">К-09 · 10/26</text>
+</svg>
+
+<svg class="v-mobile" viewBox="0 0 420 1900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Путь звонка, вертикальная раскладка">
+  <defs>
+    <pattern id="ht-call-m" width="5" height="5" patternUnits="userSpaceOnUse">
+      <circle class="ht-dot" cx="2.5" cy="2.5" r="0.9"/>
+    </pattern>
+  </defs>
+  <rect class="bg" x="0" y="0" width="420" height="1900"/>
+  <text class="mono muted" x="18" y="24" font-size="10">МЕДИАНА ЗВОНКА ≈ 2:26 (0:41–14:50)</text>
+
+  <path class="main" pathLength="1" d="M90,60 V1620"/>
+  <g class="stop">
+    <circle cx="90" cy="60" r="6"/><circle cx="90" cy="230" r="6"/><circle cx="90" cy="400" r="6"/>
+    <circle cx="90" cy="570" r="6"/><circle cx="90" cy="740" r="6"/><circle cx="90" cy="910" r="6"/>
+    <circle cx="90" cy="1080" r="6"/><circle cx="90" cy="1250" r="6"/><circle cx="90" cy="1420" r="6"/>
+    <circle cx="90" cy="1620" r="6"/>
+  </g>
+
+  <!-- optional bypass loop, left of line, between station1(230) and station2(400) -->
+  <path class="optional" d="M90,300 C 30,300 30,360 90,360"/>
+  <circle class="optional-stop" cx="24" cy="330" r="6"/>
+  <text class="mono muted" x="14" y="292" font-size="8" text-anchor="middle" transform="rotate(-90 14 292)">ОПЦИОНАЛЬНО</text>
+
+  <!-- cycle badge between 740(Закрытие) and 910(Возражения) -->
+  <rect class="paperbg" x="96" y="818" width="150" height="15"/>
+  <text class="mono muted" x="100" y="829" font-size="9">К-10 × К-11 — ДО 3× ЗА МИН</text>
+
+  <!-- branch A: near station0-1 -->
+  <path class="link" d="M90,150 L185,190"/>
+  <circle class="endpoint-fill" cx="185" cy="190" r="6"/>
+  <text class="mono muted" x="200" y="186" font-size="9">ВЕТКА A</text>
+  <text class="muted" x="200" y="200" font-size="10">прощается раньше — 4 звонка</text>
+
+  <!-- branch I: near station5(910)-6(1080) -->
+  <path class="link" d="M90,995 L185,1035"/>
+  <circle class="endpoint-fill" cx="185" cy="1035" r="6"/>
+  <text class="mono muted" x="200" y="1031" font-size="9">ВЕТКА I</text>
+  <text class="muted" x="200" y="1045" font-size="10">без даты — проигранный звонок</text>
+
+  <!-- station 0 -->
+  <line class="tick" x1="98" y1="60" x2="125" y2="60"/>
+  <text class="name ink" x="135" y="52" font-size="15">Приветствие и представление</text>
+  <text class="mono roe" x="135" y="72" font-size="10">К-01 · 25/26</text>
+
+  <!-- station 1 -->
+  <line class="tick" x1="98" y1="230" x2="125" y2="230"/>
+  <text class="name ink" x="135" y="222" font-size="15">Повод звонка (крючок)</text>
+  <text class="mono roe" x="135" y="242" font-size="10">К-02 · 26/26</text>
+
+  <!-- optional label placed near loop, describing station -->
+  <text class="name ink" x="135" y="320" font-size="13">Привязка к истории,</text>
+  <text class="name ink" x="135" y="337" font-size="13">проверочный вопрос</text>
+  <text class="mono muted" x="135" y="355" font-size="9">К-06 · 16/26 · не обязателен, по ситуации</text>
+
+  <!-- station 2 -->
+  <line class="tick" x1="98" y1="400" x2="125" y2="400"/>
+  <text class="name ink" x="135" y="392" font-size="15">Презентация набора</text>
+  <text class="mono muted" x="135" y="412" font-size="10">К-07</text>
+
+  <!-- station 3 -->
+  <line class="tick" x1="98" y1="570" x2="125" y2="570"/>
+  <text class="name ink" x="135" y="562" font-size="15">Цена и условия</text>
+  <text class="mono roe" x="135" y="582" font-size="10">К-07 · 24/26 · медиана ≈35 сек</text>
+
+  <!-- station 4 -->
+  <line class="tick" x1="98" y1="740" x2="125" y2="740"/>
+  <text class="name ink" x="135" y="732" font-size="15">Закрытие</text>
+  <text class="mono roe" x="135" y="752" font-size="10">К-10 · 22/26</text>
+
+  <!-- station 5 -->
+  <line class="tick" x1="98" y1="910" x2="125" y2="910"/>
+  <text class="name ink" x="135" y="902" font-size="15">Обработка возражений</text>
+  <text class="mono roe" x="135" y="922" font-size="10">К-11 · 19/26</text>
+
+  <!-- station 6 -->
+  <line class="tick" x1="98" y1="1080" x2="125" y2="1080"/>
+  <text class="name ink" x="135" y="1072" font-size="15">Альтернатива и спуск</text>
+  <text class="mono muted" x="135" y="1092" font-size="10">К-08 · явный спуск 2/26</text>
+
+  <!-- station 7 -->
+  <line class="tick" x1="98" y1="1250" x2="125" y2="1250"/>
+  <text class="name ink" x="135" y="1242" font-size="15">Допродажа</text>
+  <text class="mono muted" x="135" y="1262" font-size="10">К-08 · 5/26</text>
+
+  <!-- station 8 -->
+  <line class="tick" x1="98" y1="1420" x2="125" y2="1420"/>
+  <text class="name ink" x="135" y="1412" font-size="15">Логистика и фиксация</text>
+  <text class="mono muted" x="135" y="1432" font-size="10">К-09 · 16/26 (у М2 — 0/7)</text>
+
+  <!-- station 9 -->
+  <line class="tick" x1="98" y1="1620" x2="125" y2="1620"/>
+  <text class="name ink" x="135" y="1612" font-size="15">Итог и прощание</text>
+  <text class="mono muted" x="135" y="1632" font-size="10">К-09 · 10/26</text>
+</svg>
+
+<p class="take">Что запомнить: <b>цена звучит уже на 35-й секунде</b> — а дальше закрытие и возражения идут по кругу (до 2–3 раз за минуту), а не по прямой. Вопрос о прошлом заказе — не обязателен, применяется по ситуации.</p>
+</div>

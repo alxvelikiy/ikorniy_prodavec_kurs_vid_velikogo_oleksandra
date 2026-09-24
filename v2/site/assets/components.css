@@ -1,0 +1,163 @@
+/* Ikorka Shop — курс новачка. Компоненти: картка :::say «Скажи так», сторінка SOS,
+   посилання-джерело в :::stat, банер SOS на index. Плоский світлий стиль —
+   без градієнтів, світіння і розмиття, самі токени з style.css :root. */
+
+/* ============ БІБЛІОТЕКА ДЗВІНКІВ ============ */
+.call-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:18px;}
+.call-card{
+  border-radius:14px;padding:18px 20px;background:var(--surface);border:1px solid var(--line);
+  box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:10px;
+}
+.call-card-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.call-outcome{font-size:11.5px;font-weight:700;color:var(--text-dim);background:var(--surface-2);padding:4px 10px;border-radius:100px;}
+.call-lesson{margin-left:auto;font-size:12px;font-weight:700;color:var(--neon-pink);text-decoration:none;}
+.call-lesson:hover{text-decoration:underline;}
+.call-title{font-size:15px;font-weight:700;color:var(--text);line-height:1.4;margin:0;}
+.call-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.call-k{font-size:11px;font-weight:700;color:var(--text-dim);background:var(--surface-2);border:1px solid var(--line);padding:3px 9px;border-radius:100px;}
+.call-audio{width:100%;height:36px;}
+.call-empty{margin-top:18px;padding:22px;border-radius:14px;background:var(--surface-2);color:var(--text-dim);font-size:14px;}
+
+/* ============ SAY CARD («Скажи так») ============ */
+.say-card{
+  margin:22px 0;
+  border-radius:16px;
+  padding:20px 22px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  box-shadow:var(--shadow-card);
+  scroll-margin-top:78px;
+}
+.say-row{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;}
+.say-label{
+  align-self:flex-start;font-family:'Manrope',sans-serif;font-size:10.5px;font-weight:800;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--info);
+  background:var(--surface-2);border:1px solid var(--line);border-radius:100px;padding:3px 10px;
+}
+.say-sit{margin:0;font-size:14px;line-height:1.5;color:var(--text-dim);}
+.say-plaque{
+  margin:0;border-radius:12px;padding:14px 16px;
+  background:var(--surface-2);
+  border:1.5px solid var(--neon-pink);
+}
+.say-tag{
+  display:inline-block;font-family:'Manrope',sans-serif;font-size:11px;font-weight:800;
+  letter-spacing:.05em;color:var(--brand);margin-bottom:6px;
+}
+.say-phrase{margin:0;font-size:clamp(17px,2.6vw,20px);line-height:1.42;font-weight:700;color:var(--text);}
+.say-why{margin:12px 0 0;font-size:13.5px;line-height:1.55;color:var(--text-dim);}
+.say-why b{color:var(--text);}
+.say-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;}
+.say-copy{
+  font:700 13px 'Manrope',sans-serif;border:1.5px solid var(--neon-pink);border-radius:100px;
+  padding:9px 16px;cursor:pointer;background:var(--surface);color:var(--neon-pink);
+  transition:background .15s,color .15s;
+}
+.say-copy:hover{background:var(--neon-pink);color:var(--on-brand);}
+.say-copy.copied{background:var(--neon-green);border-color:var(--neon-green);color:var(--on-brand);}
+.say-more{font-size:12.5px;font-weight:700;color:var(--neon-pink);text-decoration:none;}
+.say-more:hover{text-decoration:underline;}
+@media (max-width:640px){
+  .say-card{padding:18px;}
+}
+
+/* ============ :::stat — джерело-посилання ============ */
+.num-caption a.stat-source-link{color:var(--neon-cyan);font-weight:700;text-decoration:none;}
+.num-caption a.stat-source-link:hover{text-decoration:underline;}
+
+/* ============ TOP NAV — кнопка SOS ============ */
+.topnav nav a.sos-btn{
+  order:-1;
+  background:var(--neon-pink);
+  color:var(--on-brand)!important;font-weight:800;
+}
+.topnav nav a.sos-btn:hover{filter:brightness(1.08);}
+
+/* ============ INDEX — банер SOS ============ */
+.sos-index-banner{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  margin:0;padding:22px 26px;border-radius:16px;text-decoration:none;
+  background:var(--surface-2);
+  border:1.5px solid var(--neon-pink);
+}
+.sos-index-banner .sib-txt h3{margin:0;font-size:clamp(17px,3.4vw,21px);color:var(--text);}
+.sos-index-banner .sib-txt p{margin:6px 0 0;font-size:13.5px;color:var(--text-dim);font-weight:600;}
+.sos-index-banner .sib-cta{
+  flex:none;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;color:var(--on-brand);
+  background:var(--neon-pink);
+  padding:12px 22px;border-radius:100px;white-space:nowrap;
+}
+
+/* ============ SOS PAGE ============ */
+.sos-cover{
+  background:var(--tint-1);
+  padding:40px 26px 34px;position:relative;overflow:hidden;
+}
+.sos-cover .badge{
+  align-self:flex-start;font-family:'Manrope',sans-serif;font-size:12px;font-weight:700;
+  color:var(--neon-pink);background:var(--surface);border:1px solid var(--neon-pink);
+  padding:7px 16px;border-radius:100px;
+}
+.sos-cover h1{color:var(--text);font-size:clamp(28px,7vw,44px);line-height:1.2;margin-top:20px;max-width:18ch;}
+.sos-cover p.sub{color:var(--text-dim);font-weight:700;margin-top:10px;max-width:38ch;}
+
+.sos-filterbar{
+  position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:25;
+  margin:0 0 18px;padding:14px 16px;border-radius:16px;
+  background:var(--surface);border:1px solid var(--line);
+  display:flex;flex-direction:column;gap:12px;
+}
+.sos-filterbar input{
+  width:100%;padding:11px 16px;border-radius:100px;border:1.5px solid var(--line);
+  background:var(--surface-2);color:var(--text);font:600 14px 'Manrope',sans-serif;
+}
+.sos-filterbar input::placeholder{color:var(--text-dim);}
+.sos-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.sos-chip{
+  font-size:12.5px;font-weight:700;color:var(--text-dim);text-decoration:none;cursor:pointer;
+  background:var(--surface-2);border:1px solid var(--line);
+  padding:6px 13px;border-radius:100px;white-space:nowrap;
+}
+.sos-chip:hover{color:var(--text);border-color:var(--neon-pink);}
+.sos-chip.active{color:var(--on-brand);background:var(--neon-pink);border-color:var(--neon-pink);}
+.say-card.is-hidden,.call-card.is-hidden{display:none;}
+.sos-empty{padding:20px;text-align:center;color:var(--text-dim);font-size:14px;}
+
+/* ============ МОБІЛЬНЕ МЕНЮ (гамбургер) ============ */
+@media (max-width:860px){
+  .nav-toggle{display:flex;}
+  .topnav nav{
+    display:none;margin-left:0;order:5;flex-basis:100%;
+    flex-direction:column;align-items:stretch;gap:2px;
+    padding-top:10px;margin-top:10px;border-top:1px solid var(--grey-line);
+  }
+  .topnav nav.open{display:flex;}
+  .topnav nav a{padding:11px 12px;}
+  .topnav nav a.sos-btn{order:-1;}
+  .navmenu{width:100%;}
+  .navmenu summary{width:100%;}
+  .navmenu-list{position:static;box-shadow:none;border:none;background:none;padding:2px 0 2px 14px;}
+  .navmenu[open] .navmenu-list{display:flex;flex-direction:column;}
+}
+
+/* ============ ПОШУК — say-картки першими ============ */
+.search-say-block{border-bottom:1px solid var(--grey-line);margin-bottom:6px;padding-bottom:6px;}
+.search-say-label{
+  font-family:'Manrope',sans-serif;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--on-brand);background:var(--neon-pink);display:inline-block;
+  padding:3px 10px;border-radius:100px;margin:4px 8px 8px;
+}
+.search-say-hit{display:block;padding:9px 12px;border-radius:10px;text-decoration:none;}
+.search-say-hit:hover{background:var(--bg);}
+.search-say-hit b{display:block;font-size:13px;color:var(--neon-pink);}
+.search-say-hit span{display:block;font-size:12.5px;color:var(--text-dim);margin-top:3px;line-height:1.4;}
+.search-results .none a{color:var(--blue);font-weight:700;}
+
+/* ============ INSIGHT (двоколонковий блок-інсайт під заголовком уроку) ============ */
+.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0 26px;}
+.insight-card{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--card-radius);padding:18px 20px 17px;box-shadow:var(--shadow);}
+.insight-lead{font-family:'Manrope',sans-serif;font-size:14.5px;font-weight:800;line-height:1.38;letter-spacing:.005em;text-transform:uppercase;color:var(--text);margin:0 0 9px;}
+.insight-text{font-size:13.5px;line-height:1.55;color:var(--text-dim);margin:0;}
+@media (max-width:640px){
+  .insight-grid{grid-template-columns:1fr;}
+}

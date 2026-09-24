@@ -1,0 +1,117 @@
+/* ============ Синтвейв-сцена: гори + перспективна сітка (injected via fx.js, sky+зорі+сонце — theme.css .aura) ============ */
+.scene{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;}
+.scene-mountains{position:absolute;left:0;right:0;bottom:22vh;width:100%;height:30vh;opacity:.55;}
+.scene-grid{position:absolute;left:0;right:0;bottom:0;height:26vh;overflow:hidden;perspective:220px;perspective-origin:50% 0%;}
+.scene-grid::before{
+  content:"";position:absolute;left:-50%;right:-50%;bottom:0;height:220%;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255,70,200,.5) 0 2px, transparent 2px 64px),
+    repeating-linear-gradient(0deg, rgba(157,77,255,.45) 0 2px, transparent 2px 34px);
+  transform:rotateX(75deg);transform-origin:50% 100%;
+  animation:gridmove 7s linear infinite;
+}
+.scene-grid::after{
+  content:"";position:absolute;left:0;right:0;top:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--neon-pink),var(--neon-yellow),var(--neon-pink),transparent);
+  box-shadow:0 0 18px 2px rgba(255,138,0,.6);
+}
+@keyframes gridmove{from{background-position:0 0,0 0;}to{background-position:0 0,0 34px;}}
+
+/* ============ Плаваючі елементи (ікра, водорості) ============ */
+.fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;}
+.fx-back{z-index:-1;}
+.weeds{position:absolute;left:0;right:0;bottom:0;width:100%;height:38vh;}
+.weed{fill:none;stroke-width:5;stroke-linecap:round;opacity:.5;filter:drop-shadow(0 0 6px currentColor);transform-box:fill-box;transform-origin:50% 100%;animation:sway 6s ease-in-out infinite alternate;}
+@keyframes sway{from{transform:rotate(-6deg);}to{transform:rotate(7deg);}}
+.roe{position:absolute;bottom:-20px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFE0A0,#FF8A00 55%,#C83A00);box-shadow:0 0 10px #FF8A00,0 0 22px rgba(255,138,0,.6);opacity:.75;animation:rise linear infinite;}
+.roe:nth-child(3n){background:radial-gradient(circle at 35% 35%,#F2D0FF,#9D4DFF 55%,#5A17B8);box-shadow:0 0 10px #9D4DFF,0 0 22px rgba(157,77,255,.6);}
+@keyframes rise{0%{transform:translate(0,0);opacity:0;}10%{opacity:.8;}50%{transform:translate(24px,-55vh);}100%{transform:translate(-18px,-112vh);opacity:0;}}
+
+/* ============ Лосось: великий, реалістично-неоновий, пливе по діагоналі ============ */
+.fish{width:100%;height:auto;filter:drop-shadow(0 0 8px rgba(255,46,151,.65)) drop-shadow(0 0 22px rgba(255,138,0,.4));animation:bob 3.6s ease-in-out infinite alternate;}
+.fish .tail{transform-box:fill-box;transform-origin:100% 50%;animation:wag .9s ease-in-out infinite alternate;}
+@keyframes bob{from{translate:0 -6px;}to{translate:0 6px;}}
+@keyframes wag{from{transform:rotate(-9deg);}to{transform:rotate(9deg);}}
+
+/* Риба пливе ЗА картками (z-index -2, разом з ікрою/водоростями) — «акваріумне скло»:
+   картки майже непрозорі, тож велика риба видна лише в проміжках між ними, у бокових
+   відступах і на (напівпрозорих) обкладинках, а не крізь абзаци тексту. */
+.swim-diag{position:fixed;pointer-events:none;opacity:.8;z-index:-2;will-change:transform;}
+.diag-a{left:-32vw;top:86vh;width:clamp(260px,36vw,640px);animation:swimA 64s linear infinite;}
+.diag-a .fish{transform:rotate(-30deg);}
+@keyframes swimA{0%{transform:translate3d(0,0,0);}100%{transform:translate3d(165vw,-140vh,0);}}
+
+.diag-b{right:-30vw;top:4vh;width:clamp(220px,30vw,560px);animation:swimB 73s linear infinite;animation-delay:-26s;}
+.diag-b .fish{transform:rotate(150deg);}
+@keyframes swimB{0%{transform:translate3d(0,0,0);}100%{transform:translate3d(-160vw,132vh,0);}}
+
+/* ============ Нагорода ============ */
+.celebrate{position:fixed;inset:0;z-index:80;display:grid;place-items:center;pointer-events:none;}
+.cel-fish{width:min(300px,62vw);animation:pop .5s cubic-bezier(.2,1.6,.4,1) both,leave .5s ease-in 1.8s forwards;}
+.cel-fish .fish{animation:none;filter:drop-shadow(0 0 10px rgba(255,46,151,.7)) drop-shadow(0 0 26px rgba(255,138,0,.5));}
+.cel-roe{position:absolute;left:50%;top:50%;}
+.cel-roe i{position:absolute;width:14px;height:14px;margin:-7px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFE0A0,#FF8A00 55%,#C83A00);box-shadow:0 0 14px #FF8A00;opacity:0;animation:burst 1.4s ease-out forwards;}
+.cel-roe i:nth-child(3n){background:radial-gradient(circle at 35% 35%,#F2D0FF,#9D4DFF 55%,#5A17B8);box-shadow:0 0 14px #9D4DFF;}
+.cel-text{position:absolute;top:calc(50% + 110px);padding:10px 18px;border-radius:100px;background:rgba(7,3,26,.9);border:1px solid var(--neon-orange);color:var(--text);font:800 15px 'Manrope',sans-serif;box-shadow:0 0 24px rgba(255,46,151,.45);animation:pop .4s .15s both,leave .5s ease-in 1.8s forwards;}
+@keyframes pop{from{transform:scale(.3);opacity:0;}to{transform:scale(1);opacity:1;}}
+@keyframes leave{to{transform:scale(.9);opacity:0;}}
+@keyframes burst{0%{transform:translate(0,0) scale(.4);opacity:1;}100%{transform:translate(var(--dx),var(--dy)) scale(1);opacity:0;}}
+
+/* ============ Навігація по уроках ============ */
+.navmenu{position:relative;}
+.navmenu summary{list-style:none;cursor:pointer;font-size:12.5px;font-weight:700;color:var(--on-dark-dim);padding:7px 11px;border-radius:100px;}
+.navmenu summary::-webkit-details-marker{display:none;}
+.navmenu summary::after{content:" ▾";}
+.navmenu[open] summary,.navmenu summary:hover{background:rgba(255,46,151,.16);color:#fff;}
+/* .navmenu-list{display:grid} як звичайний клас-селектор має вищу вагу, ніж UA-правило
+   "details:not([open]) > *{display:none}", тож без явного display:none тут закрите меню
+   все одно лишалось б розкладеним у DOM (і могло спричиняти горизонтальний скрол). */
+.navmenu-list{display:none;position:absolute;left:0;top:calc(100% + 8px);z-index:60;min-width:180px;gap:2px;padding:8px;border-radius:14px;background:#0C0612;border:1px solid var(--glass-line);box-shadow:0 24px 60px rgba(0,0,0,.6);}
+.navmenu[open] .navmenu-list{display:grid;}
+.lessons-menu{min-width:min(340px,calc(100vw - 32px));max-height:70vh;overflow:auto;}
+.navmenu-list a{display:flex;gap:10px;align-items:baseline;padding:8px 10px;border-radius:10px;color:var(--on-dark);text-decoration:none;font-size:13.5px;font-weight:600;}
+.navmenu-list a b{min-width:22px;color:var(--neon-orange);font-family:'Unbounded',sans-serif;font-size:12px;}
+.navmenu-list a small{margin-left:auto;color:var(--on-dark-dim);font-size:11px;white-space:nowrap;}
+.navmenu-list a:hover,.navmenu-list a.active{background:rgba(255,46,151,.16);}
+.lesson-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:16px;}
+.lesson-tile{display:grid;gap:4px;padding:16px;border-radius:14px;background:#0C0612;color:var(--on-dark);text-decoration:none;border:1px solid rgba(255,70,200,.25);transition:transform .15s,box-shadow .15s;}
+.lesson-tile:hover{transform:translateY(-2px);box-shadow:0 0 24px rgba(255,46,151,.35);}
+.lt-num{font:800 26px 'Unbounded',sans-serif;background:linear-gradient(90deg,var(--neon-pink),var(--neon-orange));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.lt-name{font-weight:800;font-size:15px;line-height:1.3;}
+.lt-day{font-size:12px;color:var(--on-dark-dim);}
+
+/* ============ Прогрес читання уроку (закріплена смужка) ============ */
+.read-progress{position:fixed;left:0;top:0;height:3px;width:0%;z-index:50;background:linear-gradient(90deg,var(--neon-pink),var(--neon-orange),var(--neon-yellow));box-shadow:0 0 10px rgba(255,138,0,.65);pointer-events:none;transition:width .12s linear;}
+
+/* ============ Плаваюче міні-оглавлення уроку зі scrollspy ============ */
+.lesson-toc{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:20;width:198px;max-height:60vh;overflow-y:auto;padding:12px 4px 12px 14px;border-left:2px solid var(--glass-line);display:none;}
+.lesson-toc .lt-label{font:700 10.5px 'Unbounded',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;display:block;}
+.lesson-toc a{display:block;font-size:12.5px;line-height:1.5;color:var(--text-dim);text-decoration:none;padding:4px 0 4px 12px;border-left:2px solid transparent;margin-left:-14px;transition:color .15s,border-color .15s;}
+.lesson-toc a.lt-h3{padding-left:22px;font-size:11.5px;opacity:.85;}
+.lesson-toc a:hover{color:var(--text);}
+.lesson-toc a.active{color:var(--neon-orange);border-left-color:var(--neon-orange);font-weight:700;}
+@media (min-width:1180px){.lesson-toc{display:block;}}
+
+@media (prefers-reduced-motion:reduce){
+  .weed,.roe,.fish,.fish .tail,.diag-a,.diag-b,.scene-grid::before,.aura path{animation:none!important;}
+  .diag-a,.diag-b{display:none;}
+  .cel-fish,.cel-text,.cel-roe i{animation-duration:.01s!important;}
+  .read-progress{transition:none;}
+}
+@media (max-width:640px){
+  .navmenu-list{position:fixed;left:16px;right:16px;top:auto;}
+  .diag-a,.diag-b{opacity:.4;}
+  .diag-a{width:clamp(150px,46vw,260px);}
+  .diag-b{width:clamp(130px,38vw,220px);}
+  .scene-mountains{bottom:16vh;height:22vh;}
+  .scene-grid{height:20vh;}
+  .aura::after{width:min(70vw,340px);height:min(70vw,340px);top:6%;}
+}
+
+/* ============ Кнопки звуку (хаус-біт і клацання) ============ */
+.sound-ctl{display:flex;gap:6px;flex-wrap:wrap;}
+.snd-btn{font:700 12px 'Manrope',sans-serif;padding:7px 11px;border-radius:100px;cursor:pointer;white-space:nowrap;
+  background:rgba(255,255,255,.06);border:1px solid var(--glass-line);color:var(--on-dark-dim);}
+.snd-btn:hover{color:#fff;background:rgba(255,46,151,.16);}
+.snd-btn.on{background:linear-gradient(90deg,var(--neon-pink),var(--neon-orange));border-color:transparent;color:#140605;}
+@media (max-width:640px){.sound-ctl{order:3;}}

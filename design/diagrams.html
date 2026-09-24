@@ -1,0 +1,1035 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Диаграммы курса — превью</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3EFE6; --ink:#14110F; --muted:#5F584F; --rule:#BDB5A6; --roe:#B8341A; --ice:#DFE5E2;
+  --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>");
+  --grain-op:.07; --grain-blend:multiply;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F;
+    --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>");
+    --grain-op:.05; --grain-blend:screen;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F;
+  --grain-op:.05; --grain-blend:screen;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:'Roboto Flex',sans-serif; font-optical-sizing:auto;
+  font-size:1.0625rem; line-height:1.55;
+  padding:0 16px 64px;
+  position:relative;
+  overflow-x:hidden;
+}
+body::before{content:"";position:fixed;inset:0;z-index:10;pointer-events:none;
+  background:var(--grain) 0 0/240px; opacity:var(--grain-op); mix-blend-mode:var(--grain-blend)}
+@media print{ body::before{display:none} }
+img{max-width:100%}
+[hidden]{display:none!important}
+
+.wrap{max-width:1400px;margin:0 auto}
+
+header.page{padding:64px 0 32px; border-bottom:1px solid var(--rule)}
+.kicker{font-family:'Martian Mono',monospace;font-stretch:87.5%;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-size:.8rem}
+h1{
+  font-family:'Roboto Flex',sans-serif;
+  font-weight:950; font-stretch:30%; line-height:.86; letter-spacing:-.01em;
+  font-size:clamp(2.4rem, 7vw, 5rem); margin:.3em 0 .2em; color:var(--ink);
+}
+.lede{color:var(--muted); max-width:64ch; font-size:1.05rem}
+
+section.palette{padding:32px 0; border-bottom:1px solid var(--rule)}
+h2{font-family:'Roboto Flex',sans-serif;font-weight:850;font-stretch:35%;font-size:clamp(1.5rem,4vw,2.4rem);line-height:.9;margin:0 0 .5em;color:var(--ink)}
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;border:1px solid var(--rule)}
+.swatch{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:16px}
+.swatch .chip{width:100%;height:56px;border:1px solid var(--rule);margin-bottom:10px}
+.swatch .tok{font-family:'Martian Mono',monospace;font-stretch:87.5%;text-transform:uppercase;font-size:.8rem;letter-spacing:.04em}
+.swatch .hex{color:var(--muted);font-family:'Martian Mono',monospace;font-size:.72rem;margin-top:2px}
+
+main{padding:32px 0}
+article.diagram{padding:56px 0;border-bottom:1px solid var(--rule)}
+article.diagram:last-child{border-bottom:none}
+.dnum{font-family:'Martian Mono',monospace;font-stretch:87.5%;letter-spacing:.04em;text-transform:uppercase;color:var(--roe);font-size:.8rem;margin-bottom:.4em}
+article.diagram h2{margin-bottom:.6em}
+.frame{border:1px solid var(--rule);padding:16px;overflow-x:auto}
+
+footer.page{padding:48px 0;color:var(--muted);font-size:.85rem}
+footer.page .mono{font-family:'Martian Mono',monospace;text-transform:uppercase;letter-spacing:.04em}
+
+@media (max-width:400px){
+  body{padding:0 16px 48px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="page">
+  <div class="kicker">Ikorka Shop · Курс адаптации менеджера · Этап 2</div>
+  <h1>Четыре диаграммы</h1>
+  <p class="lede">Путь звонка, дерево возражений, карта 12 критериев и прогресс по 10 дням — на реальных числах из карты методолога и находок агента 1. Инлайновый SVG + CSS, без внешних картинок и иконок.</p>
+</header>
+
+<section class="palette">
+  <h2>Токены палитры</h2>
+  <div class="swatches">
+    <div class="swatch"><div class="chip" style="background:var(--paper)"></div><div class="tok">--paper</div><div class="hex">бумага / чёрная икра</div></div>
+    <div class="swatch"><div class="chip" style="background:var(--ink)"></div><div class="tok">--ink</div><div class="hex">текст, смысловые линии</div></div>
+    <div class="swatch"><div class="chip" style="background:var(--muted)"></div><div class="tok">--muted</div><div class="hex">вторичный текст</div></div>
+    <div class="swatch"><div class="chip" style="background:var(--rule)"></div><div class="tok">--rule</div><div class="hex">декоративная сетка</div></div>
+    <div class="swatch"><div class="chip" style="background:var(--roe)"></div><div class="tok">--roe</div><div class="hex">икорный акцент</div></div>
+    <div class="swatch"><div class="chip" style="background:var(--ice)"></div><div class="tok">--ice</div><div class="hex">подложка скриптов</div></div>
+  </div>
+</section>
+
+<main>
+<article class="diagram">
+<div class="dnum">Диаграмма 01 / путь звонка</div>
+<h2>Путь звонка</h2>
+<div class="frame">
+<div class="dgm dgm-call-path">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap');
+
+.dgm-call-path{
+  --paper:#F3EFE6; --ink:#14110F; --muted:#5F584F; --rule:#BDB5A6; --roe:#B8341A; --ice:#DFE5E2;
+  background:var(--paper);
+  font-family:'Roboto Flex',sans-serif;
+  max-width:100%;
+}
+@media (prefers-color-scheme: dark){
+  .dgm-call-path:not([data-theme="light"]){
+    --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F;
+  }
+}
+.dgm-call-path[data-theme="dark"]{
+  --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F;
+}
+.dgm-call-path svg{display:block;width:100%;height:auto;max-width:100%}
+.dgm-call-path svg.v-mobile{display:none}
+@media (max-width:640px){
+  .dgm-call-path svg.v-desktop{display:none}
+  .dgm-call-path svg.v-mobile{display:block}
+}
+.dgm-call-path rect.bg{fill:var(--paper)}
+.dgm-call-path .main{stroke:var(--roe);stroke-width:3;vector-effect:non-scaling-stroke;fill:none}
+.dgm-call-path .link{stroke:var(--ink);stroke-width:1.5;vector-effect:non-scaling-stroke;fill:none;stroke-dasharray:1 4;stroke-linecap:round}
+.dgm-call-path .optional{stroke:var(--ink);stroke-width:1.5;vector-effect:non-scaling-stroke;fill:none;stroke-dasharray:2 5;stroke-linecap:round;opacity:.85}
+.dgm-call-path .tick{stroke:var(--rule);stroke-width:1;vector-effect:non-scaling-stroke}
+.dgm-call-path .stop{fill:var(--roe)}
+.dgm-call-path .endpoint-fill{fill:url(#ht-call);stroke:var(--ink);stroke-width:1}
+.dgm-call-path .optional-stop{fill:var(--paper);stroke:var(--ink);stroke-width:1.5;vector-effect:non-scaling-stroke;stroke-dasharray:1 2}
+.dgm-call-path .ink{fill:var(--ink)}
+.dgm-call-path .muted{fill:var(--muted)}
+.dgm-call-path .roe{fill:var(--roe)}
+.dgm-call-path .name{font-family:'Roboto Flex','Segoe UI',sans-serif;font-weight:600;font-stretch:100%}
+.dgm-call-path .mono{font-family:'Martian Mono',monospace;font-stretch:87.5%;letter-spacing:.04em;text-transform:uppercase}
+.dgm-call-path .ht-dot{fill:var(--ink)}
+.dgm-call-path .paperbg{fill:var(--paper)}
+.dgm-call-path .take{font-family:'Roboto Flex',sans-serif;font-size:1rem;line-height:1.5;color:var(--ink);margin:.9em .1em 0;max-width:64ch}
+.dgm-call-path .take b{color:var(--roe);font-weight:700}
+</style>
+
+<svg class="v-desktop" viewBox="0 0 1420 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Путь звонка: 10 обязательных этапов, один опциональный шаг, две ошибочные ветки, цикл возражения-закрытие">
+  <defs>
+    <pattern id="ht-call" width="5" height="5" patternUnits="userSpaceOnUse">
+      <circle class="ht-dot" cx="2.5" cy="2.5" r="0.9"/>
+    </pattern>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1420" height="500"/>
+
+  <text class="mono muted" x="70" y="26" font-size="12">МЕДИАНА УСПЕШНОГО ЗВОНКА ≈ 2:26 (0:41–14:50)</text>
+
+  <!-- main line: 10 mandatory stops -->
+  <path class="main" pathLength="1" d="M70,270 H1339"/>
+  <g class="stop">
+    <circle cx="70" cy="270" r="6"/><circle cx="211" cy="270" r="6"/><circle cx="352" cy="270" r="6"/>
+    <circle cx="493" cy="270" r="6"/><circle cx="634" cy="270" r="6"/><circle cx="775" cy="270" r="6"/>
+    <circle cx="916" cy="270" r="6"/><circle cx="1057" cy="270" r="6"/><circle cx="1198" cy="270" r="6"/>
+    <circle cx="1339" cy="270" r="6"/>
+  </g>
+
+  <!-- optional bypass loop: "Привязка к истории, проверочный вопрос" between станция 1 (Повод) и 2 (Презентация) -->
+  <path class="optional" d="M240,270 C 240,190 322,190 322,270"/>
+  <circle class="optional-stop" cx="281" cy="184" r="6"/>
+  <text class="mono muted" x="281" y="150" font-size="9" text-anchor="middle">ОПЦИОНАЛЬНО — ПО СИТУАЦИИ</text>
+  <text class="name ink" x="281" y="134" font-size="12" text-anchor="middle">Привязка к истории,</text>
+  <text class="name ink" x="281" y="119" font-size="12" text-anchor="middle">проверочный вопрос</text>
+  <text class="mono muted" x="281" y="166" font-size="10" text-anchor="middle">К-06 · 16/26 · не обязателен</text>
+
+  <!-- cycle badge between Закрытие(634) and Возражения(775) -->
+  <rect class="paperbg" x="644" y="262" width="121" height="16"/>
+  <text class="mono muted" x="705" y="274" font-size="9" text-anchor="middle">К-10 × К-11 — ДО 3× ЗА МИН</text>
+
+  <!-- branch 1: ранняя ветка A — ошибка "прощается раньше времени" -->
+  <path class="link" d="M170,270 L120,410"/>
+  <circle class="endpoint-fill" cx="120" cy="410" r="7"/>
+  <text class="mono muted" x="120" y="432" font-size="10" text-anchor="middle">ВЕТКА A</text>
+  <text class="muted" x="120" y="448" font-size="11" text-anchor="middle">ошибка: прощается раньше —</text>
+  <text class="muted" x="120" y="462" font-size="11" text-anchor="middle">4 звонка</text>
+
+  <!-- branch 2: ветка I — без даты = проигранный звонок -->
+  <path class="link" d="M840,270 L900,410"/>
+  <circle class="endpoint-fill" cx="900" cy="410" r="7"/>
+  <text class="mono muted" x="900" y="432" font-size="10" text-anchor="middle">ВЕТКА I</text>
+  <text class="muted" x="900" y="448" font-size="11" text-anchor="middle">«скиньте у Viber» без даты —</text>
+  <text class="muted" x="900" y="462" font-size="11" text-anchor="middle">проигранный звонок</text>
+
+  <!-- station labels: index even -> above, odd -> below -->
+  <!-- 0 Приветствие (above) -->
+  <line class="tick" x1="70" y1="262" x2="70" y2="215"/>
+  <text class="mono roe" x="70" y="202" font-size="10" text-anchor="middle">К-01 · 25/26</text>
+  <text class="name ink" x="70" y="186" font-size="13" text-anchor="middle">Приветствие и</text>
+  <text class="name ink" x="70" y="171" font-size="13" text-anchor="middle">представление</text>
+
+  <!-- 1 Повод звонка (крючок) (below) -->
+  <line class="tick" x1="211" y1="278" x2="211" y2="300"/>
+  <text class="name ink" x="211" y="318" font-size="13" text-anchor="middle">Повод звонка</text>
+  <text class="name ink" x="211" y="333" font-size="13" text-anchor="middle">(крючок)</text>
+  <text class="mono roe" x="211" y="351" font-size="10" text-anchor="middle">К-02 · 26/26</text>
+
+  <!-- 2 Презентация набора (above) -->
+  <line class="tick" x1="352" y1="262" x2="352" y2="215"/>
+  <text class="mono muted" x="352" y="202" font-size="10" text-anchor="middle">К-07</text>
+  <text class="name ink" x="352" y="186" font-size="13" text-anchor="middle">Презентация</text>
+  <text class="name ink" x="352" y="171" font-size="13" text-anchor="middle">набора</text>
+
+  <!-- 3 Цена и условия (below) -->
+  <line class="tick" x1="493" y1="278" x2="493" y2="300"/>
+  <text class="name ink" x="493" y="318" font-size="13" text-anchor="middle">Цена и условия</text>
+  <text class="mono roe" x="493" y="336" font-size="10" text-anchor="middle">К-07 · 24/26 озвучили</text>
+  <text class="mono roe" x="493" y="350" font-size="10" text-anchor="middle">медиана ≈ 35 сек</text>
+
+  <!-- 4 Закрытие (above) -->
+  <line class="tick" x1="634" y1="262" x2="634" y2="215"/>
+  <text class="mono roe" x="634" y="202" font-size="10" text-anchor="middle">К-10 · 22/26</text>
+  <text class="name ink" x="634" y="186" font-size="13" text-anchor="middle">Закрытие</text>
+
+  <!-- 5 Обработка возражений (below) -->
+  <line class="tick" x1="775" y1="278" x2="775" y2="300"/>
+  <text class="name ink" x="775" y="318" font-size="13" text-anchor="middle">Обработка</text>
+  <text class="name ink" x="775" y="333" font-size="13" text-anchor="middle">возражений</text>
+  <text class="mono roe" x="775" y="351" font-size="10" text-anchor="middle">К-11 · 19/26</text>
+
+  <!-- 6 Альтернатива и спуск (above) -->
+  <line class="tick" x1="916" y1="262" x2="916" y2="215"/>
+  <text class="mono muted" x="916" y="202" font-size="10" text-anchor="middle">К-08 · спуск 2/26</text>
+  <text class="name ink" x="916" y="186" font-size="13" text-anchor="middle">Альтернатива</text>
+  <text class="name ink" x="916" y="171" font-size="13" text-anchor="middle">и спуск</text>
+
+  <!-- 7 Допродажа (below) -->
+  <line class="tick" x1="1057" y1="278" x2="1057" y2="300"/>
+  <text class="name ink" x="1057" y="318" font-size="13" text-anchor="middle">Допродажа</text>
+  <text class="mono muted" x="1057" y="336" font-size="10" text-anchor="middle">К-08 · 5/26</text>
+
+  <!-- 8 Логистика и фиксация (above) -->
+  <line class="tick" x1="1198" y1="262" x2="1198" y2="215"/>
+  <text class="mono muted" x="1198" y="202" font-size="10" text-anchor="middle">К-09 · 16/26 (М2 — 0/7)</text>
+  <text class="name ink" x="1198" y="186" font-size="13" text-anchor="middle">Логистика</text>
+  <text class="name ink" x="1198" y="171" font-size="13" text-anchor="middle">и фиксация</text>
+
+  <!-- 9 Итог и прощание (below) -->
+  <line class="tick" x1="1339" y1="278" x2="1339" y2="300"/>
+  <text class="name ink" x="1309" y="318" font-size="13" text-anchor="end">Итог и</text>
+  <text class="name ink" x="1309" y="333" font-size="13" text-anchor="end">прощание</text>
+  <text class="mono muted" x="1309" y="351" font-size="10" text-anchor="end">К-09 · 10/26</text>
+</svg>
+
+<svg class="v-mobile" viewBox="0 0 420 1900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Путь звонка, вертикальная раскладка">
+  <defs>
+    <pattern id="ht-call-m" width="5" height="5" patternUnits="userSpaceOnUse">
+      <circle class="ht-dot" cx="2.5" cy="2.5" r="0.9"/>
+    </pattern>
+  </defs>
+  <rect class="bg" x="0" y="0" width="420" height="1900"/>
+  <text class="mono muted" x="18" y="24" font-size="10">МЕДИАНА ЗВОНКА ≈ 2:26 (0:41–14:50)</text>
+
+  <path class="main" pathLength="1" d="M90,60 V1620"/>
+  <g class="stop">
+    <circle cx="90" cy="60" r="6"/><circle cx="90" cy="230" r="6"/><circle cx="90" cy="400" r="6"/>
+    <circle cx="90" cy="570" r="6"/><circle cx="90" cy="740" r="6"/><circle cx="90" cy="910" r="6"/>
+    <circle cx="90" cy="1080" r="6"/><circle cx="90" cy="1250" r="6"/><circle cx="90" cy="1420" r="6"/>
+    <circle cx="90" cy="1620" r="6"/>
+  </g>
+
+  <!-- optional bypass loop, left of line, between station1(230) and station2(400) -->
+  <path class="optional" d="M90,300 C 30,300 30,360 90,360"/>
+  <circle class="optional-stop" cx="24" cy="330" r="6"/>
+  <text class="mono muted" x="14" y="292" font-size="8" text-anchor="middle" transform="rotate(-90 14 292)">ОПЦИОНАЛЬНО</text>
+
+  <!-- cycle badge between 740(Закрытие) and 910(Возражения) -->
+  <rect class="paperbg" x="96" y="818" width="150" height="15"/>
+  <text class="mono muted" x="100" y="829" font-size="9">К-10 × К-11 — ДО 3× ЗА МИН</text>
+
+  <!-- branch A: near station0-1 -->
+  <path class="link" d="M90,150 L185,190"/>
+  <circle class="endpoint-fill" cx="185" cy="190" r="6"/>
+  <text class="mono muted" x="200" y="186" font-size="9">ВЕТКА A</text>
+  <text class="muted" x="200" y="200" font-size="10">прощается раньше — 4 звонка</text>
+
+  <!-- branch I: near station5(910)-6(1080) -->
+  <path class="link" d="M90,995 L185,1035"/>
+  <circle class="endpoint-fill" cx="185" cy="1035" r="6"/>
+  <text class="mono muted" x="200" y="1031" font-size="9">ВЕТКА I</text>
+  <text class="muted" x="200" y="1045" font-size="10">без даты — проигранный звонок</text>
+
+  <!-- station 0 -->
+  <line class="tick" x1="98" y1="60" x2="125" y2="60"/>
+  <text class="name ink" x="135" y="52" font-size="15">Приветствие и представление</text>
+  <text class="mono roe" x="135" y="72" font-size="10">К-01 · 25/26</text>
+
+  <!-- station 1 -->
+  <line class="tick" x1="98" y1="230" x2="125" y2="230"/>
+  <text class="name ink" x="135" y="222" font-size="15">Повод звонка (крючок)</text>
+  <text class="mono roe" x="135" y="242" font-size="10">К-02 · 26/26</text>
+
+  <!-- optional label placed near loop, describing station -->
+  <text class="name ink" x="135" y="320" font-size="13">Привязка к истории,</text>
+  <text class="name ink" x="135" y="337" font-size="13">проверочный вопрос</text>
+  <text class="mono muted" x="135" y="355" font-size="9">К-06 · 16/26 · не обязателен, по ситуации</text>
+
+  <!-- station 2 -->
+  <line class="tick" x1="98" y1="400" x2="125" y2="400"/>
+  <text class="name ink" x="135" y="392" font-size="15">Презентация набора</text>
+  <text class="mono muted" x="135" y="412" font-size="10">К-07</text>
+
+  <!-- station 3 -->
+  <line class="tick" x1="98" y1="570" x2="125" y2="570"/>
+  <text class="name ink" x="135" y="562" font-size="15">Цена и условия</text>
+  <text class="mono roe" x="135" y="582" font-size="10">К-07 · 24/26 · медиана ≈35 сек</text>
+
+  <!-- station 4 -->
+  <line class="tick" x1="98" y1="740" x2="125" y2="740"/>
+  <text class="name ink" x="135" y="732" font-size="15">Закрытие</text>
+  <text class="mono roe" x="135" y="752" font-size="10">К-10 · 22/26</text>
+
+  <!-- station 5 -->
+  <line class="tick" x1="98" y1="910" x2="125" y2="910"/>
+  <text class="name ink" x="135" y="902" font-size="15">Обработка возражений</text>
+  <text class="mono roe" x="135" y="922" font-size="10">К-11 · 19/26</text>
+
+  <!-- station 6 -->
+  <line class="tick" x1="98" y1="1080" x2="125" y2="1080"/>
+  <text class="name ink" x="135" y="1072" font-size="15">Альтернатива и спуск</text>
+  <text class="mono muted" x="135" y="1092" font-size="10">К-08 · явный спуск 2/26</text>
+
+  <!-- station 7 -->
+  <line class="tick" x1="98" y1="1250" x2="125" y2="1250"/>
+  <text class="name ink" x="135" y="1242" font-size="15">Допродажа</text>
+  <text class="mono muted" x="135" y="1262" font-size="10">К-08 · 5/26</text>
+
+  <!-- station 8 -->
+  <line class="tick" x1="98" y1="1420" x2="125" y2="1420"/>
+  <text class="name ink" x="135" y="1412" font-size="15">Логистика и фиксация</text>
+  <text class="mono muted" x="135" y="1432" font-size="10">К-09 · 16/26 (у М2 — 0/7)</text>
+
+  <!-- station 9 -->
+  <line class="tick" x1="98" y1="1620" x2="125" y2="1620"/>
+  <text class="name ink" x="135" y="1612" font-size="15">Итог и прощание</text>
+  <text class="mono muted" x="135" y="1632" font-size="10">К-09 · 10/26</text>
+</svg>
+
+<p class="take">Что запомнить: <b>цена звучит уже на 35-й секунде</b> — а дальше закрытие и возражения идут по кругу (до 2–3 раз за минуту), а не по прямой. Вопрос о прошлом заказе — не обязателен, применяется по ситуации.</p>
+</div>
+</div>
+</article>
+<article class="diagram">
+<div class="dnum">Диаграмма 02 / дерево возражений</div>
+<h2>Дерево возражений</h2>
+<div class="frame">
+<div class="dgm dgm-obj-tree">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap');
+
+.dgm-obj-tree{
+  --paper:#F3EFE6; --ink:#14110F; --muted:#5F584F; --rule:#BDB5A6; --roe:#B8341A; --ice:#DFE5E2;
+  background:var(--paper); font-family:'Roboto Flex',sans-serif; max-width:100%;
+}
+@media (prefers-color-scheme: dark){
+  .dgm-obj-tree:not([data-theme="light"]){ --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F; }
+}
+.dgm-obj-tree[data-theme="dark"]{ --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F; }
+.dgm-obj-tree svg{display:block;width:100%;height:auto;max-width:100%}
+.dgm-obj-tree svg.v-mobile{display:none}
+@media (max-width:640px){
+  .dgm-obj-tree svg.v-desktop{display:none}
+  .dgm-obj-tree svg.v-mobile{display:block}
+}
+.dgm-obj-tree rect.bg{fill:var(--paper)}
+.dgm-obj-tree .spine{stroke:var(--rule);stroke-width:1;vector-effect:non-scaling-stroke}
+.dgm-obj-tree .tick{stroke:var(--rule);stroke-width:1;vector-effect:non-scaling-stroke}
+.dgm-obj-tree .spine-accent{stroke:var(--roe);stroke-width:1.5;vector-effect:non-scaling-stroke}
+.dgm-obj-tree .ink{fill:var(--ink)}
+.dgm-obj-tree .muted{fill:var(--muted)}
+.dgm-obj-tree .roe{fill:var(--roe)}
+.dgm-obj-tree .icebg{fill:var(--ice)}
+.dgm-obj-tree .label{font-family:'Roboto Flex',sans-serif;font-weight:800;font-stretch:80%}
+.dgm-obj-tree .body{font-family:'Roboto Flex',sans-serif;font-weight:400}
+.dgm-obj-tree .mono{font-family:'Martian Mono',monospace;font-stretch:87.5%;letter-spacing:.04em;text-transform:uppercase}
+.dgm-obj-tree .take{font-family:'Roboto Flex',sans-serif;font-size:1rem;line-height:1.5;color:var(--ink);margin:.9em .1em 0;max-width:64ch}
+.dgm-obj-tree .take b{color:var(--roe);font-weight:700}
+</style>
+
+<svg class="v-desktop" viewBox="0 0 1320 1230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Дерево возражений: развилка до/после презентации, девять веток">
+  <rect class="bg" x="0" y="0" width="1320" height="1230"/>
+
+  <!-- Развилка 0 -->
+  <text class="mono ink" x="20" y="34" font-size="14">РАЗВИЛКА 0 — КОГДА ПРОЗВУЧАЛО ВОЗРАЖЕНИЕ?</text>
+  <line class="spine" x1="20" y1="46" x2="20" y2="1170"/>
+
+  <!-- ДО ПРЕЗЕНТАЦИИ -> A -->
+  <line class="tick" x1="20" y1="90" x2="60" y2="90"/>
+  <text class="mono muted" x="30" y="82" font-size="11">ДО ПРЕЗЕНТАЦИИ →</text>
+  <text class="label roe" x="70" y="94" font-size="15">A. Раннее («пожар»)</text>
+  <text class="body ink" x="280" y="82" font-size="12">«Не треба», «неактуально» —</text>
+  <text class="body ink" x="280" y="98" font-size="12">до того, как прозвучало предложение</text>
+  <text class="body ink" x="530" y="82" font-size="12">→ короткое признание без аргументов,</text>
+  <text class="body ink" x="530" y="98" font-size="12">сразу дальше по презентации</text>
+  <text class="body muted" x="880" y="82" font-size="12">Клиент дослушивает. Ошибка</text>
+  <text class="body muted" x="880" y="98" font-size="12">новичков — прощается: 4 звонка</text>
+
+  <!-- ПОСЛЕ ПРЕЗЕНТАЦИИ label + secondary spine for B..I -->
+  <text class="mono muted" x="30" y="150" font-size="11">ПОСЛЕ ПРЕЗЕНТАЦИИ → развилка по типу</text>
+  <line class="spine" x1="20" y1="160" x2="20" y2="1170"/>
+
+  <!-- B -->
+  <line class="tick" x1="20" y1="205" x2="60" y2="205"/>
+  <text class="label ink" x="70" y="200" font-size="15">B. Ложное после презентации</text>
+  <text class="mono muted" x="70" y="216" font-size="10">[ЛОЖНОЕ] — диагностика, не отказ</text>
+  <text class="body ink" x="280" y="197" font-size="12">«Подумаю», «порадюсь», «уезжаю»,</text>
+  <text class="body ink" x="280" y="213" font-size="12">«неудобно»</text>
+  <text class="body ink" x="530" y="197" font-size="12">→ один вопрос-гипотеза: «фінансове</text>
+  <text class="body ink" x="530" y="213" font-size="12">чи ще є ікра» — слово «чому» под запретом</text>
+  <text class="body muted" x="880" y="197" font-size="12">→ ~90% сводится к деньгам (C)</text>
+  <text class="body muted" x="880" y="213" font-size="12">или остатку (D)</text>
+
+  <!-- secondary spine B -> C,D -->
+  <line class="spine" x1="90" y1="222" x2="90" y2="470"/>
+
+  <!-- C -->
+  <line class="tick" x1="90" y1="300" x2="120" y2="300"/>
+  <text class="label ink" x="130" y="295" font-size="15">C. Финансовое</text>
+  <text class="mono roe" x="130" y="311" font-size="10">[ИСТИННОЕ] · [ПРАВИЛО] 2–3 аргумента</text>
+  <text class="body ink" x="340" y="292" font-size="12">«Дорого», «нет денег»,</text>
+  <text class="body ink" x="340" y="308" font-size="12">«пенсия не добавилась»</text>
+  <text class="body ink" x="560" y="284" font-size="12">→ 2–3 аргумента подряд (цена за банку,</text>
+  <text class="body ink" x="560" y="300" font-size="12">доставка, самый дорогой вид в подарок,</text>
+  <text class="body ink" x="560" y="316" font-size="12">срок годности) → снова закрытие</text>
+  <text class="body muted" x="930" y="292" font-size="12">ТОП-12: 1440→998, заказ;</text>
+  <text class="body muted" x="930" y="308" font-size="12">ТОП-06: перенос даты</text>
+
+  <!-- D -->
+  <line class="tick" x1="90" y1="400" x2="120" y2="400"/>
+  <text class="label ink" x="130" y="395" font-size="15">D. Остаток дома</text>
+  <text class="mono roe" x="130" y="411" font-size="10">[ИСТИННОЕ]</text>
+  <text class="body ink" x="340" y="392" font-size="12">«Ещё осталась икра»,</text>
+  <text class="body ink" x="340" y="408" font-size="12">«недавно брала»</text>
+  <text class="body ink" x="560" y="392" font-size="12">→ уточнить сколько и какого вида →</text>
+  <text class="body ink" x="560" y="408" font-size="12">докрутить недостающее; ценой не отвечать</text>
+  <text class="body muted" x="930" y="400" font-size="12">Переводит разговор в кросс-сейл</text>
+
+  <!-- E accent recommended -->
+  <line class="tick spine-accent" x1="20" y1="520" x2="60" y2="520"/>
+  <rect class="icebg" x="60" y="490" width="1230" height="72"/>
+  <text class="label roe" x="70" y="513" font-size="16">E. Жалоба на прошлый заказ</text>
+  <text class="mono roe" x="70" y="530" font-size="10">★ РЕКОМЕНДУЕМАЯ ВЕТКА</text>
+  <text class="body ink" x="280" y="510" font-size="12">«Одна сіль», «не доложили»,</text>
+  <text class="body ink" x="280" y="526" font-size="12">«не туди приїхало»</text>
+  <text class="body ink" x="530" y="502" font-size="12">→ выслушать → «розумію» → уточняющий</text>
+  <text class="body ink" x="530" y="518" font-size="12">вопрос → объяснение без обвинения →</text>
+  <text class="body ink" x="530" y="534" font-size="12">компенсация → новый оффер</text>
+  <text class="body roe" x="900" y="502" font-size="13" font-weight="700">6 из 6 звонков</text>
+  <text class="body roe" x="900" y="518" font-size="13" font-weight="700">закрыты в заказ</text>
+
+  <!-- F -->
+  <line class="tick" x1="20" y1="635" x2="60" y2="635"/>
+  <text class="label ink" x="70" y="630" font-size="15">F. Недоверие</text>
+  <text class="mono muted" x="70" y="646" font-size="10">⚠ приём на грани</text>
+  <text class="body ink" x="280" y="627" font-size="12">«Велика націнка буде?»,</text>
+  <text class="body ink" x="280" y="643" font-size="12">«а ви точно з Ікорки?»</text>
+  <text class="body ink" x="530" y="627" font-size="12">→ короткий ответ без оправданий →</text>
+  <text class="body ink" x="530" y="643" font-size="12">личная гарантия, прямой Viber</text>
+  <text class="body muted" x="880" y="627" font-size="12">Успех: ТОП-07, ТОП-09. Провал:</text>
+  <text class="body muted" x="880" y="643" font-size="12">ТОП-12 — оправдание усилило недоверие</text>
+
+  <!-- G -->
+  <line class="tick" x1="20" y1="750" x2="60" y2="750"/>
+  <text class="label ink" x="70" y="745" font-size="15">G. Ситуативное</text>
+  <text class="body ink" x="280" y="742" font-size="12">«Світло вимикають», «далеко</text>
+  <text class="body ink" x="280" y="758" font-size="12">до пошти», «не буду вдома»</text>
+  <text class="body ink" x="530" y="742" font-size="12">→ готовое решение: хранение,</text>
+  <text class="body ink" x="530" y="758" font-size="12">курьер, перенос даты отправки</text>
+  <text class="body muted" x="880" y="742" font-size="12">Успех: ТОП-06, 11, 24. Ошибка</text>
+  <text class="body muted" x="880" y="758" font-size="12">новичков — принять как отказ</text>
+
+  <!-- H -->
+  <line class="tick" x1="20" y1="850" x2="60" y2="850"/>
+  <text class="label ink" x="70" y="845" font-size="15">H. Беда клиента</text>
+  <text class="body ink" x="280" y="845" font-size="12">Горе в семье, обстрел, родственник на войне</text>
+  <text class="body ink" x="700" y="845" font-size="12">→ не продавать: посочувствовать, оставить контакт</text>
+  <text class="body muted" x="280" y="865" font-size="12">Единственный явный стоп в методике компании</text>
+
+  <!-- I -->
+  <line class="tick" x1="20" y1="945" x2="60" y2="945"/>
+  <text class="label ink" x="70" y="940" font-size="15">I. Отсрочка</text>
+  <text class="body ink" x="280" y="937" font-size="12">«Скиньте на Viber»,</text>
+  <text class="body ink" x="280" y="953" font-size="12">«перезвоните», «після зарплати»</text>
+  <text class="body ink" x="530" y="937" font-size="12">→ сначала попытка закрыть сейчас →</text>
+  <text class="body ink" x="530" y="953" font-size="12">если перезвон — конкретная дата + CRM</text>
+  <text class="body muted" x="880" y="945" font-size="12">Без даты — проигранный звонок</text>
+
+  <!-- footer meta -->
+  <text class="mono muted" x="20" y="1010" font-size="10">→ = ХОД МЕНЕДЖЕРА · [ЛОЖНОЕ]/[ИСТИННОЕ] = ТИП ВОЗРАЖЕНИЯ · ★ = РЕКОМЕНДУЕМАЯ ВЕТКА</text>
+</svg>
+
+<svg class="v-mobile" viewBox="0 0 420 3300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Дерево возражений, вертикальная раскладка">
+  <rect class="bg" x="0" y="0" width="420" height="3300"/>
+  <text class="mono ink" x="16" y="28" font-size="12">РАЗВИЛКА 0 — КОГДА ВОЗРАЗИЛ?</text>
+  <line class="spine" x1="16" y1="40" x2="16" y2="3260"/>
+
+  <!-- A -->
+  <line class="tick" x1="16" y1="78" x2="40" y2="78"/>
+  <text class="mono muted" x="40" y="66" font-size="10">ДО ПРЕЗЕНТАЦИИ</text>
+  <text class="label roe" x="40" y="90" font-size="15">A. Раннее («пожар»)</text>
+  <text class="body ink" x="40" y="112" font-size="12">«Не треба» — до предложения</text>
+  <text class="body ink" x="40" y="130" font-size="12">→ признание без аргументов,</text>
+  <text class="body ink" x="40" y="146" font-size="12">сразу дальше по презентации</text>
+  <text class="body muted" x="40" y="166" font-size="12">Дослушивает; ошибка — прощается: 4 звонка</text>
+
+  <text class="mono muted" x="40" y="220" font-size="10">ПОСЛЕ ПРЕЗЕНТАЦИИ → ПО ТИПУ</text>
+  <line class="spine" x1="16" y1="230" x2="16" y2="3260"/>
+
+  <!-- B -->
+  <line class="tick" x1="16" y1="270" x2="40" y2="270"/>
+  <text class="label ink" x="40" y="264" font-size="15">B. Ложное после презентации</text>
+  <text class="mono muted" x="40" y="282" font-size="9">[ЛОЖНОЕ] — диагностика</text>
+  <text class="body ink" x="40" y="302" font-size="12">«Подумаю», «порадюсь», «уезжаю»</text>
+  <text class="body ink" x="40" y="320" font-size="12">→ вопрос-гипотеза: «фінансове чи</text>
+  <text class="body ink" x="40" y="336" font-size="12">ще є ікра» — «чому» запрещено</text>
+  <text class="body muted" x="40" y="356" font-size="12">→ ~90% сводится к деньгам (C) или остатку (D)</text>
+
+  <line class="spine" x1="56" y1="374" x2="56" y2="720"/>
+
+  <!-- C -->
+  <line class="tick" x1="56" y1="420" x2="80" y2="420"/>
+  <text class="label ink" x="80" y="414" font-size="15">C. Финансовое</text>
+  <text class="mono roe" x="80" y="432" font-size="9">[ИСТИННОЕ] · правило 2–3 аргументов</text>
+  <text class="body ink" x="80" y="452" font-size="12">«Дорого», «нет денег»</text>
+  <text class="body ink" x="80" y="470" font-size="12">→ 2–3 аргумента подряд (банка,</text>
+  <text class="body ink" x="80" y="486" font-size="12">доставка, подарок, срок) →</text>
+  <text class="body ink" x="80" y="502" font-size="12">снова закрытие; спуск — на повторное «дорого»</text>
+  <text class="body muted" x="80" y="524" font-size="12">ТОП-12: 1440→998; ТОП-06: перенос даты</text>
+
+  <!-- D -->
+  <line class="tick" x1="56" y1="580" x2="80" y2="580"/>
+  <text class="label ink" x="80" y="574" font-size="15">D. Остаток дома</text>
+  <text class="mono roe" x="80" y="592" font-size="9">[ИСТИННОЕ]</text>
+  <text class="body ink" x="80" y="612" font-size="12">«Ещё осталась икра»</text>
+  <text class="body ink" x="80" y="630" font-size="12">→ уточнить сколько и какого вида →</text>
+  <text class="body ink" x="80" y="646" font-size="12">докрутить недостающее; ценой не отвечать</text>
+  <text class="body muted" x="80" y="668" font-size="12">Переводит в кросс-сейл</text>
+
+  <!-- E accent -->
+  <line class="tick spine-accent" x1="16" y1="800" x2="40" y2="800"/>
+  <rect class="icebg" x="40" y="750" width="364" height="130"/>
+  <text class="label roe" x="52" y="778" font-size="16">E. Жалоба на прошлый заказ</text>
+  <text class="mono roe" x="52" y="796" font-size="10">★ РЕКОМЕНДУЕМАЯ ВЕТКА</text>
+  <text class="body ink" x="52" y="816" font-size="12">«Одна сіль», «не доложили»</text>
+  <text class="body ink" x="52" y="834" font-size="12">→ выслушать → «розумію» →</text>
+  <text class="body ink" x="52" y="850" font-size="12">уточняющий вопрос → объяснение</text>
+  <text class="body ink" x="52" y="866" font-size="12">без обвинения → компенсация → оффер</text>
+  <text class="body roe" x="52" y="886" font-size="13" font-weight="700">6 из 6 закрыты в заказ</text>
+
+  <!-- F -->
+  <line class="tick" x1="16" y1="940" x2="40" y2="940"/>
+  <text class="label ink" x="40" y="934" font-size="15">F. Недоверие</text>
+  <text class="mono muted" x="40" y="952" font-size="10">⚠ приём на грани</text>
+  <text class="body ink" x="40" y="972" font-size="12">«Велика націнка?», «ви точно з Ікорки?»</text>
+  <text class="body ink" x="40" y="990" font-size="12">→ короткий ответ → личная гарантия,</text>
+  <text class="body ink" x="40" y="1006" font-size="12">прямой Viber</text>
+  <text class="body muted" x="40" y="1026" font-size="12">Успех ТОП-07,09; провал ТОП-12</text>
+
+  <!-- G -->
+  <line class="tick" x1="16" y1="1080" x2="40" y2="1080"/>
+  <text class="label ink" x="40" y="1074" font-size="15">G. Ситуативное</text>
+  <text class="body ink" x="40" y="1094" font-size="12">«Світло вимикають», «далеко до пошти»</text>
+  <text class="body ink" x="40" y="1112" font-size="12">→ готовое решение: хранение,</text>
+  <text class="body ink" x="40" y="1128" font-size="12">курьер, перенос даты</text>
+  <text class="body muted" x="40" y="1148" font-size="12">Успех ТОП-06,11,24; ошибка — принять как отказ</text>
+
+  <!-- H -->
+  <line class="tick" x1="16" y1="1200" x2="40" y2="1200"/>
+  <text class="label ink" x="40" y="1194" font-size="15">H. Беда клиента</text>
+  <text class="body ink" x="40" y="1214" font-size="12">Горе в семье, обстрел</text>
+  <text class="body ink" x="40" y="1232" font-size="12">→ не продавать: посочувствовать,</text>
+  <text class="body ink" x="40" y="1248" font-size="12">оставить контакт</text>
+  <text class="body muted" x="40" y="1268" font-size="12">Единственный явный стоп в методике</text>
+
+  <!-- I -->
+  <line class="tick" x1="16" y1="1320" x2="40" y2="1320"/>
+  <text class="label ink" x="40" y="1314" font-size="15">I. Отсрочка</text>
+  <text class="body ink" x="40" y="1334" font-size="12">«Скиньте на Viber», «перезвоните»</text>
+  <text class="body ink" x="40" y="1352" font-size="12">→ сначала попытка закрыть сейчас →</text>
+  <text class="body ink" x="40" y="1368" font-size="12">если перезвон — дата + фиксация в CRM</text>
+  <text class="body muted" x="40" y="1388" font-size="12">Без даты — проигранный звонок</text>
+
+  <text class="mono muted" x="16" y="1440" font-size="9">→ ХОД МЕНЕДЖЕРА · ★ РЕКОМЕНДУЕМАЯ ВЕТКА</text>
+</svg>
+
+<p class="take">Что запомнить: <b>до презентации возражение не обрабатывают вообще</b>; после — один вопрос-гипотеза решает 9 случаев из 10 без единого слова о цене.</p>
+</div>
+</div>
+</article>
+<article class="diagram">
+<div class="dnum">Диаграмма 03 / карта критериев</div>
+<h2>Карта 12 критериев</h2>
+<div class="frame">
+<div class="dgm dgm-crit-map">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap');
+
+.dgm-crit-map{
+  --paper:#F3EFE6; --ink:#14110F; --muted:#5F584F; --rule:#BDB5A6; --roe:#B8341A; --ice:#DFE5E2;
+  background:var(--paper); font-family:'Roboto Flex',sans-serif; max-width:100%;
+}
+@media (prefers-color-scheme: dark){
+  .dgm-crit-map:not([data-theme="light"]){ --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F; }
+}
+.dgm-crit-map[data-theme="dark"]{ --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F; }
+.dgm-crit-map svg{display:block;width:100%;height:auto;max-width:100%}
+.dgm-crit-map svg.v-mobile{display:none}
+@media (max-width:640px){
+  .dgm-crit-map svg.v-desktop{display:none}
+  .dgm-crit-map svg.v-mobile{display:block}
+}
+.dgm-crit-map rect.bg{fill:var(--paper)}
+.dgm-crit-map .grid{stroke:var(--rule);stroke-width:1;vector-effect:non-scaling-stroke}
+.dgm-crit-map .ink{fill:var(--ink)}
+.dgm-crit-map .muted{fill:var(--muted)}
+.dgm-crit-map .roe{fill:var(--roe)}
+.dgm-crit-map .num{font-family:'Roboto Flex',sans-serif;font-weight:900;font-stretch:25%}
+.dgm-crit-map .num-solid{fill:var(--ink)}
+.dgm-crit-map .num-weak{fill:url(#ht-crit)}
+.dgm-crit-map .num-gap{fill:none;stroke:var(--roe);stroke-width:2}
+.dgm-crit-map .name{font-family:'Roboto Flex',sans-serif;font-weight:700;font-stretch:100%}
+.dgm-crit-map .phrase{font-family:'Roboto Flex',sans-serif;font-weight:400}
+.dgm-crit-map .mono{font-family:'Martian Mono',monospace;font-stretch:87.5%;letter-spacing:.04em;text-transform:uppercase}
+.dgm-crit-map .take{font-family:'Roboto Flex',sans-serif;font-size:1rem;line-height:1.5;color:var(--ink);margin:.9em .1em 0;max-width:64ch}
+.dgm-crit-map .take b{color:var(--roe);font-weight:700}
+</style>
+
+<svg class="v-desktop" viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Карта 12 критериев, сетка 4×3">
+  <defs>
+    <pattern id="ht-crit" width="5" height="5" patternUnits="userSpaceOnUse">
+      <circle cx="2.5" cy="2.5" r="0.9" class="ink" fill="currentColor" style="fill:var(--ink)"/>
+    </pattern>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1200" height="900"/>
+
+  <!-- grid lines: 4 cols x 3 rows, cells 300x300 -->
+  <g class="grid">
+    <line x1="0" y1="0" x2="1200" y2="0"/><line x1="0" y1="300" x2="1200" y2="300"/>
+    <line x1="0" y1="600" x2="1200" y2="600"/><line x1="0" y1="900" x2="1200" y2="900"/>
+    <line x1="0" y1="0" x2="0" y2="900"/><line x1="300" y1="0" x2="300" y2="900"/>
+    <line x1="600" y1="0" x2="600" y2="900"/><line x1="900" y1="0" x2="900" y2="900"/>
+    <line x1="1200" y1="0" x2="1200" y2="900"/>
+  </g>
+
+  <!-- Row 0: K01 K02 K03 K04 -->
+  <g transform="translate(0,0)">
+    <text class="num num-solid" x="24" y="118" font-size="92">01</text>
+    <text class="name ink" x="24" y="160" font-size="19">Заход</text>
+    <text class="phrase muted" x="24" y="182" font-size="12">Заход отмечен в 22 из 26 эталонных звонков</text>
+    <text class="mono muted" x="276" y="284" font-size="10" text-anchor="end">ДЕНЬ 01</text>
+  </g>
+  <g transform="translate(300,0)">
+    <text class="num num-solid" x="24" y="118" font-size="92">02</text>
+    <text class="name ink" x="24" y="160" font-size="19">Крючок</text>
+    <text class="phrase muted" x="24" y="182" font-size="12">Персональный повод до первого вопроса</text>
+    <text class="mono muted" x="276" y="284" font-size="10" text-anchor="end">ДЕНЬ 02</text>
+  </g>
+  <g transform="translate(600,0)">
+    <text class="num num-weak" x="24" y="118" font-size="92">03</text>
+    <text class="name ink" x="24" y="150" font-size="17">Уверенность, скорость,</text>
+    <text class="name ink" x="24" y="170" font-size="17">интонация, молчание</text>
+    <text class="phrase muted" x="24" y="192" font-size="12">Замера темпа и пауз нет — эталона нет</text>
+    <text class="mono muted" x="276" y="284" font-size="10" text-anchor="end">ДЕНЬ 05</text>
+  </g>
+  <g transform="translate(900,0)">
+    <text class="num num-gap" x="24" y="118" font-size="92">04</text>
+    <text class="name roe" x="24" y="150" font-size="17">Чистота речи и</text>
+    <text class="name roe" x="24" y="170" font-size="17">слова-паразиты</text>
+    <text class="phrase roe" x="24" y="192" font-size="12">Пробел: ни одного разбора паразита</text>
+    <text class="mono muted" x="276" y="284" font-size="10" text-anchor="end">ДЕНЬ 09</text>
+  </g>
+
+  <!-- Row 1: K05 K06 K07 K08 -->
+  <g transform="translate(0,300)">
+    <text class="num num-solid" x="24" y="418" font-size="92">05</text>
+    <text class="name ink" x="24" y="460" font-size="19">Соблюдение этапов</text>
+    <text class="phrase muted" x="24" y="482" font-size="12">Все 26 звонков — в 3 сценария</text>
+    <text class="mono muted" x="276" y="584" font-size="10" text-anchor="end">ДЕНЬ 02</text>
+  </g>
+  <g transform="translate(300,300)">
+    <text class="num num-solid" x="24" y="418" font-size="92">06</text>
+    <text class="name ink" x="24" y="460" font-size="19">Персонализация</text>
+    <text class="phrase muted" x="24" y="482" font-size="12">Имя клиента — 26 из 26 эталонных</text>
+    <text class="mono muted" x="276" y="584" font-size="10" text-anchor="end">ДЕНЬ 04</text>
+  </g>
+  <g transform="translate(600,300)">
+    <text class="num num-solid" x="24" y="418" font-size="92">07</text>
+    <text class="name ink" x="24" y="460" font-size="19">УТП озвучено</text>
+    <text class="phrase muted" x="24" y="482" font-size="12">Самый плотный критерий по установкам</text>
+    <text class="mono muted" x="276" y="584" font-size="10" text-anchor="end">ДЕНЬ 04</text>
+  </g>
+  <g transform="translate(900,300)">
+    <text class="num num-weak" x="24" y="418" font-size="92">08</text>
+    <text class="name ink" x="24" y="450" font-size="17">Альтернатива /</text>
+    <text class="name ink" x="24" y="470" font-size="17">спуск</text>
+    <text class="phrase muted" x="24" y="492" font-size="12">Явный спуск — только в 2 из 26</text>
+    <text class="mono muted" x="276" y="584" font-size="10" text-anchor="end">ДЕНЬ 06</text>
+  </g>
+
+  <!-- Row 2: K09 K10 K11 K12 -->
+  <g transform="translate(0,600)">
+    <text class="num num-weak" x="24" y="718" font-size="92">09</text>
+    <text class="name ink" x="24" y="750" font-size="17">Вежливое прощание,</text>
+    <text class="name ink" x="24" y="770" font-size="17">итог</text>
+    <text class="phrase muted" x="24" y="792" font-size="12">Наставник ни разу не разбирает прощание</text>
+    <text class="mono muted" x="276" y="884" font-size="10" text-anchor="end">ДЕНЬ 09</text>
+  </g>
+  <g transform="translate(300,600)">
+    <text class="num num-solid" x="24" y="718" font-size="92">10</text>
+    <text class="name ink" x="24" y="760" font-size="19">Побуждение к действию</text>
+    <text class="phrase muted" x="24" y="782" font-size="12">В 17 из 26 эталонных звонков</text>
+    <text class="mono muted" x="276" y="884" font-size="10" text-anchor="end">ДЕНЬ 07</text>
+  </g>
+  <g transform="translate(600,600)">
+    <text class="num num-solid" x="24" y="718" font-size="92">11</text>
+    <text class="name ink" x="24" y="750" font-size="17">Реакция на</text>
+    <text class="name ink" x="24" y="770" font-size="17">возражения</text>
+    <text class="phrase muted" x="24" y="792" font-size="12">Самый широко подтверждённый критерий</text>
+    <text class="mono muted" x="276" y="884" font-size="10" text-anchor="end">ДЕНЬ 03</text>
+  </g>
+  <g transform="translate(900,600)">
+    <text class="num num-solid" x="24" y="718" font-size="92">12</text>
+    <text class="name ink" x="24" y="750" font-size="17">Понимание цели и</text>
+    <text class="name ink" x="24" y="770" font-size="17">продукта</text>
+    <text class="phrase muted" x="24" y="792" font-size="12">Стратегическую цель сами не формулируют</text>
+    <text class="mono muted" x="276" y="884" font-size="10" text-anchor="end">ДЕНЬ 08</text>
+  </g>
+</svg>
+
+<svg class="v-mobile" viewBox="0 0 400 2400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Карта 12 критериев, сетка 2×6">
+  <defs>
+    <pattern id="ht-crit-m" width="5" height="5" patternUnits="userSpaceOnUse">
+      <circle cx="2.5" cy="2.5" r="0.9" style="fill:var(--ink)"/>
+    </pattern>
+  </defs>
+  <rect class="bg" x="0" y="0" width="400" height="2400"/>
+
+  <g class="grid">
+    <!-- horizontal separators: 6 rows of 400h -->
+    <line x1="0" y1="0" x2="400" y2="0"/><line x1="0" y1="400" x2="400" y2="400"/>
+    <line x1="0" y1="800" x2="400" y2="800"/><line x1="0" y1="1200" x2="400" y2="1200"/>
+    <line x1="0" y1="1600" x2="400" y2="1600"/><line x1="0" y1="2000" x2="400" y2="2000"/>
+    <line x1="0" y1="2400" x2="400" y2="2400"/>
+    <line x1="0" y1="0" x2="0" y2="2400"/><line x1="200" y1="0" x2="200" y2="2400"/><line x1="400" y1="0" x2="400" y2="2400"/>
+  </g>
+
+  <!-- Row 0: K01, K02 -->
+  <g transform="translate(0,0)">
+    <text class="num num-solid" x="18" y="150" font-size="80">01</text>
+    <text class="name ink" x="18" y="200" font-size="16">Заход</text>
+    <text class="phrase muted" x="18" y="222" font-size="10">22 из 26 звонков</text>
+    <text class="mono muted" x="182" y="380" font-size="9" text-anchor="end">ДЕНЬ 01</text>
+  </g>
+  <g transform="translate(200,0)">
+    <text class="num num-solid" x="18" y="150" font-size="80">02</text>
+    <text class="name ink" x="18" y="200" font-size="16">Крючок</text>
+    <text class="phrase muted" x="18" y="222" font-size="10">Повод до вопроса</text>
+    <text class="mono muted" x="182" y="380" font-size="9" text-anchor="end">ДЕНЬ 02</text>
+  </g>
+
+  <!-- Row 1: K03, K04 -->
+  <g transform="translate(0,400)">
+    <text class="num num-weak" x="18" y="550" font-size="80">03</text>
+    <text class="name ink" x="18" y="592" font-size="14">Уверенность,</text>
+    <text class="name ink" x="18" y="610" font-size="14">темп, молчание</text>
+    <text class="phrase muted" x="18" y="628" font-size="10">Эталона нет</text>
+    <text class="mono muted" x="182" y="780" font-size="9" text-anchor="end">ДЕНЬ 05</text>
+  </g>
+  <g transform="translate(200,400)">
+    <text class="num num-gap" x="18" y="550" font-size="80">04</text>
+    <text class="name roe" x="18" y="592" font-size="14">Чистота речи,</text>
+    <text class="name roe" x="18" y="610" font-size="14">паразиты</text>
+    <text class="phrase roe" x="18" y="628" font-size="10">Пробел</text>
+    <text class="mono muted" x="182" y="780" font-size="9" text-anchor="end">ДЕНЬ 09</text>
+  </g>
+
+  <!-- Row 2: K05, K06 -->
+  <g transform="translate(0,800)">
+    <text class="num num-solid" x="18" y="950" font-size="80">05</text>
+    <text class="name ink" x="18" y="992" font-size="14">Соблюдение</text>
+    <text class="name ink" x="18" y="1010" font-size="14">этапов</text>
+    <text class="phrase muted" x="18" y="1028" font-size="10">3 сценария из 26</text>
+    <text class="mono muted" x="182" y="1180" font-size="9" text-anchor="end">ДЕНЬ 02</text>
+  </g>
+  <g transform="translate(200,800)">
+    <text class="num num-solid" x="18" y="950" font-size="80">06</text>
+    <text class="name ink" x="18" y="1000" font-size="16">Персона-</text>
+    <text class="name ink" x="18" y="1018" font-size="16">лизация</text>
+    <text class="phrase muted" x="18" y="1036" font-size="10">Имя 26 из 26</text>
+    <text class="mono muted" x="182" y="1180" font-size="9" text-anchor="end">ДЕНЬ 04</text>
+  </g>
+
+  <!-- Row 3: K07, K08 -->
+  <g transform="translate(0,1200)">
+    <text class="num num-solid" x="18" y="1350" font-size="80">07</text>
+    <text class="name ink" x="18" y="1400" font-size="16">УТП озвучено</text>
+    <text class="phrase muted" x="18" y="1420" font-size="10">Самый плотный критерий</text>
+    <text class="mono muted" x="182" y="1580" font-size="9" text-anchor="end">ДЕНЬ 04</text>
+  </g>
+  <g transform="translate(200,1200)">
+    <text class="num num-weak" x="18" y="1350" font-size="80">08</text>
+    <text class="name ink" x="18" y="1392" font-size="14">Альтернатива /</text>
+    <text class="name ink" x="18" y="1410" font-size="14">спуск</text>
+    <text class="phrase muted" x="18" y="1428" font-size="10">Спуск в 2 из 26</text>
+    <text class="mono muted" x="182" y="1580" font-size="9" text-anchor="end">ДЕНЬ 06</text>
+  </g>
+
+  <!-- Row 4: K09, K10 -->
+  <g transform="translate(0,1600)">
+    <text class="num num-weak" x="18" y="1750" font-size="80">09</text>
+    <text class="name ink" x="18" y="1792" font-size="14">Прощание,</text>
+    <text class="name ink" x="18" y="1810" font-size="14">итог</text>
+    <text class="phrase muted" x="18" y="1828" font-size="10">Не разбирается наставником</text>
+    <text class="mono muted" x="182" y="1980" font-size="9" text-anchor="end">ДЕНЬ 09</text>
+  </g>
+  <g transform="translate(200,1600)">
+    <text class="num num-solid" x="18" y="1750" font-size="80">10</text>
+    <text class="name ink" x="18" y="1794" font-size="14">Побуждение</text>
+    <text class="name ink" x="18" y="1812" font-size="14">к действию</text>
+    <text class="phrase muted" x="18" y="1830" font-size="10">17 из 26</text>
+    <text class="mono muted" x="182" y="1980" font-size="9" text-anchor="end">ДЕНЬ 07</text>
+  </g>
+
+  <!-- Row 5: K11, K12 -->
+  <g transform="translate(0,2000)">
+    <text class="num num-solid" x="18" y="2150" font-size="80">11</text>
+    <text class="name ink" x="18" y="2192" font-size="14">Реакция на</text>
+    <text class="name ink" x="18" y="2210" font-size="14">возражения</text>
+    <text class="phrase muted" x="18" y="2228" font-size="10">Самый подтверждённый</text>
+    <text class="mono muted" x="182" y="2380" font-size="9" text-anchor="end">ДЕНЬ 03</text>
+  </g>
+  <g transform="translate(200,2000)">
+    <text class="num num-solid" x="18" y="2150" font-size="80">12</text>
+    <text class="name ink" x="18" y="2192" font-size="14">Цель и</text>
+    <text class="name ink" x="18" y="2210" font-size="14">продукт</text>
+    <text class="phrase muted" x="18" y="2228" font-size="10">Цель сами не формулируют</text>
+    <text class="mono muted" x="182" y="2380" font-size="9" text-anchor="end">ДЕНЬ 08</text>
+  </g>
+</svg>
+
+<p class="take">Что запомнить: <b>пробел один — К-04</b> (чистота речи): по нему нет ни одного разбора слова-паразита в реальной речи, только запрет.</p>
+</div>
+</div>
+</article>
+<article class="diagram">
+<div class="dnum">Диаграмма 04 / прогресс 10 дней</div>
+<h2>Прогресс 10 дней</h2>
+<div class="frame">
+<div class="dgm dgm-progress">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap');
+
+.dgm-progress{
+  --paper:#F3EFE6; --ink:#14110F; --muted:#5F584F; --rule:#BDB5A6; --roe:#B8341A; --ice:#DFE5E2;
+  background:var(--paper); font-family:'Roboto Flex',sans-serif; max-width:100%;
+}
+@media (prefers-color-scheme: dark){
+  .dgm-progress:not([data-theme="light"]){ --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F; }
+}
+.dgm-progress[data-theme="dark"]{ --paper:#12100E; --ink:#EDE7DB; --muted:#A39B8E; --rule:#3A342D; --roe:#F0643A; --ice:#1B211F; }
+.dgm-progress svg{display:block;width:100%;height:auto;max-width:100%}
+.dgm-progress svg.v-mobile{display:none}
+@media (max-width:640px){
+  .dgm-progress svg.v-desktop{display:none}
+  .dgm-progress svg.v-mobile{display:block}
+}
+.dgm-progress rect.bg{fill:var(--paper)}
+.dgm-progress .tick{stroke:var(--rule);stroke-width:1;vector-effect:non-scaling-stroke}
+.dgm-progress .seg-past{fill:var(--ink)}
+.dgm-progress .seg-now{fill:var(--roe)}
+.dgm-progress .seg-future{fill:url(#ht-prog)}
+.dgm-progress .num-on-dark{fill:var(--paper)}
+.dgm-progress .num-on-light{fill:var(--ink)}
+.dgm-progress .ink{fill:var(--ink)}
+.dgm-progress .muted{fill:var(--muted)}
+.dgm-progress .roe{fill:var(--roe)}
+.dgm-progress .name{font-family:'Roboto Flex',sans-serif;font-weight:500;font-stretch:100%}
+.dgm-progress .mono{font-family:'Martian Mono',monospace;font-stretch:87.5%;letter-spacing:.04em;text-transform:uppercase}
+.dgm-progress .take{font-family:'Roboto Flex',sans-serif;font-size:1rem;line-height:1.5;color:var(--ink);margin:.9em .1em 0;max-width:64ch}
+.dgm-progress .take b{color:var(--roe);font-weight:700}
+</style>
+
+<svg class="v-desktop" viewBox="0 0 1300 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Прогресс 10 дней курса, норма 75 звонков в день">
+  <defs>
+    <pattern id="ht-prog" width="5" height="5" patternUnits="userSpaceOnUse">
+      <circle cx="2.5" cy="2.5" r="0.9" style="fill:var(--ink)"/>
+    </pattern>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1300" height="400"/>
+  <text class="mono muted" x="50" y="24" font-size="12">НОРМА 75 ЗВОНКОВ / ДЕНЬ — ЕДИНАЯ, С ДНЯ 1</text>
+
+  <!-- ticks -->
+  <g class="tick">
+    <line x1="50" y1="205" x2="50" y2="270"/><line x1="170" y1="205" x2="170" y2="270"/>
+    <line x1="290" y1="205" x2="290" y2="270"/><line x1="410" y1="205" x2="410" y2="270"/>
+    <line x1="530" y1="205" x2="530" y2="270"/><line x1="650" y1="205" x2="650" y2="270"/>
+    <line x1="770" y1="205" x2="770" y2="270"/><line x1="890" y1="205" x2="890" y2="270"/>
+    <line x1="1010" y1="205" x2="1010" y2="270"/><line x1="1130" y1="205" x2="1130" y2="270"/>
+    <line x1="1250" y1="205" x2="1250" y2="270"/>
+  </g>
+
+  <!-- segments: 1-3 past(solid), 4 now(roe), 5-10 future(raster) -->
+  <rect class="seg-past" x="50" y="210" width="118" height="50"/>
+  <rect class="seg-past" x="170" y="210" width="118" height="50"/>
+  <rect class="seg-past" x="290" y="210" width="118" height="50"/>
+  <rect class="seg-now"  x="410" y="210" width="118" height="50"/>
+  <rect class="seg-future" x="530" y="210" width="118" height="50"/>
+  <rect class="seg-future" x="650" y="210" width="118" height="50"/>
+  <rect class="seg-future" x="770" y="210" width="118" height="50"/>
+  <rect class="seg-future" x="890" y="210" width="118" height="50"/>
+  <rect class="seg-future" x="1010" y="210" width="118" height="50"/>
+  <rect class="seg-future" x="1130" y="210" width="118" height="50"/>
+
+  <!-- day numbers inside segments -->
+  <text class="mono num-on-dark" x="109" y="242" font-size="16" text-anchor="middle">01</text>
+  <text class="mono num-on-dark" x="229" y="242" font-size="16" text-anchor="middle">02</text>
+  <text class="mono num-on-dark" x="349" y="242" font-size="16" text-anchor="middle">03</text>
+  <text class="mono num-on-dark" x="469" y="242" font-size="16" text-anchor="middle">04</text>
+  <text class="mono num-on-light" x="589" y="242" font-size="16" text-anchor="middle">05</text>
+  <text class="mono num-on-light" x="709" y="242" font-size="16" text-anchor="middle">06</text>
+  <text class="mono num-on-light" x="829" y="242" font-size="16" text-anchor="middle">07</text>
+  <text class="mono num-on-light" x="949" y="242" font-size="16" text-anchor="middle">08</text>
+  <text class="mono num-on-light" x="1069" y="242" font-size="16" text-anchor="middle">09</text>
+  <text class="mono num-on-light" x="1189" y="242" font-size="16" text-anchor="middle">10</text>
+
+  <!-- "сегодня" marker on day 4 -->
+  <text class="mono roe" x="469" y="196" font-size="9" text-anchor="middle">ТЕКУЩИЙ ДЕНЬ</text>
+
+  <!-- focus + criteria under each segment -->
+  <g class="name ink" font-size="11" text-anchor="middle">
+    <text x="109" y="290">Быстрый старт:</text><text x="109" y="304">заход, повод, объём</text>
+    <text x="229" y="290">Разбор дня, скелет</text><text x="229" y="304">разговора, крючок</text>
+    <text x="349" y="290">Возражения:</text><text x="349" y="304">раннее и настоящее</text>
+    <text x="469" y="290" class="roe">Работа с базой:</text><text x="469" y="304" class="roe">персонализация, УТП</text>
+  </g>
+  <g class="name muted" font-size="11" text-anchor="middle">
+    <text x="589" y="290">Уверенность,</text><text x="589" y="304">темп, молчание</text>
+    <text x="709" y="290">Альтернатива,</text><text x="709" y="304">спуск, допродажа</text>
+    <text x="829" y="290">Побуждение к</text><text x="829" y="304">действию, закрытие</text>
+    <text x="949" y="290">Цель, продукт,</text><text x="949" y="304">работа с CRM</text>
+    <text x="1069" y="290">Чистота речи,</text><text x="1069" y="304">итог, прощание</text>
+    <text x="1189" y="290">Аттестация против</text><text x="1189" y="304">эталонных звонков</text>
+  </g>
+
+  <g class="mono muted" font-size="9" text-anchor="middle">
+    <text x="109" y="322">К-01</text>
+    <text x="229" y="322">К-02 К-05</text>
+    <text x="349" y="322">К-11</text>
+    <text x="469" y="322" class="roe">К-06 К-07</text>
+    <text x="589" y="322">К-03</text>
+    <text x="709" y="322">К-08</text>
+    <text x="829" y="322">К-10</text>
+    <text x="949" y="322">К-12</text>
+    <text x="1069" y="322">К-04 К-09</text>
+    <text x="1189" y="322">ВСЕ 12</text>
+  </g>
+</svg>
+
+<svg class="v-mobile" viewBox="0 0 420 1700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Прогресс 10 дней, вертикальная раскладка">
+  <defs>
+    <pattern id="ht-prog-m" width="5" height="5" patternUnits="userSpaceOnUse">
+      <circle cx="2.5" cy="2.5" r="0.9" style="fill:var(--ink)"/>
+    </pattern>
+  </defs>
+  <rect class="bg" x="0" y="0" width="420" height="1700"/>
+  <text class="mono muted" x="20" y="20" font-size="10">НОРМА 75 ЗВОНКОВ / ДЕНЬ — ЕДИНАЯ</text>
+
+  <!-- row helper: bar x=20 w=34, rows at y positions -->
+  <rect class="seg-past" x="20" y="34" width="34" height="120"/>
+  <rect class="seg-past" x="20" y="199" width="34" height="120"/>
+  <rect class="seg-past" x="20" y="364" width="34" height="120"/>
+  <rect class="seg-now"  x="20" y="529" width="34" height="120"/>
+  <rect class="seg-future" x="20" y="694" width="34" height="120"/>
+  <rect class="seg-future" x="20" y="859" width="34" height="120"/>
+  <rect class="seg-future" x="20" y="1024" width="34" height="120"/>
+  <rect class="seg-future" x="20" y="1189" width="34" height="120"/>
+  <rect class="seg-future" x="20" y="1354" width="34" height="120"/>
+  <rect class="seg-future" x="20" y="1519" width="34" height="120"/>
+
+  <text class="mono num-on-dark" x="37" y="100" font-size="14" text-anchor="middle">01</text>
+  <text class="mono num-on-dark" x="37" y="265" font-size="14" text-anchor="middle">02</text>
+  <text class="mono num-on-dark" x="37" y="430" font-size="14" text-anchor="middle">03</text>
+  <text class="mono num-on-dark" x="37" y="595" font-size="14" text-anchor="middle">04</text>
+  <text class="mono num-on-light" x="37" y="760" font-size="14" text-anchor="middle">05</text>
+  <text class="mono num-on-light" x="37" y="925" font-size="14" text-anchor="middle">06</text>
+  <text class="mono num-on-light" x="37" y="1090" font-size="14" text-anchor="middle">07</text>
+  <text class="mono num-on-light" x="37" y="1255" font-size="14" text-anchor="middle">08</text>
+  <text class="mono num-on-light" x="37" y="1420" font-size="14" text-anchor="middle">09</text>
+  <text class="mono num-on-light" x="37" y="1585" font-size="14" text-anchor="middle">10</text>
+
+  <g class="name ink" font-size="14">
+    <text x="70" y="70">Быстрый старт:</text><text x="70" y="90">заход, повод, объём</text>
+    <text x="70" y="235">Разбор дня, скелет</text><text x="70" y="255">разговора, крючок</text>
+    <text x="70" y="400">Возражения: раннее</text><text x="70" y="420">и настоящее</text>
+    <text x="70" y="565" class="roe">Работа с базой:</text><text x="70" y="585" class="roe">персонализация, УТП</text>
+    <text x="70" y="730" class="muted">Уверенность, темп,</text><text x="70" y="750" class="muted">молчание</text>
+    <text x="70" y="895" class="muted">Альтернатива, спуск,</text><text x="70" y="915" class="muted">допродажа</text>
+    <text x="70" y="1060" class="muted">Побуждение к</text><text x="70" y="1080" class="muted">действию, закрытие</text>
+    <text x="70" y="1225" class="muted">Цель, продукт,</text><text x="70" y="1245" class="muted">работа с CRM</text>
+    <text x="70" y="1390" class="muted">Чистота речи, итог,</text><text x="70" y="1410" class="muted">прощание</text>
+    <text x="70" y="1555" class="muted">Аттестация против</text><text x="70" y="1575" class="muted">эталонных звонков</text>
+  </g>
+  <g class="mono muted" font-size="10">
+    <text x="70" y="108">К-01</text>
+    <text x="70" y="273">К-02 К-05</text>
+    <text x="70" y="438">К-11</text>
+    <text x="70" y="603" class="roe">К-06 К-07 · ТЕКУЩИЙ ДЕНЬ</text>
+    <text x="70" y="768">К-03</text>
+    <text x="70" y="933">К-08</text>
+    <text x="70" y="1098">К-10</text>
+    <text x="70" y="1263">К-12</text>
+    <text x="70" y="1428">К-04 К-09</text>
+    <text x="70" y="1593">ВСЕ 12</text>
+  </g>
+</svg>
+
+<p class="take">Что запомнить: <b>норма 75 звонков в день не меняется ни разу за 10 дней</b> — растёт только число критериев, которые нужно удерживать одновременно.</p>
+</div>
+</div>
+</article>
+</main>
+
+<footer class="page">
+  <p class="mono">Источники: a2/map.md (скелет звонка, дерево возражений, распределение по дням), a1/findings.md раздел 2 (доли этапов, медиана времени), a3/intro.md (дни критериев)</p>
+  <p>Реальные цифры и решение заказчика от 2026-09-16: норма 75 звонков/день, единая на все 10 дней; выявление потребности (К-06, «Привязка к истории») — опциональный шаг «по ситуации», не обязательный этап скелета звонка.</p>
+</footer>
+</div>
+</body>
+</html>

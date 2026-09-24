@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOS: скажи так · Ikorka Shop</title>
+<meta name="description" content="Коли дзвінок пішов не так — знайди свою ситуацію і скажи готову фразу">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>try{if(localStorage.getItem('ikorka-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/theme.css">
+<link rel="stylesheet" href="assets/components.css">
+</head>
+<body>
+<div id="page-meta" data-slug="sos" data-kind="sos" hidden></div>
+
+  <div class="topnav"><div class="topnav-inner">
+    <a class="brand" href="index.html"><img class="brand-logo" src="assets/ikorka-logo.png" alt="Ikorka Shop">курс новачка</a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Меню розділів">
+      <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <nav id="site-nav"><a href="index.html">Зміст</a><a class="sos-btn active" href="sos.html">SOS: скажи так</a><details class="navmenu"><summary>Уроки</summary><div class="navmenu-list lessons-menu"><a href="urok-01.html"><b>1</b> Вступ<small>День 1</small></a><a href="urok-02.html"><b>2</b> Гачок<small>День 1</small></a><a href="urok-03.html"><b>3</b> Етапи дзвінка<small>День 1</small></a><a href="urok-04.html"><b>4</b> Робота із запереченнями<small>День 2</small></a><a href="urok-05.html"><b>5</b> Заклик до дії<small>День 2</small></a><a href="urok-06.html"><b>6</b> Персоналізація<small>День 3</small></a><a href="urok-07.html"><b>7</b> УТП<small>День 3</small></a><a href="urok-08.html"><b>8</b> Альтернатива і спуск<small>День 3</small></a><a href="urok-09.html"><b>9</b> Впевненість, темп, інтонація, пауза<small>День 4</small></a><a href="urok-10.html"><b>10</b> Чистота мови<small>День 4</small></a><a href="urok-11.html"><b>11</b> Знання продукту і мети дзвінка<small>День 4</small></a><a href="urok-12.html"><b>12</b> Підсумок і прощання<small>День 5</small></a></div></details><details class="navmenu"><summary>Дні</summary><div class="navmenu-list"><a href="den-01.html">День 1</a><a href="den-02.html">День 2</a><a href="den-03.html">День 3</a><a href="den-04.html">День 4</a><a href="den-05.html">День 5</a></div></details><a href="video.html">Відео</a><a href="dzvinky.html">Бібліотека дзвінків</a><a href="povtorennia.html">Повторення</a></nav>
+    <form class="search-box" role="search"><input type="search" id="course-search" placeholder="Пошук по курсу" aria-label="Пошук по курсу" autocomplete="off"><div class="search-results" hidden></div></form>
+    <button type="button" class="theme-btn" aria-pressed="false" aria-label="Темна тема" title="Темна тема"><svg class="ti-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><svg class="ti-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+  </div></div>
+<div class="page-shell">
+<main>
+
+    <div class="mockup-panel"><div class="sos-cover">
+      <span class="badge">SOS</span>
+      <h1>SOS: скажи так</h1>
+      <p class="sub">Коли дзвінок пішов не так — знайди свою ситуацію і скажи готову фразу</p>
+    </div></div>
+  <div class="mockup-panel"><div class="sos-filterbar">
+    <input type="search" id="sos-filter" placeholder="Фільтр карток: ситуація, фраза, ключове слово" aria-label="Фільтр карток SOS" autocomplete="off">
+    <div class="sos-chips"><button type="button" class="sos-chip" data-cat="Клієнт не хоче слухати">Клієнт не хоче слухати</button><button type="button" class="sos-chip" data-cat="Дорого і гроші">Дорого і гроші</button><button type="button" class="sos-chip" data-cat="Є ікра вдома">Є ікра вдома</button><button type="button" class="sos-chip" data-cat="Скарга і недовіра">Скарга і недовіра</button><button type="button" class="sos-chip" data-cat="«Подумаю», «порадитись», «передзвоніть»">«Подумаю», «порадитись», «передзвоніть»</button><button type="button" class="sos-chip" data-cat="Не знаю, що відповісти про продукт">Не знаю, що відповісти про продукт</button><button type="button" class="sos-chip" data-cat="Як довести до замовлення і допродаж">Як довести до замовлення і допродаж</button><button type="button" class="sos-chip" data-cat="Коли мені погано">Коли мені погано</button></div>
+  </div></div>
+<div class="mockup-panel"><div class="lesson">
+<p class="lesson-body">Це сторінка швидкої допомоги. Дзвінок пішов не так, секунда на роздуми — і потрібна готова фраза просто зараз. Знайди свою ситуацію в категорії нижче або вбий у пошук слово з опису: «дорого», «подумаю», «паніка», «нагрубив». Кожна картка дає фразу і одне пояснення чому, а урок веде туди, де тема розібрана повністю. Це підказка на секунду мовчання, а не заміна урокам.</p><h2 id="kliient-ne-khoche-slukhaty">Клієнт не хоче слухати</h2>
+  <div class="say-card" id="kliient-kazhe-ne-treba-shche-do-toho-iak-ia-shchos-zaproponuvav" data-keys="не треба, не потрібно, нічого не треба, ничего не надо, клієнт не слухає, обрывает разговор, кидає трубку, сразу отказ, зразу відмовляє, не дає сказати, перебиває одразу" data-cat="Клієнт не хоче слухати">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт каже «не треба» ще до того, як я щось запропонував</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Я розумію вас, я ще нічого не пропонував» — і без паузи веди далі: «Дзвоню, бо…»</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Раннє «не треба» — рефлекс на дзвінок, а не відповідь по суті, сперечатися нема з чим.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Я розумію вас, я ще нічого не пропонував» — і без паузи веди далі: «Дзвоню, бо…" data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-iz-pershykh-sekund-kazhe-pro-hroshi-shche-ne-pochuvshy-propozytsiiu" data-keys="пенсія не додалася, грошей немає з порогу, зразу каже дорого, нет денег с начала, немає грошей одразу, з порогу гроші, ще нічого не чув а вже дорого" data-cat="Клієнт не хоче слухати">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт із перших секунд каже про гроші, ще не почувши пропозицію</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Розумію, зараз багато хто рахує витрати. Дзвоню не про знижку, а про те, що…» — і одразу веди до причини дзвінка.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Раннє грошове заперечення найчастіше йде у відповідь на привід, поданий через вигоду, а не через цінність.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Розумію, зараз багато хто рахує витрати. Дзвоню не про знижку, а про те, що…» — і одразу веди до причини дзвінка." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="povtornyi-dzvinok-kliient-kazhe-shche-ne-dyvylas-na-propozytsiiu" data-keys="ще не дивилась, не смотрела ещё, повторний дзвінок клієнту, перезвон клиенту, не дивилась пропозицію, забула подивитись, не встигла глянути" data-cat="Клієнт не хоче слухати">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Повторний дзвінок, клієнт каже «ще не дивилась» на пропозицію</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Ми з вами говорили про сет […]. Актуальна пропозиція — […], оформляємо?»</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Питання «чи дивились» віддає керування клієнту — краще одразу нагадати суть і йти до пропозиції.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Ми з вами говорили про сет […]. Актуальна пропозиція — […], оформляємо?" data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-02.html">Детальніше: Урок 2</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-perepytuie-khto-tse-abo-nazyvaie-inshe-imia" data-keys="хто дзвонить, не розуміє хто це, плутає з кимось, кто звонит, не понял кто звонит, не представился, з ким я розмовляю, не почула хто дзвонить" data-cat="Клієнт не хоче слухати">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт перепитує «хто це?» або називає інше ім'я</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«[Ім'я], це [твоє ім'я] з компанії Ікорка, ви раніше в нас замовляли».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Представлення прозвучало нечітко — треба повторити ім'я і компанію окремою фразою, без поспіху.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="[Ім'я], це [твоє ім'я] з компанії Ікорка, ви раніше в нас замовляли»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-01.html">Детальніше: Урок 1</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-vidpovidaie-sukho-odnoskladovo-iavno-ne-nalashtovanyi-na-rozmovu" data-keys="клиент не заинтересован, холодний клієнт, ні на що не реагує, односкладові відповіді, сухий голос, немає сенсу продовжувати, клієнт байдужий, не хоче розмовляти взагалі" data-cat="Клієнт не хоче слухати">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт відповідає сухо, односкладово, явно не налаштований на розмову</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">постав один привід і одну коротку пропозицію; якщо інтонація не змінюється — завершуй ввічливо і переходь до наступного дзвінка.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Такого клієнта дотискати дорожче, ніж набрати наступний номер за нормою 75 дзвінків на день.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="постав один привід і одну коротку пропозицію; якщо інтонація не змінюється — завершуй ввічливо і переходь до наступного дзвінка." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-11.html">Детальніше: Урок 11</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-kazhe-ia-zaraz-zainiatyi-zainiata-shche-na-vstupi" data-keys="я зайнятий, зайнята зараз, не можу говорити, нет времени говорить, некогда сейчас, передзвоніть потім, я за кермом, я на роботі зараз" data-cat="Клієнт не хоче слухати">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт каже «я зараз зайнятий/зайнята», ще на вступі</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Я буду дуже коротко, буквально на хвилину» — і одразу веди до причини дзвінка.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Фраза звучить бадьоро, як дзвінок знайомому, і не дає приводу відразу покласти слухавку.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Я буду дуже коротко, буквально на хвилину» — і одразу веди до причини дзвінка." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-01.html">Детальніше: Урок 1</a>
+      </div>
+    </div>
+  </div><h2 id="doroho-i-hroshi">Дорого і гроші</h2>
+  <div class="say-card" id="kliient-kazhe-doroho-odrazu-pislia-tsiny" data-keys="дорого, не получается дорого, не виходить дорого, дорогувато, зависока ціна, це дорого для мене, ой дорого, дороговато вийшло, забагато грошей за ікру" data-cat="Дорого і гроші">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт каже «дорого» одразу після ціни</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Розумію вас — зараз багато хто ретельно зважує такі покупки. Але ціна за одну банку виходить набагато меншою за загальну суму, і сету вистачає — і собі, і почастувати».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Перше «дорого» — сигнал показати цінність, а не одразу знижувати ціну.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Розумію вас — зараз багато хто ретельно зважує такі покупки. Але ціна за одну банку виходить набагато меншою за загальну суму, і сету вистачає — і собі, і почастувати»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-povtoriuie-doroho-vdruhe-vzhe-pislia-tvoikh-arhumentiv" data-keys="дорого вдруге, все одно дорого, все равно дорого, знову дорого, ще раз дорого, спуск по ціні, менший сет потрібен, надто дорого навіть після пояснення" data-cat="Дорого і гроші">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт повторює «дорого» вдруге, вже після твоїх аргументів</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Тоді пропоную легший варіант — ті самі смаки, лише менша вага. Доставка так само безкоштовна. Як вам такий варіант?»</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Повторне «дорого» — сигнал спускатись по ціні, а не повторювати ті самі аргументи.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Тоді пропоную легший варіант — ті самі смаки, лише менша вага. Доставка так само безкоштовна. Як вам такий варіант?" data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-08.html">Детальніше: Урок 8</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-priamo-kazhe-shcho-zaraz-nemaie-hroshei" data-keys="немає грошей, нет денег, грошей не вистачає, пенсія не прийшла, зарплата ще не прийшла, не можу зараз купити, грошей мало, зараз туго з грошима" data-cat="Дорого і гроші">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт прямо каже, що зараз немає грошей</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Розумію — часто є важливіші витрати. Пропоную менший акційний сет із тими самими смаками, доставка все одно безкоштовна».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Менший сет із тими самими смаками вирішує проблему клієнта без знижки на весь набір.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Розумію — часто є важливіші витрати. Пропоную менший акційний сет із тими самими смаками, доставка все одно безкоштовна»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="litnia-kliientka-kazhe-shcho-vykhodyt-na-pensiiu-vazhko-z-hroshyma-treba-platyty-za-komunalku" data-keys="пенсіонерка каже дорого, бабуся немає грошей, важко з пенсії, комуналка не сплачена, немає на що жити, шкода тиснути на бабусю, стара людина відмовляється, літня клієнтка плаче про гроші" data-cat="Дорого і гроші">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Літня клієнтка каже, що виходить на пенсію, важко з грошима, треба платити за комуналку</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">зупини презентацію дорогого сету; один раз, без тиску, запропонуй менший варіант; якщо відмова повторюється — прийми її й ввічливо заверши розмову.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Це не заперечення «для форми» — клієнтка прямо називає реальну причину, тут аргументи не працюють.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="зупини презентацію дорогого сету; один раз, без тиску, запропонуй менший варіант; якщо відмова повторюється — прийми її й ввічливо заверши розмову." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-prosyt-dodatkovu-znyzhku-na-i-tak-aktsiinyi-set" data-keys="дайте ще знижку, скидку побольше, ще дешевше, можна ще скинути, торгується за ціну, просить дешевше акції, а ще знижка буде, накиньте ще знижку" data-cat="Дорого і гроші">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт просить додаткову знижку на й так акційний сет</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Якщо ви обираєте саме акційні пропозиції, вони вже прораховані навіть з більшою знижкою, ніж 100 гривень. Тому знижку на знижку ми не можемо зробити».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Спокійне пояснення правила без виправдань утримує клієнта в розмові.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Якщо ви обираєте саме акційні пропозиції, вони вже прораховані навіть з більшою знижкою, ніж 100 гривень. Тому знижку на знижку ми не можемо зробити»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-11.html">Детальніше: Урок 11</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-kazhe-shcho-doroho-same-cherez-sklianu-upakovku" data-keys="дорого через скло, дешевше в пластику, банки дорогі, упаковка дорога, склянка дорога, чи є дешевша тара, скло зайве переплачувати" data-cat="Дорого і гроші">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт каже, що дорого саме через скляну упаковку</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Той самий сет є в пластиковій упаковці за меншу ціну, склад і смак ті самі — як вам такий варіант?»</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Заміна упаковки знижує ціну без втрати цінності сету — це альтернатива, а не спуск.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Той самий сет є в пластиковій упаковці за меншу ціну, склад і смак ті самі — як вам такий варіант?" data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-08.html">Детальніше: Урок 8</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-dyvuietsia-a-chomu-u-vas-tak-deshevo-tse-pidozrilo" data-keys="чому так дешево, подозрительно дешево, чому низька ціна, це підозріло, чому не дорого як в інших, звідки така ціна, надто дешево для ікри" data-cat="Дорого і гроші">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт дивується: «А чому у вас так дешево, це підозріло?»</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Цілком логічне питання. Ікра вирощується в Україні, тому немає витрат на розмитнення і довгу логістику — звідси й ціна».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Чесне пояснення знімає підозру без порівнянь із конкурентами.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Цілком логічне питання. Ікра вирощується в Україні, тому немає витрат на розмитнення і довгу логістику — звідси й ціна»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div><h2 id="ie-ikra-vdoma">Є ікра вдома</h2>
+  <div class="say-card" id="kliient-kazhe-shcho-ikra-vdoma-shche-ie-kupuvaty-poky-ne-treba" data-keys="ікра вдома є, ще залишилась ікра, вдома ще є, не треба поки, не закінчилась ще, залишок ікри вдома, ще не з'їли, є запас ікри" data-cat="Є ікра вдома">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт каже, що ікра вдома ще є, купувати поки не треба</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Розумію — якщо є вдома, то поки не на часі. А скажіть, скільки саме лишилось? Може, вистачить меншого сету — якраз на добавку».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Питання не в грошах — ціною на нього не відповідають, спершу треба уточнити залишок.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Розумію — якщо є вдома, то поки не на часі. А скажіть, скільки саме лишилось? Може, вистачить меншого сету — якраз на добавку»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-kazhe-shcho-lyshylos-odna-dvi-upakovky-ikry" data-keys="лишилась одна упаковка, дві банки ще є, майже закінчилась ікра, небагато залишилось, останні баночки лишились, трохи ще є вдома" data-cat="Є ікра вдома">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт каже, що лишилось одна-дві упаковки ікри</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Це ідеальна ситуація — вам не треба одразу багато. Пропоную менший сет, якраз щоб мати під рукою і не переплачувати».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Менший сет вирішує реальну потребу клієнта, не знецінюючи пропозицію знижкою.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Це ідеальна ситуація — вам не треба одразу багато. Пропоную менший сет, якраз щоб мати під рукою і не переплачувати»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-kazhe-shcho-nedavno-vzhe-brav-ikru-zaraz-ne-na-chasi" data-keys="недавно брала, нещодавно купували, ще рано купувати знову, тільки недавно замовляли, вже на днях брали, свіжий запас є" data-cat="Є ікра вдома">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт каже, що недавно вже брав ікру, зараз не на часі</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Розумію — тоді, може, докрутимо саме той вид, якого вам зазвичай не вистачає, невеликою банкою?»</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Пропозиція докрутити конкретну позицію працює краще за знижку на весь сет.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Розумію — тоді, може, докрутимо саме той вид, якого вам зазвичай не вистачає, невеликою банкою?" data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-08.html">Детальніше: Урок 8</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="ikra-vdoma-ie-ale-kliient-tsikavytsia-sprobuvaty-inshyi-vyd" data-keys="хоче спробувати інший вид, цікавиться новим смаком, є чорна ікра хоче щучу, не куштував ще цей вид, хоче різноманіття" data-cat="Є ікра вдома">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Ікра вдома є, але клієнт цікавиться спробувати інший вид</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Тоді пропоную докупити саме той вид, якого у вас ще немає — це не повторення, а доповнення до того, що вже є».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Логіка залишку працює і для допродажу нового виду, а не тільки для меншого сету.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Тоді пропоную докупити саме той вид, якого у вас ще немає — це не повторення, а доповнення до того, що вже є»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-08.html">Детальніше: Урок 8</a>
+      </div>
+    </div>
+  </div><h2 id="skarha-i-nedovira">Скарга і недовіра</h2>
+  <div class="say-card" id="kliient-kazhe-shcho-mynuloho-razu-poklaly-ne-te-abo-nedovaha" data-keys="скарга на замовлення, минулого разу не те поклали, недовага в замовленні, не докласти ікри, погана якість минулого разу, обманули минулого разу, не той склад приїхав, обважили" data-cat="Скарга і недовіра">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт каже, що минулого разу поклали не те, або недовага</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Скажіть, будь ласка, що саме було не так минулого разу? … Дозвольте компенсувати — покладу додаткову баночку в подарунок».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Це не заперечення, а реальна претензія — тут працюють визнання і компенсація, а не аргументи.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Скажіть, будь ласка, що саме було не так минулого разу? … Дозвольте компенсувати — покладу додаткову баночку в подарунок»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-kazhe-shcho-ostannia-ikra-bula-neiakisna-chy-zipsovana" data-keys="погана ікра, зіпсована ікра, неякісна ікра минулого разу, сумнів у якості, была плохая икра прошлый раз, гірка була ікра, несвіжа ікра приїхала, зіпсоване замовлення" data-cat="Скарга і недовіра">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт каже, що остання ікра була неякісна чи зіпсована</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Дуже дякую за цей відгук і перепрошую за той випадок. Скажіть, будь ласка, яка саме ікра була не такою?» — далі поясни без виправдань і запропонуй компенсацію: безкоштовну доставку або баночку на вибір.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Подяка й компенсація тут важливіші за аргумент — клієнт має відчути, що його почули.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Дуже дякую за цей відгук і перепрошую за той випадок. Скажіть, будь ласка, яка саме ікра була не такою?» — далі поясни без виправдань і запропонуй компенсацію: безкоштовну доставку або баночку на вибір." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-kazhe-vy-tak-umovliaiete-iomu-nekomfortno-vid-naporu" data-keys="ви так умовляєте, навязываете покупку, тиснете на мене, занадто наполегливо, чого ви так наполягаєте, ви як продавець нав'язливі, тисне менеджер" data-cat="Скарга і недовіра">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт каже: «ви так умовляєте», йому некомфортно від напору</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Це правда, вибачте. Я особисто простежу, щоб усе доїхало добре — на пошті все зможете перевірити».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Коротка відповідь без виправдань і особиста гарантія знімають підозру швидше за довгі пояснення.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Це правда, вибачте. Я особисто простежу, щоб усе доїхало добре — на пошті все зможете перевірити»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-pytaie-chy-tochno-dzvoniat-z-ikorky-pidozriuie-shakhraistvo" data-keys="ви точно з Ікорки, це шахраї, не вірю що це компанія, мошенники дзвонять, разводят на гроші, перевірка компанії, а ви точно існуєте, звідки у вас мій номер" data-cat="Скарга і недовіра">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт питає, чи точно дзвонять з Ікорки, підозрює шахрайство</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Це правда, я особисто менеджер компанії і простежу за вашим замовленням — на пошті ви зможете все перевірити перед оплатою».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Незнайомий номер і наполегливий тон легко читаються як шахрайство — тут працює коротка особиста гарантія.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Це правда, я особисто менеджер компанії і простежу за вашим замовленням — на пошті ви зможете все перевірити перед оплатою»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-pytaie-chy-ne-pidrobka-ikra-chy-naturalna-vona" data-keys="ненатуральна ікра, підробка ікри, справжня ікра чи ні, штучна ікра, фарбована ікра, сумнів в якості продукту, це не справжня ікра, хімічна ікра" data-cat="Скарга і недовіра">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт питає, чи не підробка ікра, чи натуральна вона</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Це справді важливе питання — ринок зараз переповнений підробками. У нас ікра фермерська, без барвників і консервантів, з перевіркою на кожному етапі».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Визнання того, що питання слушне, знімає напругу краще за одразу захисну відповідь.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Це справді важливе питання — ринок зараз переповнений підробками. У нас ікра фермерська, без барвників і консервантів, з перевіркою на кожному етапі»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-khvyliuietsia-shcho-ikra-zipsuietsia-v-dorozi-cherez-speku" data-keys="зіпсується в дорозі, жарко зіпсується, спека ікра розтане, не витримає дороги, зіпсована в дорозі буде, боюся що приїде тепла, влітку небезпечно везти" data-cat="Скарга і недовіра">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт хвилюється, що ікра зіпсується в дорозі через спеку</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Ми відправляємо тільки в охолоджених боксах із крижаною водою, яка тримає температуру довше трьох діб, і завжди перевіряємо ікру перед упаковкою».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Конкретне пояснення логістики знімає тривогу краще за загальні запевнення.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Ми відправляємо тільки в охолоджених боксах із крижаною водою, яка тримає температуру довше трьох діб, і завжди перевіряємо ікру перед упаковкою»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-ne-viryt-shcho-aktsiia-chy-prychyna-dzvinka-realna" data-keys="не вірю в акцію, чому раптом акція, це точно подорожчає, не вірю в причину дзвінка, придумали привід для дзвінка, це просто рекламний хід, навіщо саме зараз дзвоните" data-cat="Скарга і недовіра">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт не вірить, що акція чи причина дзвінка реальна</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Ціна на ікру дійсно змінюється не щодня, але зараз саме такі умови. Дзвоню, бо вони діють на цей сет» — а якщо не певен деталі, чесно скажи «уточню» і веди розмову далі.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Не називай того, у чому не впевнений сам — краще чесно сказати «уточню», ніж вигадати.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Ціна на ікру дійсно змінюється не щодня, але зараз саме такі умови. Дзвоню, бо вони діють на цей сет» — а якщо не певен деталі, чесно скажи «уточню» і веди розмову далі." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div><h2 id="podumaiu-poradytys-peredzvonit">«Подумаю», «порадитись», «передзвоніть»</h2>
+  <div class="say-card" id="kliient-kazhe-ia-podumaiu-pislia-prezentatsii" data-keys="я подумаю, дай подумати, треба подумати, подумаю ще, нужно подумать, дайте час подумати, треба зважити, ще не вирішила" data-cat="«Подумаю», «порадитись», «передзвоніть»">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт каже «я подумаю» після презентації</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Зазвичай, коли мені так кажуть, це або фінансове питання, або ще є ікра вдома. Підкажіть, будь ласка, що саме зараз вас зупиняє?»</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Одне питання-гіпотеза переводить хибне заперечення у справжнє — без забороненого слова «чому».</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Зазвичай, коли мені так кажуть, це або фінансове питання, або ще є ікра вдома. Підкажіть, будь ласка, що саме зараз вас зупиняє?" data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-kazhe-shcho-treba-poradytysia-z-cholovikom-chy-ditmy" data-keys="треба порадитись, порадитись з чоловіком, спитаю у дітей, треба спитати дружину, посоветуюсь с мужем, порадитись з родиною, спитаю у сина, треба узгодити з сім'єю" data-cat="«Подумаю», «порадитись», «передзвоніть»">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт каже, що треба порадитися з чоловіком чи дітьми</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Я ваш персональний менеджер і зібрав цей сет саме під вас — упевнений, що будете задоволені. Може, зробимо сюрприз родині?»</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Найчастіше це ввічлива форма сумніву, а не реальна потреба питати дозволу.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Я ваш персональний менеджер і зібрав цей сет саме під вас — упевнений, що будете задоволені. Може, зробимо сюрприз родині?" data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-prosyt-skynte-meni-vse-na-viber" data-keys="скиньте на вайбер, напишіть у вайбер, скиньте в месенджер, пришлите на вайбер, скинь інфо туди, кинь в вайбер фото, напиши мені все" data-cat="«Подумаю», «порадитись», «передзвоніть»">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт просить «скиньте мені все на Viber»</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">не сприймай як згоду — спробуй закрити розмову зараз; якщо клієнт наполягає, зафіксуй конкретну дату й час перезвону в Odoo, а не просто мітку.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Це найлегша форма ввічливої відмови, а не згода на купівлю.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="не сприймай як згоду — спробуй закрити розмову зараз; якщо клієнт наполягає, зафіксуй конкретну дату й час перезвону в Odoo, а не просто мітку." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-05.html">Детальніше: Урок 5</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-prosyt-peredzvonyty-piznishe" data-keys="передзвоніть пізніше, зателефонуйте іншим разом, не зараз передзвоніть, набери потім, зателефонуй завтра, перезвони мені пізніше, зайнята зараз передзвоніть" data-cat="«Подумаю», «порадитись», «передзвоніть»">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт просить передзвонити пізніше</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">спробуй ще раз закрити розмову зараз одним закликом; якщо клієнт наполягає — признач точну дату й час і одразу занеси в Odoo.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> «Передзвоніть» без дати — це втрачений контакт, а не домовленість.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="спробуй ще раз закрити розмову зараз одним закликом; якщо клієнт наполягає — признач точну дату й час і одразу занеси в Odoo." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-05.html">Детальніше: Урок 5</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-vtretie-povtoriuie-te-same-ne-treba-bez-novoi-prychyny" data-keys="втретє відмовляється, знову і знову не треба, постійно відмовляє, третя відмова поспіль, не здається у відмові, скільки не питай все одно ні, клієнт вперто відмовляє" data-cat="«Подумаю», «порадитись», «передзвоніть»">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт втретє повторює те саме «не треба» без нової причини</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">не шукай четвертий аргумент — подякуй за час і залиш можливість передзвонити пізніше, без тиску.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Третє повторення тієї самої відмови без нової причини — сигнал зупинитися, а не гілка для нового аргументу.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="не шукай четвертий аргумент — подякуй за час і залиш можливість передзвонити пізніше, без тиску." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-kazhe-zalyshte-nomer-ia-sam-peredzvoniu" data-keys="я сам передзвоню, залиште свій номер, я наберу сам, дайте номер я подзвоню, сама зателефоную пізніше, я подзвоню коли треба буде, не дзвоніть я сама" data-cat="«Подумаю», «порадитись», «передзвоніть»">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт каже «залиште номер, я сам передзвоню»</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Розумію, що не хочеться приймати рішення одразу. Підкажіть, будь ласка, що саме я не пояснив, або що викликало паузу — можливо, ще є ікра, чи питання у фінансах?»</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> За цією фразою найчастіше ховається те саме — гроші або залишок, а не реальний намір передзвонити.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Розумію, що не хочеться приймати рішення одразу. Підкажіть, будь ласка, що саме я не пояснив, або що викликало паузу — можливо, ще є ікра, чи питання у фінансах?" data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div><h2 id="ne-znaiu-shcho-vidpovisty-pro-produkt">Не знаю, що відповісти про продукт</h2>
+  <div class="say-card" id="kliient-pytaie-chy-mozhna-zaminyty-odyn-vyd-ikry-v-seti-na-inshyi" data-keys="можна замінити ікру, заміна виду в сеті, замість лосося щось інше, чи можна поміняти рибу, не знаю чим замінити, можна іншу рибу покласти, заміни горбушу на щось" data-cat="Не знаю, що відповісти про продукт">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт питає, чи можна замінити один вид ікри в сеті на інший</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">тримай паузу коротко і запропонуй найближчий відомий варіант із того самого сету; якщо не певен — «зараз уточню й одразу зателефоную».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Продуктова база вивчається не за один день — краще чесно уточнити, ніж дати неправильну відповідь.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="тримай паузу коротко і запропонуй найближчий відомий варіант із того самого сету; якщо не певен — «зараз уточню й одразу зателефоную»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-11.html">Детальніше: Урок 11</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-pytaie-tochnyi-sklad-chy-vahu-setu-a-ia-ne-pamiataiu" data-keys="не пам'ятаю склад, скільки грам не знаю, забув вагу набору, не знаю скільки банок, який склад сету, скільки кілограм в наборі, не пам'ятаю точний вміст" data-cat="Не знаю, що відповісти про продукт">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт питає точний склад чи вагу сету, а я не пам'ятаю</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">не вигадуй склад чи вагу на ходу — краще сказати «зараз уточню» і повернутися з точною відповіддю, ніж дати неправильну.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Невірна цифра, названа впевнено, шкодить більше, ніж чесне «уточню».</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="не вигадуй склад чи вагу на ходу — краще сказати «зараз уточню» і повернутися з точною відповіддю, ніж дати неправильну." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-11.html">Детальніше: Урок 11</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-pytaie-skilky-mozhna-zberihaty-ikru" data-keys="скільки зберігається ікра, термін придатності, як довго можна зберігати, зіпсується скільки днів, скільки стоїть в холодильнику, термін годности" data-cat="Не знаю, що відповісти про продукт">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт питає, скільки можна зберігати ікру</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Термін придатності — три місяці, зберігати в холодильнику». Якщо не певен щодо конкретного виду — «зараз уточню і одразу скажу точно».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Знання продукту звучить як впевненість — паузи на уточнення клієнт чує одразу.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Термін придатності — три місяці, зберігати в холодильнику». Якщо не певен щодо конкретного виду — «зараз уточню і одразу скажу точно»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-11.html">Детальніше: Урок 11</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-pytaie-pro-umovy-dostavky-oplatu-komisiiu-novoi-poshty" data-keys="умови доставки, скільки коштує доставка, комісія нової пошти, оплата при отриманні, як довго їде посилка, скільки днів чекати, доставка платна чи ні" data-cat="Не знаю, що відповісти про продукт">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт питає про умови доставки, оплату, комісію Нової пошти</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">коротко назви те, що знаєш точно — оплата при отриманні, охолоджена упаковка; якщо деталь не пам'ятаєш — «уточню саме цей момент і одразу передзвоню».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Плутанина в логістиці на ходу звучить як непідготовленість, а чесне уточнення — ні.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="коротко назви те, що знаєш точно — оплата при отриманні, охолоджена упаковка; якщо деталь не пам'ятаєш — «уточню саме цей момент і одразу передзвоню»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-11.html">Детальніше: Урок 11</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-pytaie-chomu-same-taka-tsina-na-aktsiinyi-set" data-keys="чому така ціна, звідки знижка, чому саме така сума, як рахується знижка, не розумію ціну, чому саме стільки коштує, як утворилась ціна" data-cat="Не знаю, що відповісти про продукт">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт питає, чому саме така ціна на акційний сет</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Якщо ви обираєте саме акційні пропозиції, вони вже прораховані навіть з більшою знижкою, ніж 100 гривень. Тому знижку на знижку ми не можемо зробити».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Спокійне пояснення правила без виправдань утримує довіру клієнта до тебе як фахівця.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Якщо ви обираєте саме акційні пропозиції, вони вже прораховані навіть з більшою знижкою, ніж 100 гривень. Тому знижку на знижку ми не можемо зробити»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-11.html">Детальніше: Урок 11</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-pytaie-shchos-pro-kompaniiu-chy-produkt-na-shcho-ia-vzahali-ne-znaiu-vidpovidi" data-keys="не знаю що відповісти, не в курсі питання, не знаю точно, треба уточнити у наставника, не можу відповісти зараз, розгубився з питанням, збила мене з пантелику" data-cat="Не знаю, що відповісти про продукт">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт питає щось про компанію чи продукт, на що я взагалі не знаю відповіді</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Чесно скажу — цей момент я зараз уточню і одразу вам передзвоню, щоб не казати навмання».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Краще чесно уточнити, ніж вигадати відповідь про компанію чи продукт.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Чесно скажу — цей момент я зараз уточню і одразу вам передзвоню, щоб не казати навмання»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-11.html">Детальніше: Урок 11</a>
+      </div>
+    </div>
+  </div><h2 id="iak-dovesty-do-zamovlennia-i-doprodazh">Як довести до замовлення і допродаж</h2>
+  <div class="say-card" id="prezentatsiia-prozvuchala-kliient-movchyt-chy-vahaietsia" data-keys="як закрити дзвінок, клієнт вагається, не наважується замовити, як запропонувати оформити, заклик до дії, як підштовхнути до замовлення, клієнт тягне з рішенням" data-cat="Як довести до замовлення і допродаж">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Презентація прозвучала, клієнт мовчить чи вагається</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Шість скляних банок з безкоштовною доставкою та пакуванням за [ціна], давайте зробимо».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Заклик-твердження прибирає розвилку «так/ні» — обговорюється лише спосіб отримання.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Шість скляних банок з безкоштовною доставкою та пакуванням за [ціна], давайте зробимо»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-05.html">Детальніше: Урок 5</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-pohodyvsia-treba-pereity-do-oformlennia" data-keys="як завершити замовлення, підсумок замовлення, як закрити оформлення, що сказати наприкінці дзвінка, клієнт погодився що далі, фінал розмови з замовленням" data-cat="Як довести до замовлення і допродаж">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт погодився, треба перейти до оформлення</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Тоді дякую, [ім'я], за замовлення. Очікуйте, через [термін] буду у вас на відділенні».</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Підсумок одразу знімає в клієнта чотири головні страхи телефонної покупки: що, скільки, куди, коли.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Тоді дякую, [ім'я], за замовлення. Очікуйте, через [термін] буду у вас на відділенні»." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-12.html">Детальніше: Урок 12</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-shchoino-pohodyvsia-na-set-998-iak-zaproponuvaty-shche-shchos" data-keys="як допродати, що ще запропонувати, допродаж після згоди, як збільшити чек, апсейл, продати ще щось, додати ще одну банку, збільшити замовлення" data-cat="Як довести до замовлення і допродаж">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт щойно погодився на сет 998 — як запропонувати ще щось</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Давайте додамо ще одну баночку [вид ікри] за 333 гривні до вашого замовлення?»</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Момент одразу після згоди — найкоротша точка дзвінка, коли клієнт ще не сперечається.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Давайте додамо ще одну баночку [вид ікри] за 333 гривні до вашого замовлення?" data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-08.html">Детальніше: Урок 8</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-vidmovyvsia-vid-dodatkovoi-banky-za-333-hryvni" data-keys="відмовився від допродажу, не хоче додаткову банку, дешевший допродаж, менший варіант допродажу, не хоче ще одну баночку, відмовив на допродаж" data-cat="Як довести до замовлення і допродаж">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт відмовився від додаткової банки за 333 гривні</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Тоді, може, меншу баночку — за 150 гривень, як приємне доповнення?»</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Кожен крок допродажу — окрема пропозиція; відмова від одного кроку не скасовує вже оформлене замовлення.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Тоді, може, меншу баночку — за 150 гривень, як приємне доповнення?" data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-08.html">Детальніше: Урок 8</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-odrazu-pohodyvsia-na-velykyi-set-1549-hryven" data-keys="великий сет допродаж, 1549 що ще запропонувати, максимальний чек, як збільшити велике замовлення, допродаж до великого сету, ще щось до 1549" data-cat="Як довести до замовлення і допродаж">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт одразу погодився на великий сет 1549 гривень</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Додамо ще три види ікри разом за 450 гривень?» — а при відмові: «Тоді хоча б одну баночку за 150?»</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Драбинка допродажу для великого сету йде трьома видами, потім однією банкою — кожен крок окремо.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Додамо ще три види ікри разом за 450 гривень?» — а при відмові: «Тоді хоча б одну баночку за 150?" data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-08.html">Детальніше: Урок 8</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-pohodyvsia-a-potim-znovu-zasumnivavsia-pered-samym-oformlenniam" data-keys="клієнт передумав в останній момент, знову засумнівався, майже погодився і зупинився, вагається перед оплатою, відкладає рішення в останню секунду" data-cat="Як довести до замовлення і допродаж">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт погодився, а потім знову засумнівався перед самим оформленням</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Буде погано, якщо я зараз забронюю за вами сет і відправлю сьогодні?»</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Питання, на яке легко відповісти «ні», знімає останній опір м'якше за пряме «оформляємо?».</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Буде погано, якщо я зараз забронюю за вами сет і відправлю сьогодні?" data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-05.html">Детальніше: Урок 5</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="ty-shchoino-vidpratsiuvav-zaperechennia-shcho-skazaty-dali" data-keys="що робити після заперечення, як повернутись до продажу, знову запропонувати оформити, повторний заклик, після аргументу що казати, куди вести розмову далі" data-cat="Як довести до замовлення і допродаж">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Ти щойно відпрацював заперечення — що сказати далі</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">одразу після обробки заперечення заклич знову — «Отже, оформляємо?» — не залишай паузу без заклику.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Кожна обробка заперечення трохи знижує впевненість клієнта; повторний заклик одразу повертає розмову до рішення.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="одразу після обробки заперечення заклич знову — «Отже, оформляємо?» — не залишай паузу без заклику." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-05.html">Детальніше: Урок 5</a>
+      </div>
+    </div>
+  </div><h2 id="koly-meni-pohano">Коли мені погано</h2>
+  <div class="say-card" id="kliient-zaperechyv-a-ia-zabuv-use-shcho-vchyv-i-ne-znaiu-shcho-kazaty" data-keys="паніка на дзвінку, забув що казати, розгубився під час розмови, не знаю що відповісти, ступор, все вилетіло з голови, розгубилась і мовчу, забула скрипт" data-cat="Коли мені погано">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт заперечив, а я забув усе, що вчив, і не знаю, що казати</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Секунду, будь ласка» — і видихни. Повернись до найпростішого правила: коротко визнай і веди далі за сценарієм.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Заперечення клієнта — це стрес, а в стресі легко втратити навіть добре завчений матеріал; це трапляється майже з кожним новачком.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Секунду, будь ласка» — і видихни. Повернись до найпростішого правила: коротко визнай і веди далі за сценарієм." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-09.html">Детальніше: Урок 9</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="piat-sim-desiat-dzvinkiv-pospil-bez-zhodnoho-rezultatu" data-keys="серія відмов поспіль, все відмовляють підряд, нічого не виходить сьогодні, суцільні відмови, поганий день на дзвінках, нічого не продається, руки опускаються" data-cat="Коли мені погано">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">П'ять, сім, десять дзвінків поспіль без жодного результату</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">не роби паузу довшу за кілька хвилин; постав собі конкретну мету на наступні кілька дзвінків, а не думай одразу про весь день.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Серія відмов — нормальна частина потоку при нормі 75 дзвінків на день, а не ознака, що щось не так.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="не роби паузу довшу за кілька хвилин; постав собі конкретну мету на наступні кілька дзвінків, а не думай одразу про весь день." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-09.html">Детальніше: Урок 9</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-nahrubyv-abo-pidvyshchyv-na-tebe-holos" data-keys="клієнт нагрубив, накричав на мене, підвищив голос, образив, грубо відповів, хамить, лається, посилає, розлютився клієнт, агресивний клієнт на лінії" data-cat="Коли мені погано">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт нагрубив або підвищив на тебе голос</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Вибачте, якщо щось не так пояснив. Гарного дня» — і спокійно завершуй розмову, не сперечаючись.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Спокійне завершення без сперечання береже твій ресурс для наступного дзвінка з норми 75 на день.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Вибачте, якщо щось не так пояснив. Гарного дня» — і спокійно завершуй розмову, не сперечаючись." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-09.html">Детальніше: Урок 9</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="kliient-rozpovidaie-pro-hore-v-rodyni-khvorobu-chy-obstril-priamo-v-rozmovi" data-keys="горе в родині, клієнт плаче, хвороба у клієнта, втрата близької людини, обстріл, померла людина, важка ситуація у клієнта, не продавати зараз, біда клієнта" data-cat="Коли мені погано">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Клієнт розповідає про горе в родині, хворобу чи обстріл прямо в розмові</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">«Тримайтеся, будь ласка. Вибачте, що потурбував. Якщо знадоблюся — звертайтесь, я на зв'язку» — і завершуй розмову без жодної пропозиції.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Це єдине правило курсу без винятків: людину в горі не продають.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="Тримайтеся, будь ласка. Вибачте, що потурбував. Якщо знадоблюся — звертайтесь, я на зв'язку» — і завершуй розмову без жодної пропозиції." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-12.html">Детальніше: Урок 12</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="litnii-kliient-vtretie-kazhe-shcho-iomu-vazhko-a-ia-vidchuvaiu-shcho-tysnu" data-keys="коли зупинитися, не тиснути на клієнта, шкода продовжувати, відчуваю що тисну, треба зупинитись, коли відпустити клієнта, соромно наполягати далі" data-cat="Коли мені погано">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Літній клієнт втретє каже, що йому важко, а я відчуваю, що тисну</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">прийми відмову й ввічливо заверши розмову — далі тиснути не варто.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Щойно причина названа прямо і повторена вдруге, продовження тиску коштує компанії скаргою і втратою постійного клієнта.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="прийми відмову й ввічливо заверши розмову — далі тиснути не варто." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="ty-vzhe-vidpratsiuvav-try-zaperechennia-pospil-a-kliient-dali-opyraietsia" data-keys="три заперечення підряд, багато заперечень поспіль, клієнт все ще проти, довга суперечка, виснажливий дзвінок, не можу переконати, скільки ще сперечатись" data-cat="Коли мені погано">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Ти вже відпрацював три заперечення поспіль, а клієнт далі опирається</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">не шукай четвертий аргумент — зафіксуй можливість повернутися до розмови пізніше і заверши ввічливо, без відчуття поразки.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Емоційні сили обмежені, а дзвінків у нормі 75 на день — це нормальна частина потоку.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="не шукай четвертий аргумент — зафіксуй можливість повернутися до розмови пізніше і заверши ввічливо, без відчуття поразки." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-04.html">Детальніше: Урок 4</a>
+      </div>
+    </div>
+  </div>
+  <div class="say-card" id="vidchuvaiu-shcho-z-kozhnym-zaperechenniam-hovoriu-tykhishe-i-nevpevnenishe" data-keys="впевненість падає, голос тремтить, невпевнено звучу, боюсь говорити, нервую під час дзвінка, губиться голос до кінця розмови, сама себе не чую впевнено" data-cat="Коли мені погано">
+    <div class="say-body">
+      <div class="say-row">
+        <span class="say-label">Ситуація</span>
+        <p class="say-sit">Відчуваю, що з кожним запереченням говорю тихіше і невпевненіше</p>
+      </div>
+      <div class="say-plaque">
+        <span class="say-tag">СКАЖИ ТАК:</span>
+        <p class="say-phrase">постав твердження, а не запитання — «я вам зроблю» замість «можемо зробити»; свідомо вирівняй голос на наступній репліці.</p>
+      </div>
+      <p class="say-why"><b>Чому це працює:</b> Впевненість падає непомітно для самого менеджера в моменті розмови — і клієнт це чує раніше за зміст слів.</p>
+      <div class="say-actions">
+        <button type="button" class="say-copy" data-copy="постав твердження, а не запитання — «я вам зроблю» замість «можемо зробити»; свідомо вирівняй голос на наступній репліці." data-copied-label="Скопійовано" data-default-label="Скопіювати фразу">Скопіювати фразу</button>
+        <a class="say-more" href="urok-09.html">Детальніше: Урок 9</a>
+      </div>
+    </div>
+  </div>
+</div></div>
+<div class="pagenav"><span></span><span></span></div>
+</main>
+</div>
+<footer class="sitefoot">Ikorka Shop · курс новачка · самостійне навчання, 5 днів</footer>
+<script src="assets/app.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/review-data.js"></script>
+<script src="assets/course.js"></script>
+<script src="assets/ui.js"></script>
+<script src="assets/audio.js"></script>
+</body>
+</html>

@@ -1,0 +1,411 @@
+/* Ikorka Shop — курс новачка. Спільні стилі. Плоска світла тема: чисто, звично, швидко. */
+:root{
+  /* ---- базові токени (світла + темна тема) — у assets/tokens.css, генерує build/lib/tokens.mjs ---- */
+  --bg-deep:var(--canvas); --bg-sky:var(--canvas); --surface:var(--paper); --text:var(--ink);
+
+  /* ---- старі назви змінних — аліаси нової системи, лишені для сумісності з усіма селекторами нижче ---- */
+  --neon-pink:var(--brand); --neon-orange:var(--brand); --neon-yellow:var(--info);
+  --neon-violet:var(--info); --neon-green:var(--good); --neon-cyan:var(--info);
+  --blue:var(--brand);
+  --blue-deep:var(--brand);
+  --lime:var(--info);
+  --lime-deep:var(--good);
+  --coral:var(--info);
+  --yellow:var(--info);
+  --bg:var(--surface-2);
+  --grey:var(--text-dim);
+  --grey-line:var(--line);
+  --ink-on-neon:var(--on-brand); /* текст на суцільному кольоровому чипі/кнопці */
+
+  --card-radius:14px;
+  --maxw:900px;
+  --content-w:700px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;}
+body{
+  background:var(--bg-deep);
+  font-family:'Manrope',sans-serif;
+  color:var(--text);
+  font-variant-numeric:tabular-nums;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 40px;
+}
+/* Один шрифт на весь сайт — Manrope. H1 — ExtraBold з щільнішим трекінгом (рішення 2026-09-23:
+   округлий Unbounded читався як дитячий/консюмерський; DOU тримає заголовки в нейтральному гротеску). */
+h1{font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.02em;margin:0;}
+h2,h3,h4{font-family:'Manrope',sans-serif;font-weight:800;margin:0;}
+p{margin:0;}
+a{color:var(--blue);}
+img,svg{max-width:100%;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 16px;}
+
+/* ============ TOP NAV ============ */
+.topnav{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:40;
+  background:var(--topnav-bg);
+  backdrop-filter:saturate(160%) blur(8px);
+  border-bottom:1px solid var(--grey-line);
+}
+.topnav-inner{
+  max-width:var(--maxw);margin:0 auto;padding:12px 16px;
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+}
+.topnav .brand{
+  display:flex;align-items:center;gap:9px;
+  font-family:'Manrope',sans-serif;font-size:13px;color:var(--blue-deep);
+  text-decoration:none;font-weight:600;white-space:nowrap;
+}
+.topnav .brand-logo{height:34px;width:auto;display:block;}
+.topnav nav{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-left:auto;}
+.topnav nav a{
+  font-size:12.5px;font-weight:700;color:var(--grey);text-decoration:none;
+  padding:7px 11px;border-radius:100px;white-space:nowrap;
+}
+.topnav nav a:hover,.topnav nav a.active{background:var(--bg);color:var(--blue-deep);}
+.nav-toggle{
+  display:none;margin-left:auto;width:36px;height:36px;flex:none;align-items:center;justify-content:center;
+  border-radius:10px;border:1px solid var(--grey-line);background:var(--paper);color:var(--ink);cursor:pointer;
+}
+.nav-toggle:hover{background:var(--bg);}
+
+/* ============ SHELL ============ */
+.page-shell{max-width:var(--maxw);margin:22px auto 0;padding:0 16px;}
+.mockup-panel{
+  background:var(--paper);border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow);
+}
+main{display:flex;flex-direction:column;gap:22px;margin-top:22px;}
+
+/* ============ COVER — як hero сторінки лекції laba.ua: пастельний фон блоку, без рамки/тіні, кольоровий тег ============ */
+.mockup-panel:has(> .cover){box-shadow:none;}
+.cover{
+  background:var(--surface-2);
+  padding:28px 32px 26px;
+}
+.cover.tint-c1{background:var(--tint-1);}
+.cover.tint-c2{background:var(--tint-2);}
+.cover.tint-c3{background:var(--tint-3);}
+.cover.tint-c4{background:var(--tint-4);}
+.cover.tint-c5{background:var(--tint-5);}
+/* один бейдж «День N з 5» — єдине місце на сторінці, де лишається CAPS */
+.cover-eyebrow{
+  display:inline-flex;align-items:center;align-self:flex-start;
+  background:var(--paper);color:var(--text-dim);
+  font-family:'Manrope',sans-serif;font-weight:800;font-size:11.5px;letter-spacing:.03em;text-transform:uppercase;
+  padding:7px 14px;border-radius:8px;
+}
+.cover-eyebrow .nocaps{text-transform:none;}
+.cover-title{font-size:clamp(26px,5.6vw,40px);line-height:1.12;color:var(--ink);margin-top:16px;max-width:20ch;}
+.cover-title em{font-style:normal;}
+.cover-sub{font-size:clamp(14px,2.2vw,16px);color:var(--grey);margin-top:10px;max-width:46ch;font-weight:500;line-height:1.5;}
+.cover-plaque{color:var(--text-dim);font-weight:600;font-size:13px;margin-top:18px;}
+.cover-plaque:empty{margin-top:0;}
+
+/* ============ LESSON BODY (mockup 2) ============ */
+.lesson{padding:34px 28px 38px;max-width:calc(var(--content-w) + 56px);margin:0 auto;}
+.lesson .kicker{color:var(--neon-orange);font-weight:800;font-size:13px;letter-spacing:.02em;}
+.lesson h2{font-size:clamp(22px,4vw,28px);color:var(--text);margin-top:46px;scroll-margin-top:96px;padding-top:4px;border-top:1px solid var(--line);}
+.lesson h2:first-child{margin-top:0;border-top:0;padding-top:0;}
+.lesson h3{font-size:clamp(17px,3.4vw,20px);color:var(--text);margin-top:28px;scroll-margin-top:96px;}
+.lesson-body{font-size:16px;line-height:1.7;color:var(--text);margin-top:16px;max-width:var(--content-w);}
+.lesson-body + .lesson-body{margin-top:12px;}
+.lesson ul{margin:14px 0 0;padding-left:22px;font-size:16px;line-height:1.65;color:var(--text);max-width:var(--content-w);}
+.lesson li{margin-top:8px;}
+.lesson li:first-child{margin-top:0;}
+/* нумеровані списки (Практика, кроки) — великі світло-сірі номери, паттерн "ПРОГРАМА" з laba.ua */
+.lesson ol{margin:18px 0 0;padding:0;list-style:none;max-width:var(--content-w);counter-reset:lesson-ol;}
+.lesson ol li{
+  counter-increment:lesson-ol;position:relative;margin-top:16px;padding-left:52px;
+  font-size:16px;line-height:1.65;color:var(--text);min-height:36px;
+}
+.lesson ol li:first-child{margin-top:0;}
+.lesson ol li::before{
+  content:counter(lesson-ol,decimal-leading-zero);position:absolute;left:0;top:-4px;
+  font-family:'Manrope',sans-serif;font-size:26px;font-weight:800;color:var(--ol-num);line-height:1;
+}
+.lesson blockquote{
+  margin:18px 0;padding:14px 18px;border-left:4px solid var(--neon-cyan);background:var(--bg);
+  border-radius:0 12px 12px 0;color:var(--text);font-size:15.5px;line-height:1.6;max-width:var(--content-w);
+}
+
+/* ============ STAT PANEL — ієрархія Tier1 (одна сильна цифра) / Tier2 (чипи) ============ */
+.stat-panel{margin:26px 0;background:var(--bg);border-radius:var(--card-radius);padding:22px;border:1px solid var(--grey-line);}
+.stat-panel-head{margin-bottom:16px;}
+.stat-panel-head .label{font-weight:800;font-size:13px;color:var(--text-dim);}
+.stat-tier1{background:var(--paper);border:1.5px solid var(--brand);border-radius:var(--card-radius);padding:20px 18px;box-shadow:var(--shadow-accent);display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;max-width:320px;margin:0 auto;}
+.stat-tier1 .ring-wrap{position:relative;width:96px;height:96px;}
+.stat-tier1 svg.ring{width:96px;height:96px;}
+.stat-tier1 .big-num{font-family:'Manrope',sans-serif;font-size:24px;font-weight:800;color:var(--brand);}
+.stat-tier1 .num-caption{font-size:13.5px;line-height:1.45;color:var(--text-dim);font-weight:600;}
+
+/* ============ PULL-QUOTE (inline, DESIGN_SYSTEM) — некартковий факт у тексті ============ */
+.stat-pullquote{margin:18px 0;padding:2px 0 2px 16px;border-left:2px solid var(--info);max-width:var(--content-w);font-size:15.5px;line-height:1.6;color:var(--text);}
+.stat-pullquote b{color:var(--text);font-weight:800;}
+.stat-pullquote-src{display:block;margin-top:3px;font-size:12px;font-weight:500;color:var(--text-dim);}
+.stat-pullquote-src a{color:var(--text-dim);}
+.cmp-bar-row{width:100%;display:flex;flex-direction:column;gap:6px;margin-top:2px;}
+.cmp-bar{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--text-dim);font-weight:700;}
+.cmp-bar .track{flex:1;height:10px;background:var(--surface-2);border-radius:100px;overflow:hidden;}
+.cmp-bar .fill{height:100%;border-radius:100px;background:var(--brand);}
+.cmp-bar.b .fill{background:var(--info);}
+.scale-track{width:100%;height:10px;background:var(--surface-2);border-radius:100px;position:relative;margin-top:4px;}
+.scale-track .range{position:absolute;top:0;height:100%;border-radius:100px;}.scale-track .range.from{background:var(--info);}.scale-track .range.to{background:var(--brand);}
+.scale-axis{display:flex;justify-content:space-between;margin-top:5px;font-size:10.5px;font-weight:700;color:var(--text-dim);}
+.stat-chips{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:16px;}
+.stat-chip{background:var(--paper);border:1px solid var(--line);border-radius:100px;padding:8px 14px;font-size:12.5px;color:var(--text-dim);}
+.stat-chip b{color:var(--text);font-weight:800;}
+
+/* ============ CARDS (mockup 3) — типографічні, без іконок ============ */
+.cardsec{padding:26px 22px 30px;background:var(--bg);border-radius:var(--card-radius);margin:26px 0;}
+.cardsec-head{max-width:640px;margin:0 auto 20px;text-align:center;}
+.cardsec-head h3{font-size:clamp(18px,4vw,22px);color:var(--ink);margin:0;}
+.cards-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;max-width:900px;margin:0 auto;}
+.obj-card{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--card-radius);padding:20px 18px 18px;box-shadow:var(--shadow);}
+.obj-card h4{font-size:16px;margin-top:0;color:var(--text);}
+.obj-card hr{border:none;border-top:1px solid var(--line);margin:14px 0;}
+.obj-bit{margin-top:8px;font-size:13px;line-height:1.5;color:var(--text-dim);}
+.obj-bit:first-of-type{margin-top:0;}
+/* лишається тільки для «Три види заперечень» — єдиний фіксований набір іконок на сайті */
+.obj-card .obj-ico{width:44px;height:44px;background:var(--bg);border-radius:12px;display:flex;align-items:center;justify-content:center;padding:6px;margin-bottom:14px;}
+.obj-card .obj-ico svg{width:32px;height:32px;}
+
+/* ============ SCENE ============ */
+.scene-block{display:flex;justify-content:center;padding:8px 0 4px;}
+.scene-block svg{width:min(260px,70%);height:auto;}
+
+/* ============ FLOWCHART (mockup 4) ============ */
+.flowsec{padding:26px 0 10px;}
+.flowsec-head{text-align:center;margin-bottom:24px;}
+.flowsec-head h3{font-size:clamp(19px,4vw,24px);}
+.flowsec-head p{color:var(--grey);font-size:14px;margin-top:8px;font-weight:600;}
+.flow{display:flex;flex-direction:column;align-items:center;max-width:420px;margin:0 auto;}
+.flow-step{width:100%;background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:13px 16px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-card);}
+.flow-step .num{width:26px;height:26px;flex:none;border-radius:50%;background:var(--neon-orange);color:var(--ink-on-neon);font-family:'Manrope',sans-serif;font-size:11px;display:flex;align-items:center;justify-content:center;}
+.flow-step .txt{font-weight:700;font-size:14.5px;color:var(--text);}
+.flow-step.optional{border-style:dashed;border-color:var(--line);background:var(--surface-2);}
+.flow-step.optional .num{background:var(--text-dim);color:var(--ink-on-neon);}
+.flow-tag{font-size:11px;font-weight:700;color:var(--text-dim);background:var(--bg);padding:2px 9px;border-radius:100px;margin-left:auto;white-space:nowrap;}
+.flow-arrow{height:26px;display:flex;align-items:center;justify-content:center;}
+.flow-arrow svg{width:14px;height:26px;}
+.flow-arrow.dashed svg{opacity:.55;}
+.loop-zone{width:100%;border:1.5px dashed var(--neon-orange);border-radius:16px;padding:14px;background:var(--surface-2);position:relative;}
+.loop-zone .loop-label{position:absolute;top:-12px;left:14px;background:var(--neon-orange);color:var(--ink-on-neon);font-size:10.5px;font-weight:800;padding:3px 10px;border-radius:100px;display:flex;align-items:center;gap:5px;}
+.loop-zone .loop-label svg{width:11px;height:11px;}
+.loop-inner{display:flex;flex-direction:column;gap:10px;margin-top:6px;}
+.loop-connector{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--neon-pink);font-size:11px;font-weight:700;}
+.loop-connector svg{width:16px;height:16px;}
+.branch-note{text-align:center;font-size:11.5px;color:var(--text-dim);font-weight:700;margin:2px 0 8px;}
+
+/* ============ QUOTE CARD ============ */
+.quote-card{margin:20px 0;border-radius:14px;padding:18px 20px;background:var(--paper);border:1.5px solid var(--line);box-shadow:var(--shadow-card);}
+.quote-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Manrope',sans-serif;font-weight:800;font-size:11px;padding:5px 12px;border-radius:100px;color:var(--on-brand);}
+.quote-tag.strong{background:var(--good);}
+.quote-tag.weak{background:var(--bad);}
+.quote-who{font-size:12px;font-weight:700;color:var(--text-dim);margin-left:8px;}
+.quote-text{font-size:16px;line-height:1.6;color:var(--text);margin-top:12px;font-weight:600;}
+.quote-why{font-size:13.5px;line-height:1.55;color:var(--text-dim);margin-top:10px;}
+.quote-why b{color:var(--text);}
+
+/* ============ CHECKLIST ============ */
+.checklist{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:8px;max-width:var(--content-w);}
+.check-item{display:flex;align-items:flex-start;gap:10px;background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:11px 14px;cursor:pointer;font-size:14.5px;color:var(--text);line-height:1.5;}
+.check-item input{margin-top:3px;width:17px;height:17px;accent-color:var(--neon-orange);flex:none;cursor:pointer;}
+.check-item.checked{background:var(--good-soft);border-color:var(--neon-green);}
+.check-item.checked .check-label{text-decoration:line-through;color:var(--text-dim);}
+
+/* ============ TABLE ============ */
+.table-scroll{overflow-x:auto;margin:20px 0;border-radius:12px;border:1px solid var(--line);}
+table.data-table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px;background:var(--paper);}
+table.data-table th{background:var(--surface-2);color:var(--neon-pink);font-weight:800;text-align:left;padding:11px 14px;white-space:nowrap;}
+table.data-table td{padding:11px 14px;border-top:1px solid var(--line);color:var(--text);vertical-align:top;}
+table.data-table tr:nth-child(even) td{background:var(--surface-2);}
+
+/* ============ DETAILS / REVEAL ============ */
+details.reveal{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px;}
+details.reveal summary{cursor:pointer;font-weight:700;color:var(--neon-orange);font-size:13.5px;list-style:none;display:inline-flex;align-items:center;gap:6px;}
+details.reveal summary::-webkit-details-marker{display:none;}
+details.reveal summary::before{content:"▸";transition:transform .15s;}
+details.reveal[open] summary::before{transform:rotate(90deg);}
+details.reveal .reveal-body{margin-top:8px;font-size:14.5px;line-height:1.6;color:var(--text);background:var(--bg);border-radius:10px;padding:12px 14px;}
+.quiz-q{margin:18px 0 0;max-width:var(--content-w);}
+.quiz-q .q-title{font-weight:700;font-size:15.5px;color:var(--text);}
+.quiz-q .q-opts{margin-top:6px;font-size:14.5px;line-height:1.7;color:var(--text);}
+
+/* ============ ТЕСТ — реальний вибір замість toggle ============ */
+.quiz-interactive .q-title{font-weight:800;font-size:15.5px;color:var(--text);}
+.quiz-opts{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+.quiz-opt{
+  text-align:left;background:var(--paper);border:1.5px solid var(--line);border-radius:12px;
+  padding:11px 14px;font:600 14.5px/1.5 'Manrope',sans-serif;color:var(--text);cursor:pointer;
+}
+.quiz-opt:hover:not(:disabled){border-color:var(--brand);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-opt.is-correct{border-color:var(--good);background:var(--good-soft);color:var(--good);}
+.quiz-opt.is-wrong{border-color:var(--bad);background:var(--bad-soft);color:var(--bad);}
+.q-feedback{margin-top:10px;font-weight:700;font-size:13.5px;}
+.q-feedback.good{color:var(--good);}
+.q-feedback.bad{color:var(--bad);}
+
+/* ============ VIDEO ============ */
+.video-card{margin:20px 0;border-radius:14px;padding:16px 18px;background:var(--paper);border:1.5px solid var(--line);box-shadow:var(--shadow-card);display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.video-card .video-ico{width:44px;height:44px;flex:none;border-radius:12px;background:var(--bg);display:flex;align-items:center;justify-content:center;}
+.video-card .video-ico svg{width:22px;height:22px;}
+.video-card .video-meta{flex:1;min-width:180px;}
+.video-card .video-title{font-weight:700;font-size:14.5px;color:var(--text);}
+.video-card .video-sub{font-size:12.5px;color:var(--text-dim);margin-top:2px;}
+.video-card .video-link{font-size:12.5px;font-weight:800;color:var(--ink-on-neon);background:var(--neon-pink);padding:9px 14px;border-radius:100px;text-decoration:none;white-space:nowrap;}
+.video-empty{margin:20px 0;padding:18px;border-radius:12px;background:var(--bg);color:var(--text-dim);font-size:14px;}
+.extvideo-card{align-items:flex-start;}
+.extvideo-take{font-size:13.5px;line-height:1.55;color:var(--text);margin:8px 0 0;}
+.extvideo-take b{color:var(--text);}
+.extvideo-lessons{font-size:12.5px;color:var(--text-dim);margin:8px 0 0;}
+.extvideo-lessons a{color:var(--neon-pink);font-weight:700;text-decoration:none;}
+.extvideo-lessons a:hover{text-decoration:underline;}
+
+/* ============ TOC / INDEX ============ */
+.toc-block{padding:6px 28px 30px;}
+.toc-day{margin-top:26px;}
+.toc-day h3{font-size:18px;color:var(--blue-deep);}
+.toc-day ol{list-style:none;margin:10px 0 0;padding:0;}
+.toc-num{font-family:'Manrope',sans-serif;font-size:11px;color:var(--text-dim);display:inline-block;min-width:2.6em;}
+.toc-page{margin-top:16px;}
+.toc-page > a{font-weight:800;font-size:15px;color:var(--text);text-decoration:none;}
+.toc-page > a:hover{color:var(--neon-orange);}
+.toc-sub{list-style:none;margin:6px 0 0;padding-left:22px;display:flex;flex-direction:column;gap:4px;}
+.toc-sub a{font-size:13px;color:var(--text-dim);text-decoration:none;}
+.toc-sub a:hover{color:var(--neon-orange);}
+.toc-sub .toc-sub2{list-style:none;margin:4px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:4px;}
+
+.daymap{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;padding:0 28px 30px;}
+.daycard{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--card-radius);padding:18px;box-shadow:var(--shadow);text-decoration:none;color:inherit;display:block;transition:box-shadow .15s,transform .15s;}
+.daycard:hover{box-shadow:0 0 0 1px var(--neon-pink),var(--shadow-card);transform:translateY(-2px);}
+.daycard .dn{font-family:'Manrope',sans-serif;font-size:12px;color:var(--neon-orange);}
+.daycard h4{margin-top:8px;font-size:16px;color:var(--text);}
+.daycard ul{margin:10px 0 0;padding-left:18px;font-size:13px;color:var(--text-dim);line-height:1.6;}
+
+/* ============ FOOTER NAV ============ */
+.pagenav{display:flex;justify-content:space-between;gap:14px;margin:8px 0 30px;flex-wrap:wrap;}
+.pagenav a{flex:1;min-width:150px;background:var(--paper);border:1.5px solid var(--line);border-radius:16px;padding:14px 20px;text-decoration:none;box-shadow:var(--shadow);color:var(--text);transition:box-shadow .15s,transform .15s;}
+.pagenav a:hover{transform:translateY(-2px);}
+.pagenav a.next{text-align:right;background:var(--neon-pink);border-color:transparent;box-shadow:var(--shadow-accent);}
+.pagenav a.next .pagenav-label,.pagenav a.next .pagenav-title{color:var(--ink-on-neon);}
+.pagenav .pagenav-label{display:block;font-size:11px;font-weight:800;color:var(--text-dim);text-transform:none;}
+.pagenav .pagenav-title{display:block;font-size:15px;font-weight:700;margin-top:4px;color:var(--neon-pink);}
+
+footer.sitefoot{max-width:var(--maxw);margin:10px auto 0;padding:0 16px;color:var(--text-dim);font-size:12px;text-align:center;}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:640px){
+  .cards-row{grid-template-columns:1fr;}
+  .cover{padding:30px 18px 22px;}
+  .lesson{padding-left:18px;padding-right:18px;}
+  .cardsec{padding:22px 14px 24px;}
+  .toc-block{padding-left:18px;padding-right:18px;}
+  .daymap{padding-left:18px;padding-right:18px;}
+  .topnav-inner{gap:8px;}
+}
+
+/* ============ ПАТЕРН МОКАПУ УРОКУ 9 (зразок — урок 1) ============ */
+/* Tier-1: донат поруч із числом. Контейнер — як у мокапі: пунктирна рамка --line, radius 14. */
+.stat-hero{margin:26px 0;border:1px dashed var(--line);border-radius:14px;padding:22px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;max-width:var(--content-w);}
+.stat-hero .donut{width:96px;height:96px;flex:none;}
+.donut-track{stroke:var(--ring-track);}
+.donut-fill{stroke:var(--ring-fill);}
+.donut-num{font:800 24px 'Manrope',sans-serif;fill:var(--text);}
+.donut-of{font:700 12.5px 'Manrope',sans-serif;fill:var(--text-dim);}
+.stat-hero-text{flex:1;min-width:220px;display:flex;flex-direction:column;gap:4px;}
+.stat-hero-label{font-size:12px;font-weight:700;color:var(--text-dim);}
+.stat-hero-main{font-size:15px;line-height:1.5;color:var(--text);}
+.stat-hero-main b{color:var(--brand);font-weight:800;}
+.stat-hero-src{font-size:12px;color:var(--text-dim);margin-top:2px;}
+.stat-hero-src a{color:var(--text-dim);}
+/* Сцена: кольором --brand у картці --paper з приглушеним підписом */
+.scene-card{margin:26px 0;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:26px;display:flex;flex-direction:column;align-items:center;gap:10px;}
+.scene-card svg{width:min(320px,80%);height:auto;}
+.scene-card figcaption{font-size:13px;color:var(--text-dim);text-align:center;max-width:46ch;line-height:1.5;}
+
+
+/* ============ ПЕРЕМИКАЧ ТЕМИ І ЛОГО ============ */
+/* перемикач теми — маленька кругла іконка (місяць у світлій темі, сонце в темній) */
+.theme-btn{width:36px;height:36px;flex:none;padding:0;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+  border-radius:50%;background:var(--paper);color:var(--text);border:1.5px solid var(--line);}
+.theme-btn:hover{border-color:var(--brand);color:var(--brand);}
+.theme-btn .ti-sun{display:none;}
+:root[data-theme="dark"] .theme-btn .ti-sun{display:block;}
+:root[data-theme="dark"] .theme-btn .ti-moon{display:none;}
+.topnav .brand-logo{background:var(--logo-plate);border-radius:8px;padding:1px;}
+
+/* ============ ПАТЕРН DOU (зразок — урок 1): більше уваги цифрам, ілюстрація біля кожного блоку ============ */
+/* Tier-1 — смуга на всю ширину тексту: велике число поруч із донатом */
+.stat-hero{border:0;background:var(--brand-soft);border-radius:18px;padding:28px 30px;gap:28px;margin:32px 0;}
+.stat-hero .donut{width:136px;height:136px;}
+.stat-hero .donut-num{font-size:26px;}
+.stat-hero-label{font-size:12.5px;font-weight:800;color:var(--brand);letter-spacing:.01em;}
+.stat-hero-big{font:800 clamp(40px,6vw,56px)/1 'Manrope',sans-serif;color:var(--brand);letter-spacing:-.02em;margin:4px 0 6px;}
+.stat-hero-main{font-size:16px;}
+.stat-hero-main b{color:var(--text);}
+/* Решта цифр — сітка «велике число + смужка + підпис» */
+.pq-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0;clear:both;}
+.pq-item{border-left:2px solid var(--info);padding:4px 0 4px 16px;display:flex;flex-direction:column;gap:6px;}
+.lesson > .pq-item{margin:18px 0;}
+.pq-num{font:800 24px/1.15 'Manrope',sans-serif;color:var(--text);letter-spacing:-.01em;}
+.pq-bar{display:block;height:6px;width:min(160px,100%);border-radius:99px;background:var(--ring-track);overflow:hidden;}
+.pq-bar i{display:block;height:100%;background:var(--ring-fill);border-radius:99px;}
+.pq-text{font-size:14.5px;line-height:1.5;color:var(--text);}
+.pq-src{font-size:12px;color:var(--text-dim);}
+.pq-src a{color:var(--text-dim);}
+/* Ілюстрація розділу — справа від тексту, як у DOU; на телефоні — над текстом по центру */
+.sec-illo{float:right;width:min(270px,42%);margin:14px 0 14px 26px;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.sec-illo svg{width:100%;height:auto;}
+.sec-illo figcaption{font-size:12px;line-height:1.45;color:var(--text-dim);text-align:center;}
+.lesson h2{clear:both;}
+.stat-hero,.say-card,.cardsec,.quote-card,.video-card,.quiz-q,.checklist,.lesson ol{clear:both;}
+.scene-card svg{width:min(380px,90%);}
+@media (max-width:700px){
+  .sec-illo{float:none;width:min(280px,100%);margin:14px auto;}
+  .pq-grid{grid-template-columns:1fr;}
+  .stat-hero{padding:22px;}
+}
+.pq-cols{display:flex;align-items:flex-end;gap:10px;height:64px;margin:2px 0 18px;}
+.pq-col{position:relative;width:26px;height:100%;display:flex;align-items:flex-end;}
+.pq-col i{display:block;width:100%;border-radius:5px 5px 2px 2px;background:var(--ring-track);}
+.pq-col.on i{background:var(--ring-fill);}
+.pq-col b{position:absolute;bottom:-17px;left:50%;transform:translateX(-50%);font-size:10.5px;font-weight:700;color:var(--text-dim);white-space:nowrap;}
+/* Tier-1 має домінувати на екрані: більший донат і число */
+.stat-hero{padding:34px 36px;gap:34px;}
+.stat-hero .donut{width:172px;height:172px;}
+.stat-hero .donut-num{font-size:27px;}
+.stat-hero-big{font-size:clamp(46px,7vw,68px);}
+@media (max-width:700px){.stat-hero .donut{width:140px;height:140px;}}
+
+/* ============ Готові ілюстрації (unDraw, перефарбовані в токени) і значки розділів (Lucide) ============ */
+.sec-illo svg.undraw{width:100%;height:auto;max-height:190px;}
+.scene-card svg.undraw{width:min(420px,92%);height:auto;max-height:260px;}
+.lesson h2.has-ico{display:flex;align-items:center;gap:12px;}
+.sec-ico{width:38px;height:38px;flex:none;border-radius:11px;background:var(--brand-soft);color:var(--brand);display:inline-flex;align-items:center;justify-content:center;}
+.sec-ico .sec-ico-svg{width:20px;height:20px;}
+
+/* ============ «Помилка / Як правильно» ============ */
+.pairs{display:grid;gap:12px;margin:18px 0;clear:both;}
+.pair-card{background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:14px 18px;display:grid;gap:10px;}
+.pair-row{display:grid;grid-template-columns:118px 1fr;gap:12px;align-items:start;}
+.pair-row .quote-tag{justify-content:center;margin-top:2px;}
+.pair-row p{font-size:15px;line-height:1.55;color:var(--text);}
+.pair-row.bad p{color:var(--text-dim);}
+.pair-row.good p{font-weight:600;}
+@media (max-width:640px){.pair-row{grid-template-columns:1fr;gap:6px}.pair-row .quote-tag{justify-self:start}}
+/* ============ Зміст уроку на вузьких екранах ============ */
+.toc-inline{margin:0 0 24px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2);}
+.toc-inline summary{cursor:pointer;padding:12px 16px;font-weight:800;font-size:14px;color:var(--text);list-style:none;}
+.toc-inline summary::-webkit-details-marker{display:none;}
+.toc-inline summary::after{content:" ▾";color:var(--text-dim);}
+.toc-inline ol{margin:0!important;padding:0 16px 14px!important;}
+.toc-inline li{padding-left:40px!important;min-height:0!important;margin-top:8px!important;font-size:14.5px!important;}
+.toc-inline li::before{font-size:16px!important;top:1px!important;}
+.toc-inline a{color:var(--text);text-decoration:none;}
+.toc-inline a:hover{color:var(--brand);}
+@media (min-width:1180px){.toc-inline{display:none;}}
+/* ілюстрація збоку — лише коли поруч є абзац тексту; інакше (пари, список, картки) — по центру над блоком, без порожнечі */
+.sec-illo:not(:has(+ p.lesson-body)){float:none;width:min(280px,70%);margin:6px auto 18px;}
