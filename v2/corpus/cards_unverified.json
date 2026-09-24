@@ -17,5 +17,24 @@
   "same_meeting_pair_source": "ОБ-RU01",
   "_file": "M01-UA_c01.jsonl",
   "_reason": "quote not found verbatim in shard"
+ },
+ {
+  "card_id": "M03-RU_c01_06",
+  "source_id": "ОБ-RU03",
+  "chunk": "M03-RU_c01",
+  "type": "rule",
+  "text_verbatim": "а скорее всего это финансовый вопрос, потому что ты обзвонишь тех, кому не звонили давно, то есть им стыдно сказать, что финансовый вопрос, поэтому они говорят, что они уезжают",
+  "locator": "0:27-2:23, абзац 4: 'Если ты так каждого будешь слушать...'",
+  "speaker": "Мовець 1",
+  "basis": "слова наставника",
+  "lesson_hint": null,
+  "note": null,
+  "is_duplicate": false,
+  "duplicate_of": null,
+  "relevance": "medium",
+  "relevance_note": "загальна техніка продажу без явного маркера реактивації/постійного клієнта — потребує ручної звірки",
+  "same_meeting_pair_source": "ОБ-UA03",
+  "_file": "M03-RU_c01.jsonl",
+  "_reason": "quote not found verbatim in shard"
  }
 ]
