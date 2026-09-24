@@ -15,6 +15,9 @@
   "relevance": "medium",
   "relevance_note": "не вдалося однозначно класифікувати автоматично — потребує ручної звірки",
   "same_meeting_pair_source": "ОБ-RU01",
+  "pair_id": "M01",
+  "primary_lang": "ru",
+  "is_primary_source": false,
   "_file": "M01-UA_c01.jsonl",
   "_reason": "quote not found verbatim in shard"
  },
@@ -34,6 +37,9 @@
   "relevance": "medium",
   "relevance_note": "загальна техніка продажу без явного маркера реактивації/постійного клієнта — потребує ручної звірки",
   "same_meeting_pair_source": "ОБ-UA03",
+  "pair_id": "M03",
+  "primary_lang": "ru",
+  "is_primary_source": true,
   "_file": "M03-RU_c01.jsonl",
   "_reason": "quote not found verbatim in shard"
  }

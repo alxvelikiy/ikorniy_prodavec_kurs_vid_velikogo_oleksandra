@@ -64,11 +64,33 @@ function classify(card) {
 // Переклад != дослівний збіг рядків, тому це не авто-дедуп по тексту, а
 // позначка "у цієї картки є пара іншою мовою по тій самій зустрічі" -
 // для ручної звірки при синтезі, а не для автоматичного відкидання.
+//
+// Правило власника (2026-09-24, після Ф1 хвилі 6): RU (.src.txt) - першоджерело,
+// UA (.docx.txt) - переклад. brief.md (розділ джерел, рядки 72-73, 80) НЕ
+// стверджує, яка мова первинна - лише називає їх "русская/украинская
+// транскрипция" і документує дублі UA06-09=RU01-04. Тому це рішення
+// власника, не факт з brief.md, зафіксовано тут як застосована політика:
+// при розбіжності сенсу між UA і RU версією однієї зустрічі - пріоритет RU.
 const SAME_MEETING_PAIR = {};
+const HAS_RU_PAIR = new Set(); // meeting numbers (01-15) that have a RU (primary) version
 for (let i = 1; i <= 15; i++) {
   const nn = String(i).padStart(2, '0');
   SAME_MEETING_PAIR[`ОБ-UA${nn}`] = `ОБ-RU${nn}`;
   SAME_MEETING_PAIR[`ОБ-RU${nn}`] = `ОБ-UA${nn}`;
+}
+// M14, M15 - тільки UA, RU-версії немає (перевірено у Ф0: fs.existsSync на train_14/15.src.txt)
+for (let i = 1; i <= 13; i++) HAS_RU_PAIR.add(String(i).padStart(2, '0'));
+
+function pairMeta(sourceId) {
+  const m = /^ОБ-(UA|RU)(\d{2})$/.exec(sourceId || '');
+  if (!m) return { pair_id: null, primary_lang: null, is_primary_source: null };
+  const [, lang, nn] = m;
+  const hasPair = HAS_RU_PAIR.has(nn);
+  return {
+    pair_id: `M${nn}`,
+    primary_lang: hasPair ? 'ru' : null, // політика власника: RU - першоджерело, де є пара
+    is_primary_source: hasPair ? (lang === 'RU') : null,
+  };
 }
 
 const files = fs.readdirSync(CARDS_DIR).filter(f => f.endsWith('.jsonl'));
@@ -98,6 +120,10 @@ for (const item of allCards) {
   item.obj.relevance = relevance;
   item.obj.relevance_note = relevance_note;
   item.obj.same_meeting_pair_source = SAME_MEETING_PAIR[item.obj.source_id] || null;
+  const { pair_id, primary_lang, is_primary_source } = pairMeta(item.obj.source_id);
+  item.obj.pair_id = pair_id;
+  item.obj.primary_lang = primary_lang;
+  item.obj.is_primary_source = is_primary_source;
 }
 
 // перезаписати кожен файл, зберігаючи порожні-шардові рядки як були
