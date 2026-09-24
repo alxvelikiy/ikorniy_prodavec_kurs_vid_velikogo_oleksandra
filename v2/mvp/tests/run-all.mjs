@@ -14,6 +14,7 @@ const steps = [
   { name: 'Збірка сайту', cmd: [path.join(V2, 'build', 'build.mjs')], result: null },
   { name: 'Статичні перевірки (дослівність, частки, приватність, ключ)', cmd: [path.join(HERE, 'static-checks.mjs'), '--strict'], result: 'static.json' },
   { name: 'Сервер ІІ-тренера (API, захисти, ліміти)', cmd: [path.join(HERE, 'coach-api.mjs')], result: 'coach-api.json' },
+  { name: 'Жива перевірка ІІ-тренера (лише з ANTHROPIC_API_KEY; без ключа — «не проведена»)', cmd: [path.join(HERE, 'coach-live.mjs')], result: 'coach-live.json' },
   { name: 'Клік-сценарії зрізів 1–5', cmd: [path.join(HERE, 'e2e.mjs')], result: 'e2e.json' },
   { name: 'Матриця: сторінки × 375/1280 × теми; розбір у 3 частини на всіх уроках', cmd: [path.join(HERE, 'matrix.mjs')], result: 'matrix.json' },
 ];

@@ -1,0 +1,13 @@
+{
+ "name": "coach-live",
+ "at": "2026-09-24T22:47:05.844Z",
+ "passed": 1,
+ "failed": 0,
+ "items": [
+  {
+   "id": "live.skipped",
+   "ok": true,
+   "detail": "немає ключа — не проведено"
+  }
+ ]
+}

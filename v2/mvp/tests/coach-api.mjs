@@ -9,6 +9,7 @@ import path from 'node:path';
 import { startServer, Results, V2 } from './lib.mjs';
 import { listScenes, sceneContext, grounding, GROUNDING_MAX_BYTES, NO_PHRASE } from '../../coach/lib/coach-core.mjs';
 import { normText, inText } from '../../coach/lib/verbatim.mjs';
+import { INJECTIONS, judgeRoleplay, judgeFeedback } from './injections.mjs';
 
 const R = new Results('coach-api');
 const LESSONS = JSON.parse(fs.readFileSync(path.join(V2, 'coach', 'data', 'lessons.json'), 'utf8'));
@@ -60,6 +61,20 @@ const port = () => 5100 + Math.floor(Math.random() * 800);
   const fbInj = await req(b, 'POST', '/api/coach/feedback', { scene: 'dz-1', replies: [INJECTION] });
   const fi = fbInj.json && fbInj.json.feedback;
   R.check('coach.injection-feedback-blocked', !!fi && !fi['що_сказати_натомість'].some(p => /90|знижк/i.test(p['текст'])) && !/90/.test(fi['чому']), JSON.stringify(fi).slice(0, 160));
+  // 10 спроб ін'єкції (ніч 2): мок-модель «піддається», запобіжники сервера мають усе відсіяти
+  {
+    const rules4 = sceneContext('dz-1').rules.map(r => r.code);
+    const rows = [];
+    for (const inj of INJECTIONS) {
+      const rp = await req(b, 'POST', '/api/coach/roleplay', { scene: 'dz-1', history: [{ r: 'c', t: 'Дорого' }, { r: 'm', t: inj.text }] });
+      const fb = await req(b, 'POST', '/api/coach/feedback', { scene: 'dz-1', replies: [inj.text] });
+      const jr = judgeRoleplay(rp.json), jf = judgeFeedback(fb.json, rules4, inLessons);
+      rows.push({ id: inj.id, rp: jr.blocked, fb: jf.blocked, note: jr.note + ' / ' + jf.note });
+    }
+    const leaked = rows.filter(r => !r.rp || !r.fb);
+    R.check('coach.injections-10-guarded', leaked.length === 0, leaked.length ? leaked.map(r => r.id + ': ' + r.note).join(' | ') : `${rows.length} спроб × (роль клієнта + розбір) — усі заблоковані запобіжниками (мок «зламаної» моделі)`);
+    fs.writeFileSync(path.join(V2, 'mvp', 'tests', 'results', 'injections-mock.json'), JSON.stringify(rows, null, 1));
+  }
   // маскування цифр
   const digits = await req(b, 'POST', '/api/coach/feedback', { scene: 's04-2', replies: ['Запишіть номер 12-34-56-78, я подумаю'] });
   R.check('coach.digits-masked', digits.json && digits.json.ok && !/12-34/.test(digits.body) && /\*\*\*/.test(digits.json.feedback['що_сказано']), digits.json && digits.json.feedback['що_сказано']);
