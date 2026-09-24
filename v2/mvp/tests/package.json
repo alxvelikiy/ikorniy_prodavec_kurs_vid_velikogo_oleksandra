@@ -6,5 +6,12 @@
   "dependencies": {
     "axe-core": "^4.13.0",
     "playwright-core": "1.56"
+  },
+  "scripts": {
+    "test": "node run-all.mjs",
+    "e2e": "node e2e.mjs",
+    "static": "node static-checks.mjs --strict",
+    "coach": "node coach-api.mjs",
+    "matrix": "node matrix.mjs"
   }
 }

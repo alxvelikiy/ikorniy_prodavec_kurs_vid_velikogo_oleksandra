@@ -1,13 +1,18 @@
 {
  "name": "static",
- "at": "2026-09-24T21:59:27.160Z",
- "passed": 8,
+ "at": "2026-09-24T22:03:54.984Z",
+ "passed": 9,
  "failed": 0,
  "items": [
   {
    "id": "content.curated-valid",
    "ok": true,
    "detail": "помилок 0"
+  },
+  {
+   "id": "content.all-12-lessons",
+   "ok": true,
+   "detail": "12 з 12"
   },
   {
    "id": "content.coach-normalization-same",
@@ -37,12 +42,12 @@
   {
    "id": "privacy.no-phones-in-branch-changes",
    "ok": true,
-   "detail": "122 змінених файлів — чисто"
+   "detail": "120 змінених файлів — чисто"
   },
   {
    "id": "secrets.no-api-key",
    "ok": true,
-   "detail": "866 файлів перевірено"
+   "detail": "867 файлів перевірено"
   }
  ]
 }
