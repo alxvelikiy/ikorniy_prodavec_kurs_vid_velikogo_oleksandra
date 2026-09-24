@@ -5,8 +5,9 @@
 // Картки, що не пройшли перевірку, виводяться в unverified.json і НЕ рахуються.
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = 'C:/Users/User/Desktop/Аудио_курс учебный';
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CARDS_DIR = path.join(ROOT, 'v2/corpus/cards');
 const SHARDS_DIR = path.join(ROOT, 'v2/corpus/_shards');
 const PLAN = JSON.parse(fs.readFileSync(path.join(ROOT, 'v2/corpus/shard_plan.json'), 'utf8'));

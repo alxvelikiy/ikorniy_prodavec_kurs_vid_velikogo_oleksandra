@@ -18,8 +18,9 @@
 // duplicate_of = card_id першого входження (порядок за файлами з sort()).
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = 'C:/Users/User/Desktop/Аудио_курс учебный';
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CARDS_DIR = path.join(ROOT, 'v2/corpus/cards');
 
 function norm(s) { return (s || '').replace(/\s+/g, ' ').trim().toLowerCase(); }

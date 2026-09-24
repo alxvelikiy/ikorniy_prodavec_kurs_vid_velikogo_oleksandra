@@ -4,8 +4,9 @@
 // contract_missing_fields:[...], НЕ видаляються.
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = 'C:/Users/User/Desktop/Аудио_курс учебный';
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CARDS_DIR = path.join(ROOT, 'v2/corpus/cards');
 const REQUIRED = ['card_id', 'source_id', 'chunk', 'type', 'text_verbatim', 'locator', 'speaker', 'basis', 'lesson_hint'];
 

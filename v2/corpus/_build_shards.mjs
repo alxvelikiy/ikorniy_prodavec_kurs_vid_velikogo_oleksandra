@@ -2,8 +2,9 @@
 // Deterministic (rule 7): same input -> same shard files, same names.
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = 'C:/Users/User/Desktop/Аудио_курс учебный';
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const OUT = path.join(ROOT, 'v2/corpus/_shards');
 fs.mkdirSync(OUT, { recursive: true });
 

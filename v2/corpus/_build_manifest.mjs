@@ -3,8 +3,9 @@
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = 'C:/Users/User/Desktop/Аудио_курс учебный';
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const REG = fs.readFileSync(path.join(ROOT, 'v2/handoff/SOURCES_REGISTER.md'), 'utf8');
 const cl = JSON.parse(fs.readFileSync(path.join(ROOT, 'v2/audit/transcripts/classification.json'), 'utf8'));
 
