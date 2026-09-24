@@ -1,12 +1,9 @@
 {
  "total_shards": 82,
- "covered": 72,
- "empty": 8,
- "missing": 2,
- "missing_chunks": [
-  "M14-UA_c06",
-  "M15-UA_c01"
- ],
+ "covered": 73,
+ "empty": 9,
+ "missing": 0,
+ "missing_chunks": [],
  "coverage": {
   "N34_c01": {
    "status": "COVERED",
@@ -329,12 +326,12 @@
    "card_count": 7
   },
   "M14-UA_c06": {
-   "status": "MISSING",
+   "status": "EMPTY",
    "card_count": 0
   },
   "M15-UA_c01": {
-   "status": "MISSING",
-   "card_count": 0
+   "status": "COVERED",
+   "card_count": 16
   }
  }
 }

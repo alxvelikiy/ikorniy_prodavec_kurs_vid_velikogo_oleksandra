@@ -84,5 +84,5 @@ M14-UA_c02 | EMPTY | empty (see EMPTY_REASONS.md)
 M14-UA_c03 | EMPTY | empty (see EMPTY_REASONS.md)
 M14-UA_c04 | EMPTY | empty (see EMPTY_REASONS.md)
 M14-UA_c05 | COVERED | cards: 7
-M14-UA_c06 | MISSING | NO RESULT (not processed yet)
-M15-UA_c01 | MISSING | NO RESULT (not processed yet)
+M14-UA_c06 | EMPTY | empty (see EMPTY_REASONS.md)
+M15-UA_c01 | COVERED | cards: 16
