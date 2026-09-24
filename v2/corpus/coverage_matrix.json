@@ -1,0 +1,400 @@
+{
+ "total_shards": 82,
+ "covered": 17,
+ "empty": 3,
+ "missing": 62,
+ "missing_chunks": [
+  "M01-UA_c01",
+  "M01-UA_c02",
+  "M01-UA_c03",
+  "M01-RU_c01",
+  "M02-UA_c01",
+  "M02-RU_c01",
+  "M02-RU_c02",
+  "M02-RU_c03",
+  "M03-UA_c01",
+  "M03-RU_c01",
+  "M04-UA_c01",
+  "M04-UA_c02",
+  "M04-UA_c03",
+  "M04-RU_c01",
+  "M04-RU_c02",
+  "M04-RU_c03",
+  "M04-RU_c04",
+  "M05-UA_c01",
+  "M05-UA_c02",
+  "M06-RU_c01",
+  "M06-RU_c02",
+  "M06-RU_c03",
+  "M06-RU_c04",
+  "M07-RU_c01",
+  "M07-RU_c02",
+  "M09-RU_c01",
+  "M09-RU_c02",
+  "M10-UA_c01",
+  "M10-UA_c02",
+  "M10-UA_c03",
+  "M10-UA_c04",
+  "M10-UA_c05",
+  "M10-RU_c01",
+  "M10-RU_c02",
+  "M11-UA_c01",
+  "M11-UA_c02",
+  "M11-UA_c03",
+  "M11-UA_c04",
+  "M11-RU_c01",
+  "M11-RU_c02",
+  "M11-RU_c03",
+  "M12-UA_c01",
+  "M12-UA_c02",
+  "M12-UA_c03",
+  "M12-UA_c04",
+  "M12-UA_c05",
+  "M12-RU_c01",
+  "M12-RU_c02",
+  "M12-RU_c03",
+  "M13-UA_c01",
+  "M13-RU_c01",
+  "M13-RU_c02",
+  "M13-RU_c03",
+  "M13-RU_c04",
+  "M13-RU_c05",
+  "M14-UA_c01",
+  "M14-UA_c02",
+  "M14-UA_c03",
+  "M14-UA_c04",
+  "M14-UA_c05",
+  "M14-UA_c06",
+  "M15-UA_c01"
+ ],
+ "coverage": {
+  "N34_c01": {
+   "status": "COVERED",
+   "card_count": 23
+  },
+  "N34_c02": {
+   "status": "COVERED",
+   "card_count": 18
+  },
+  "N34_c03": {
+   "status": "EMPTY",
+   "card_count": 0
+  },
+  "N35_c01": {
+   "status": "COVERED",
+   "card_count": 16
+  },
+  "N35_c02": {
+   "status": "COVERED",
+   "card_count": 23
+  },
+  "N35_c03": {
+   "status": "COVERED",
+   "card_count": 23
+  },
+  "N35_c04": {
+   "status": "COVERED",
+   "card_count": 18
+  },
+  "N35_c05": {
+   "status": "COVERED",
+   "card_count": 15
+  },
+  "N36_c01": {
+   "status": "COVERED",
+   "card_count": 3
+  },
+  "N37_c01": {
+   "status": "EMPTY",
+   "card_count": 0
+  },
+  "N38_c01": {
+   "status": "COVERED",
+   "card_count": 11
+  },
+  "N39_c01": {
+   "status": "COVERED",
+   "card_count": 11
+  },
+  "N39_c02": {
+   "status": "COVERED",
+   "card_count": 19
+  },
+  "N39_c03": {
+   "status": "COVERED",
+   "card_count": 13
+  },
+  "N40_c01": {
+   "status": "COVERED",
+   "card_count": 23
+  },
+  "N40_c02": {
+   "status": "COVERED",
+   "card_count": 11
+  },
+  "N40_c03": {
+   "status": "COVERED",
+   "card_count": 16
+  },
+  "M01-UA_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M01-UA_c02": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M01-UA_c03": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M01-RU_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M02-UA_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M02-RU_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M02-RU_c02": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M02-RU_c03": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M03-UA_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M03-RU_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M04-UA_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M04-UA_c02": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M04-UA_c03": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M04-RU_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M04-RU_c02": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M04-RU_c03": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M04-RU_c04": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M05-UA_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M05-UA_c02": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M05-RU_c01": {
+   "status": "EMPTY",
+   "card_count": 0
+  },
+  "M06-RU_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M06-RU_c02": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M06-RU_c03": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M06-RU_c04": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M07-RU_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M07-RU_c02": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M08-RU_c01": {
+   "status": "COVERED",
+   "card_count": 11
+  },
+  "M08-RU_c02": {
+   "status": "COVERED",
+   "card_count": 9
+  },
+  "M09-RU_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M09-RU_c02": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M10-UA_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M10-UA_c02": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M10-UA_c03": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M10-UA_c04": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M10-UA_c05": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M10-RU_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M10-RU_c02": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M11-UA_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M11-UA_c02": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M11-UA_c03": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M11-UA_c04": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M11-RU_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M11-RU_c02": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M11-RU_c03": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M12-UA_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M12-UA_c02": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M12-UA_c03": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M12-UA_c04": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M12-UA_c05": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M12-RU_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M12-RU_c02": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M12-RU_c03": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M13-UA_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M13-RU_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M13-RU_c02": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M13-RU_c03": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M13-RU_c04": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M13-RU_c05": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M14-UA_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M14-UA_c02": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M14-UA_c03": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M14-UA_c04": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M14-UA_c05": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M14-UA_c06": {
+   "status": "MISSING",
+   "card_count": 0
+  },
+  "M15-UA_c01": {
+   "status": "MISSING",
+   "card_count": 0
+  }
+ }
+}
