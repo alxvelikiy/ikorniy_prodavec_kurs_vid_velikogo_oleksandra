@@ -72,10 +72,10 @@ M12-UA_c04 | COVERED | cards: 9
 M12-UA_c05 | COVERED | cards: 5
 M12-RU_c01 | COVERED | cards: 45
 M12-RU_c02 | COVERED | cards: 27
-M12-RU_c03 | MISSING | NO RESULT (not processed yet)
-M13-UA_c01 | MISSING | NO RESULT (not processed yet)
-M13-RU_c01 | MISSING | NO RESULT (not processed yet)
-M13-RU_c02 | MISSING | NO RESULT (not processed yet)
+M12-RU_c03 | COVERED | cards: 32
+M13-UA_c01 | COVERED | cards: 24
+M13-RU_c01 | COVERED | cards: 20
+M13-RU_c02 | COVERED | cards: 19
 M13-RU_c03 | MISSING | NO RESULT (not processed yet)
 M13-RU_c04 | MISSING | NO RESULT (not processed yet)
 M13-RU_c05 | MISSING | NO RESULT (not processed yet)
