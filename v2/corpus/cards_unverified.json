@@ -36,7 +36,7 @@
   "locator": "0:27-2:23, абзац 4: 'Если ты так каждого будешь слушать...'",
   "speaker": "Мовець 1",
   "basis": "слова наставника",
-  "lesson_hint": null,
+  "lesson_hint": "правило: за відмовкою «я виїжджаю» найчастіше ховається фінансове питання, про яке клієнту соромно сказати прямо.",
   "note": null,
   "is_duplicate": false,
   "duplicate_of": null,
@@ -50,10 +50,8 @@
   "context_before": null,
   "context_after": null,
   "ambiguous_location": "quote not found in any paragraph (shard boundary or split artifact)",
-  "contract_valid": false,
-  "contract_missing_fields": [
-   "lesson_hint"
-  ],
+  "contract_valid": true,
+  "contract_missing_fields": [],
   "_file": "M03-RU_c01.jsonl",
   "_reason": "quote not found verbatim in shard"
  },
@@ -64,9 +62,9 @@
   "type": "rule",
   "text_verbatim": "Не обязательно, чтобы быть напорной, как, допустим, когда мужики звонят.",
   "locator": "Не обязательно, чтобы быть напорной...",
-  "speaker": null,
+  "speaker": "Мовець 1",
   "basis": "слова наставника",
-  "lesson_hint": null,
+  "lesson_hint": "правило: жінці-менеджеру не обов'язково бути напористою в дзвінках так само, як буває напористим чоловічий стиль продажу.",
   "note": null,
   "is_duplicate": false,
   "duplicate_of": null,
@@ -80,11 +78,8 @@
   "context_before": "Смотри, есть девчата, кого можешь послушать. Послушай про Дананну. Послушай Валю Горбунову.",
   "context_after": "Не обязательно. У них прекрасно тоже получается по результатам, так что попробуй.",
   "ambiguous_location": null,
-  "contract_valid": false,
-  "contract_missing_fields": [
-   "speaker",
-   "lesson_hint"
-  ],
+  "contract_valid": true,
+  "contract_missing_fields": [],
   "_file": "M04-RU_c04.jsonl",
   "_reason": "quote not found verbatim in shard"
  },
