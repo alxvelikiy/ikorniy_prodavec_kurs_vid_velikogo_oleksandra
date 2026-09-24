@@ -1,7 +1,7 @@
 {
  "name": "static",
- "at": "2026-09-24T22:55:32.199Z",
- "passed": 10,
+ "at": "2026-09-24T22:58:16.875Z",
+ "passed": 12,
  "failed": 0,
  "items": [
   {
@@ -40,6 +40,16 @@
    "detail": "31 неперевірених фрагментів — жодного на сайті й у даних тренера"
   },
   {
+   "id": "docs.coach-readme",
+   "ok": true,
+   "detail": "ключ (bash/PowerShell/cmd), ліміт, вичерпання, офлайн-перевірка"
+  },
+  {
+   "id": "docs.design-system-changes",
+   "ok": true,
+   "detail": "усі змінені токени описані з поточними значеннями"
+  },
+  {
    "id": "privacy.no-phones",
    "ok": true,
    "detail": "v2/site, v2/coach, v2/mvp — чисто"
@@ -47,12 +57,12 @@
   {
    "id": "privacy.no-phones-in-branch-changes",
    "ok": true,
-   "detail": "133 змінених файлів — чисто"
+   "detail": "135 змінених файлів — чисто"
   },
   {
    "id": "secrets.no-api-key",
    "ok": true,
-   "detail": "876 файлів перевірено"
+   "detail": "878 файлів перевірено"
   }
  ]
 }

@@ -88,6 +88,19 @@ if (!T.showStats) {
   R.check('content.unverified-claims-hidden', hits.length === 0, hits.length ? hits.slice(0, 5).join(' | ') : `${frags.length} неперевірених фрагментів — жодного на сайті й у даних тренера`);
 }
 
+// 3в. Ніч 2, П5/П6: документація запуску тренера і зміни дизайн-системи на місці
+{
+  const rd = fs.existsSync(path.join(V2, 'coach', 'README.md')) ? fs.readFileSync(path.join(V2, 'coach', 'README.md'), 'utf8') : '';
+  const need = ['ANTHROPIC_API_KEY', '$env:ANTHROPIC_API_KEY', 'COACH_DAILY_LIMIT', 'usage.json', 'Тренер офлайн', 'ping', '127.0.0.1'];
+  const miss = need.filter(k => !rd.includes(k));
+  R.check('docs.coach-readme', rd && miss.length === 0, miss.length ? 'бракує: ' + miss.join(', ') : 'ключ (bash/PowerShell/cmd), ліміт, вичерпання, офлайн-перевірка');
+  const ds = fs.existsSync(path.join(V2, 'mvp', 'DESIGN_SYSTEM_CHANGES.md')) ? fs.readFileSync(path.join(V2, 'mvp', 'DESIGN_SYSTEM_CHANGES.md'), 'utf8') : '';
+  const { LIGHT, DARK } = await import('../../build/lib/tokens.mjs');
+  const cur = [['--text-dim', DARK['text-dim']], ['--good', LIGHT.good], ['--brand', DARK.brand], ['--brand-text', DARK['brand-text']], ['--brand-text', LIGHT['brand-text']]];
+  const missT = cur.filter(([k, v]) => !ds.includes(k) || !ds.toLowerCase().includes(String(v).toLowerCase()));
+  R.check('docs.design-system-changes', ds && missT.length === 0, missT.length ? 'не описано: ' + missT.map(x => x.join('=')).join(', ') : 'усі змінені токени описані з поточними значеннями');
+}
+
 // 4. Приватність: телефони
 const PHONE = /(?<![\d.])(?:\+?38)?0\d{9}(?![\d])|(?<!\d)\d{3}[ -]\d{3}[ -]\d{2}[ -]\d{2}(?!\d)/;
 function scanDir(dir, out) {
