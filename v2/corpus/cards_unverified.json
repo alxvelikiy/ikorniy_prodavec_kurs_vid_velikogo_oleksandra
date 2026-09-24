@@ -115,5 +115,33 @@
   "contract_missing_fields": [],
   "_file": "M06-RU_c03.jsonl",
   "_reason": "quote not found verbatim in shard"
+ },
+ {
+  "card_id": "M11-UA_c03_23",
+  "source_id": "ОБ-UA11",
+  "chunk": "M11-UA_c03",
+  "type": "rule",
+  "text_verbatim": "А я примінував, і за дві тижні я дійшов до того, що я не робив 140 звонків, я робив 50, але качіствених, і в мене було не 18 заказів, а 16.",
+  "locator": "107",
+  "speaker": "Мовець 1",
+  "basis": "слова наставника",
+  "lesson_hint": "якість дзвінків важливіша за кількість",
+  "note": null,
+  "is_duplicate": false,
+  "duplicate_of": null,
+  "duplicate_reason": null,
+  "context_before": null,
+  "context_after": null,
+  "ambiguous_location": "quote not found in any paragraph (shard boundary or split artifact)",
+  "relevance": "medium",
+  "relevance_note": "загальна техніка продажу без явного маркера реактивації/постійного клієнта — потребує ручної звірки",
+  "same_meeting_pair_source": "ОБ-RU11",
+  "pair_id": "M11",
+  "primary_lang": "ru",
+  "is_primary_source": false,
+  "contract_valid": true,
+  "contract_missing_fields": [],
+  "_file": "M11-UA_c03.jsonl",
+  "_reason": "quote not found verbatim in shard"
  }
 ]
