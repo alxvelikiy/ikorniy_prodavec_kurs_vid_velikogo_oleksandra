@@ -1,6 +1,6 @@
 {
  "name": "static",
- "at": "2026-09-24T22:43:19.765Z",
+ "at": "2026-09-24T22:50:41.513Z",
  "passed": 9,
  "failed": 0,
  "items": [
@@ -22,7 +22,7 @@
   {
    "id": "content.source-refs-verbatim",
    "ok": true,
-   "detail": "962 посилань, недослівних 0"
+   "detail": "966 посилань, недослівних 0"
   },
   {
    "id": "stats.hidden-in-html",
@@ -42,12 +42,12 @@
   {
    "id": "privacy.no-phones-in-branch-changes",
    "ok": true,
-   "detail": "125 змінених файлів — чисто"
+   "detail": "130 змінених файлів — чисто"
   },
   {
    "id": "secrets.no-api-key",
    "ok": true,
-   "detail": "868 файлів перевірено"
+   "detail": "873 файлів перевірено"
   }
  ]
 }

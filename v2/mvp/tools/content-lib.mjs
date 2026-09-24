@@ -125,10 +125,12 @@ export function validateCurated(n, data, ex = extractLesson(n)) {
   const errors = [], warnings = [];
   const E = (path, msg) => errors.push(`урок ${n} · ${path}: ${msg}`);
   const W = (path, msg) => warnings.push(`урок ${n} · ${path}: ${msg}`);
-  const checkText = (path, s, { max = 400, required = true } = {}) => {
+  // lesson — урок-джерело фрагмента (за замовчуванням той самий); інший урок — лише явним полем *_lesson / option.lesson
+  const checkText = (path, s, { max = 400, required = true, lesson = n } = {}) => {
     if (s == null || s === '') { if (required) E(path, 'порожньо'); return false; }
     if (typeof s !== 'string') { E(path, 'має бути рядком'); return false; }
-    if (!isVerbatim(n, s)) { E(path, `не знайдено дослівно в уроці: «${s.slice(0, 90)}»`); return false; }
+    if (!(lesson >= 1 && lesson <= 12)) { E(path, `невідомий урок-джерело ${lesson}`); return false; }
+    if (!isVerbatim(lesson, s)) { E(path, `не знайдено дослівно в уроці ${lesson}: «${s.slice(0, 90)}»`); return false; }
     if (hasShare(s)) { E(path, `містить частку «N з M» (приховується за замовчуванням): «${s.slice(0, 90)}»`); return false; }
     if (s.length > max) W(path, `задовге (${s.length} > ${max})`);
     return true;
@@ -178,6 +180,11 @@ export function validateCurated(n, data, ex = extractLesson(n)) {
     const src = ex.pairs[pr.i];
     if (!src) { E(p + '.i', `немає пари №${pr.i}`); return; }
     checkText(p + '.why', pr.why, { max: 400 });
+    // «як правильно» для пари, де в уроці права частина порожня: дослівний фрагмент уроку (ніч 2, П3)
+    if (pr.good != null) {
+      if (src.good) E(p + '.good', 'у пари вже є «як правильно» в уроці — не перезаписуємо');
+      else checkText(p + '.good', pr.good, { max: 400, lesson: pr.good_lesson || n });
+    }
     needRule(p + '.rule', pr.rule);
   });
   for (const src of ex.pairs) if (src.good && !pairs.some(pr => pr.i === src.i)) W('pairs', `пара №${src.i} без розбору «чому»`);
@@ -187,7 +194,7 @@ export function validateCurated(n, data, ex = extractLesson(n)) {
     const p = `quotes[${i}]`;
     const src = ex.quotes[qt.i];
     if (!src) { E(p + '.i', `немає цитати №${qt.i}`); return; }
-    if (!src.strong) checkText(p + '.instead', qt.instead, { max: 400 });
+    if (!src.strong) checkText(p + '.instead', qt.instead, { max: 400, lesson: qt.instead_lesson || n });
     needRule(p + '.rule', qt.rule);
   });
 
@@ -200,7 +207,7 @@ export function validateCurated(n, data, ex = extractLesson(n)) {
     const opts = Array.isArray(s.options) ? s.options : [];
     if (opts.length < 2 || opts.length > 3) E(p + '.options', `потрібно 2–3 варіанти, є ${opts.length}`);
     if (opts.filter(o => o.good).length !== 1) E(p + '.options', 'рівно один варіант має бути good:true');
-    opts.forEach((o, j) => { checkText(`${p}.options[${j}].text`, o.text, { max: 400 }); checkText(`${p}.options[${j}].why`, o.why, { max: 400 }); });
+    opts.forEach((o, j) => { checkText(`${p}.options[${j}].text`, o.text, { max: 400, lesson: o.lesson || n }); checkText(`${p}.options[${j}].why`, o.why, { max: 400, lesson: o.lesson || n }); });
     needRule(p + '.rule', s.rule);
     checkText(p + '.practice', s.practice, { max: 400 });
   });

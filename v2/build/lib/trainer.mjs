@@ -123,19 +123,21 @@ export function buildTrainerData({ showStats = false, report }) {
     const pairs = ex.pairs.map(p => {
       const c = pairCur.get(p.i);
       const cOk = c && okPath(`pairs[${c._k}]`);
-      return { id: `${n}-p${p.i}`, bad: p.bad, good: p.good, why: cOk ? c.why : '', rule: cOk ? rc(c.rule) : '', refs: [{ l: n, q: p.bad }, ...(p.good ? [{ l: n, q: p.good }] : []), ...(cOk ? [{ l: n, q: c.why }] : [])] };
+      const good = p.good || (cOk && c.good) || '';
+      const goodL = p.good ? n : (cOk && c.good_lesson) || n;
+      return { id: `${n}-p${p.i}`, bad: p.bad, good, why: cOk ? c.why : '', rule: cOk ? rc(c.rule) : '', refs: [{ l: n, q: p.bad }, ...(good ? [{ l: goodL, q: good }] : []), ...(cOk ? [{ l: n, q: c.why }] : [])] };
     });
     const quoteCur = new Map((C.quotes || []).map((q, i) => [q.i, { ...q, _k: i }]));
     // «Сильно чи слабко?» — лише для реплік менеджера; репліки клієнта (урок 3, «хто: Клієнтка») лишаються тільки в тексті уроку
     const quotes = ex.quotes.filter(q => /^менеджер/i.test(String(q.who || 'Менеджер').trim())).map(q => {
       const c = quoteCur.get(q.i);
       const cOk = c && okPath(`quotes[${c._k}]`);
-      return { id: `${n}-c${q.i}`, text: q.text, strong: q.strong, why: q.why, instead: cOk && !q.strong ? (c.instead || '') : '', rule: cOk ? rc(c.rule) : '', refs: [{ l: n, q: q.text }, { l: n, q: q.why }, ...(cOk && c.instead ? [{ l: n, q: c.instead }] : [])] };
+      return { id: `${n}-c${q.i}`, text: q.text, strong: q.strong, why: q.why, instead: cOk && !q.strong ? (c.instead || '') : '', rule: cOk ? rc(c.rule) : '', refs: [{ l: n, q: q.text }, { l: n, q: q.why }, ...(cOk && c.instead ? [{ l: c.instead_lesson || n, q: c.instead }] : [])], insteadLesson: cOk && c.instead_lesson ? c.instead_lesson : n };
     });
     const scenes = (C.scenes || []).map((s, i) => ({ i, ...s })).filter(s => okPath(`scenes[${s.i}]`)).map(s => ({
       id: s.id, lesson: n, title: s.title, client: s.client, rule: rc(s.rule), practice: s.practice,
-      options: s.options.map(o => ({ text: o.text, good: !!o.good, why: o.why })),
-      refs: [{ l: n, q: s.title }, { l: n, q: s.client }, { l: n, q: s.practice }, ...s.options.flatMap(o => [{ l: n, q: o.text }, { l: n, q: o.why }])],
+      options: s.options.map(o => ({ text: o.text, good: !!o.good, why: o.why, ...(o.lesson && o.lesson !== n ? { lesson: o.lesson } : {}) })),
+      refs: [{ l: n, q: s.title }, { l: n, q: s.client }, { l: n, q: s.practice }, ...s.options.flatMap(o => [{ l: o.lesson || n, q: o.text }, { l: o.lesson || n, q: o.why }])],
     }));
     for (const t of (C.terms || []).map((t, i) => ({ i, ...t })).filter(t => okPath(`terms[${t.i}]`))) {
       glossary.push({ term: t.term, def: t.def, lesson: n, ref: { l: n, q: t.def } });

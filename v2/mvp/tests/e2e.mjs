@@ -639,7 +639,58 @@ async function slice5(browser, base, R) {
   }
 }
 
-const SLICES = { 1: slice1, 2: slice2, 3: slice3, 4: slice4, 5: slice5 };
+// ---------------- Ніч 2: виправлення і дозаповнення контенту ----------------
+async function slice6(browser, base, R) {
+  // П2: урок 3 — репліка клієнтки підписана як «Клієнтка» і не потрапляє у вправу «фраза менеджера»
+  {
+    const L3 = lessonN(3);
+    R.check('6.fix.l3-client-quote-not-in-drill', !L3.quotes.some(q => /Я не розумію, що ви пропонуєте/.test(q.text)), `цитат у тренажері уроку 3: ${L3.quotes.length}`);
+    const { page, ctx, errors } = await openPage(browser, base + '/urok-03.html');
+    // підпис того блоку-цитати, що містить репліку (найближчий предок з текстом репліки і рівно одним підписом)
+    const who = await page.evaluate(() => {
+      for (const w of document.querySelectorAll('.quote-who')) {
+        let n = w; for (let k = 0; k < 5 && n; k++) { n = n.parentElement; if (n && n.querySelectorAll('.quote-who').length === 1 && n.textContent.includes('пропонуєте?')) return w.textContent.trim(); }
+      }
+      return '';
+    });
+    R.check('6.fix.l3-speaker-label', who === 'Клієнтка', 'підпис: ' + who);
+    R.check('6.fix.l3-console', errors.length === 0, errors.join(' | '));
+    await ctx.close();
+  }
+  // П3: знайдені «як правильно» для пар 3-p4 і 7-p3 — пари стали інтерактивними, розбір у три частини
+  for (const [slug, id] of [['urok-03', '3-p4'], ['urok-07', '7-p3']]) {
+    const n = +id.split('-')[0];
+    const L = lessonN(n);
+    const p = L.pairs.find(x => x.id === id);
+    R.check(`6.content.${id}-has-good`, !!p.good && inLessons(p.good), p.good);
+    const { page, ctx, errors } = await openPage(browser, base + '/' + slug + '.html');
+    const cards = page.locator('.mvp-pair');
+    R.check(`6.content.${id}-interactive`, await cards.count() === L.pairs.filter(x => x.good).length, (await cards.count()) + ' інтерактивних пар');
+    const box = page.locator(`.mvp-pair .mvp-q[data-item="${id}"]`);
+    await box.scrollIntoViewIfNeeded();
+    await answer(page, box.locator('xpath=..'), true);
+    await expectFb3(R, `6.content.${id}-fb3`, box.locator('.fb3'));
+    R.check(`6.content.${id}-console`, errors.length === 0, errors.join(' | '));
+    await ctx.close();
+  }
+  // П3: сцена «ще є ікра» (урок 11) — правильний варіант тепер готова фраза «Скажи так» уроку 4, з позначкою джерела
+  {
+    const idx = (T.sim || []).indexOf('s11-2');
+    R.check('6.content.s11-2-in-sim', idx >= 0);
+    const sc = lessonN(11).scenes.find(s => s.id === 's11-2');
+    const good = sc.options.find(o => o.good);
+    R.check('6.content.s11-2-phrase', good.lesson === 4 && COACH_LESSONS.find(l => l.n === 4) && inText(normText(COACH_LESSONS.find(l => l.n === 4).text), good.text), good.text.slice(0, 60));
+    const { page, ctx, errors } = await openPage(browser, base + '/trenazher.html');
+    await click(page, page.locator('.sim-tile[data-scene="s11-2"]'));
+    await click(page, page.locator(`.sim-scene .mvp-opt[data-opt="${sc.options.findIndex(o => !o.good)}"]`));
+    const inst = await page.locator('.sim-scene .fb3-instead').textContent();
+    R.check('6.content.s11-2-source-shown', /скільки саме залишилось/.test(inst) && /Урок 4/.test(inst), norm(inst).slice(0, 120));
+    R.check('6.content.s11-2-console', errors.length === 0, errors.join(' | '));
+    await ctx.close();
+  }
+}
+
+const SLICES = { 1: slice1, 2: slice2, 3: slice3, 4: slice4, 5: slice5, 6: slice6 };
 
 (async () => {
   const srv = await startServer({ port: 4173 + Math.floor(Math.random() * 500) });

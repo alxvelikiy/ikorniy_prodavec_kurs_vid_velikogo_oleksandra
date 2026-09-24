@@ -960,7 +960,9 @@
         if (s.tried.indexOf(x.i) < 0) s.tried.push(x.i);
         if (x.o.good) s.solved = true;
         s.t = Date.now(); save();
-        var html = fb3({ good: x.o.good, said: x.o.text, why: x.o.why, instead: good ? good.text : '', lesson: sc.lesson, rule: sc.rule });
+        // фраза з іншого уроку (напр. «Скажи так» уроку 4 у сцені уроку 11) — з позначкою джерела
+        var insteadHtml = good && good.lesson && good.lesson !== sc.lesson ? esc(good.text) + ' <small class="sim-src">(' + lessonLink(good.lesson) + ')</small>' : null;
+        var html = fb3({ good: x.o.good, said: x.o.text, why: x.o.why, instead: good ? good.text : '', insteadHtml: insteadHtml, lesson: sc.lesson, rule: sc.rule });
         var r = ruleByCode(sc.rule);
         if (x.o.good || s.tried.length >= sc.options.length) {
           html += '<div class="sim-practice"><p><b>Що відпрацювати:</b> ' + esc(cap(sc.practice || '')) + '</p>' + (r ? '<p class="mvp-muted"><b>Правило ' + esc(r.code) + ':</b> ' + esc(cap(r.text)) + '</p>' : '') + '</div>';
