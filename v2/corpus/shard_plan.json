@@ -1,0 +1,494 @@
+[
+ {
+  "source_id": "N34",
+  "source_path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 34.txt",
+  "chunk": "N34_c01",
+  "bytes": 14769
+ },
+ {
+  "source_id": "N34",
+  "source_path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 34.txt",
+  "chunk": "N34_c02",
+  "bytes": 14921
+ },
+ {
+  "source_id": "N34",
+  "source_path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 34.txt",
+  "chunk": "N34_c03",
+  "bytes": 10017
+ },
+ {
+  "source_id": "N35",
+  "source_path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 35.txt",
+  "chunk": "N35_c01",
+  "bytes": 14911
+ },
+ {
+  "source_id": "N35",
+  "source_path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 35.txt",
+  "chunk": "N35_c02",
+  "bytes": 14829
+ },
+ {
+  "source_id": "N35",
+  "source_path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 35.txt",
+  "chunk": "N35_c03",
+  "bytes": 14727
+ },
+ {
+  "source_id": "N35",
+  "source_path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 35.txt",
+  "chunk": "N35_c04",
+  "bytes": 14868
+ },
+ {
+  "source_id": "N35",
+  "source_path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 35.txt",
+  "chunk": "N35_c05",
+  "bytes": 8143
+ },
+ {
+  "source_id": "N36",
+  "source_path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 36.txt",
+  "chunk": "N36_c01",
+  "bytes": 3951
+ },
+ {
+  "source_id": "N37",
+  "source_path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 37.txt",
+  "chunk": "N37_c01",
+  "bytes": 1252
+ },
+ {
+  "source_id": "N38",
+  "source_path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 38.txt",
+  "chunk": "N38_c01",
+  "bytes": 4270
+ },
+ {
+  "source_id": "N39",
+  "source_path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 39.txt",
+  "chunk": "N39_c01",
+  "bytes": 14949
+ },
+ {
+  "source_id": "N39",
+  "source_path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 39.txt",
+  "chunk": "N39_c02",
+  "bytes": 14977
+ },
+ {
+  "source_id": "N39",
+  "source_path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 39.txt",
+  "chunk": "N39_c03",
+  "bytes": 9447
+ },
+ {
+  "source_id": "N40",
+  "source_path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 40.txt",
+  "chunk": "N40_c01",
+  "bytes": 14758
+ },
+ {
+  "source_id": "N40",
+  "source_path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 40.txt",
+  "chunk": "N40_c02",
+  "bytes": 14735
+ },
+ {
+  "source_id": "N40",
+  "source_path": "╨Э╨╛╨▓╨╕╨╕╠Ж ╨╖╨░╨┐╨╕╤Б 40.txt",
+  "chunk": "N40_c03",
+  "bytes": 9936
+ },
+ {
+  "source_id": "M01-UA",
+  "source_path": "x/train_01.docx.txt",
+  "chunk": "M01-UA_c01",
+  "bytes": 14479
+ },
+ {
+  "source_id": "M01-UA",
+  "source_path": "x/train_01.docx.txt",
+  "chunk": "M01-UA_c02",
+  "bytes": 14949
+ },
+ {
+  "source_id": "M01-UA",
+  "source_path": "x/train_01.docx.txt",
+  "chunk": "M01-UA_c03",
+  "bytes": 8645
+ },
+ {
+  "source_id": "M01-RU",
+  "source_path": "x/train_01.src.txt",
+  "chunk": "M01-RU_c01",
+  "bytes": 12828
+ },
+ {
+  "source_id": "M02-UA",
+  "source_path": "x/train_02.docx.txt",
+  "chunk": "M02-UA_c01",
+  "bytes": 9231
+ },
+ {
+  "source_id": "M02-RU",
+  "source_path": "x/train_02.src.txt",
+  "chunk": "M02-RU_c01",
+  "bytes": 14995
+ },
+ {
+  "source_id": "M02-RU",
+  "source_path": "x/train_02.src.txt",
+  "chunk": "M02-RU_c02",
+  "bytes": 14401
+ },
+ {
+  "source_id": "M02-RU",
+  "source_path": "x/train_02.src.txt",
+  "chunk": "M02-RU_c03",
+  "bytes": 11071
+ },
+ {
+  "source_id": "M03-UA",
+  "source_path": "x/train_03.docx.txt",
+  "chunk": "M03-UA_c01",
+  "bytes": 5664
+ },
+ {
+  "source_id": "M03-RU",
+  "source_path": "x/train_03.src.txt",
+  "chunk": "M03-RU_c01",
+  "bytes": 3954
+ },
+ {
+  "source_id": "M04-UA",
+  "source_path": "x/train_04.docx.txt",
+  "chunk": "M04-UA_c01",
+  "bytes": 14844
+ },
+ {
+  "source_id": "M04-UA",
+  "source_path": "x/train_04.docx.txt",
+  "chunk": "M04-UA_c02",
+  "bytes": 14948
+ },
+ {
+  "source_id": "M04-UA",
+  "source_path": "x/train_04.docx.txt",
+  "chunk": "M04-UA_c03",
+  "bytes": 10128
+ },
+ {
+  "source_id": "M04-RU",
+  "source_path": "x/train_04.src.txt",
+  "chunk": "M04-RU_c01",
+  "bytes": 14844
+ },
+ {
+  "source_id": "M04-RU",
+  "source_path": "x/train_04.src.txt",
+  "chunk": "M04-RU_c02",
+  "bytes": 14662
+ },
+ {
+  "source_id": "M04-RU",
+  "source_path": "x/train_04.src.txt",
+  "chunk": "M04-RU_c03",
+  "bytes": 14988
+ },
+ {
+  "source_id": "M04-RU",
+  "source_path": "x/train_04.src.txt",
+  "chunk": "M04-RU_c04",
+  "bytes": 795
+ },
+ {
+  "source_id": "M05-UA",
+  "source_path": "x/train_05.docx.txt",
+  "chunk": "M05-UA_c01",
+  "bytes": 14739
+ },
+ {
+  "source_id": "M05-UA",
+  "source_path": "x/train_05.docx.txt",
+  "chunk": "M05-UA_c02",
+  "bytes": 3179
+ },
+ {
+  "source_id": "M05-RU",
+  "source_path": "x/train_05.src.txt",
+  "chunk": "M05-RU_c01",
+  "bytes": 5396
+ },
+ {
+  "source_id": "M06-RU",
+  "source_path": "x/train_06.src.txt",
+  "chunk": "M06-RU_c01",
+  "bytes": 14739
+ },
+ {
+  "source_id": "M06-RU",
+  "source_path": "x/train_06.src.txt",
+  "chunk": "M06-RU_c02",
+  "bytes": 14871
+ },
+ {
+  "source_id": "M06-RU",
+  "source_path": "x/train_06.src.txt",
+  "chunk": "M06-RU_c03",
+  "bytes": 14986
+ },
+ {
+  "source_id": "M06-RU",
+  "source_path": "x/train_06.src.txt",
+  "chunk": "M06-RU_c04",
+  "bytes": 4875
+ },
+ {
+  "source_id": "M07-RU",
+  "source_path": "x/train_07.src.txt",
+  "chunk": "M07-RU_c01",
+  "bytes": 14912
+ },
+ {
+  "source_id": "M07-RU",
+  "source_path": "x/train_07.src.txt",
+  "chunk": "M07-RU_c02",
+  "bytes": 6375
+ },
+ {
+  "source_id": "M08-RU",
+  "source_path": "x/train_08.src.txt",
+  "chunk": "M08-RU_c01",
+  "bytes": 14933
+ },
+ {
+  "source_id": "M08-RU",
+  "source_path": "x/train_08.src.txt",
+  "chunk": "M08-RU_c02",
+  "bytes": 4725
+ },
+ {
+  "source_id": "M09-RU",
+  "source_path": "x/train_09.src.txt",
+  "chunk": "M09-RU_c01",
+  "bytes": 14886
+ },
+ {
+  "source_id": "M09-RU",
+  "source_path": "x/train_09.src.txt",
+  "chunk": "M09-RU_c02",
+  "bytes": 2951
+ },
+ {
+  "source_id": "M10-UA",
+  "source_path": "x/train_10.docx.txt",
+  "chunk": "M10-UA_c01",
+  "bytes": 14468
+ },
+ {
+  "source_id": "M10-UA",
+  "source_path": "x/train_10.docx.txt",
+  "chunk": "M10-UA_c02",
+  "bytes": 14930
+ },
+ {
+  "source_id": "M10-UA",
+  "source_path": "x/train_10.docx.txt",
+  "chunk": "M10-UA_c03",
+  "bytes": 14545
+ },
+ {
+  "source_id": "M10-UA",
+  "source_path": "x/train_10.docx.txt",
+  "chunk": "M10-UA_c04",
+  "bytes": 14974
+ },
+ {
+  "source_id": "M10-UA",
+  "source_path": "x/train_10.docx.txt",
+  "chunk": "M10-UA_c05",
+  "bytes": 6600
+ },
+ {
+  "source_id": "M10-RU",
+  "source_path": "x/train_10.src.txt",
+  "chunk": "M10-RU_c01",
+  "bytes": 14916
+ },
+ {
+  "source_id": "M10-RU",
+  "source_path": "x/train_10.src.txt",
+  "chunk": "M10-RU_c02",
+  "bytes": 7351
+ },
+ {
+  "source_id": "M11-UA",
+  "source_path": "x/train_11.docx.txt",
+  "chunk": "M11-UA_c01",
+  "bytes": 14623
+ },
+ {
+  "source_id": "M11-UA",
+  "source_path": "x/train_11.docx.txt",
+  "chunk": "M11-UA_c02",
+  "bytes": 14923
+ },
+ {
+  "source_id": "M11-UA",
+  "source_path": "x/train_11.docx.txt",
+  "chunk": "M11-UA_c03",
+  "bytes": 14827
+ },
+ {
+  "source_id": "M11-UA",
+  "source_path": "x/train_11.docx.txt",
+  "chunk": "M11-UA_c04",
+  "bytes": 6737
+ },
+ {
+  "source_id": "M11-RU",
+  "source_path": "x/train_11.src.txt",
+  "chunk": "M11-RU_c01",
+  "bytes": 14845
+ },
+ {
+  "source_id": "M11-RU",
+  "source_path": "x/train_11.src.txt",
+  "chunk": "M11-RU_c02",
+  "bytes": 14772
+ },
+ {
+  "source_id": "M11-RU",
+  "source_path": "x/train_11.src.txt",
+  "chunk": "M11-RU_c03",
+  "bytes": 1403
+ },
+ {
+  "source_id": "M12-UA",
+  "source_path": "x/train_12.docx.txt",
+  "chunk": "M12-UA_c01",
+  "bytes": 14899
+ },
+ {
+  "source_id": "M12-UA",
+  "source_path": "x/train_12.docx.txt",
+  "chunk": "M12-UA_c02",
+  "bytes": 14873
+ },
+ {
+  "source_id": "M12-UA",
+  "source_path": "x/train_12.docx.txt",
+  "chunk": "M12-UA_c03",
+  "bytes": 14476
+ },
+ {
+  "source_id": "M12-UA",
+  "source_path": "x/train_12.docx.txt",
+  "chunk": "M12-UA_c04",
+  "bytes": 14742
+ },
+ {
+  "source_id": "M12-UA",
+  "source_path": "x/train_12.docx.txt",
+  "chunk": "M12-UA_c05",
+  "bytes": 14573
+ },
+ {
+  "source_id": "M12-RU",
+  "source_path": "x/train_12.src.txt",
+  "chunk": "M12-RU_c01",
+  "bytes": 14966
+ },
+ {
+  "source_id": "M12-RU",
+  "source_path": "x/train_12.src.txt",
+  "chunk": "M12-RU_c02",
+  "bytes": 14938
+ },
+ {
+  "source_id": "M12-RU",
+  "source_path": "x/train_12.src.txt",
+  "chunk": "M12-RU_c03",
+  "bytes": 10160
+ },
+ {
+  "source_id": "M13-UA",
+  "source_path": "x/train_13.docx.txt",
+  "chunk": "M13-UA_c01",
+  "bytes": 14135
+ },
+ {
+  "source_id": "M13-RU",
+  "source_path": "x/train_13.src.txt",
+  "chunk": "M13-RU_c01",
+  "bytes": 14961
+ },
+ {
+  "source_id": "M13-RU",
+  "source_path": "x/train_13.src.txt",
+  "chunk": "M13-RU_c02",
+  "bytes": 14886
+ },
+ {
+  "source_id": "M13-RU",
+  "source_path": "x/train_13.src.txt",
+  "chunk": "M13-RU_c03",
+  "bytes": 14931
+ },
+ {
+  "source_id": "M13-RU",
+  "source_path": "x/train_13.src.txt",
+  "chunk": "M13-RU_c04",
+  "bytes": 14980
+ },
+ {
+  "source_id": "M13-RU",
+  "source_path": "x/train_13.src.txt",
+  "chunk": "M13-RU_c05",
+  "bytes": 13761
+ },
+ {
+  "source_id": "M14-UA",
+  "source_path": "x/train_14.docx.txt",
+  "chunk": "M14-UA_c01",
+  "bytes": 14884
+ },
+ {
+  "source_id": "M14-UA",
+  "source_path": "x/train_14.docx.txt",
+  "chunk": "M14-UA_c02",
+  "bytes": 14950
+ },
+ {
+  "source_id": "M14-UA",
+  "source_path": "x/train_14.docx.txt",
+  "chunk": "M14-UA_c03",
+  "bytes": 14693
+ },
+ {
+  "source_id": "M14-UA",
+  "source_path": "x/train_14.docx.txt",
+  "chunk": "M14-UA_c04",
+  "bytes": 14766
+ },
+ {
+  "source_id": "M14-UA",
+  "source_path": "x/train_14.docx.txt",
+  "chunk": "M14-UA_c05",
+  "bytes": 14704
+ },
+ {
+  "source_id": "M14-UA",
+  "source_path": "x/train_14.docx.txt",
+  "chunk": "M14-UA_c06",
+  "bytes": 4795
+ },
+ {
+  "source_id": "M15-UA",
+  "source_path": "x/train_15.docx.txt",
+  "chunk": "M15-UA_c01",
+  "bytes": 11361
+ }
+]
