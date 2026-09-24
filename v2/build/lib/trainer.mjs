@@ -50,6 +50,10 @@ const DOCZAP_TITLES = {
   'ситуативне': ['Можна Укрпоштою?', 'Експеримент з кип’ятком', 'Чому така низька ціна?', 'Ненатуральна ікра', 'Овочі'],
   'хибне': ['Ще не на часі', 'Мені не треба', 'Не актуально', 'Я подумаю', 'Треба порадитись', 'Залиште номер — я сам передзвоню', 'Давайте потім', 'А по цьому номеру можна подзвонити?'],
 };
+export function loadExclusions() {
+  try { return JSON.parse(fs.readFileSync(path.join(V2, 'mvp', 'content', 'unverified_exclusions.json'), 'utf8')); } catch (e) { return { doczap: [], sos_page: [] }; }
+}
+
 export function parseDocZap(report) {
   if (!fs.existsSync(DOCZAP)) { report && report.warnings.push('DOC-ZAP: x/zaperechennya.docx.txt не знайдено — SOS і персони без таблиці заперечень'); return []; }
   const lines = fs.readFileSync(DOCZAP, 'utf8').replace(/\r/g, '').split('\n').map(l => l.trim());
@@ -155,11 +159,16 @@ export function buildTrainerData({ showStats = false, report }) {
   // SOS: заперечення (DOC-ZAP + фрази уроку 4) і шпаргалка етапів (урок 3)
   const dz = parseDocZap(report);
   const l4 = lessons[3];
+  // Ніч 2, П4: відповіді скрипта з неперевіреними твердженнями не показуються (v2/mvp/content/unverified_exclusions.json)
+  const excl = loadExclusions();
+  for (const e of excl.doczap) { const o = dz.find(x => x.id === e.id); if (!o || normText(o.obj) !== normText(e.obj)) report.errors.push(`unverified_exclusions: ${e.id} не збігається з DOC-ZAP («${e.obj}»)`); }
+  const exclIds = new Set(excl.doczap.map(e => e.id));
   const objections = dz.map(o => {
     let say = null;
     if (o.cat === 'хибне') say = l4.says.find(s => /подумаю/.test(s.sit));
     else { const m = DOCZAP_TO_SAY.find(([re]) => re.test(o.obj)); if (m) say = l4.says.find(s => m[1].test(s.sit)); }
-    return { id: o.id, cat: o.cat, obj: o.obj, script: o.script, say: say ? { sit: say.sit, text: say.say, why: say.why, ref: { l: 4, q: say.say } } : null };
+    const hidden = exclIds.has(o.id);
+    return { id: o.id, cat: o.cat, obj: o.obj, script: hidden ? '' : o.script, excluded: hidden || undefined, say: say ? { sit: say.sit, text: say.say, why: say.why, ref: { l: 4, q: say.say } } : null };
   });
   const l3raw = displayedLessonRaw(3, showStats);
   const skel = (l3raw.match(/Скелет один: [^\n]*?закриття → робота із запереченнями\./) || [''])[0];

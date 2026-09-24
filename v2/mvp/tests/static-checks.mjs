@@ -74,6 +74,20 @@ if (!T.showStats) {
   R.check('stats.hidden-in-trainer-data', dataHits === 0, `збігів ${dataHits}`);
 }
 
+// 3б. Ніч 2, П4: неперевірені твердження скрипта компанії не потрапляють на сайт і в дані тренера
+{
+  const { normText: nt, lessonRaw: lr } = await import('../tools/content-lib.mjs');
+  const excl = JSON.parse(fs.readFileSync(path.join(V2, 'mvp', 'content', 'unverified_exclusions.json'), 'utf8'));
+  const lessonsNorm = Array.from({ length: 12 }, (_, i) => nt(lr(i + 1))).join('\n');
+  const frags = [...excl.doczap, ...excl.sos_page].flatMap(e => [...(e.claims || []).join(' ').matchAll(/«([^«»]{12,})»/g)].map(m => m[1]).concat(e.match ? [e.match] : []))
+    .map(f => nt(f).replace(/\s*(…|\.\.\.)\s*/g, ' ').trim()).filter(f => f.length >= 12 && !lessonsNorm.includes(f));
+  const files = [...fs.readdirSync(path.join(V2, 'site')).filter(f => f.endsWith('.html')).map(f => path.join(V2, 'site', f)),
+    ...fs.readdirSync(path.join(V2, 'site', 'assets')).filter(f => f.endsWith('.js')).map(f => path.join(V2, 'site', 'assets', f)), path.join(V2, 'coach', 'data', 'lessons.json')];
+  const hits = [];
+  for (const f of files) { const t = nt(fs.readFileSync(f, 'utf8').replace(/<[^>]+>/g, ' ')); for (const fr of frags) { const probe = fr.split(' ').slice(0, 6).join(' '); if (probe.length >= 12 && t.includes(probe)) hits.push(path.basename(f) + ': ' + probe); } }
+  R.check('content.unverified-claims-hidden', hits.length === 0, hits.length ? hits.slice(0, 5).join(' | ') : `${frags.length} неперевірених фрагментів — жодного на сайті й у даних тренера`);
+}
+
 // 4. Приватність: телефони
 const PHONE = /(?<![\d.])(?:\+?38)?0\d{9}(?![\d])|(?<!\d)\d{3}[ -]\d{3}[ -]\d{2}[ -]\d{2}(?!\d)/;
 function scanDir(dir, out) {

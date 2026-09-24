@@ -690,7 +690,34 @@ async function slice6(browser, base, R) {
   }
 }
 
-const SLICES = { 1: slice1, 2: slice2, 3: slice3, 4: slice4, 5: slice5, 6: slice6 };
+// Ніч 2, П4: SOS без неперевірених тверджень скрипта компанії
+async function slice7(browser, base, R) {
+  const excl = JSON.parse(fs.readFileSync(path.join(V2, 'mvp', 'content', 'unverified_exclusions.json'), 'utf8'));
+  const exIds = new Set(excl.doczap.map(e => e.id));
+  R.check('7.sos.data-scripts-hidden', T.sos.objections.filter(o => exIds.has(o.id)).every(o => !o.script && o.excluded) && T.sos.objections.filter(o => !exIds.has(o.id)).every(o => o.script),
+    `${exIds.size} відповідей скрипта приховано, ${T.sos.objections.length - exIds.size} лишилось`);
+  const { page, ctx, errors } = await openPage(browser, base + '/urok-04.html');
+  await page.locator('.sos-fab').click();
+  const panel = page.locator('.sos-panel');
+  await page.fill('#sos-q', 'Укрпоштою'); await page.waitForTimeout(350);
+  const first = panel.locator('.sos-item').first();
+  R.check('7.sos.no-script-for-excluded', await first.locator('.sos-script').count() === 0 && /Перевіреної готової фрази в курсі немає/.test(await first.textContent()), norm(await first.textContent()).slice(0, 120));
+  await page.fill('#sos-q', 'дорого'); await page.waitForTimeout(350);
+  const all = norm(await panel.locator('.sos-list').textContent());
+  R.check('7.sos.no-market-claim', !/сама низька ціна/i.test(all) && /Скажи так/.test(all), 'урок 4 — «Скажи так»; «сама низька ціна на ринку» прибрано');
+  await page.fill('#sos-q', 'подумаю'); await page.waitForTimeout(350);
+  R.check('7.sos.verified-script-kept', await panel.locator('.sos-script').count() >= 1, 'відповідь скрипта-рамки для хибних заперечень лишилась');
+  R.check('7.sos.console', errors.length === 0, errors.join(' | '));
+  await ctx.close();
+  const b = await openPage(browser, base + '/sos.html');
+  const txt = norm(await b.page.locator('main').textContent());
+  const left = excl.sos_page.filter(e => txt.toLowerCase().includes(e.match.toLowerCase()));
+  R.check('7.sos-page.excluded-cards', left.length === 0 && await b.page.locator('.say-card').count() >= 30, `карток на сторінці: ${await b.page.locator('.say-card').count()}; неперевірених лишилось: ${left.length}`);
+  R.check('7.sos-page.console', b.errors.length === 0, b.errors.join(' | '));
+  await b.ctx.close();
+}
+
+const SLICES = { 1: slice1, 2: slice2, 3: slice3, 4: slice4, 5: slice5, 6: slice6, 7: slice7 };
 
 (async () => {
   const srv = await startServer({ port: 4173 + Math.floor(Math.random() * 500) });

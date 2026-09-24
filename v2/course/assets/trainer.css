@@ -233,3 +233,4 @@ input[type=file]{max-width:100%;font:500 14px 'Manrope',sans-serif;color:var(--i
 .stat-hero .stat-hero-label{color:var(--brand-text);}
 .stat-hero .stat-hero-src,.stat-hero .stat-hero-src a{color:var(--ink);}
 .stat-hero .mvp-label{color:var(--ink);border-color:var(--ink);}
+.sos-none-ready{margin-top:6px;font-size:13.5px;line-height:1.5;color:var(--ink);}

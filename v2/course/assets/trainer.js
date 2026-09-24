@@ -295,6 +295,11 @@
       return out.slice(0, 30);
     }
     var CAT = { 'істинне': 'Істинне', 'ситуативне': 'Ситуативне', 'хибне': 'Хибне' };
+    // відповідь скрипта прихована (неперевірені твердження) і фрази уроку немає — чесно кажемо і даємо правило уроку 4
+    function noReadyHtml(o) {
+      var r = ruleByCode(o.cat === 'хибне' ? '4.2' : '4.3');
+      return '<p class="sos-none-ready">Перевіреної готової фрази в курсі немає.' + (r ? ' Правило <b>' + esc(r.code) + '</b>: ' + esc(cap(r.text)) : '') + ' · <a href="urok-04.html">Урок 4</a></p>';
+    }
     function renderList(box, q) {
       var rs = results(q);
       if (!rs.length) { box.innerHTML = '<p class="sos-none">Нічого не знайдено. Спробуй інше слово: «дорого», «подумаю», «не актуально».</p>'; return; }
@@ -303,7 +308,8 @@
           var o = r.o;
           return '<div class="sos-item"><p class="sos-obj"><span class="sos-cat cat-' + esc(o.cat) + '">' + CAT[o.cat] + '</span> «' + esc(o.obj) + '»</p>' +
             (o.say ? '<p class="sos-say"><b>Скажи так:</b> ' + esc(o.say.text) + '</p><p class="sos-why">' + esc(cap(o.say.why)) + ' · <a href="urok-04.html">Урок 4</a></p>' : '') +
-            '<details class="sos-script"' + (o.say ? '' : ' open') + '><summary>Відповідь зі скрипту компанії</summary><p>' + esc(o.script) + '</p></details></div>';
+            (o.script ? '<details class="sos-script"' + (o.say ? '' : ' open') + '><summary>Відповідь зі скрипту компанії</summary><p>' + esc(o.script) + '</p></details>'
+              : (o.say ? '' : noReadyHtml(o))) + '</div>';
         }
         var s = r.s;
         return '<div class="sos-item"><p class="sos-obj">' + esc(s.sit) + '</p><p class="sos-say"><b>Скажи так:</b> ' + esc(s.say) + '</p><p class="sos-why">' + esc(cap(s.why)) + ' · ' + lessonLink(s.lesson) + '</p></div>';

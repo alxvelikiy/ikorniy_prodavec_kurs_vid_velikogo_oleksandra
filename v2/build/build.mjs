@@ -14,7 +14,7 @@ import { renderBody } from './lib/page.mjs';
 import { renderCover, renderCallFlow, renderObjectionTypesCards, renderVideo } from './lib/directives.mjs';
 import { videoIconSvg } from './lib/svg.mjs';
 import { tokensCss } from './lib/tokens.mjs';
-import { buildTrainerData, displayedLessonRaw, isHiddenStat, isMentorSource } from './lib/trainer.mjs';
+import { buildTrainerData, displayedLessonRaw, isHiddenStat, isMentorSource, loadExclusions, normText } from './lib/trainer.mjs';
 import { buildMvpPages } from './lib/mvp-pages.mjs';
 
 // Частки «N з M» з базою 26 / базою наставника / непідтвердженою базою за замовчуванням приховані
@@ -411,9 +411,22 @@ function buildSosFilterBar(headings) {
   </div></div>`;
 }
 
+const sosExclusionErrors = [];
+let sosExcluded = 0;
 function buildSosPage(file) {
   const raw = read(file);
-  const blocks = parseBlocks(raw);
+  // Ніч 2, П4: картки з неперевіреними твердженнями скрипта компанії не показуються (v2/mvp/content/unverified_exclusions.json)
+  const excl = loadExclusions().sos_page;
+  const used = new Set();
+  const blocks = parseBlocks(raw).filter(b => {
+    if (!(b.kind === 'directive' && b.type === 'say')) return true;
+    const say = normText((b.fields || {})['скажи'] || '');
+    const hit = excl.find(e => say.includes(normText(e.match)));
+    if (hit) used.add(hit.match);
+    return !hit;
+  });
+  for (const e of excl) if (!used.has(e.match)) sosExclusionErrors.push(`unverified_exclusions: на сторінці SOS не знайдено «${e.match}»`);
+  sosExcluded = used.size;
   const { hero, rest } = extractHero(blocks);
   const body = groupStats(rest);
 
@@ -749,6 +762,7 @@ self.addEventListener('fetch', e => {
   // 8. Перевірки
   // ============================================================
   const report = { pages: generated.length, errors: [], warnings: [] };
+  report.errors.push(...sosExclusionErrors);
 
   const expectedSlugs = [...new Set(['index', ...COURSE_ORDER.map(e => e.slug), 'povtorennia', 'sos', 'video', 'dzvinky', 'trenazher', 'trener', 'perevirka', 'kerivnyku'])];
   for (const s of expectedSlugs) {
@@ -824,6 +838,7 @@ self.addEventListener('fetch', e => {
 
   console.log('=== Ikorka Shop · build звіт ===');
   console.log(`Сторінок згенеровано: ${report.pages} (очікувалось ${expectedSlugs.length})`);
+  console.log(`Неперевірені твердження приховано: SOS-сторінка — ${sosExcluded} карток, SOS-панель — ${(trainer.sos.objections || []).filter(o => o.excluded).length} відповідей скрипта`);
   if (swInfo) console.log(`Офлайн-кеш (sw.js): ${swInfo.files} файлів, версія ${swInfo.cache}`);
   console.log(`Відео у video_map.json: ${videoByLesson.size ? [...videoByLesson.keys()].sort((a, b) => a - b).join(', ') : 'немає (video_map.json відсутній або порожній)'}`);
   console.log(`Стоп-лист (SPEC розд. 7) збігів у HTML: ${stopHits}`);

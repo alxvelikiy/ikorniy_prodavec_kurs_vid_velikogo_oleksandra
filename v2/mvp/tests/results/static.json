@@ -1,7 +1,7 @@
 {
  "name": "static",
- "at": "2026-09-24T22:50:41.513Z",
- "passed": 9,
+ "at": "2026-09-24T22:55:32.199Z",
+ "passed": 10,
  "failed": 0,
  "items": [
   {
@@ -35,6 +35,11 @@
    "detail": "збігів 0"
   },
   {
+   "id": "content.unverified-claims-hidden",
+   "ok": true,
+   "detail": "31 неперевірених фрагментів — жодного на сайті й у даних тренера"
+  },
+  {
    "id": "privacy.no-phones",
    "ok": true,
    "detail": "v2/site, v2/coach, v2/mvp — чисто"
@@ -42,12 +47,12 @@
   {
    "id": "privacy.no-phones-in-branch-changes",
    "ok": true,
-   "detail": "130 змінених файлів — чисто"
+   "detail": "133 змінених файлів — чисто"
   },
   {
    "id": "secrets.no-api-key",
    "ok": true,
-   "detail": "873 файлів перевірено"
+   "detail": "876 файлів перевірено"
   }
  ]
 }
