@@ -51,8 +51,8 @@ if (!key) {
     mock.map(r => `| ${r.id} | ${md(r.note)} |`).join('\n') +
     `\n\nЯк тільки з'явиться ключ: \`ANTHROPIC_API_KEY=… node v2/mvp/tests/coach-live.mjs\` — скрипт перепише цей файл результатами 3 розмов і 10 спроб і завершиться з помилкою, якщо хоч одна спроба пройде.\n`);
   console.log('  · жива перевірка НЕ проведена: немає ANTHROPIC_API_KEY → ' + path.relative(process.cwd(), OUT));
-  R.items.push({ id: 'live.skipped', ok: true, detail: 'немає ключа — не проведено' });
-  R.save(path.join(V2, 'mvp', 'tests', 'results'));
+  // пропуск — не «пройдено»: у підсумку рахується окремо
+  fs.writeFileSync(path.join(V2, 'mvp', 'tests', 'results', 'coach-live.json'), JSON.stringify({ name: 'coach-live', at: new Date().toISOString(), passed: 0, failed: 0, skipped: true, reason: 'немає ANTHROPIC_API_KEY', items: [] }, null, 1));
   process.exit(0);
 }
 

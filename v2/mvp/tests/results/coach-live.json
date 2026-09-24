@@ -1,13 +1,9 @@
 {
  "name": "coach-live",
- "at": "2026-09-24T22:47:05.844Z",
- "passed": 1,
+ "at": "2026-09-24T23:03:43.899Z",
+ "passed": 0,
  "failed": 0,
- "items": [
-  {
-   "id": "live.skipped",
-   "ok": true,
-   "detail": "немає ключа — не проведено"
-  }
- ]
+ "skipped": true,
+ "reason": "немає ANTHROPIC_API_KEY",
+ "items": []
 }

@@ -1,5 +1,5 @@
 {
- "at": "2026-09-24T22:12:21.410Z",
+ "at": "2026-09-24T23:03:41.112Z",
  "steps": [
   {
    "name": "Збірка сайту",
@@ -10,35 +10,52 @@
    "name": "Статичні перевірки (дослівність, частки, приватність, ключ)",
    "exit": 0,
    "seconds": 1,
-   "passed": 9,
+   "passed": 12,
    "failed": 0,
+   "skipped": false,
    "file": "v2/mvp/tests/results/static.json"
   },
   {
    "name": "Сервер ІІ-тренера (API, захисти, ліміти)",
    "exit": 0,
    "seconds": 1,
-   "passed": 19,
+   "passed": 20,
    "failed": 0,
+   "skipped": false,
    "file": "v2/mvp/tests/results/coach-api.json"
   },
   {
-   "name": "Клік-сценарії зрізів 1–5",
+   "name": "Жива перевірка ІІ-тренера (лише з ANTHROPIC_API_KEY; без ключа — «не проведена»)",
    "exit": 0,
-   "seconds": 86,
-   "passed": 163,
+   "seconds": 0,
+   "passed": 0,
    "failed": 0,
+   "skipped": true,
+   "reason": "немає ANTHROPIC_API_KEY",
+   "file": "v2/mvp/tests/results/coach-live.json"
+  },
+  {
+   "name": "Клік-сценарії: зрізи 1–5 (ніч 1) + виправлення і контент ночі 2",
+   "exit": 0,
+   "seconds": 89,
+   "passed": 185,
+   "failed": 0,
+   "skipped": false,
    "file": "v2/mvp/tests/results/e2e.json"
   },
   {
    "name": "Матриця: сторінки × 375/1280 × теми; розбір у 3 частини на всіх уроках",
    "exit": 0,
-   "seconds": 220,
+   "seconds": 216,
    "passed": 2,
    "failed": 0,
+   "skipped": false,
    "file": "v2/mvp/tests/results/matrix.json"
   }
  ],
- "passed": 193,
- "failed": 0
+ "passed": 219,
+ "failed": 0,
+ "skipped": [
+  "Жива перевірка ІІ-тренера (лише з ANTHROPIC_API_KEY; без ключа — «не проведена»): немає ANTHROPIC_API_KEY"
+ ]
 }
