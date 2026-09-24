@@ -1,5 +1,5 @@
 {
- "at": "2026-09-24T22:03:54.008Z",
+ "at": "2026-09-24T22:12:21.410Z",
  "steps": [
   {
    "name": "Збірка сайту",
@@ -25,7 +25,7 @@
   {
    "name": "Клік-сценарії зрізів 1–5",
    "exit": 0,
-   "seconds": 87,
+   "seconds": 86,
    "passed": 163,
    "failed": 0,
    "file": "v2/mvp/tests/results/e2e.json"
@@ -33,7 +33,7 @@
   {
    "name": "Матриця: сторінки × 375/1280 × теми; розбір у 3 частини на всіх уроках",
    "exit": 0,
-   "seconds": 201,
+   "seconds": 220,
    "passed": 2,
    "failed": 0,
    "file": "v2/mvp/tests/results/matrix.json"

@@ -19,10 +19,16 @@
   function quoteOf(s) { var m = /«([^«»]{2,200})»/.exec(s || ''); return m ? m[1] : ''; }
   function count(k) { M.st.coach = M.st.coach || {}; M.st.coach[k] = (M.st.coach[k] || 0) + 1; M.save(); }
 
+  // правило уроку 4 для персони (як на сервері: v2/coach/lib/coach-core.mjs → personaRule)
+  function personaRule(obj, cat) {
+    if (/не треба|не актуально|не цікав/i.test(obj)) return '4.1';
+    if (/ікр/i.test(obj) && /(^|[\s,])є([\s,]|$)|залиш/i.test(obj)) return '4.5';
+    return cat === 'хибне' ? '4.2' : '4.3';
+  }
   // ---------- сцени ----------
   function allScenes() {
     var out = [];
-    T.sos.objections.forEach(function (o) { out.push({ id: o.id, kind: 'persona', cat: o.cat, title: o.obj, opener: o.obj, lesson: 4, say: o.say }); });
+    T.sos.objections.forEach(function (o) { out.push({ id: o.id, kind: 'persona', cat: o.cat, title: o.obj, opener: o.obj, lesson: 4, say: o.say, rule: personaRule(o.obj, o.cat) }); });
     T.lessons.forEach(function (l) {
       l.scenes.forEach(function (s) { out.push({ id: s.id, kind: 'scene', title: s.title, opener: quoteOf(s.client), situation: s.client, lesson: l.n, rule: s.rule, scene: s }); });
     });

@@ -517,7 +517,7 @@ function buildIndexPage(pageMeta) {
     <span class="cover-eyebrow tag-c1">Ikorka Shop · курс новачка</span>
     <h1 class="cover-title">Сьогодні</h1>
     <p class="cover-sub">Самостійне навчання: 12 навичок дзвінка, дзвониш із першого дня, норма — 75 дзвінків на день.</p>
-    <div class="cover-plaque"><span>Курс новачка · Ikorka Shop</span><span class="right">5 днів · 12 навичок</span></div>
+    <div class="cover-plaque"><span>Курс новачка · Ikorka Shop</span> · <span class="right">5 днів · 12 навичок</span></div>
   </div></div>`;
 
   // карта днів

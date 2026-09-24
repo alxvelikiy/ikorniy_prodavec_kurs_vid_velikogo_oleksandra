@@ -68,7 +68,7 @@ export function sceneContext(id) {
     const lNorm = loadData().lessons.find(x => x.n === 4).text;
     const sent = (lNorm.match(/[^.\n]*ситуативне заперечення[^.\n]*\./i) || [])[0];
     if (cat === 'ситуативне' && sent) def = sent.trim();
-    rule = (lesson.rules.find(r => /заперечен/i.test(r.text)) || lesson.rules[0]).code;
+    rule = personaRule(o.obj, o.cat, lesson);
   } else {
     const n = parseInt(id.slice(1, 3), 10);
     lesson = L(n);
@@ -87,6 +87,15 @@ export function sceneContext(id) {
     rule, rules: lesson.rules.map(r => ({ code: r.code, text: clean(r.text) })),
     good: uniq(good), bad: uniq(bad), pairs: lesson.pairs.filter(p => p.good).map(p => ({ bad: clean(p.bad), good: clean(p.good), why: clean(p.why) })),
   };
+}
+
+// Правило уроку 4 для персони з таблиці заперечень (запасне, якщо модель не назве іншого з переліку):
+// раннє «не треба» → 4.1; «ще є ікра» → 4.5; хибне → 4.2 (рамка замість «чому»); істинне/ситуативне → 4.3 (аргументи).
+export function personaRule(obj, cat, lesson) {
+  const pick = code => (lesson.rules.find(r => r.code === code) || lesson.rules[0]).code;
+  if (/не треба|не актуально|не цікав/i.test(obj)) return pick('4.1');
+  if (/ікр/i.test(obj) && /(^|[\s,])є([\s,]|$)|залиш/i.test(obj)) return pick('4.5');
+  return pick(cat === 'хибне' ? '4.2' : '4.3');
 }
 
 // Заземлення: лише правила уроку і фрагменти сцени, ≤ 3 КБ (UTF-8)

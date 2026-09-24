@@ -37,6 +37,7 @@ main:focus{outline:none;}
 .fb3.is-bad .fb3-verdict{color:var(--bad);}
 .fb3.is-neutral{border-color:var(--info);}
 .fb3.is-neutral .fb3-verdict{color:var(--info);}
+.fb3 .fb3-instead{font-size:14.5px;line-height:1.5;color:var(--ink);}
 .fb3-instead ul{margin:4px 0 0;padding-left:18px;}
 .fb3-instead li{margin:3px 0;font-size:14.5px;line-height:1.5;}
 .fb3-instead li small{display:block;font-size:12px;color:var(--text-dim);}
