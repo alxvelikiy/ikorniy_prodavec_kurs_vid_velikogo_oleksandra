@@ -42,5 +42,27 @@
   "is_primary_source": true,
   "_file": "M03-RU_c01.jsonl",
   "_reason": "quote not found verbatim in shard"
+ },
+ {
+  "card_id": "M04-RU_c04_03",
+  "source_id": "ОБ-RU04",
+  "chunk": "M04-RU_c04",
+  "type": "rule",
+  "text_verbatim": "Не обязательно, чтобы быть напорной, как, допустим, когда мужики звонят.",
+  "locator": "Не обязательно, чтобы быть напорной...",
+  "speaker": null,
+  "basis": "слова наставника",
+  "lesson_hint": null,
+  "note": null,
+  "is_duplicate": false,
+  "duplicate_of": null,
+  "relevance": "medium",
+  "relevance_note": "загальна техніка продажу без явного маркера реактивації/постійного клієнта — потребує ручної звірки",
+  "same_meeting_pair_source": "ОБ-UA04",
+  "pair_id": "M04",
+  "primary_lang": "ru",
+  "is_primary_source": true,
+  "_file": "M04-RU_c04.jsonl",
+  "_reason": "quote not found verbatim in shard"
  }
 ]
