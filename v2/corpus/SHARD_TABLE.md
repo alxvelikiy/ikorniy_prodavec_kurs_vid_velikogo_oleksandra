@@ -64,10 +64,10 @@ M11-UA_c03 | COVERED | cards: 24
 M11-UA_c04 | COVERED | cards: 11
 M11-RU_c01 | COVERED | cards: 13
 M11-RU_c02 | COVERED | cards: 39
-M11-RU_c03 | MISSING | NO RESULT (not processed yet)
-M12-UA_c01 | MISSING | NO RESULT (not processed yet)
-M12-UA_c02 | MISSING | NO RESULT (not processed yet)
-M12-UA_c03 | MISSING | NO RESULT (not processed yet)
+M11-RU_c03 | EMPTY | empty (see EMPTY_REASONS.md)
+M12-UA_c01 | COVERED | cards: 25
+M12-UA_c02 | COVERED | cards: 20
+M12-UA_c03 | COVERED | cards: 27
 M12-UA_c04 | MISSING | NO RESULT (not processed yet)
 M12-UA_c05 | MISSING | NO RESULT (not processed yet)
 M12-RU_c01 | MISSING | NO RESULT (not processed yet)
