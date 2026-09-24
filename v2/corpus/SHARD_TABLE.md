@@ -80,9 +80,9 @@ M13-RU_c03 | COVERED | cards: 32
 M13-RU_c04 | COVERED | cards: 47
 M13-RU_c05 | COVERED | cards: 26
 M14-UA_c01 | COVERED | cards: 21
-M14-UA_c02 | MISSING | NO RESULT (not processed yet)
-M14-UA_c03 | MISSING | NO RESULT (not processed yet)
-M14-UA_c04 | MISSING | NO RESULT (not processed yet)
-M14-UA_c05 | MISSING | NO RESULT (not processed yet)
+M14-UA_c02 | EMPTY | empty (see EMPTY_REASONS.md)
+M14-UA_c03 | EMPTY | empty (see EMPTY_REASONS.md)
+M14-UA_c04 | EMPTY | empty (see EMPTY_REASONS.md)
+M14-UA_c05 | COVERED | cards: 7
 M14-UA_c06 | MISSING | NO RESULT (not processed yet)
 M15-UA_c01 | MISSING | NO RESULT (not processed yet)
