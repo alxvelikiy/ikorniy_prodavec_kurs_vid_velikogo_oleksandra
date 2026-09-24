@@ -126,7 +126,8 @@ export function buildTrainerData({ showStats = false, report }) {
       return { id: `${n}-p${p.i}`, bad: p.bad, good: p.good, why: cOk ? c.why : '', rule: cOk ? rc(c.rule) : '', refs: [{ l: n, q: p.bad }, ...(p.good ? [{ l: n, q: p.good }] : []), ...(cOk ? [{ l: n, q: c.why }] : [])] };
     });
     const quoteCur = new Map((C.quotes || []).map((q, i) => [q.i, { ...q, _k: i }]));
-    const quotes = ex.quotes.map(q => {
+    // «Сильно чи слабко?» — лише для реплік менеджера; репліки клієнта (урок 3, «хто: Клієнтка») лишаються тільки в тексті уроку
+    const quotes = ex.quotes.filter(q => /^менеджер/i.test(String(q.who || 'Менеджер').trim())).map(q => {
       const c = quoteCur.get(q.i);
       const cOk = c && okPath(`quotes[${c._k}]`);
       return { id: `${n}-c${q.i}`, text: q.text, strong: q.strong, why: q.why, instead: cOk && !q.strong ? (c.instead || '') : '', rule: cOk ? rc(c.rule) : '', refs: [{ l: n, q: q.text }, { l: n, q: q.why }, ...(cOk && c.instead ? [{ l: n, q: c.instead }] : [])] };
