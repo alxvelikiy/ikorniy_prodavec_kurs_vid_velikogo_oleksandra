@@ -705,7 +705,7 @@ function main() {
   // ============================================================
   const report = { pages: generated.length, errors: [], warnings: [] };
 
-  const expectedSlugs = ['index', ...COURSE_ORDER.map(e => e.slug), 'povtorennia', 'trenazher', 'trener', 'perevirka', 'kerivnyku'];
+  const expectedSlugs = [...new Set(['index', ...COURSE_ORDER.map(e => e.slug), 'povtorennia', 'sos', 'video', 'dzvinky', 'trenazher', 'trener', 'perevirka', 'kerivnyku'])];
   for (const s of expectedSlugs) {
     if (!fs.existsSync(path.join(OUT, `${s}.html`))) report.errors.push(`Відсутній файл ${s}.html`);
   }

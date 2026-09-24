@@ -631,5 +631,243 @@
   MVP.goalPicker = goalPicker;
   MVP.renderToday = renderToday;
 
+
+  // =====================================================================
+  // 10. Зріз 2 — закріплення: пари з вибором, перевірка уроку, повторення, особиста колода
+  // =====================================================================
+  function maskDigits(t) { return String(t || '').replace(/\d[\d\s\-()]{4,}\d/g, '***'); }
+
+  function interactivePairs(l) {
+    var cards = lessonEl ? [].slice.call(lessonEl.querySelectorAll('.pairs .pair-card')) : [];
+    cards.forEach(function (card, i) {
+      var p = l.pairs[i];
+      if (!p || !p.good) return; // без «як правильно» — лишаємо тільки помилку
+      var wrap = el('div', 'pair-card mvp-pair');
+      card.parentNode.replaceChild(wrap, card);
+      var item = pairItem(p, l.n, hashStr(p.id));
+      item.lead = '<span class="mvp-kicker">Спершу обери</span><br><span class="quote-tag weak">Помилка</span> ' + esc(p.bad);
+      renderChoice(wrap, item, function (ok) { ls(l.n).tries[p.id] = { ok: ok, t: Date.now() }; save(); });
+    });
+  }
+
+  function lessonTest(l) {
+    var h = findH2('Перевір себе');
+    if (!h) return;
+    // статичний тест (для роботи без JS) ховаємо — його замінює інтерактивна перевірка
+    var n = h.nextElementSibling;
+    while (n && n.tagName !== 'H2') { if (!n.classList.contains('sec-illo')) n.classList.add('static-hidden'); n = n.nextElementSibling; }
+    var card = el('section', 'mvp-card mvp-test');
+    card.setAttribute('aria-label', 'Перевірка уроку');
+    afterHeading(h).insertAdjacentElement('afterend', card);
+    var seed = l.n * 97;
+    var pairsWithGood = l.pairs.filter(function (p) { return p.good; });
+    var items = l.quiz.map(function (q) { return quizItem(q, l.n); })
+      .concat(l.quotes.map(function (c) { return quoteItem(c, l.n); }))
+      .concat(shuffle(pairsWithGood, seed).slice(0, 3).map(function (p) { return pairItem(p, l.n, hashStr(p.id) + 7); }));
+    var prevTest = ls(l.n).test;
+
+    function start() {
+      card.innerHTML = '<div class="mvp-test-head"><p class="mvp-card-title">Перевірка уроку</p>' + (prevTest ? '<span class="mvp-progress">' + (prevTest.passed ? 'Урок зараховано · ' : '') + 'останній результат ' + prevTest.pct + '%</span>' : '') + '</div>' +
+        '<p>' + items.length + ' питань: тест уроку, «сильно чи слабко?» і типові помилки. Неправильні повернуться в кінці, доки не відповіси вірно. Урок зараховується, коли з першої спроби правильні щонайменше 80 %.</p>' +
+        '<p class="mvp-q-title" id="conf-q-' + l.n + '">Наскільки впевнені, що знаєте матеріал уроку? (1–5)</p>' +
+        '<div class="mvp-conf" role="group" aria-labelledby="conf-q-' + l.n + '">' + [1, 2, 3, 4, 5].map(function (c) { return '<button type="button" class="mvp-btn" data-conf="' + c + '">' + c + '</button>'; }).join('') + '</div>' +
+        '<p class="mvp-hint">1 — зовсім не впевнений, 5 — впевнений повністю. Потім порівняємо з результатом.</p>';
+      [].forEach.call(card.querySelectorAll('[data-conf]'), function (b) { b.addEventListener('click', function () { run(parseInt(b.getAttribute('data-conf'), 10)); }); });
+    }
+
+    function run(conf) {
+      var queue = items.slice(), first = {}, total = items.length, answered = 0;
+      card.innerHTML = '<div class="mvp-test-head"><p class="mvp-card-title">Перевірка уроку</p><span class="mvp-progress" aria-live="polite"></span></div><div class="mvp-test-body"></div>';
+      var body = card.querySelector('.mvp-test-body'), prog = card.querySelector('.mvp-progress');
+      function next() {
+        body.innerHTML = '';
+        if (!queue.length) return finish();
+        var it = queue.shift();
+        var repeat = it.id in first;
+        prog.textContent = repeat ? 'Повтор: питання, де була помилка' : 'Питання ' + (answered + 1) + ' з ' + total;
+        var box = renderChoice(body, it, function (ok) {
+          if (!(it.id in first)) { first[it.id] = ok; answered++; }
+          if (!ok) queue.push(it);
+          var nb = el('button', 'mvp-btn primary mvp-next-q', queue.length ? 'Далі' : 'Результат'); nb.type = 'button';
+          nb.addEventListener('click', next);
+          box.appendChild(nb);
+          nb.focus();
+        });
+        var firstOpt = box.querySelector('.mvp-opt'); if (firstOpt && answered > 0) firstOpt.focus();
+      }
+      function finish() {
+        var ok = 0, wrongRules = {};
+        items.forEach(function (it) { if (first[it.id]) ok++; else if (it.rule) wrongRules[it.rule] = true; });
+        var pct = Math.round(ok / total * 100);
+        var pass = pct >= 80;
+        var t = ls(l.n);
+        var wasPassed = passed(l.n);
+        t.test = { passed: pass || !!(t.test && t.test.passed), pct: pct, conf: conf, t: Date.now(), runs: ((t.test && t.test.runs) || 0) + 1 };
+        items.forEach(function (it) { rvAdd(it.id, !first[it.id]); });
+        l.open.forEach(function (o) { rvAdd(o.id, false); });
+        save();
+        var confPct = conf * 20;
+        var cmp = Math.abs(confPct - pct) <= 20 ? 'твоя оцінка приблизно збігається з результатом.'
+          : (confPct > pct ? 'впевненість вища за результат — повтори правила нижче.' : 'ти знаєш більше, ніж здавалось.');
+        var wr = Object.keys(wrongRules);
+        var html = '<p class="mvp-result ' + (pass ? 'ok' : 'no') + '">' + (pass ? 'Урок зараховано ✓' : 'Ще не зараховано (поріг 80 %)') + ' — з першої спроби правильно ' + ok + '/' + total + ' (' + pct + '%).</p>' +
+          '<p class="mvp-compare">Впевненість ' + conf + '/5, результат ' + pct + '%: ' + cmp + '</p>';
+        if (wr.length) html += '<p class="mvp-sub" style="margin-top:10px;font-weight:700">Повтори правила:</p><ul class="mvp-weak">' + wr.map(function (c) { var r = ruleByCode(c); return r ? '<li><b>' + esc(c) + '</b> ' + esc(cap(r.text)) + '</li>' : ''; }).join('') + '</ul>';
+        html += '<p class="mvp-hint">Питання цього уроку додано в «Повторення»: ті, де була помилка, повернуться вже завтра.</p>';
+        card.innerHTML = '<div class="mvp-test-head"><p class="mvp-card-title">Перевірка уроку</p></div><div class="mvp-test-res" tabindex="-1">' + html + '</div><div class="mvp-row"><button type="button" class="mvp-btn mvp-again">Пройти ще раз</button><a class="mvp-btn primary" href="index.html">До «Сьогодні»</a></div>';
+        card.querySelector('.mvp-again').addEventListener('click', function () { prevTest = ls(l.n).test; start(); });
+        card.querySelector('.mvp-test-res').focus();
+        openRecall(card);
+        if (pass && !wasPassed) {
+          var d = l.day;
+          if (dayPassed(d)) {
+            Pop.show('toast', 'Віха: день ' + d + ' пройдено', '<p class="mvp-pop-text">Усі уроки дня зараховано. Обери ціль на дзвінки — одне правило на сьогодні.</p>', []);
+            goalPicker(d, card);
+          }
+        }
+      }
+      next();
+    }
+
+    function openRecall(host) {
+      if (!l.open.length) return;
+      var box = el('div', 'mvp-open');
+      box.innerHTML = '<p class="mvp-card-title">Пригадай без підказок</p><p class="mvp-muted">Відповідай подумки або вголос, потім звір з еталоном з уроку.</p>';
+      l.open.forEach(function (o) {
+        var q = el('div', 'mvp-q');
+        q.innerHTML = '<p class="mvp-q-title">' + esc(o.q) + '</p>';
+        var show = el('button', 'mvp-btn', 'Показати еталон'); show.type = 'button';
+        show.addEventListener('click', function () {
+          show.remove();
+          var rev = el('div', 'mvp-reveal', '<b>Звір себе:</b> ' + esc(o.answer));
+          var g = el('div', 'mvp-row', '<span class="mvp-muted">Як вийшло?</span>');
+          ['Знав', 'Частково', 'Не знав'].forEach(function (lab, k) {
+            var b = el('button', 'mvp-btn', lab); b.type = 'button';
+            b.addEventListener('click', function () { rvAdd(o.id, k > 0); save(); g.innerHTML = '<span class="mvp-muted">Записано: «' + lab + '».</span>'; });
+            g.appendChild(b);
+          });
+          q.appendChild(rev); q.appendChild(g);
+        });
+        q.appendChild(show);
+        box.appendChild(q);
+      });
+      host.appendChild(box);
+    }
+    start();
+  }
+
+  // ---------- Повторення ----------
+  function renderCardForReview(host, id, onDone) {
+    var c = cardById(id);
+    if (!c) return false;
+    var n = c.n;
+    function selfGrade(q, promptHtml, answerHtml) {
+      q.innerHTML = promptHtml;
+      var show = el('button', 'mvp-btn', 'Показати відповідь'); show.type = 'button';
+      show.addEventListener('click', function () {
+        show.remove();
+        q.appendChild(el('div', 'mvp-reveal', answerHtml));
+        var g = el('div', 'mvp-row', '<span class="mvp-muted">Як вийшло?</span>');
+        ['Знав', 'Частково', 'Не знав'].forEach(function (lab, k) {
+          var b = el('button', 'mvp-btn', lab); b.type = 'button';
+          b.addEventListener('click', function () { rvGrade(id, k === 0); onDone(); });
+          g.appendChild(b);
+        });
+        q.appendChild(g);
+      });
+      q.appendChild(show);
+    }
+    if (c.type === 'q' || c.type === 'p' || c.type === 'c') {
+      var item = c.type === 'q' ? quizItem(c.data, n) : c.type === 'p' ? pairItem(c.data, n, hashStr(id) + dayKey().length) : quoteItem(c.data, n);
+      item.lead = '<span class="mvp-kicker">' + lessonLink(n) + '</span>';
+      var box = renderChoice(host, item, function (ok) {
+        rvGrade(id, ok);
+        var nb = el('button', 'mvp-btn primary', 'Далі'); nb.type = 'button';
+        nb.addEventListener('click', onDone);
+        box.appendChild(nb); nb.focus();
+      });
+      return true;
+    }
+    var q = el('div', 'mvp-q'); host.appendChild(q);
+    if (c.type === 'o') selfGrade(q, '<p class="mvp-q-lead"><span class="mvp-kicker">' + lessonLink(n) + '</span></p><p class="mvp-q-title">' + esc(c.data.q) + '</p>', '<b>Звір себе:</b> ' + esc(c.data.answer));
+    else if (c.type === 'r') selfGrade(q, '<p class="mvp-q-lead"><span class="mvp-kicker">' + lessonLink(n) + '</span></p><p class="mvp-q-title">Згадай правило ' + esc(c.data.code) + '</p>', '<b>Правило ' + esc(c.data.code) + ':</b> ' + esc(cap(c.data.text)));
+    else if (c.type === 'deck') selfGrade(q, '<p class="mvp-q-lead"><span class="mvp-kicker">Моя колода</span></p><p class="mvp-q-title">Складний клієнт: ' + esc(c.data.text) + '</p><p class="mvp-q-sub">Що б ти сказав зараз? Проговори вголос, потім звір із SOS «Я на дзвінку».</p>', 'Знайди заперечення в SOS «Я на дзвінку» (кнопка внизу сторінки) і порівняй зі своєю відповіддю.');
+    return true;
+  }
+
+  function deckForm(host, onSaved) {
+    var box = el('section', 'mvp-card mvp-deck');
+    box.setAttribute('aria-label', 'Складний клієнт сьогодні');
+    box.innerHTML = '<p class="mvp-card-title">Складний клієнт сьогодні</p>' +
+      '<p class="mvp-pii" role="note"><b>Увага:</b> не вписуй імена, телефони й адреси клієнтів — лише ситуацію і що він сказав.</p>' +
+      '<form class="deck-form"><label for="deck-text" class="sos-label">Що сказав клієнт і на чому ти застряг?</label><textarea id="deck-text" maxlength="400" placeholder="Напр.: клієнтка сказала «дорого, минулого разу було дешевше», я не знав, що відповісти"></textarea>' +
+      '<div class="mvp-row"><button type="submit" class="mvp-btn primary">Зберегти в мою колоду</button><span class="deck-msg mvp-muted" aria-live="polite"></span></div></form>';
+    host.appendChild(box);
+    box.querySelector('form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var ta = box.querySelector('textarea');
+      var t = maskDigits(ta.value.trim());
+      if (!t) { box.querySelector('.deck-msg').textContent = 'Порожньо — опиши ситуацію кількома словами.'; return; }
+      var id = 'deck-' + Date.now();
+      st.deck.push({ id: id, text: t, t: Date.now() });
+      rvAdd(id, false); save();
+      ta.value = '';
+      box.querySelector('.deck-msg').textContent = 'Збережено. Картка повернеться в «Повторенні» завтра.';
+      if (onSaved) onSaved();
+    });
+    return box;
+  }
+
+  function renderReview() {
+    var app = document.getElementById('review-app');
+    if (!app) return;
+    var queue = rvDueList();
+    var pos = 0;
+    var cardHost = el('div', 'rv-card-host'), deckHost = el('div', 'rv-deck-host'), listHost = el('div', 'rv-list-host');
+    app.innerHTML = '';
+    app.appendChild(cardHost); app.appendChild(deckHost); app.appendChild(listHost);
+    function show() {
+      cardHost.innerHTML = '';
+      var total = Object.keys(st.review).length;
+      var head = el('div', 'mvp-test-head', '<p class="mvp-card-title">Повторення на сьогодні</p><span class="mvp-progress">' + (queue.length && pos < queue.length ? 'Картка ' + (pos + 1) + ' з ' + queue.length + ' · ліміт 5 на день' : 'ліміт 5 на день') + '</span>');
+      var card = el('section', 'mvp-card mvp-review'); card.setAttribute('aria-label', 'Картка повторення');
+      card.appendChild(head);
+      cardHost.appendChild(card);
+      if (!total) {
+        card.appendChild(el('p', 'rv-empty', 'Карток ще немає. Вони з\'являються після перевірки в кінці уроку і з твоєї колоди «Складний клієнт».'));
+      } else if (pos >= queue.length) {
+        var future = Object.keys(st.review).map(function (k) { return st.review[k].due; }).filter(function (x) { return x > Date.now(); }).sort(function (x, y) { return x - y; })[0];
+        card.appendChild(el('p', 'rv-done', 'На сьогодні все. ' + (future ? 'Наступні картки — ' + new Date(future).toLocaleDateString('uk-UA') + '.' : '')));
+      } else {
+        var body = el('div', 'mvp-review-body'); card.appendChild(body);
+        if (!renderCardForReview(body, queue[pos], function () { pos++; show(); var f = cardHost.querySelector('.mvp-opt, .mvp-btn'); if (f) f.focus(); })) { pos++; show(); }
+      }
+    }
+    // особиста колода «Складний клієнт сьогодні»
+    function renderList() {
+      listHost.innerHTML = '';
+      if (!st.deck.length) return;
+      var list = el('section', 'mvp-card', '<p class="mvp-card-title">Моя колода</p><ul class="deck-list"></ul>');
+      list.setAttribute('aria-label', 'Моя колода');
+      var ul = list.querySelector('ul');
+      st.deck.forEach(function (dk) {
+        var li = el('li', '', '<span>' + esc(dk.text) + '</span>');
+        var del = el('button', 'mvp-btn ghost', 'Видалити'); del.type = 'button';
+        del.setAttribute('aria-label', 'Видалити картку');
+        del.addEventListener('click', function () { st.deck = st.deck.filter(function (x) { return x.id !== dk.id; }); delete st.review[dk.id]; save(); renderList(); });
+        li.appendChild(del); ul.appendChild(li);
+      });
+      listHost.appendChild(list);
+    }
+    show();
+    deckForm(deckHost, renderList);
+    renderList();
+  }
+
+  if (KIND === 'urok' && LL && lessonEl) { interactivePairs(LL); lessonTest(LL); }
+  if (KIND === 'review') renderReview();
+  if (KIND === 'index') { var tApp = document.getElementById('today-app'); if (tApp) deckForm(tApp); }
+  MVP.deckForm = deckForm; MVP.maskDigits = maskDigits;
+
   //__MODULES__
 })();
