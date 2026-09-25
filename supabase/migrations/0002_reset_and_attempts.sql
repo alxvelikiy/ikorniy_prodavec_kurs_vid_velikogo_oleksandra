@@ -2,6 +2,26 @@
 -- Виконати після 0001_init.sql, повністю, один раз. Детальна інструкція: v2/mvp/SUPABASE_SETUP.md
 
 -- ============================================================
+-- 0. profiles.email — потрібен кабінету наставника, щоб підписати картку новачка (profiles сам по собі
+--    не мав пошти — лише auth.users, а auth.users клієнту з anon-ключем не читається напряму).
+-- ============================================================
+alter table public.profiles add column if not exists email text;
+
+-- Бекфіл для профілів, створених до цієї міграції (тригер нижче покриває лише нові реєстрації).
+update public.profiles p set email = u.email
+  from auth.users u where p.id = u.id and p.email is null;
+
+-- Перевизначення тригерної функції з 0001_init.sql — тепер додатково записує email при створенні профілю.
+create or replace function public.handle_new_user()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  insert into public.profiles (id, role, email) values (new.id, 'newbie', new.email)
+  on conflict (id) do update set email = excluded.email;
+  return new;
+end;
+$$;
+
+-- ============================================================
 -- 1. progress.generation — «покоління» прогресу новачка.
 -- ============================================================
 -- Бампається лише reset_progress() нижче (наставник). Клієнт (account.js) порівнює своє локальне
