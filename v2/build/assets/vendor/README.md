@@ -11,9 +11,15 @@
 - Джерело: npm-пакет `@supabase/supabase-js`, версія **2.117.2**.
 - Файл: `dist/umd/supabase.js` з пакета (UMD-збірка, глобальна змінна `window.supabase`).
 - Ліцензія: MIT (Supabase Inc.).
+- `supabase-js.js.sha256` — SHA-256 файлу поруч. Сканер приватності (`static-checks.mjs`, `privacy.no-phones*`)
+  виключає з перевірки САМЕ ЦЕЙ файл, лише коли його хеш збігається з тим, що записано тут — не всю
+  теку `vendor/` (мінімізований код бібліотеки інколи містить випадкові цифрові послідовності у форматі
+  телефону; сам файл — стороння бібліотека, не наш контент). Якщо хеш не збігається (інша версія, ручна
+  правка), сканер перевіряє файл як звичайний — свідомо, щоб виняток не міг непомітно прикрити щось чуже.
 - Як оновити версію:
   ```bash
   cd v2/mvp/tests && npm install @supabase/supabase-js@<нова версія>
   cp node_modules/@supabase/supabase-js/dist/umd/supabase.js ../../build/assets/vendor/supabase-js.js
+  cd ../../build/assets/vendor && sha256sum supabase-js.js > supabase-js.js.sha256
   ```
-  Після оновлення — прогнати `node v2/mvp/tests/account-e2e.mjs`, оновити версію в цьому файлі.
+  Після оновлення — прогнати `node v2/mvp/tests/account-e2e.mjs` і `node v2/mvp/tests/static-checks.mjs --strict`, оновити версію в цьому файлі.

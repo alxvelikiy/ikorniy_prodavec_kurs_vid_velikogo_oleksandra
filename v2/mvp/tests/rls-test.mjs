@@ -28,7 +28,7 @@ if (!pgOk) {
     for (const id of oks) R.ok('rls.' + id);
     for (const f of fails) R.fail('rls.error', f);
     const testCount = oks.filter(id => /^test\d/.test(id)).length;
-    R.check('rls.all-7-ran', testCount === 7, `пройшло тестів у SQL-скрипті: ${testCount} з 7`);
+    R.check('rls.all-15-ran', testCount === 15, `пройшло тестів у SQL-скрипті: ${testCount} з 15`);
     R.check('rls.no-recursion-or-escalation-bugs', fails.length === 0, fails.join(' | '));
   } catch (e) {
     R.fail('rls.execution', String(e.stderr || e.message || e).split('\n').slice(0, 5).join(' | '));

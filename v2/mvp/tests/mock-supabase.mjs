@@ -9,9 +9,11 @@ const ANON_KEY = 'mock-anon-key';
 
 export function startMockSupabase({ port = 0 } = {}) {
   const users = new Map(); // email -> {id, email, password}
-  const profiles = new Map(); // id -> {id, role, display_name}
-  const progress = new Map(); // user_id -> {user_id, state, rev, updated_at}
+  const profiles = new Map(); // id -> {id, role, display_name, email}
+  const progress = new Map(); // user_id -> {user_id, state, rev, generation, updated_at}
+  const attempts = []; // {id, user_id, lesson_n, kind, pct, passed, mistakes, created_at} — append-only, зріз 2
   const tokens = new Map(); // access_token -> user id
+  let attemptSeq = 0;
 
   function userSession(u) {
     const access = 'tok_' + crypto.randomBytes(12).toString('hex');
@@ -53,7 +55,7 @@ export function startMockSupabase({ port = 0 } = {}) {
       if (users.has(b.email)) return send(res, 400, { message: 'User already registered', error_code: 'user_already_exists' });
       const u = { id: crypto.randomUUID(), email: b.email, password: b.password };
       users.set(b.email, u);
-      profiles.set(u.id, { id: u.id, role: 'newbie', display_name: null });
+      profiles.set(u.id, { id: u.id, role: 'newbie', display_name: null, email: u.email });
       return send(res, 200, userSession(u));
     }
     if (p === '/auth/v1/token' && req.method === 'POST' && url.searchParams.get('grant_type') === 'password') {
@@ -103,10 +105,55 @@ export function startMockSupabase({ port = 0 } = {}) {
       if (req.method === 'POST' || req.method === 'PATCH') {
         const b = await readBody(req);
         const rows = Array.isArray(b) ? b : [b];
-        rows.forEach(r => store.set(r[key], { ...(store.get(r[key]) || {}), ...r }));
+        // generation: колонка з дефолтом 0 у схемі, клієнт її ніколи сам не пише (лише reset_progress
+        // rpc нижче) — дефолт лише для нового рядка, наявне значення (напр. після скидання) не чіпаємо.
+        rows.forEach(r => store.set(r[key], { generation: 0, ...(store.get(r[key]) || {}), ...r }));
         return send(res, 201, rows);
       }
     }
+
+    // ---------- PostgREST (attempts) — append-only журнал спроб, зріз 2 ----------
+    if (p === '/rest/v1/attempts') {
+      if (req.method === 'GET') {
+        const rows = matchRows(attempts, parseFilters(url)).slice().sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        return send(res, 200, rows);
+      }
+      if (req.method === 'POST') {
+        const b = await readBody(req);
+        const rows = (Array.isArray(b) ? b : [b]).map(r => ({
+          id: ++attemptSeq, user_id: r.user_id, lesson_n: r.lesson_n, kind: r.kind,
+          pct: r.pct == null ? null : r.pct, passed: !!r.passed, mistakes: r.mistakes || [],
+          created_at: new Date().toISOString(),
+        }));
+        attempts.push(...rows);
+        return send(res, 201, rows);
+      }
+      // немає update/delete навмисно — той самий append-only, що й реальна RLS-схема (rls-test.sql, тест 15)
+    }
+
+    // ---------- PostgREST RPC: reset_progress(p_user_id, p_lesson_n) — наставник скидає прогрес ----------
+    if (p === '/rest/v1/rpc/reset_progress' && req.method === 'POST') {
+      const a = userFromAuth(req);
+      if (!a) return send(res, 401, { message: 'Not authenticated' });
+      const caller = profiles.get(a.id);
+      if (!caller || caller.role !== 'mentor') return send(res, 403, { message: 'reset_progress: лише наставник може скидати прогрес' });
+      const b = await readBody(req);
+      const row = progress.get(b.p_user_id);
+      if (row) {
+        if (b.p_lesson_n == null) {
+          row.state = { v: 1, created: (row.state && row.state.created) || Date.now(), days: {}, last: null, pos: {}, lessons: {}, review: {}, daily: {}, goal: null, goals: [], sections: {}, final: [], sim: {}, deck: [] };
+        } else {
+          const lessons = { ...((row.state && row.state.lessons) || {}) };
+          delete lessons[String(b.p_lesson_n)];
+          row.state = { ...row.state, lessons };
+        }
+        row.rev = (row.rev || 0) + 1;
+        row.generation = (row.generation || 0) + 1;
+        row.updated_at = new Date().toISOString();
+      }
+      return send(res, 204, null);
+    }
+
     send(res, 404, { message: 'not found in mock: ' + p });
   });
   return new Promise(resolve => {
@@ -115,7 +162,7 @@ export function startMockSupabase({ port = 0 } = {}) {
       resolve({
         url: `http://127.0.0.1:${p2}`, anonKey: ANON_KEY, close: () => server.close(),
         // тестові хелпери — заглянути у стан мока напряму, без мережі
-        _profiles: profiles, _progress: progress, _users: users,
+        _profiles: profiles, _progress: progress, _users: users, _attempts: attempts,
         setRole: (email, role) => { const u = users.get(email); if (u) profiles.set(u.id, { ...(profiles.get(u.id) || {}), id: u.id, role }); },
         // Імітація запрошення керівником (реальний виклик admin.inviteUserByEmail робить Supabase Dashboard
         // із service_role, не клієнтський код) — створює користувача без пароля й видає токени сесії, з
@@ -123,7 +170,7 @@ export function startMockSupabase({ port = 0 } = {}) {
         inviteUser: (email) => {
           const u = { id: crypto.randomUUID(), email, password: null };
           users.set(email, u);
-          profiles.set(u.id, { id: u.id, role: 'newbie', display_name: null });
+          profiles.set(u.id, { id: u.id, role: 'newbie', display_name: null, email });
           return userSession(u);
         },
       });

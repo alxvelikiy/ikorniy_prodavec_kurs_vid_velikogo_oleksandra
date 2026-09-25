@@ -6,6 +6,7 @@
 //  - жодних телефонів у сайті й файлах гілки MVP; ключа API немає в жодному файлі репозиторію.
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { execSync } from 'node:child_process';
 import { Results, V2, REPO } from './lib.mjs';
 import { validateCurated, loadCurated } from '../tools/content-lib.mjs';
@@ -103,14 +104,27 @@ if (!T.showStats) {
 
 // 4. Приватність: телефони
 const PHONE = /(?<![\d.])(?:\+?38)?0\d{9}(?![\d])|(?<!\d)\d{3}[ -]\d{3}[ -]\d{2}[ -]\d{2}(?!\d)/;
+// Виняток — не вся тека vendor/, а КОНКРЕТНИЙ файл, і лише коли його хеш збігається з пришпиленим
+// поруч (v2/build/assets/vendor/supabase-js.js.sha256, копіюється разом з ним у збірку). Це стороння
+// мінімізована бібліотека (v2/build/assets/vendor/README.md) — не наш контент, у ній трапляються
+// випадкові цифрові послідовності у форматі телефону. Якщо хеш не збігається (інша версія, ручна
+// правка) — файл проходить звичайну перевірку, виняток свідомо не ховає підміну.
+const PINNED_VENDOR_RE = /assets\/vendor\/supabase-js\.js$/;
+function isPinnedVendorFile(p) {
+  if (!PINNED_VENDOR_RE.test(p.replace(/\\/g, '/'))) return false;
+  const hashFile = p + '.sha256';
+  if (!fs.existsSync(hashFile)) return false;
+  const pinned = fs.readFileSync(hashFile, 'utf8').trim().split(/\s+/)[0];
+  const actual = crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+  return pinned === actual;
+}
 function scanDir(dir, out) {
   if (!fs.existsSync(dir)) return;
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-    // vendor/ — стороння вендорована бібліотека (v2/build/assets/vendor/README.md), не наш контент;
-    // мінімізований код інколи містить випадкові цифрові послідовності, що збігаються з форматом телефону.
-    if (e.name === 'node_modules' || e.name === 'results' || e.name === 'vendor' || e.name.startsWith('.')) continue;
+    if (e.name === 'node_modules' || e.name === 'results' || e.name.startsWith('.')) continue;
     const p = path.join(dir, e.name);
     if (e.isDirectory()) scanDir(p, out);
+    else if (isPinnedVendorFile(p)) continue;
     else if (/\.(html|js|mjs|json|css|md|txt)$/.test(e.name)) { const t = fs.readFileSync(p, 'utf8'); const m = t.match(PHONE); if (m) out.push(path.relative(REPO, p) + ': ' + m[0]); }
   }
 }
@@ -119,7 +133,7 @@ const phoneHits = [];
 R.check('privacy.no-phones', phoneHits.length === 0, phoneHits.slice(0, 5).join(' | ') || 'v2/site, v2/coach, v2/mvp — чисто');
 let changed = [];
 try { changed = execSync('git diff --name-only master -- . ; git ls-files --others --exclude-standard', { cwd: REPO, encoding: 'utf8' }).split('\n').filter(Boolean); } catch (e) { /* немає git */ }
-const changedHits = changed.filter(f => fs.existsSync(path.join(REPO, f)) && /\.(html|js|mjs|json|css|md|txt)$/.test(f) && !/node_modules|\/results\/|\/vendor\//.test(f))
+const changedHits = changed.filter(f => fs.existsSync(path.join(REPO, f)) && /\.(html|js|mjs|json|css|md|txt)$/.test(f) && !/node_modules|\/results\//.test(f) && !isPinnedVendorFile(path.join(REPO, f)))
   .filter(f => PHONE.test(fs.readFileSync(path.join(REPO, f), 'utf8')) || PHONE.test(f));
 R.check('privacy.no-phones-in-branch-changes', changedHits.length === 0, changedHits.slice(0, 5).join(' | ') || `${changed.length} змінених файлів — чисто`);
 

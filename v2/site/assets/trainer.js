@@ -719,6 +719,8 @@
         items.forEach(function (it) { rvAdd(it.id, !first[it.id]); });
         l.open.forEach(function (o) { rvAdd(o.id, false); });
         save();
+        // журнал спроб для кабінету наставника (лише коди правил, без текстів відповідей) — за наявності акаунта
+        if (window.ACCOUNT && window.ACCOUNT.recordAttempt) window.ACCOUNT.recordAttempt({ lesson: l.n, kind: 'test', pct: pct, passed: pass, mistakes: Object.keys(wrongRules) });
         var confPct = conf * 20;
         var cmp = Math.abs(confPct - pct) <= 20 ? 'твоя оцінка приблизно збігається з результатом.'
           : (confPct > pct ? 'впевненість вища за результат — повтори правила нижче.' : 'ти знаєш більше, ніж здавалось.');
@@ -966,6 +968,8 @@
         if (s.tried.indexOf(x.i) < 0) s.tried.push(x.i);
         if (x.o.good) s.solved = true;
         s.t = Date.now(); save();
+        // журнал спроб для кабінету наставника — за наявності акаунта
+        if (window.ACCOUNT && window.ACCOUNT.recordAttempt) window.ACCOUNT.recordAttempt({ lesson: sc.lesson, kind: 'sim', pct: null, passed: !!x.o.good, mistakes: x.o.good ? [] : [sc.rule] });
         // фраза з іншого уроку (напр. «Скажи так» уроку 4 у сцені уроку 11) — з позначкою джерела
         var insteadHtml = good && good.lesson && good.lesson !== sc.lesson ? esc(good.text) + ' <small class="sim-src">(' + lessonLink(good.lesson) + ')</small>' : null;
         var html = fb3({ good: x.o.good, said: x.o.text, why: x.o.why, instead: good ? good.text : '', insteadHtml: insteadHtml, lesson: sc.lesson, rule: sc.rule });
@@ -1254,7 +1258,7 @@
   if (KIND === 'perevirka') renderFinal();
   if (KIND === 'kerivnyku') renderManager();
   if (KIND === 'index') { var tApp2 = document.getElementById('today-app'); if (tApp2) backupCard(tApp2); }
-  MVP.progressSummary = progressSummary; MVP.sanitizeState = sanitizeState; MVP.csvOf = csvOf; MVP.finalItems = finalItems; MVP.replaceState = replaceState;
+  MVP.progressSummary = progressSummary; MVP.sanitizeState = sanitizeState; MVP.csvOf = csvOf; MVP.finalItems = finalItems; MVP.replaceState = replaceState; MVP.summaryHtml = summaryHtml;
 
   //__MODULES__
 })();

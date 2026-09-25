@@ -107,7 +107,11 @@
     var m = {}; (a || []).concat(b || []).forEach(function (g) { if (g && g.set) m[g.set] = g; });
     return Object.keys(m).sort().map(function (k) { return m[k]; });
   }
-  function stripRev(o) { var c = {}; for (var k in o) if (k !== '_rev') c[k] = o[k]; return c; }
+  // _rev і _gen — клієнтські службові поля (лічильник ревізії й покоління, дзеркалять колонки rev/
+  // generation у progress), не «вміст» прогресу; MVP.sanitizeState() їх ніколи не повертає (не входять
+  // у канонічний blank()), тож порівняння без цього стриппінгу завжди бачило б розбіжність там, де її
+  // немає, щойно generation стає ненульовим.
+  function stripRev(o) { var c = {}; for (var k in o) if (k !== '_rev' && k !== '_gen') c[k] = o[k]; return c; }
   // Порівняння НЕ через JSON.stringify: MVP.sanitizeState() завжди перебудовує стан у канонічному
   // порядку полів (Object.keys(blank())), а mergeState() нижче успадковує порядок полів свого base —
   // рядки JSON із однаковим вмістом, але різним порядком ключів, не рівні як текст, хоча як дані —
@@ -198,25 +202,65 @@
 
   // Повне злиття: тягне хмарний рядок, зливає з локальним (union/max), і якщо результат відрізняється
   // від будь-якого боку — записує назад той бік, який змінився (локально і/або в хмару).
+  //
+  // Reload — лише при першому reconcile() після входу/відкриття сторінки (isInitial): саме тоді сторінка
+  // щойно завантажилась і втрачати нічого. Наступні виклики (з таймера, visibilitychange, online) під час
+  // активної роботи на сторінці НЕ чіпають поточний DOM/MVP.st і НЕ перезавантажують — інакше можна
+  // втратити введення в тренажері/тесті просто посеред відповіді. У хмару правильний (злитий) стан
+  // однаково йде щоразу; локально він застосується природно на наступному переході (кожна сторінка тут —
+  // окреме завантаження, і його власний initial reconcile() підхопить уже актуальний хмарний стан).
+  var didInitialReconcile = false;
+  var lastDeferredMerge = null; // щоб не пушити той самий незастосований merge щораз повторно
   var reconcileInFlight = null; // той самий захист від паралельних викликів, що й pushInFlight
   function reconcile() {
     if (!session) return Promise.resolve();
     if (navigator.onLine === false) { setStatus('offline'); return Promise.resolve(); }
     if (reconcileInFlight) return reconcileInFlight;
+    var isInitial = !didInitialReconcile;
+    didInitialReconcile = true;
     setStatus('syncing');
-    reconcileInFlight = sb.from('progress').select('state,rev').eq('user_id', session.user.id).maybeSingle().then(function (r) {
+    reconcileInFlight = sb.from('progress').select('state,rev,generation').eq('user_id', session.user.id).maybeSingle().then(function (r) {
       if (r.error) { setStatus('error'); return; }
       var cloud = r.data;
       if (!cloud) return pushProgress();
+      var cloudGen = cloud.generation || 0;
+      var localGen = MVP.st._gen || 0;
+      if (cloudGen > localGen) {
+        // наставник скинув прогрес (весь або по уроку) — локальний кеш застарілий і його не зливаємо
+        // (union повернув би скинутий урок назад), а приймаємо хмару як є.
+        if (!isInitial) { lastSnapshot = currentSnapshot(); setStatus('synced'); return; } // застосується на наступному переході
+        var fresh = MVP.sanitizeState(cloud.state) || {};
+        fresh._rev = cloud.rev || 0;
+        fresh._gen = cloudGen;
+        MVP.replaceState(fresh);
+        lastSnapshot = currentSnapshot();
+        setStatus('synced');
+        reloadOnce();
+        return;
+      }
       var sanitizedCloud = MVP.sanitizeState(cloud.state) || {};
       var merged = mergeState(MVP.st, sanitizedCloud);
+      merged._gen = Math.max(localGen, cloudGen);
       var changedLocally = !stateEqual(merged, MVP.st);
       var changedFromCloud = !stateEqual(merged, sanitizedCloud);
       if (!changedLocally && !changedFromCloud) { lastSnapshot = currentSnapshot(); setStatus('synced'); return; }
+      if (changedLocally && !isInitial) {
+        // не чіпаємо MVP.st/DOM просто зараз — лише пушимо коректний злитий стан у хмару (щоб не
+        // загубити свіжі дані з іншого пристрою), а самі не повторюємо той самий push щоразу з таймера
+        var mergedSnap = JSON.stringify(stripRev(merged));
+        if (mergedSnap === lastDeferredMerge) { setStatus('synced'); return; }
+        lastDeferredMerge = mergedSnap;
+        merged._rev = Math.max(MVP.st._rev || 0, cloud.rev || 0) + 1;
+        var deferredRow = { user_id: session.user.id, state: merged, rev: merged._rev, updated_at: new Date().toISOString() };
+        return sb.from('progress').upsert(deferredRow, { onConflict: 'user_id' }).then(function (r2) {
+          if (r2.error) { setStatus('error'); return; }
+          setStatus('synced');
+        });
+      }
       merged._rev = Math.max(MVP.st._rev || 0, cloud.rev || 0) + 1;
-      if (changedLocally) MVP.replaceState(merged); else { MVP.st._rev = merged._rev; MVP.save(); }
+      if (changedLocally) MVP.replaceState(merged); else { MVP.st._rev = merged._rev; MVP.st._gen = merged._gen; MVP.save(); }
       lastSnapshot = currentSnapshot();
-      var row = { user_id: session.user.id, state: MVP.st, rev: merged._rev, updated_at: new Date().toISOString() };
+      var row = { user_id: session.user.id, state: merged, rev: merged._rev, updated_at: new Date().toISOString() };
       return sb.from('progress').upsert(row, { onConflict: 'user_id' }).then(function (r2) {
         if (r2.error) { setStatus('error'); return; }
         setStatus('synced');
@@ -224,6 +268,18 @@
       });
     }).catch(function () { setStatus('error'); }).then(function () { reconcileInFlight = null; });
     return reconcileInFlight;
+  }
+
+  // ---------- журнал спроб (append-only, тест уроку / тренажер) — «історія спроб» у кабінеті наставника,
+  // не лише останній/найкращий результат, що лишається в progress.state ----------
+  function recordAttempt(a) {
+    if (!session) return Promise.resolve();
+    // Білдер PostgREST — thenable (є лише .then(), немає власного .catch()) — виклик .catch() напряму на
+    // ньому падає з «.catch is not a function»; тому обробка помилки — другим аргументом .then().
+    return sb.from('attempts').insert({
+      user_id: session.user.id, lesson_n: a.lesson, kind: a.kind,
+      pct: a.pct == null ? null : a.pct, passed: !!a.passed, mistakes: a.mistakes || [],
+    }).then(function () {}, function () { /* найкраще з можливого — не блокує тренажер/тест офлайн чи при збої мережі */ });
   }
 
   var pushTimer = null, reconcileTimer = null;
@@ -321,12 +377,108 @@
     return /invalid login credentials/i.test(m) ? 'Невірна пошта або пароль.' : m || 'Сталася помилка.';
   }
 
+  // ---------- кабінет наставника (kerivnyku.html, #mentor-app): список новачків з хмари ----------
+  function renderMentorDashboard() {
+    var app = document.getElementById('mentor-app');
+    if (!app) return;
+
+    function attemptsHtml(list) {
+      if (!list || !list.length) return '<p class="mvp-muted">Спроб ще немає.</p>';
+      var shown = list.slice(0, 15);
+      var rows = shown.map(function (a) {
+        var when = esc(new Date(a.created_at).toLocaleString('uk-UA'));
+        var kind = a.kind === 'test' ? 'тест' : 'тренажер';
+        var res = a.kind === 'test' ? (a.pct == null ? '—' : a.pct + '%') : (a.passed ? 'вірно' : 'помилка');
+        var mist = (a.mistakes && a.mistakes.length) ? esc(a.mistakes.join(', ')) : '—';
+        return '<tr><td>' + when + '</td><td>' + a.lesson_n + '</td><td>' + kind + '</td><td>' + esc(res) + '</td><td>' + mist + '</td></tr>';
+      }).join('');
+      return '<div class="mgr-scroll"><table class="mgr-table"><caption class="sr-only">Історія спроб</caption>' +
+        '<thead><tr><th scope="col">Коли</th><th scope="col">Урок</th><th scope="col">Тип</th><th scope="col">Результат</th><th scope="col">Помилки (правила)</th></tr></thead>' +
+        '<tbody>' + rows + '</tbody></table></div>' +
+        (list.length > shown.length ? '<p class="mvp-muted">Показано останні ' + shown.length + ' з ' + list.length + '.</p>' : '');
+    }
+    function resetControlsHtml() {
+      // без data-uid на кнопках навмисно: card.closest('[data-uid]') має знайти зовнішню .mgr-card, а
+      // closest() перевіряє СПОЧАТКУ сам елемент — data-uid на кнопці підмінив би card на саму кнопку.
+      var lessons = (window.TRAINER && window.TRAINER.lessons) || [];
+      var opts = lessons.map(function (l) { return '<option value="' + l.n + '">Урок ' + l.n + '</option>'; }).join('');
+      return '<div class="mvp-row mgr-reset">' +
+        '<select class="mgr-reset-lesson" aria-label="Урок для скидання">' + opts + '</select>' +
+        '<button type="button" class="mvp-btn ghost mgr-reset-lesson-btn">Скинути урок</button>' +
+        '<button type="button" class="mvp-btn ghost mgr-reset-all-btn">Скинути весь прогрес</button>' +
+        '</div>';
+    }
+    function doReset(uid, lessonN, btn) {
+      var msg = lessonN ? 'Скинути урок ' + lessonN + ' цьому новачку? Це не можна відмінити.' : 'Скинути ВЕСЬ прогрес цьому новачку? Це не можна відмінити.';
+      if (!window.confirm(msg)) return;
+      btn.disabled = true;
+      sb.rpc('reset_progress', { p_user_id: uid, p_lesson_n: lessonN || null }).then(function (r) {
+        if (r.error) { btn.disabled = false; window.alert('Помилка скидання: ' + r.error.message); return; }
+        loadDashboard();
+      });
+    }
+    function renderList(novices, progressByUser, attemptsByUser, attemptsErrored) {
+      if (!novices.length) { app.innerHTML = '<p class="mvp-muted">Ще жодного новачка не запрошено.</p>'; return; }
+      var cards = novices.map(function (n) {
+        var pr = progressByUser[n.id];
+        var label = n.display_name || n.email || n.id;
+        var lastActive = pr ? esc(new Date(pr.updated_at).toLocaleString('uk-UA')) : 'ще не заходив(ла)';
+        var sum = pr ? MVP.progressSummary(MVP.sanitizeState(pr.state) || {}) : null;
+        return '<section class="mvp-card mgr-card" data-uid="' + esc(n.id) + '">' +
+          '<p class="mvp-card-title">' + esc(label) + '</p>' +
+          '<p class="mvp-muted">Остання активність: ' + lastActive + '</p>' +
+          (sum ? MVP.summaryHtml(sum) : '<p class="mvp-muted">Прогресу ще немає.</p>') +
+          '<p class="mvp-sub" style="margin-top:10px;font-weight:700">Історія спроб</p>' +
+          attemptsHtml(attemptsByUser[n.id]) +
+          resetControlsHtml() +
+          '</section>';
+      }).join('');
+      app.innerHTML = (attemptsErrored ? '<p class="mvp-muted">Історія спроб тимчасово недоступна.</p>' : '') + cards;
+      [].forEach.call(app.querySelectorAll('.mgr-reset-lesson-btn'), function (btn) {
+        btn.addEventListener('click', function () {
+          var card = btn.closest('[data-uid]'), uid = card.getAttribute('data-uid');
+          var lessonN = parseInt(card.querySelector('.mgr-reset-lesson').value, 10);
+          doReset(uid, lessonN, btn);
+        });
+      });
+      [].forEach.call(app.querySelectorAll('.mgr-reset-all-btn'), function (btn) {
+        btn.addEventListener('click', function () { doReset(btn.closest('[data-uid]').getAttribute('data-uid'), null, btn); });
+      });
+    }
+    function loadDashboard() {
+      app.innerHTML = '<p class="mvp-muted">Завантажую список новачків…</p>';
+      Promise.all([
+        sb.from('profiles').select('id,email,display_name').eq('role', 'newbie'),
+        sb.from('progress').select('user_id,state,rev,generation,updated_at'),
+        sb.from('attempts').select('user_id,lesson_n,kind,pct,passed,mistakes,created_at').order('created_at', { ascending: false }).limit(500),
+      ]).then(function (results) {
+        var profRes = results[0], progRes = results[1], attRes = results[2];
+        if (profRes.error || progRes.error) { app.innerHTML = '<p class="mvp-muted">Помилка завантаження списку новачків.</p>'; return; }
+        var novices = profRes.data || [];
+        var progressByUser = {}; (progRes.data || []).forEach(function (r) { progressByUser[r.user_id] = r; });
+        var attemptsByUser = {}; (attRes.data || []).forEach(function (a) { (attemptsByUser[a.user_id] = attemptsByUser[a.user_id] || []).push(a); });
+        renderList(novices, progressByUser, attemptsByUser, !!attRes.error);
+      }).catch(function () { app.innerHTML = '<p class="mvp-muted">Помилка завантаження.</p>'; });
+    }
+    function show() {
+      if (!session) { app.innerHTML = '<p class="mvp-muted">Ця частина кабінету — лише для керівника. <a href="account.html">Увійти</a>.</p>'; return; }
+      app.innerHTML = '<p class="mvp-muted">Перевіряю роль…</p>';
+      fetchProfile().then(function (p) {
+        if (!p || p.role !== 'mentor') { app.innerHTML = '<p class="mvp-muted">Ця частина кабінету — лише для керівника.</p>'; return; }
+        loadDashboard();
+      });
+    }
+    sb.auth.onAuthStateChange(function () { show(); });
+    show();
+  }
+
   // ---------- ініціалізація ----------
   window.addEventListener('online', function () { reconcile(); });
   sb.auth.getSession().then(function (r) {
     session = r.data && r.data.session;
     renderWidget();
     renderAccountPage();
+    renderMentorDashboard();
     if (session) { startPolling(); reconcile(); }
   });
   sb.auth.onAuthStateChange(function (event, s) {
@@ -337,5 +489,5 @@
     if (!session && was) { stopPolling(); lastSnapshot = null; }
   });
 
-  window.ACCOUNT = { pushProgress: pushProgress, reconcile: reconcile, sb: sb };
+  window.ACCOUNT = { pushProgress: pushProgress, reconcile: reconcile, recordAttempt: recordAttempt, sb: sb };
 })();

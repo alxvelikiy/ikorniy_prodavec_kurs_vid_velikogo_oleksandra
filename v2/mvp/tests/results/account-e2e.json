@@ -1,7 +1,7 @@
 {
  "name": "account-e2e",
- "at": "2026-09-25T11:49:36.553Z",
- "passed": 40,
+ "at": "2026-09-25T12:56:54.261Z",
+ "passed": 62,
  "failed": 0,
  "items": [
   {
@@ -100,12 +100,27 @@
    "detail": ""
   },
   {
-   "id": "3.merge.union-both-lessons-present",
+   "id": "3.merge.deferred-no-local-change-same-load",
    "ok": true,
-   "detail": "пристрій А після злиття має і урок 1 (своє), і урок 2 (від пристрою Б) — union, а не перезапис"
+   "detail": "непочатковий reconcile() не мав чіпати localStorage на тій самій сторінці"
+  },
+  {
+   "id": "3.merge.deferred-cloud-has-union",
+   "ok": true,
+   "detail": "{\"1\":{\"tries\":{},\"test\":{\"passed\":true,\"pct\":100,\"runs\":0,\"t\":0}},\"2\":{\"tries\":{},\"test\":{\"passed\":true,\"pct\":90}}}"
   },
   {
    "id": "3.merge.device-a-console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.merge.union-applied-on-next-visit",
+   "ok": true,
+   "detail": "на наступному заході (свіжий initial reconcile) пристрій А отримав і урок 1, і урок 2 — union, а не перезапис"
+  },
+  {
+   "id": "3.merge.next-visit-console",
    "ok": true,
    "detail": ""
   },
@@ -201,6 +216,101 @@
   },
   {
    "id": "7.signout.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "8.reset.setup-lesson5-synced",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "8.reset.rpc-ok",
+   "ok": true,
+   "detail": "null"
+  },
+  {
+   "id": "8.reset.cloud-lesson-gone",
+   "ok": true,
+   "detail": "{}"
+  },
+  {
+   "id": "8.reset.generation-bumped",
+   "ok": true,
+   "detail": "1"
+  },
+  {
+   "id": "8.reset.old-browser-does-not-resurrect-lesson",
+   "ok": true,
+   "detail": "старий браузер після переоткриття не повернув скинутий урок 5 назад у хмару"
+  },
+  {
+   "id": "8.reset.old-browser-console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "9.reload-timing.mid-test-before",
+   "ok": true,
+   "detail": "посеред першого питання має бути видима кнопка «Далі»"
+  },
+  {
+   "id": "9.reload-timing.no-navigation",
+   "ok": true,
+   "detail": "http://127.0.0.1:4999/urok-02.html vs http://127.0.0.1:4999/urok-02.html"
+  },
+  {
+   "id": "9.reload-timing.test-flow-not-reset",
+   "ok": true,
+   "detail": "кнопка «Далі» посеред тесту мала лишитись видимою — reload не мав статись"
+  },
+  {
+   "id": "9.reload-timing.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "10.attempts.recorded-test-and-sim",
+   "ok": true,
+   "detail": "[{\"id\":1,\"user_id\":\"2fba5d61-f832-4423-ac08-dd143166d37b\",\"lesson_n\":1,\"kind\":\"test\",\"pct\":57,\"passed\":false,\"mistakes\":[\"1.2\",\"1.3\"],\"created_at\":\"2026-09-25T12:56:50.971Z\"},{\"id\":2,\"user_id\":\"2fba5d61-f832-4423-ac08-dd143166d37b\",\"lesson_n\":1,\"kind\":\"sim\",\"pct\":null,\"passed\":false,\"mistakes\":[\"1.1\"],\"created_at\":\"2026-09-25T12:56:51.667Z\"}]"
+  },
+  {
+   "id": "10.attempts.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "10.dashboard.novice-card-shown",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "10.dashboard.progress-table-shown",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "10.dashboard.attempts-history-shown",
+   "ok": true,
+   "detail": "2"
+  },
+  {
+   "id": "10.dashboard.reset-lesson-applied",
+   "ok": true,
+   "detail": "{}"
+  },
+  {
+   "id": "10.dashboard.reset-bumped-generation",
+   "ok": true,
+   "detail": "1"
+  },
+  {
+   "id": "10.dashboard.card-still-renders-after-reset",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "10.dashboard.console",
    "ok": true,
    "detail": ""
   }
