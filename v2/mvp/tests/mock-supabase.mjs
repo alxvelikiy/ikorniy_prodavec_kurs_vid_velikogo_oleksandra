@@ -76,6 +76,15 @@ export function startMockSupabase({ port = 0 } = {}) {
       const u = [...users.values()].find(x => x.id === a.id);
       return send(res, 200, userSession(u).user);
     }
+    // updateUser({password}) — завершення запрошення/відновлення пароля
+    if (p === '/auth/v1/user' && (req.method === 'PUT' || req.method === 'PATCH')) {
+      const a = userFromAuth(req);
+      if (!a) return send(res, 401, { message: 'Not authenticated' });
+      const u = [...users.values()].find(x => x.id === a.id);
+      const b = await readBody(req);
+      if (b.password) u.password = b.password;
+      return send(res, 200, userSession(u).user);
+    }
 
     // ---------- PostgREST (profiles / progress) ----------
     const table = /^\/rest\/v1\/(profiles|progress)$/.exec(p);
@@ -108,6 +117,15 @@ export function startMockSupabase({ port = 0 } = {}) {
         // тестові хелпери — заглянути у стан мока напряму, без мережі
         _profiles: profiles, _progress: progress, _users: users,
         setRole: (email, role) => { const u = users.get(email); if (u) profiles.set(u.id, { ...(profiles.get(u.id) || {}), id: u.id, role }); },
+        // Імітація запрошення керівником (реальний виклик admin.inviteUserByEmail робить Supabase Dashboard
+        // із service_role, не клієнтський код) — створює користувача без пароля й видає токени сесії, з
+        // яких тест збирає посилання «як із листа»: account.html#access_token=...&type=invite
+        inviteUser: (email) => {
+          const u = { id: crypto.randomUUID(), email, password: null };
+          users.set(email, u);
+          profiles.set(u.id, { id: u.id, role: 'newbie', display_name: null });
+          return userSession(u);
+        },
       });
     });
   });

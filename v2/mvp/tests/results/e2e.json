@@ -1,6 +1,6 @@
 {
  "name": "e2e",
- "at": "2026-09-25T10:34:49.827Z",
+ "at": "2026-09-25T11:51:04.926Z",
  "passed": 185,
  "failed": 0,
  "items": [
@@ -372,7 +372,7 @@
   {
    "id": "3.sim.state",
    "ok": true,
-   "detail": "{\"tried\":[1,0],\"solved\":true,\"firstGood\":false,\"t\":1790332427419}"
+   "detail": "{\"tried\":[1,0],\"solved\":true,\"firstGood\":false,\"t\":1790337003601}"
   },
   {
    "id": "3.sim.next-scene",
@@ -692,7 +692,7 @@
   {
    "id": "5.final.saved",
    "ok": true,
-   "detail": "{\"t\":1790332458183,\"pct\":79,\"pass\":false,\"conf\":4,\"total\":24,\"weak\":[6,5,10,12]}"
+   "detail": "{\"t\":1790337032817,\"pct\":79,\"pass\":false,\"conf\":4,\"total\":24,\"weak\":[6,5,10,12]}"
   },
   {
    "id": "5.final.pass",

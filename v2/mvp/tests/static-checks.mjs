@@ -106,7 +106,9 @@ const PHONE = /(?<![\d.])(?:\+?38)?0\d{9}(?![\d])|(?<!\d)\d{3}[ -]\d{3}[ -]\d{2}
 function scanDir(dir, out) {
   if (!fs.existsSync(dir)) return;
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (e.name === 'node_modules' || e.name === 'results' || e.name.startsWith('.')) continue;
+    // vendor/ — стороння вендорована бібліотека (v2/build/assets/vendor/README.md), не наш контент;
+    // мінімізований код інколи містить випадкові цифрові послідовності, що збігаються з форматом телефону.
+    if (e.name === 'node_modules' || e.name === 'results' || e.name === 'vendor' || e.name.startsWith('.')) continue;
     const p = path.join(dir, e.name);
     if (e.isDirectory()) scanDir(p, out);
     else if (/\.(html|js|mjs|json|css|md|txt)$/.test(e.name)) { const t = fs.readFileSync(p, 'utf8'); const m = t.match(PHONE); if (m) out.push(path.relative(REPO, p) + ': ' + m[0]); }
@@ -117,7 +119,7 @@ const phoneHits = [];
 R.check('privacy.no-phones', phoneHits.length === 0, phoneHits.slice(0, 5).join(' | ') || 'v2/site, v2/coach, v2/mvp — чисто');
 let changed = [];
 try { changed = execSync('git diff --name-only master -- . ; git ls-files --others --exclude-standard', { cwd: REPO, encoding: 'utf8' }).split('\n').filter(Boolean); } catch (e) { /* немає git */ }
-const changedHits = changed.filter(f => fs.existsSync(path.join(REPO, f)) && /\.(html|js|mjs|json|css|md|txt)$/.test(f) && !/node_modules|\/results\//.test(f))
+const changedHits = changed.filter(f => fs.existsSync(path.join(REPO, f)) && /\.(html|js|mjs|json|css|md|txt)$/.test(f) && !/node_modules|\/results\/|\/vendor\//.test(f))
   .filter(f => PHONE.test(fs.readFileSync(path.join(REPO, f), 'utf8')) || PHONE.test(f));
 R.check('privacy.no-phones-in-branch-changes', changedHits.length === 0, changedHits.slice(0, 5).join(' | ') || `${changed.length} змінених файлів — чисто`);
 

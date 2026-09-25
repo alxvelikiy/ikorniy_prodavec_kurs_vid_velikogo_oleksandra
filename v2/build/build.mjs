@@ -262,7 +262,7 @@ ${pageNav(prev, next)}
 <script src="assets/audio.js"></script>
 <script src="assets/trainer-data.js"></script>
 <script src="assets/trainer.js"></script>
-${ACCOUNTS_ON ? `<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+${ACCOUNTS_ON ? `<script src="assets/vendor/supabase-js.js"></script>
 <script src="assets/supabase-config.js"></script>
 <script src="assets/account.js"></script>` : ''}
 ${extraScripts.map(src => `<script src="${src}"></script>`).join('\n')}
@@ -618,7 +618,9 @@ function main() {
   ensureDir(OUT);
   ensureDir(path.join(OUT, 'assets'));
   for (const f of fs.readdirSync(ASSETS_SRC)) {
-    fs.copyFileSync(path.join(ASSETS_SRC, f), path.join(OUT, 'assets', f));
+    if (f === 'vendor' && !ACCOUNTS_ON) continue; // supabase-js потрібен лише коли акаунти ввімкнено
+    // cpSync copies files and directories alike (напр. assets/vendor/ — вендоровані бібліотеки)
+    fs.cpSync(path.join(ASSETS_SRC, f), path.join(OUT, 'assets', f), { recursive: true });
   }
   fs.writeFileSync(path.join(OUT, 'assets', 'tokens.css'), tokensCss(), 'utf8');
 
@@ -696,8 +698,12 @@ function main() {
   if (ACCOUNTS_ON) {
     fs.writeFileSync(supabaseConfigPath,
       `// Згенеровано v2/build/build.mjs з env SUPABASE_URL / SUPABASE_ANON_KEY — не редагувати вручну\nwindow.SUPABASE_CONFIG=${JSON.stringify({ url: SUPABASE_URL, anonKey: SUPABASE_ANON_KEY })};\n`, 'utf8');
-  } else if (fs.existsSync(supabaseConfigPath)) {
-    fs.rmSync(supabaseConfigPath);
+  } else {
+    if (fs.existsSync(supabaseConfigPath)) fs.rmSync(supabaseConfigPath);
+    // той самий накопичувальний OUT: попередня збірка з акаунтами могла лишити тут вендорований
+    // supabase-js.js (217 КБ), який у no-config деплої нікому не потрібен.
+    const vendorPath = path.join(OUT, 'assets', 'vendor');
+    if (fs.existsSync(vendorPath)) fs.rmSync(vendorPath, { recursive: true, force: true });
   }
   // --- ІІ-тренер: тексти уроків у тому вигляді, як їх показує сайт (без блоків статистики), — для дослівної
   // звірки фраз, які радить тренер (v2/coach/lib/coach-core.mjs)

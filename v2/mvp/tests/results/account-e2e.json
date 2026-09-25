@@ -1,7 +1,7 @@
 {
  "name": "account-e2e",
- "at": "2026-09-25T10:33:20.350Z",
- "passed": 23,
+ "at": "2026-09-25T11:49:36.553Z",
+ "passed": 40,
  "failed": 0,
  "items": [
   {
@@ -25,22 +25,57 @@
    "detail": ""
   },
   {
-   "id": "1.signup.shows-account",
+   "id": "1.no-public-signup.no-tabs",
    "ok": true,
    "detail": ""
   },
   {
-   "id": "1.signup.widget-shows-email",
+   "id": "1.no-public-signup.no-signup-form",
    "ok": true,
    "detail": ""
   },
   {
-   "id": "1.signup.profile-created",
+   "id": "1.no-public-signup.invite-hint",
    "ok": true,
-   "detail": "{\"id\":\"26aca971-64be-461d-ad46-390994793d3c\",\"role\":\"newbie\",\"display_name\":null}"
+   "detail": ""
   },
   {
    "id": "1.account.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1b.invite.set-password-form-shown",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1b.invite.password-set-in-mock",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1b.invite.shows-account",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1b.invite.profile-role-newbie",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1b.invite.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1c.signin-after-invite.works",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1c.signin-after-invite.console",
    "ok": true,
    "detail": ""
   },
@@ -55,12 +90,62 @@
    "detail": ""
   },
   {
-   "id": "3.pull.local-updated-from-cloud",
+   "id": "3.merge.device-b-inherits-device-a",
    "ok": true,
-   "detail": "на новому пристрої локальний стан підтягнув прогрес із хмари після входу"
+   "detail": "пристрій Б підтягнув прогрес уроку 1 від пристрою А"
   },
   {
-   "id": "3.pull.console",
+   "id": "3.merge.device-b-console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.merge.union-both-lessons-present",
+   "ok": true,
+   "detail": "пристрій А після злиття має і урок 1 (своє), і урок 2 (від пристрою Б) — union, а не перезапис"
+  },
+  {
+   "id": "3.merge.device-a-console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.merge-unit.lesson1-max-pct-and-passed-or",
+   "ok": true,
+   "detail": "{\"passed\":true,\"pct\":90,\"runs\":3,\"t\":20}"
+  },
+  {
+   "id": "3.merge-unit.tries-newer-wins",
+   "ok": true,
+   "detail": "{\"ok\":true,\"t\":10}"
+  },
+  {
+   "id": "3.merge-unit.union-lessons-2-and-3-kept",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.merge-unit.review-due-step-lapses-max",
+   "ok": true,
+   "detail": "{\"step\":3,\"due\":100,\"lapses\":2,\"added\":1}"
+  },
+  {
+   "id": "3.merge-unit.review-union-card2",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.merge-unit.days-union",
+   "ok": true,
+   "detail": "d1,d2"
+  },
+  {
+   "id": "3.merge-unit.deck-union",
+   "ok": true,
+   "detail": "x1,x2"
+  },
+  {
+   "id": "3.merge-unit.console",
    "ok": true,
    "detail": ""
   },

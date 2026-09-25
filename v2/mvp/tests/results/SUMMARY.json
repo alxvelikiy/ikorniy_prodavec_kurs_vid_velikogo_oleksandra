@@ -1,5 +1,5 @@
 {
- "at": "2026-09-25T10:33:09.302Z",
+ "at": "2026-09-25T11:49:24.009Z",
  "steps": [
   {
    "name": "Збірка сайту",
@@ -46,8 +46,8 @@
   {
    "name": "Акаунти: реєстрація, вхід, ролі, синхронізація прогресу (наближений мок Supabase)",
    "exit": 0,
-   "seconds": 7,
-   "passed": 23,
+   "seconds": 8,
+   "passed": 40,
    "failed": 0,
    "skipped": false,
    "file": "v2/mvp/tests/results/account-e2e.json"
@@ -55,7 +55,7 @@
   {
    "name": "Клік-сценарії: зрізи 1–5 (ніч 1) + виправлення і контент ночі 2",
    "exit": 0,
-   "seconds": 89,
+   "seconds": 88,
    "passed": 185,
    "failed": 0,
    "skipped": false,
@@ -64,14 +64,14 @@
   {
    "name": "Матриця: сторінки × 375/1280 × теми; розбір у 3 частини на всіх уроках",
    "exit": 0,
-   "seconds": 217,
+   "seconds": 215,
    "passed": 2,
    "failed": 0,
    "skipped": false,
    "file": "v2/mvp/tests/results/matrix.json"
   }
  ],
- "passed": 252,
+ "passed": 269,
  "failed": 0,
  "skipped": [
   "Жива перевірка ІІ-тренера (лише з ANTHROPIC_API_KEY; без ключа — «не проведена»): немає ANTHROPIC_API_KEY"
