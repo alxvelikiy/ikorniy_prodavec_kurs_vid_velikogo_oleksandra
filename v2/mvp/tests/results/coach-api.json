@@ -1,6 +1,6 @@
 {
  "name": "coach-api",
- "at": "2026-09-24T23:03:43.549Z",
+ "at": "2026-09-25T10:33:11.698Z",
  "passed": 20,
  "failed": 0,
  "items": [
@@ -92,7 +92,7 @@
   {
    "id": "coach.usage-counters-only",
    "ok": true,
-   "detail": "{\"2026-09-24\":{\"calls\":2,\"ok\":2,\"errors\":0,\"timeouts\":0,\"limited\":1,\"replaced\":1,\"guarded\":0,\"roleplay\":1,\"feedback\":1}}"
+   "detail": "{\"2026-09-25\":{\"calls\":2,\"ok\":2,\"errors\":0,\"timeouts\":0,\"limited\":1,\"replaced\":1,\"guarded\":0,\"roleplay\":1,\"feedback\":1}}"
   },
   {
    "id": "coach.offline-no-key",

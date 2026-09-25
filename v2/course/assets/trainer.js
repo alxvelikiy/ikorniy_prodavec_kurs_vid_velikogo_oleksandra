@@ -1254,7 +1254,7 @@
   if (KIND === 'perevirka') renderFinal();
   if (KIND === 'kerivnyku') renderManager();
   if (KIND === 'index') { var tApp2 = document.getElementById('today-app'); if (tApp2) backupCard(tApp2); }
-  MVP.progressSummary = progressSummary; MVP.sanitizeState = sanitizeState; MVP.csvOf = csvOf; MVP.finalItems = finalItems;
+  MVP.progressSummary = progressSummary; MVP.sanitizeState = sanitizeState; MVP.csvOf = csvOf; MVP.finalItems = finalItems; MVP.replaceState = replaceState;
 
   //__MODULES__
 })();

@@ -21,6 +21,13 @@ import { buildMvpPages } from './lib/mvp-pages.mjs';
 // (MVP-рішення). SHOW_STATS=1 node v2/build/build.mjs — показати оригінальні числа.
 export const SHOW_STATS = /^(1|true|yes)$/i.test(process.env.SHOW_STATS || '');
 
+// Акаунти й прогрес (Supabase) — публічний деплой, зріз 1. Ключ анонімний, безпечний для клієнта
+// (RLS у Postgres відповідає за доступ). Без цих двох змінних сайт працює як раніше — офлайн, лише
+// localStorage, без жодного мережевого запиту до Supabase (зворотна сумісність за замовчуванням).
+export const SUPABASE_URL = (process.env.SUPABASE_URL || '').trim();
+export const SUPABASE_ANON_KEY = (process.env.SUPABASE_ANON_KEY || '').trim();
+export const ACCOUNTS_ON = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
+
 // Сторінки, де вже діє новий патерн уроку (донат Tier-1, сцена в картці з підписом).
 // Урок 1 затверджено замовником 2026-09-23 — патерн увімкнено для всіх 12 уроків.
 export const REDESIGN_PAGES = new Set(Array.from({ length: 12 }, (_, i) => `urok-${String(i + 1).padStart(2, "0")}`));
@@ -200,6 +207,7 @@ function topNav(activeSlug) {
     </button>
     <nav id="site-nav">${one('index.html', 'Сьогодні', 'index')}<details class="navmenu"><summary>Уроки</summary><div class="navmenu-list lessons-menu">${lessonLinks}</div></details><details class="navmenu"><summary>Дні</summary><div class="navmenu-list">${dayLinks}</div></details><details class="navmenu"><summary>Тренажер</summary><div class="navmenu-list">${one('trenazher.html', 'Симулятор дзвінка', 'trenazher')}${one('trener.html', 'Розмова з ІІ-клієнтом', 'trener')}${one('perevirka.html', 'Перевірка готовності', 'perevirka')}</div></details>${one('povtorennia.html', 'Повторення', 'povtorennia')}<details class="navmenu"><summary>Ще</summary><div class="navmenu-list">${SOS_EXISTS ? one('sos.html', 'SOS: скажи так', 'sos') : ''}${one('video.html', 'Відео', 'video')}${one('dzvinky.html', 'Бібліотека дзвінків', 'dzvinky')}${one('kerivnyku.html', 'Керівнику', 'kerivnyku')}</div></details></nav>
     <form class="search-box" role="search"><input type="search" id="course-search" placeholder="Пошук по курсу" aria-label="Пошук по курсу" autocomplete="off"><div class="search-results" hidden></div></form>
+    ${ACCOUNTS_ON ? '<span id="acct-widget" class="acct-widget"></span>' : ''}
     <button type="button" class="theme-btn" aria-pressed="false" aria-label="Темна тема" title="Темна тема"><svg class="ti-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><svg class="ti-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
   </div></div>`;
 }
@@ -254,6 +262,9 @@ ${pageNav(prev, next)}
 <script src="assets/audio.js"></script>
 <script src="assets/trainer-data.js"></script>
 <script src="assets/trainer.js"></script>
+${ACCOUNTS_ON ? `<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/supabase-config.js"></script>
+<script src="assets/account.js"></script>` : ''}
 ${extraScripts.map(src => `<script src="${src}"></script>`).join('\n')}
 </body>
 </html>
@@ -675,6 +686,19 @@ function main() {
   const trainerReport = { errors: [], warnings: [] };
   const trainer = buildTrainerData({ showStats: SHOW_STATS, report: trainerReport });
   fs.writeFileSync(path.join(OUT, 'assets', 'trainer-data.js'), '// Згенеровано v2/build/build.mjs — не редагувати вручну\nwindow.TRAINER=' + JSON.stringify(trainer) + ';\n', 'utf8');
+  // --- Акаунти: конфіг Supabase з env (SUPABASE_URL/SUPABASE_ANON_KEY). anon-ключ публічний за задумом
+  // Supabase (доступ обмежує RLS у Postgres, не секретність ключа) — тому в клієнтський файл можна.
+  // Секретні ключі (service role, ANTHROPIC_API_KEY) сюди ніколи не потрапляють.
+  // v2/course (OUT) на відміну від v2/site не очищується щоразу (накопичувальна тека артефактів),
+  // тож вимкнена конфігурація має прибрати попередній файл сама — інакше стара збірка з чужим
+  // проєктом Supabase могла б лишитись і потрапити в наступний no-config деплой.
+  const supabaseConfigPath = path.join(OUT, 'assets', 'supabase-config.js');
+  if (ACCOUNTS_ON) {
+    fs.writeFileSync(supabaseConfigPath,
+      `// Згенеровано v2/build/build.mjs з env SUPABASE_URL / SUPABASE_ANON_KEY — не редагувати вручну\nwindow.SUPABASE_CONFIG=${JSON.stringify({ url: SUPABASE_URL, anonKey: SUPABASE_ANON_KEY })};\n`, 'utf8');
+  } else if (fs.existsSync(supabaseConfigPath)) {
+    fs.rmSync(supabaseConfigPath);
+  }
   // --- ІІ-тренер: тексти уроків у тому вигляді, як їх показує сайт (без блоків статистики), — для дослівної
   // звірки фраз, які радить тренер (v2/coach/lib/coach-core.mjs)
   {
@@ -685,8 +709,8 @@ function main() {
   }
   const rvHero = renderCover({ назва: 'Повторення', підзаголовок: 'До п\'яти карток на день. Те, що знаєш, повертається через 1, 3, 7 і 14 днів; те, у чому помилявся, — частіше.', образ: 'чек-лист перевірка' }, 'course', { eyebrow: 'Ikorka Shop · курс новачка' });
   generated.push({ slug: 'povtorennia', html: shellPage({ activeSlug: 'povtorennia', title: 'Повторення', description: 'Картки для повторення з інтервалами', heroHtml: rvHero, bodyHtml: '<div id="review-app" class="review-app mvp-app"><p class="lesson-body">Картки завантажуються…</p></div><noscript><p class="lesson-body">Повторення працює з увімкненим JavaScript.</p></noscript>', prev: null, next: null, pageSlug: 'povtorennia', pageKind: 'review' }) });
-  for (const pg of buildMvpPages({ shellPage, renderCover, trainer })) generated.push(pg);
-  const MVP_SLUGS = new Set(['povtorennia', 'trenazher', 'trener', 'perevirka', 'kerivnyku']);
+  for (const pg of buildMvpPages({ shellPage, renderCover, trainer, accountsOn: ACCOUNTS_ON })) generated.push(pg);
+  const MVP_SLUGS = new Set(['povtorennia', 'trenazher', 'trener', 'perevirka', 'kerivnyku', 'account']);
 
   // --- Пошуковий індекс по всіх сторінках
   const strip = h => h.replace(/<script[\s\S]*?<\/script>|<svg[\s\S]*?<\/svg>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
@@ -722,6 +746,8 @@ function main() {
     fs.writeFileSync(path.join(SITE, `${g.slug}.html`), g.html, 'utf8');
     fs.cpSync(path.join(OUT, 'assets'), path.join(SITE, 'assets'), { recursive: true });
   }
+  // account.html існує лише коли акаунти ввімкнено — прибрати застарілий фрагмент в OUT з попередньої збірки
+  if (!ACCOUNTS_ON) { const p = path.join(OUT, 'account.html'); if (fs.existsSync(p)) fs.rmSync(p); }
 
   let swInfo = null;
   // --- Офлайн: service worker сайту. Кешує всі сторінки і підключені ресурси; версія — хеш вмісту,
@@ -764,7 +790,7 @@ self.addEventListener('fetch', e => {
   const report = { pages: generated.length, errors: [], warnings: [] };
   report.errors.push(...sosExclusionErrors);
 
-  const expectedSlugs = [...new Set(['index', ...COURSE_ORDER.map(e => e.slug), 'povtorennia', 'sos', 'video', 'dzvinky', 'trenazher', 'trener', 'perevirka', 'kerivnyku'])];
+  const expectedSlugs = [...new Set(['index', ...COURSE_ORDER.map(e => e.slug), 'povtorennia', 'sos', 'video', 'dzvinky', 'trenazher', 'trener', 'perevirka', 'kerivnyku', ...(ACCOUNTS_ON ? ['account'] : [])])];
   for (const s of expectedSlugs) {
     if (!fs.existsSync(path.join(OUT, `${s}.html`))) report.errors.push(`Відсутній файл ${s}.html`);
   }

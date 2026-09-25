@@ -15,6 +15,8 @@ const steps = [
   { name: 'Статичні перевірки (дослівність, частки, приватність, ключ)', cmd: [path.join(HERE, 'static-checks.mjs'), '--strict'], result: 'static.json' },
   { name: 'Сервер ІІ-тренера (API, захисти, ліміти)', cmd: [path.join(HERE, 'coach-api.mjs')], result: 'coach-api.json' },
   { name: 'Жива перевірка ІІ-тренера (лише з ANTHROPIC_API_KEY; без ключа — «не проведена»)', cmd: [path.join(HERE, 'coach-live.mjs')], result: 'coach-live.json' },
+  { name: 'RLS-політики Supabase на реальному Postgres (не лише синтаксис)', cmd: [path.join(HERE, 'rls-test.mjs')], result: 'rls-test.json' },
+  { name: 'Акаунти: реєстрація, вхід, ролі, синхронізація прогресу (наближений мок Supabase)', cmd: [path.join(HERE, 'account-e2e.mjs')], result: 'account-e2e.json' },
   { name: 'Клік-сценарії: зрізи 1–5 (ніч 1) + виправлення і контент ночі 2', cmd: [path.join(HERE, 'e2e.mjs')], result: 'e2e.json' },
   { name: 'Матриця: сторінки × 375/1280 × теми; розбір у 3 частини на всіх уроках', cmd: [path.join(HERE, 'matrix.mjs')], result: 'matrix.json' },
 ];

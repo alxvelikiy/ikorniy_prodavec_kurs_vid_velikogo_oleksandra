@@ -1,0 +1,123 @@
+{
+ "name": "account-e2e",
+ "at": "2026-09-25T10:33:20.350Z",
+ "passed": 23,
+ "failed": 0,
+ "items": [
+  {
+   "id": "0.no-config.account-html-absent",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "0.no-config.widget-absent-in-html",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "0.no-config.no-supabase-script",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.account.no-popup-on-load",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.signup.shows-account",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.signup.widget-shows-email",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "1.signup.profile-created",
+   "ok": true,
+   "detail": "{\"id\":\"26aca971-64be-461d-ad46-390994793d3c\",\"role\":\"newbie\",\"display_name\":null}"
+  },
+  {
+   "id": "1.account.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "2.push.saved-to-cloud",
+   "ok": true,
+   "detail": "4"
+  },
+  {
+   "id": "2.push.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "3.pull.local-updated-from-cloud",
+   "ok": true,
+   "detail": "на новому пристрої локальний стан підтягнув прогрес із хмари після входу"
+  },
+  {
+   "id": "3.pull.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "4.role.mentor-shown",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "4.role.widget-badge",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "4.role.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "5.wrong-password.message",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "6.guest.widget-login-link",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "6.guest.lesson-works",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "6.guest.no-hscroll",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "6.guest.console",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "7.signout.widget-resets",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "7.signout.local-progress-kept",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "7.signout.console",
+   "ok": true,
+   "detail": ""
+  }
+ ]
+}

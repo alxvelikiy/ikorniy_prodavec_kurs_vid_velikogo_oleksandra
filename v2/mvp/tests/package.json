@@ -4,6 +4,7 @@
   "type": "module",
   "description": "Автотести MVP-тренажера (headless Chromium)",
   "dependencies": {
+    "@supabase/supabase-js": "^2.117.2",
     "axe-core": "^4.13.0",
     "playwright-core": "1.56"
   },
@@ -12,6 +13,8 @@
     "e2e": "node e2e.mjs",
     "static": "node static-checks.mjs --strict",
     "coach": "node coach-api.mjs",
-    "matrix": "node matrix.mjs"
+    "matrix": "node matrix.mjs",
+    "rls": "node rls-test.mjs",
+    "account": "node account-e2e.mjs"
   }
 }

@@ -8,9 +8,23 @@ function noJs(msg) {
   return `<noscript><p class="lesson-body">${escapeHtml(msg)}</p></noscript>`;
 }
 
-export function buildMvpPages({ shellPage, renderCover, trainer }) {
+export function buildMvpPages({ shellPage, renderCover, trainer, accountsOn = false }) {
   const pages = [];
   const cover = (назва, підзаголовок) => renderCover({ назва, підзаголовок }, 'course', { eyebrow: 'Ikorka Shop · тренажер новачка' });
+
+  // ---- Мій акаунт (публічний деплой, зріз 1) — лише коли Supabase налаштовано при збірці ----
+  if (accountsOn) {
+    pages.push({
+      slug: 'account',
+      html: shellPage({
+        activeSlug: 'account', pageSlug: 'account', pageKind: 'account',
+        title: 'Мій акаунт', description: 'Вхід, реєстрація і синхронізація прогресу з хмарою',
+        heroHtml: cover('Мій акаунт', 'Увійди, щоб прогрес зберігався в хмарі і був видний керівнику.'),
+        bodyHtml: `<div id="account-app" class="mvp-app"><p class="lesson-body">Завантаження…</p></div>${noJs('Вхід в акаунт працює з увімкненим JavaScript.')}`,
+        prev: null, next: null,
+      }),
+    });
+  }
 
   // ---- Симулятор сцен ----
   pages.push({

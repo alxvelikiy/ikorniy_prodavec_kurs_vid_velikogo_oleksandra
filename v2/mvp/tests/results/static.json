@@ -1,6 +1,6 @@
 {
  "name": "static",
- "at": "2026-09-24T23:03:42.171Z",
+ "at": "2026-09-25T10:33:10.353Z",
  "passed": 12,
  "failed": 0,
  "items": [
@@ -57,12 +57,12 @@
   {
    "id": "privacy.no-phones-in-branch-changes",
    "ok": true,
-   "detail": "135 змінених файлів — чисто"
+   "detail": "141 змінених файлів — чисто"
   },
   {
    "id": "secrets.no-api-key",
    "ok": true,
-   "detail": "878 файлів перевірено"
+   "detail": "888 файлів перевірено"
   }
  ]
 }

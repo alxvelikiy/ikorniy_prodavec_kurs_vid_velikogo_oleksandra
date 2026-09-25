@@ -234,3 +234,12 @@ input[type=file]{max-width:100%;font:500 14px 'Manrope',sans-serif;color:var(--i
 .stat-hero .stat-hero-src,.stat-hero .stat-hero-src a{color:var(--ink);}
 .stat-hero .mvp-label{color:var(--ink);border-color:var(--ink);}
 .sos-none-ready{margin-top:6px;font-size:13.5px;line-height:1.5;color:var(--ink);}
+
+/* Акаунти (публічний деплой, зріз 1) */
+.acct-widget{display:inline-flex;align-items:center;}
+.acct-link{font:700 13px 'Manrope',sans-serif;color:var(--ink);text-decoration:none;padding:6px 10px;border-radius:100px;border:1.5px solid var(--line);white-space:nowrap;}
+.acct-link:hover{border-color:var(--brand);color:var(--brand-text);}
+.acct-role{color:var(--text-dim);font-weight:600;}
+.acct-msg{font-size:13px;color:var(--text-dim);}
+.acct-pane input{width:100%;min-height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--canvas);color:var(--ink);padding:8px 12px;font:500 15px/1.4 'Manrope',sans-serif;margin-bottom:10px;}
+@media (max-width:640px){.acct-widget{order:5;}}

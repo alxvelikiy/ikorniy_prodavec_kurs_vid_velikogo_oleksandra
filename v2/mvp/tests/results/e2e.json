@@ -1,6 +1,6 @@
 {
  "name": "e2e",
- "at": "2026-09-24T23:05:13.041Z",
+ "at": "2026-09-25T10:34:49.827Z",
  "passed": 185,
  "failed": 0,
  "items": [
@@ -112,7 +112,7 @@
   {
    "id": "1.goal.saved",
    "ok": true,
-   "detail": "{\"code\":\"1.1\",\"day\":1,\"set\":\"2026-09-24\",\"answered\":null}"
+   "detail": "{\"code\":\"1.1\",\"day\":1,\"set\":\"2026-09-25\",\"answered\":null}"
   },
   {
    "id": "1.day.console",
@@ -372,7 +372,7 @@
   {
    "id": "3.sim.state",
    "ok": true,
-   "detail": "{\"tried\":[1,0],\"solved\":true,\"firstGood\":false,\"t\":1790291050718}"
+   "detail": "{\"tried\":[1,0],\"solved\":true,\"firstGood\":false,\"t\":1790332427419}"
   },
   {
    "id": "3.sim.next-scene",
@@ -692,7 +692,7 @@
   {
    "id": "5.final.saved",
    "ok": true,
-   "detail": "{\"t\":1790291081283,\"pct\":79,\"pass\":false,\"conf\":4,\"total\":24,\"weak\":[6,5,10,12]}"
+   "detail": "{\"t\":1790332458183,\"pct\":79,\"pass\":false,\"conf\":4,\"total\":24,\"weak\":[6,5,10,12]}"
   },
   {
    "id": "5.final.pass",
@@ -727,7 +727,7 @@
   {
    "id": "5.mgr.export-json",
    "ok": true,
-   "detail": "ikorka-progres-2026-09-24.json"
+   "detail": "ikorka-progres-2026-09-25.json"
   },
   {
    "id": "5.mgr.export-no-deck-texts",
@@ -772,7 +772,7 @@
   {
    "id": "5.backup.export",
    "ok": true,
-   "detail": "ikorka-progres-2026-09-24.json"
+   "detail": "ikorka-progres-2026-09-25.json"
   },
   {
    "id": "5.backup.console-a",

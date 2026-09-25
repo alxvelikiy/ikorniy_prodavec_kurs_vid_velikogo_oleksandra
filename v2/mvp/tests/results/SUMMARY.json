@@ -1,5 +1,5 @@
 {
- "at": "2026-09-24T23:03:41.112Z",
+ "at": "2026-09-25T10:33:09.302Z",
  "steps": [
   {
    "name": "Збірка сайту",
@@ -35,6 +35,24 @@
    "file": "v2/mvp/tests/results/coach-live.json"
   },
   {
+   "name": "RLS-політики Supabase на реальному Postgres (не лише синтаксис)",
+   "exit": 0,
+   "seconds": 2,
+   "passed": 10,
+   "failed": 0,
+   "skipped": false,
+   "file": "v2/mvp/tests/results/rls-test.json"
+  },
+  {
+   "name": "Акаунти: реєстрація, вхід, ролі, синхронізація прогресу (наближений мок Supabase)",
+   "exit": 0,
+   "seconds": 7,
+   "passed": 23,
+   "failed": 0,
+   "skipped": false,
+   "file": "v2/mvp/tests/results/account-e2e.json"
+  },
+  {
    "name": "Клік-сценарії: зрізи 1–5 (ніч 1) + виправлення і контент ночі 2",
    "exit": 0,
    "seconds": 89,
@@ -46,14 +64,14 @@
   {
    "name": "Матриця: сторінки × 375/1280 × теми; розбір у 3 частини на всіх уроках",
    "exit": 0,
-   "seconds": 216,
+   "seconds": 217,
    "passed": 2,
    "failed": 0,
    "skipped": false,
    "file": "v2/mvp/tests/results/matrix.json"
   }
  ],
- "passed": 219,
+ "passed": 252,
  "failed": 0,
  "skipped": [
   "Жива перевірка ІІ-тренера (лише з ANTHROPIC_API_KEY; без ключа — «не проведена»): немає ANTHROPIC_API_KEY"
