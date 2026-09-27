@@ -1,0 +1,103 @@
+{
+ "name": "gate-content",
+ "at": "2026-09-27T15:27:08.724Z",
+ "passed": 19,
+ "failed": 0,
+ "items": [
+  {
+   "id": "gate.public-root",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.public-account",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.public-sw",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.public-favicon",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.public-assets-css",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.public-assets-vendor",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.gated-index-is-not-public",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.gated-lesson",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.gated-day",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.gated-trenazher",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.gated-trener",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.gated-perevirka",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.gated-povtorennia",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.gated-sos",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.gated-video",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.gated-dzvinky",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.gated-kerivnyku",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.gated-vstup",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "gate.no-prefix-false-positive",
+   "ok": true,
+   "detail": ""
+  }
+ ]
+}

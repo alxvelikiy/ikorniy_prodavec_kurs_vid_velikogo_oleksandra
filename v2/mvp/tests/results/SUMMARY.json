@@ -1,5 +1,5 @@
 {
- "at": "2026-09-25T12:56:14.102Z",
+ "at": "2026-09-27T15:26:28.874Z",
  "steps": [
   {
    "name": "Збірка сайту",
@@ -38,7 +38,7 @@
    "name": "RLS-політики Supabase на реальному Postgres (не лише синтаксис)",
    "exit": 0,
    "seconds": 2,
-   "passed": 18,
+   "passed": 23,
    "failed": 0,
    "skipped": false,
    "file": "v2/mvp/tests/results/rls-test.json"
@@ -46,16 +46,34 @@
   {
    "name": "Акаунти: реєстрація, вхід, ролі, синхронізація прогресу (наближений мок Supabase)",
    "exit": 0,
-   "seconds": 36,
+   "seconds": 35,
    "passed": 62,
    "failed": 0,
    "skipped": false,
    "file": "v2/mvp/tests/results/account-e2e.json"
   },
   {
+   "name": "Гейтинг контенту (Netlify Edge Function) — чиста логіка публічних шляхів",
+   "exit": 0,
+   "seconds": 0,
+   "passed": 19,
+   "failed": 0,
+   "skipped": false,
+   "file": "v2/mvp/tests/results/gate-content.json"
+  },
+  {
+   "name": "ІІ-тренер як Netlify Function — авторизація, ліміт, формат відповіді (проти стаба Supabase)",
+   "exit": 0,
+   "seconds": 0,
+   "passed": 11,
+   "failed": 0,
+   "skipped": false,
+   "file": "v2/mvp/tests/results/coach-function.json"
+  },
+  {
    "name": "Клік-сценарії: зрізи 1–5 (ніч 1) + виправлення і контент ночі 2",
    "exit": 0,
-   "seconds": 88,
+   "seconds": 86,
    "passed": 185,
    "failed": 0,
    "skipped": false,
@@ -64,14 +82,14 @@
   {
    "name": "Матриця: сторінки × 375/1280 × теми; розбір у 3 частини на всіх уроках",
    "exit": 0,
-   "seconds": 216,
+   "seconds": 201,
    "passed": 2,
    "failed": 0,
    "skipped": false,
    "file": "v2/mvp/tests/results/matrix.json"
   }
  ],
- "passed": 299,
+ "passed": 334,
  "failed": 0,
  "skipped": [
   "Жива перевірка ІІ-тренера (лише з ANTHROPIC_API_KEY; без ключа — «не проведена»): немає ANTHROPIC_API_KEY"

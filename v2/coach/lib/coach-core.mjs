@@ -6,9 +6,22 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { normText, inText, hasShare, maskDigits } from './verbatim.mjs';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-export const COACH_DIR = path.resolve(__dirname, '..');
-export const SITE_DIR = path.resolve(COACH_DIR, '..', 'site');
+// Ім'я НЕ __dirname: коли esbuild пакує цей файл в один бандл (Netlify Function, netlify/functions/coach.mjs),
+// він сам іноді підставляє власний __dirname-шим у той самий top-level scope — колізія оголошень
+// («Identifier '__dirname' has already been declared»), знайдена живим прогоном функції через netlify-cli.
+const __coachModuleDirname = path.dirname(fileURLToPath(import.meta.url));
+// let, не const: після бандлингу в один файл import.meta.url показує розташування САМОГО БАНДЛА
+// (netlify/functions/coach.mjs), а не оригінального coach-core.mjs — обчислений звідси шлях більше не
+// збігається з тим, куди Netlify реально кладе included_files (перевірено живим прогоном через
+// netlify-cli: файли лягають під <корінь функції>/v2/..., як у репозиторії). configureDataDirs()
+// нижче дає коду, що збирає бандл (netlify/functions/coach.mjs), підставити правильні шляхи явно;
+// без виклику — старі, відносні до цього файла (для локального v2/coach/server.mjs, там усе як раніше).
+export let COACH_DIR = path.resolve(__coachModuleDirname, '..');
+export let SITE_DIR = path.resolve(COACH_DIR, '..', 'site');
+export function configureDataDirs({ coachDir, siteDir } = {}) {
+  if (coachDir) COACH_DIR = coachDir;
+  if (siteDir) SITE_DIR = siteDir;
+}
 export const GROUNDING_MAX_BYTES = 3072;
 export const MAX_TURNS = 8;
 export const MAX_TEXT = 400;

@@ -2,3 +2,6 @@ v2/corpus/
 node_modules/
 v2/coach/data/usage.json
 v2/mvp/dist/
+
+# Local Netlify folder
+.netlify

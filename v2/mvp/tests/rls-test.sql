@@ -27,9 +27,10 @@ grant all on schema public to authenticated, service_role;
 
 \i supabase/migrations/0001_init.sql
 \i supabase/migrations/0002_reset_and_attempts.sql
+\i supabase/migrations/0003_coach_usage.sql
 
-grant select, insert, update, delete on public.profiles, public.progress, public.attempts to authenticated;
-grant all on public.profiles, public.progress, public.attempts to service_role;
+grant select, insert, update, delete on public.profiles, public.progress, public.attempts, public.coach_usage to authenticated;
+grant all on public.profiles, public.progress, public.attempts, public.coach_usage to service_role;
 grant usage, select on all sequences in schema public to authenticated;
 
 -- ---------- тестові користувачі ----------
@@ -274,5 +275,86 @@ begin
   raise notice 'OK test15: журнал спроб append-only — UPDATE і DELETE своєї ж спроби не проходять';
 end $$;
 
+-- =====================================================================
+-- Тест 16: новачок1 накопичує власний ліміт через bump_coach_usage (атомарний RPC)
+-- =====================================================================
+select set_config('request.jwt.claim.sub', '11111111-1111-1111-1111-111111111111', false);
+select set_config('request.jwt.claims', '{"sub":"11111111-1111-1111-1111-111111111111","role":"authenticated"}', false);
+select public.bump_coach_usage(1, 1, 0);
+select public.bump_coach_usage(1, 0, 1);
+do $$
+declare c int; o int; e int;
+begin
+  select calls, ok, errors into c, o, e from public.coach_usage where user_id = '11111111-1111-1111-1111-111111111111' and day = current_date;
+  if c <> 2 or o <> 1 or e <> 1 then raise exception 'FAIL test16: після двох bump_coach_usage маємо calls=%, ok=%, errors=%, очікувалось 2/1/1', c, o, e; end if;
+  raise notice 'OK test16: bump_coach_usage атомарно накопичує calls=%, ok=%, errors=% для новачка1', c, o, e;
+end $$;
+
+-- =====================================================================
+-- Тест 17: get_coach_usage() повертає накопичену кількість без запису нового рядка
+-- =====================================================================
+do $$
+declare n int; c int;
+begin
+  select public.get_coach_usage() into n;
+  if n <> 2 then raise exception 'FAIL test17: get_coach_usage() = %, очікувалось 2', n; end if;
+  select count(*) into c from public.coach_usage where user_id = '11111111-1111-1111-1111-111111111111';
+  if c <> 1 then raise exception 'FAIL test17: get_coach_usage() створив зайвий рядок (% рядків), очікувався 1', c; end if;
+  raise notice 'OK test17: get_coach_usage() = % без побічного запису', n;
+end $$;
+
+-- =====================================================================
+-- Тест 18: новачок1 НЕ бачить рядок coach_usage новачка2 напряму (RLS select)
+-- =====================================================================
+select set_config('request.jwt.claim.sub', '22222222-2222-2222-2222-222222222222', false);
+select set_config('request.jwt.claims', '{"sub":"22222222-2222-2222-2222-222222222222","role":"authenticated"}', false);
+select public.bump_coach_usage(5, 5, 0);
+select set_config('request.jwt.claim.sub', '11111111-1111-1111-1111-111111111111', false);
+select set_config('request.jwt.claims', '{"sub":"11111111-1111-1111-1111-111111111111","role":"authenticated"}', false);
+do $$
+declare c int;
+begin
+  select count(*) into c from public.coach_usage where user_id = '22222222-2222-2222-2222-222222222222';
+  if c <> 0 then raise exception 'FAIL test18: новачок1 бачить % рядків coach_usage новачка2, очікувалось 0', c; end if;
+  select count(*) into c from public.coach_usage;
+  if c <> 1 then raise exception 'FAIL test18: новачок1 бачить % рядків coach_usage всього, очікувалось 1 (лише свій)', c; end if;
+  raise notice 'OK test18: новачок1 не бачить coach_usage новачка2 напряму';
+end $$;
+
+-- =====================================================================
+-- Тест 19: наставник бачить coach_usage усіх новачків
+-- =====================================================================
+select set_config('request.jwt.claim.sub', '33333333-3333-3333-3333-333333333333', false);
+select set_config('request.jwt.claims', '{"sub":"33333333-3333-3333-3333-333333333333","role":"authenticated"}', false);
+do $$
+declare c int;
+begin
+  select count(*) into c from public.coach_usage;
+  if c <> 2 then raise exception 'FAIL test19: наставник бачить % рядків coach_usage, очікувалось 2', c; end if;
+  raise notice 'OK test19: наставник бачить coach_usage обох новачків (%)', c;
+end $$;
+
+-- =====================================================================
+-- Тест 20: клієнт не може писати в coach_usage напряму, лише через bump_coach_usage()
+-- =====================================================================
+select set_config('request.jwt.claim.sub', '11111111-1111-1111-1111-111111111111', false);
+select set_config('request.jwt.claims', '{"sub":"11111111-1111-1111-1111-111111111111","role":"authenticated"}', false);
+do $$
+declare c int; caught boolean := false;
+begin
+  begin
+    insert into public.coach_usage (user_id, day, calls) values ('11111111-1111-1111-1111-111111111111', current_date - 1, 999);
+  exception when others then caught := true;
+  end;
+  if not caught then raise exception 'FAIL test20: прямий INSERT у coach_usage пройшов без помилки (немає insert-політики — мало бути відхилено)'; end if;
+  update public.coach_usage set calls = 999 where user_id = '11111111-1111-1111-1111-111111111111';
+  get diagnostics c = row_count;
+  if c <> 0 then raise exception 'FAIL test20: прямий UPDATE у coach_usage зачепив % рядків, очікувалось 0 (немає update-політики)', c; end if;
+  delete from public.coach_usage where user_id = '11111111-1111-1111-1111-111111111111';
+  get diagnostics c = row_count;
+  if c <> 0 then raise exception 'FAIL test20: прямий DELETE у coach_usage зачепив % рядків, очікувалось 0 (немає delete-політики)', c; end if;
+  raise notice 'OK test20: прямий INSERT/UPDATE/DELETE у coach_usage без ефекту — лише bump_coach_usage() пише';
+end $$;
+
 reset role;
-\echo 'РАЗОМ: усі 15 тестів RLS пройдені (реальний Postgres, наближена auth-схема)'
+\echo 'РАЗОМ: усі 20 тестів RLS пройдені (реальний Postgres, наближена auth-схема)'

@@ -1,0 +1,17 @@
+# Ikorka Shop — зріз 5 (публічний деплой). Детальна інструкція: v2/mvp/SUPABASE_SETUP.md, розділ 8.
+[build]
+  command = "node v2/build/build.mjs"
+  publish = "v2/site"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  # coach.mjs читає ці файли через fs.readFileSync (v2/coach/lib/coach-core.mjs, loadData()) — esbuild
+  # не трасує такі шляхи статично, тож включаємо їх явно, зберігаючи ту саму відносну структуру теки.
+  included_files = ["v2/site/assets/trainer-data.js", "v2/coach/data/*.json"]
+
+[[edge_functions]]
+  path = "/*"
+  function = "gate-content"
+
+# SPA-подібного роутингу тут немає (кожна сторінка — окремий .html), редиректи не потрібні.

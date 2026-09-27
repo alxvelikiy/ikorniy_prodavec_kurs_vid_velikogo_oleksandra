@@ -230,6 +230,7 @@ function shellPage({ activeSlug, title, description, heroHtml, bodyHtml, prev, n
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escapeHtml(title)} · Ikorka Shop</title>
 ${description ? `<meta name="description" content="${escapeHtml(description)}">` : ''}
+${ACCOUNTS_ON ? '<meta name="ikorka-coach" content="on">' : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">

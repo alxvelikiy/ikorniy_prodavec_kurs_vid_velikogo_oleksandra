@@ -28,6 +28,21 @@
   var statusCb = null;
 
   function setStatus(s) { status = s; if (statusCb) statusCb(s); }
+
+  // Сесія supabase-js живе в localStorage, який недоступний Netlify Edge Function (зріз 5, гейтинг
+  // контенту на межі CDN — netlify/edge-functions/gate-content.js). Дзеркалимо access_token у куку при
+  // кожній зміні сесії (вхід/оновлення токена/вихід), щоб edge-функція мала що перевірити.
+  function syncSessionCookie(s) {
+    try {
+      if (s && s.access_token) {
+        var maxAge = (s.expires_in && s.expires_in > 0 ? s.expires_in : 3600);
+        var secure = location.protocol === 'https:' ? '; Secure' : '';
+        document.cookie = 'sb_at=' + encodeURIComponent(s.access_token) + '; Path=/; Max-Age=' + maxAge + '; SameSite=Lax' + secure;
+      } else {
+        document.cookie = 'sb_at=; Path=/; Max-Age=0; SameSite=Lax';
+      }
+    } catch (e) { /* приватний режим/куки вимкнені — гейтинг просто не спрацює, курс лишиться доступним */ }
+  }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 
   // =====================================================================
@@ -476,6 +491,7 @@
   window.addEventListener('online', function () { reconcile(); });
   sb.auth.getSession().then(function (r) {
     session = r.data && r.data.session;
+    syncSessionCookie(session);
     renderWidget();
     renderAccountPage();
     renderMentorDashboard();
@@ -484,6 +500,7 @@
   sb.auth.onAuthStateChange(function (event, s) {
     var was = !!session;
     session = s;
+    syncSessionCookie(session);
     renderWidget();
     if (session && !was) { startPolling(); reconcile(); }
     if (!session && was) { stopPolling(); lastSnapshot = null; }

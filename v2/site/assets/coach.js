@@ -38,10 +38,20 @@
   function sceneById(id) { for (var i = 0; i < SCENES.length; i++) if (SCENES[i].id === id) return SCENES[i]; return null; }
 
   // ---------- мережа ----------
+  // Netlify Function перевіряє виклик за токеном сесії Supabase (per-user ліміт у coach_usage, не
+  // спільний файл) — без акаунта викликати ІІ-тренера нема як (сторінка й так доступна лише після
+  // входу, гейтинг на межі CDN — netlify/edge-functions/gate-content.js).
+  function authToken() {
+    if (!window.ACCOUNT || !window.ACCOUNT.sb) return Promise.resolve(null);
+    return window.ACCOUNT.sb.auth.getSession().then(function (r) { return r.data && r.data.session && r.data.session.access_token; }).catch(function () { return null; });
+  }
   function post(url, body) {
     if (!HAS_API || !window.fetch) return Promise.resolve({ ok: false, mode: 'offline', reason: 'static' });
-    return fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
-      .then(function (r) { return r.json(); })
+    return authToken().then(function (token) {
+      var headers = { 'content-type': 'application/json' };
+      if (token) headers['authorization'] = 'Bearer ' + token;
+      return fetch(url, { method: 'POST', headers: headers, body: JSON.stringify(body) });
+    }).then(function (r) { return r.json(); })
       .catch(function () { return { ok: false, mode: 'offline', reason: 'network' }; });
   }
 
