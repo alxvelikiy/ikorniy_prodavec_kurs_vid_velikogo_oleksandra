@@ -13,7 +13,7 @@ const { chromium } = require('playwright-core');
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const V2 = path.resolve(__dirname, '..', '..');
 export const REPO = path.resolve(V2, '..');
-export const SITE = path.join(V2, 'site');
+export const SITE = process.env.SITE_OUT ? path.resolve(process.env.SITE_OUT) : path.join(V2, 'site'); // SITE_OUT — як у build.mjs
 // CHROME_PATH → інакше Chromium пісочниці (Linux) → інакше встановлений Chrome/Edge (Windows/macOS)
 export const CHROME = process.env.CHROME_PATH || [
   '/opt/pw-browsers/chromium-1194/chrome-linux/chrome',

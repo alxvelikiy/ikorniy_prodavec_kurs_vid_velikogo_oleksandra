@@ -1,9 +1,16 @@
 // Duo-слой: HTML-каркас сторінки (head, шрифти, стилі, скрипти, навігація). Власник — Lead.
 // Навігацію (сайдбар/таб-бар/верхня панель) малює nav.mjs (власник — builder-home), тіла сторінок —
 // pages/*.mjs (власники — builders). Порядок скриптів — docs/design/ARCHITECTURE.md §3.
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { navHtml } from './nav.mjs';
 
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const BUILD = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'); // v2/build
+// Підключаємо лише наявні модулі: команда пише їх паралельно, і сторінка не має ловити 404 на ще не створеному файлі.
+// data/* генерується збіркою до сторінок — підключається завжди.
+const present = rel => rel.startsWith('data/') || fs.existsSync(path.join(BUILD, rel));
 
 // Спільні модулі для всіх Duo-сторінок (defer, у цьому порядку)
 export const CORE_JS = [
@@ -29,8 +36,8 @@ export const CORE_CSS = ['assets/duo/tokens.css', 'assets/duo/core.css', 'assets
  * @param {string} [o.themeColor]
  */
 export function duoShell({ slug, title, description = '', body, css = [], js = [], nav = true, bodyClass = '', accountsOn = false, themeColor = '#ffffff', beforeMain = '' }) {
-  const styles = [...CORE_CSS, ...css].map(h => `<link rel="stylesheet" href="${h}">`).join('\n');
-  const scripts = [...CORE_JS, ...js].map(s => `<script src="${s}" defer></script>`).join('\n');
+  const styles = [...CORE_CSS, ...css].filter(present).map(h => `<link rel="stylesheet" href="${h}">`).join('\n');
+  const scripts = [...CORE_JS, ...js].filter(present).map(s => `<script src="${s}" defer></script>`).join('\n');
   const account = accountsOn ? `<script src="assets/vendor/supabase-js.js" defer></script>
 <script src="assets/supabase-config.js" defer></script>
 <script src="assets/account.js" defer></script>` : '';

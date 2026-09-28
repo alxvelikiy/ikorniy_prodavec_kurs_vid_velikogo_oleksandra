@@ -57,7 +57,7 @@ const readState = page => page.evaluate(() => JSON.parse(localStorage.getItem('i
 async function slice1(browser, base, R) {
   // «Сьогодні»
   {
-    const { page, ctx, errors } = await openPage(browser, base + '/index.html');
+    const { page, ctx, errors } = await openPage(browser, base + '/sogodni.html');
     await page.waitForSelector('#today-app .mvp-today');
     R.check('1.today.ring', await page.locator('#today-app svg.mvp-ring').count() === 1);
     const nextBtn = page.locator('#today-app .mvp-next a.mvp-btn.primary');
@@ -144,7 +144,7 @@ async function slice1(browser, base, R) {
   }
   {
     // наступний вхід: ціль, обрана вчора → «Чи вийшло?»
-    const { page, ctx, errors } = await openPage(browser, base + '/index.html', { state: stateWith({ goal: { code: '1.1', day: 1, set: YESTERDAY, answered: null } }) });
+    const { page, ctx, errors } = await openPage(browser, base + '/sogodni.html', { state: stateWith({ goal: { code: '1.1', day: 1, set: YESTERDAY, answered: null } }) });
     const gc = page.locator('.mvp-goalcheck');
     R.check('1.goal.check-on-entry', await gc.count() === 1);
     await gc.locator('[data-goal="частково"]').click();
@@ -552,7 +552,7 @@ async function slice5(browser, base, R) {
   // «Сьогодні» після курсу і перевірки
   {
     const lessons = {}; for (let n = 1; n <= 12; n++) lessons[n] = { tries: {}, test: { passed: true, pct: 100 } };
-    const { page, ctx, errors } = await openPage(browser, base + '/index.html', { state: stateWith({ lessons, final: [{ t: Date.now(), pct: 92, pass: true, conf: 4, total: 24, weak: [] }] }) });
+    const { page, ctx, errors } = await openPage(browser, base + '/sogodni.html', { state: stateWith({ lessons, final: [{ t: Date.now(), pct: 92, pass: true, conf: 4, total: 24, weak: [] }] }) });
     R.check('5.today.course-done', /Готовність підтверджено: 92%/.test(await page.locator('.mvp-next').textContent()));
     R.check('5.today.console', errors.length === 0, errors.join(' | '));
     await ctx.close();
@@ -588,12 +588,12 @@ async function slice5(browser, base, R) {
   // «Сьогодні»: резервна копія (експорт → імпорт у чистому браузері)
   {
     const lessons = { 1: { tries: {}, test: { passed: true, pct: 100 } }, 2: { tries: {}, test: { passed: true, pct: 86 } } };
-    const a = await openPage(browser, base + '/index.html', { state: stateWith({ lessons, deck: [{ id: 'deck-7', text: 'Клієнт мовчить після ціни', t: Date.now() }] }) });
+    const a = await openPage(browser, base + '/sogodni.html', { state: stateWith({ lessons, deck: [{ id: 'deck-7', text: 'Клієнт мовчить після ціни', t: Date.now() }] }) });
     const js = await readDownload(a.page, () => a.page.locator('.bk-export').click());
     R.check('5.backup.export', JSON.parse(js.text).lessons['2'].test.pct === 86 && js.text.includes('Клієнт мовчить'), js.name);
     R.check('5.backup.console-a', a.errors.length === 0, a.errors.join(' | '));
     await a.ctx.close();
-    const b = await openPage(browser, base + '/index.html');
+    const b = await openPage(browser, base + '/sogodni.html');
     R.check('5.backup.clean-start', /0 з 12/.test(await b.page.locator('.mvp-ring-cap').textContent()));
     await b.page.setInputFiles('#bk-file', { name: 'backup.json', mimeType: 'application/json', buffer: Buffer.from(js.text) });
     await b.page.waitForSelector('.bk-yes');

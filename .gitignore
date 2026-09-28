@@ -5,3 +5,6 @@ v2/mvp/dist/
 
 # Local Netlify folder
 .netlify
+
+# DUO-редизайн: окремі теки збірки агентів-білдерів (SITE_OUT/COURSE_OUT)
+v2/.out-*/

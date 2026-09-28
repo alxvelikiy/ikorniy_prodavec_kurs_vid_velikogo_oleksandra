@@ -16,6 +16,7 @@ import { videoIconSvg } from './lib/svg.mjs';
 import { tokensCss } from './lib/tokens.mjs';
 import { buildTrainerData, displayedLessonRaw, isHiddenStat, isMentorSource, loadExclusions, normText } from './lib/trainer.mjs';
 import { buildMvpPages } from './lib/mvp-pages.mjs';
+import { buildDuo, DUO_HOME, DUO_SLUGS } from './duo/build-duo.mjs';
 
 // Частки «N з M» з базою 26 / базою наставника / непідтвердженою базою за замовчуванням приховані
 // (MVP-рішення). SHOW_STATS=1 node v2/build/build.mjs — показати оригінальні числа.
@@ -40,9 +41,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..'); // .../v2
 const TEXT = path.join(ROOT, 'text');
 const AUDIT = path.join(ROOT, 'audit');
-const OUT = path.join(ROOT, 'course');
+// COURSE_OUT / SITE_OUT — окремі теки виводу для паралельної роботи (DUO-редизайн: кожен builder збирає у свою
+// теку й не перезаписує v2/site, з якою працюють інші). За замовчуванням — як і раніше.
+const OUT = process.env.COURSE_OUT ? path.resolve(process.env.COURSE_OUT) : path.join(ROOT, 'course');
 const ASSETS_SRC = path.join(__dirname, 'assets');
-const SITE = path.join(ROOT, 'site'); // для Netlify / GitHub Pages: не прив'язано до Claude
+const SITE = process.env.SITE_OUT ? path.resolve(process.env.SITE_OUT) : path.join(ROOT, 'site'); // для Netlify / GitHub Pages: не прив'язано до Claude
 
 function read(p) { return fs.readFileSync(p, 'utf8'); }
 function exists(p) { return fs.existsSync(p); }
@@ -205,7 +208,7 @@ function topNav(activeSlug) {
     <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Меню розділів">
       <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
     </button>
-    <nav id="site-nav">${one('index.html', 'Сьогодні', 'index')}<details class="navmenu"><summary>Уроки</summary><div class="navmenu-list lessons-menu">${lessonLinks}</div></details><details class="navmenu"><summary>Дні</summary><div class="navmenu-list">${dayLinks}</div></details><details class="navmenu"><summary>Тренажер</summary><div class="navmenu-list">${one('trenazher.html', 'Симулятор дзвінка', 'trenazher')}${one('trener.html', 'Розмова з ІІ-клієнтом', 'trener')}${one('perevirka.html', 'Перевірка готовності', 'perevirka')}</div></details>${one('povtorennia.html', 'Повторення', 'povtorennia')}<details class="navmenu"><summary>Ще</summary><div class="navmenu-list">${SOS_EXISTS ? one('sos.html', 'SOS: скажи так', 'sos') : ''}${one('video.html', 'Відео', 'video')}${one('dzvinky.html', 'Бібліотека дзвінків', 'dzvinky')}${one('kerivnyku.html', 'Керівнику', 'kerivnyku')}</div></details></nav>
+    <nav id="site-nav">${one('index.html', DUO_HOME ? 'Навчання' : 'Сьогодні', 'index')}<details class="navmenu"><summary>Уроки</summary><div class="navmenu-list lessons-menu">${lessonLinks}</div></details><details class="navmenu"><summary>Дні</summary><div class="navmenu-list">${dayLinks}</div></details><details class="navmenu"><summary>Тренажер</summary><div class="navmenu-list">${one('trenazher.html', 'Симулятор дзвінка', 'trenazher')}${one('trener.html', 'Розмова з ІІ-клієнтом', 'trener')}${one('perevirka.html', 'Перевірка готовності', 'perevirka')}</div></details>${one('povtorennia.html', 'Повторення', 'povtorennia')}<details class="navmenu"><summary>Ще</summary><div class="navmenu-list">${SOS_EXISTS ? one('sos.html', 'SOS: скажи так', 'sos') : ''}${one('video.html', 'Відео', 'video')}${one('dzvinky.html', 'Бібліотека дзвінків', 'dzvinky')}${one('kerivnyku.html', 'Керівнику', 'kerivnyku')}</div></details></nav>
     <form class="search-box" role="search"><input type="search" id="course-search" placeholder="Пошук по курсу" aria-label="Пошук по курсу" autocomplete="off"><div class="search-results" hidden></div></form>
     ${ACCOUNTS_ON ? '<span id="acct-widget" class="acct-widget"></span>' : ''}
     <button type="button" class="theme-btn" aria-pressed="false" aria-label="Темна тема" title="Темна тема"><svg class="ti-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><svg class="ti-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
@@ -536,7 +539,7 @@ function buildCallLibraryPage(entries) {
 // ============================================================
 // 6. index.html — зміст курсу
 // ============================================================
-function buildIndexPage(pageMeta) {
+function buildIndexPage(pageMeta, slug = 'index') {
   const heroHtml = `
   <div class="mockup-panel"><div class="cover tint-c1 course-cover">
     <span class="cover-eyebrow tag-c1">Ikorka Shop · курс новачка</span>
@@ -607,8 +610,9 @@ function buildIndexPage(pageMeta) {
 </details>`;
 
   return shellPage({
-    activeSlug: 'index', title: 'Сьогодні', description: 'Курс адаптації менеджера Ikorka Shop — наступний крок, прогрес і маршрут по днях.',
-    heroHtml, bodyHtml, prev: null, next: { slug: 'vstup', title: 'Вступ' }, pageSlug: 'index', pageKind: 'index',
+    activeSlug: slug, title: 'Сьогодні', description: 'Курс адаптації менеджера Ikorka Shop — наступний крок, прогрес і маршрут по днях.',
+    // pageKind лишається 'index': за ним trainer.js вмикає «Сьогодні», колоду і файл прогресу
+    heroHtml, bodyHtml, prev: null, next: { slug: 'vstup', title: 'Вступ' }, pageSlug: slug, pageKind: 'index',
   });
 }
 
@@ -717,7 +721,10 @@ function main() {
   const rvHero = renderCover({ назва: 'Повторення', підзаголовок: 'До п\'яти карток на день. Те, що знаєш, повертається через 1, 3, 7 і 14 днів; те, у чому помилявся, — частіше.', образ: 'чек-лист перевірка' }, 'course', { eyebrow: 'Ikorka Shop · курс новачка' });
   generated.push({ slug: 'povtorennia', html: shellPage({ activeSlug: 'povtorennia', title: 'Повторення', description: 'Картки для повторення з інтервалами', heroHtml: rvHero, bodyHtml: '<div id="review-app" class="review-app mvp-app"><p class="lesson-body">Картки завантажуються…</p></div><noscript><p class="lesson-body">Повторення працює з увімкненим JavaScript.</p></noscript>', prev: null, next: null, pageSlug: 'povtorennia', pageKind: 'review' }) });
   for (const pg of buildMvpPages({ shellPage, renderCover, trainer, accountsOn: ACCOUNTS_ON })) generated.push(pg);
-  const MVP_SLUGS = new Set(['povtorennia', 'trenazher', 'trener', 'perevirka', 'kerivnyku', 'account']);
+  // --- DUO-редизайн: шлях, плеєр уроку, практика, завдання, профіль, шпаргалка (docs/design/ARCHITECTURE.md)
+  const duo = buildDuo({ SITE, OUT, trainer, accountsOn: ACCOUNTS_ON });
+  for (const pg of duo.pages) generated.push(pg);
+  const MVP_SLUGS = new Set(['povtorennia', 'trenazher', 'trener', 'perevirka', 'kerivnyku', 'account', ...DUO_SLUGS, ...(DUO_HOME ? ['index'] : [])]);
 
   // --- Пошуковий індекс по всіх сторінках
   const strip = h => h.replace(/<script[\s\S]*?<\/script>|<svg[\s\S]*?<\/svg>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
@@ -740,8 +747,10 @@ function main() {
     'window.COURSE_HAS_SOS=' + (hasSos ? 'true' : 'false') + ';\n';
   fs.writeFileSync(path.join(OUT, 'assets', 'search-index.js'), searchIndexSrc, 'utf8');
 
-  const indexHtml = buildIndexPage(pageMeta);
-  generated.push({ slug: 'index', html: indexHtml });
+  // Стара «Сьогодні»: з DUO-редизайном головна — шлях, а ця сторінка переїжджає в sogodni.html (DECISIONS D-004)
+  const todaySlug = DUO_HOME ? 'sogodni' : 'index';
+  const indexHtml = buildIndexPage(pageMeta, todaySlug);
+  generated.push({ slug: todaySlug, html: indexHtml });
 
   for (const g of generated) {
     // Artifact hosting wraps each page in its own doctype/html/head/body skeleton.
@@ -761,7 +770,11 @@ function main() {
   // тож після нової збірки старий кеш видаляється. Запити /api/ (ІІ-тренер) не кешуються.
   {
     const used = new Set();
-    for (const g of generated) for (const m of g.html.matchAll(/(?:src|href)="(assets\/[^"#?]+)"/g)) used.add(m[1]);
+    for (const g of generated) for (const m of g.html.matchAll(/(?:src|href)="((?:assets|data)\/[^"#?]+)"/g)) used.add(m[1]);
+    // Duo: дані уроків вантажаться на вимогу (не з HTML), шрифти — з CSS
+    for (const f of duo.dataFiles) used.add(f);
+    const fontsDir = path.join(SITE, 'assets', 'duo', 'fonts');
+    if (fs.existsSync(fontsDir)) for (const f of fs.readdirSync(fontsDir)) if (f.endsWith('.woff2')) used.add('assets/duo/fonts/' + f);
     const files = [...generated.map(g => `${g.slug}.html`), ...[...used].sort()].filter(f => fs.existsSync(path.join(SITE, f)));
     const h = crypto.createHash('sha1');
     for (const f of files) h.update(f).update(fs.readFileSync(path.join(SITE, f)));
@@ -797,7 +810,7 @@ self.addEventListener('fetch', e => {
   const report = { pages: generated.length, errors: [], warnings: [] };
   report.errors.push(...sosExclusionErrors);
 
-  const expectedSlugs = [...new Set(['index', ...COURSE_ORDER.map(e => e.slug), 'povtorennia', 'sos', 'video', 'dzvinky', 'trenazher', 'trener', 'perevirka', 'kerivnyku', ...(ACCOUNTS_ON ? ['account'] : [])])];
+  const expectedSlugs = [...new Set(['index', ...COURSE_ORDER.map(e => e.slug), 'povtorennia', 'sos', 'video', 'dzvinky', 'trenazher', 'trener', 'perevirka', 'kerivnyku', ...(ACCOUNTS_ON ? ['account'] : []), ...DUO_SLUGS, ...(DUO_HOME ? ['sogodni'] : [])])];
   for (const s of expectedSlugs) {
     if (!fs.existsSync(path.join(OUT, `${s}.html`))) report.errors.push(`Відсутній файл ${s}.html`);
   }
@@ -880,6 +893,14 @@ self.addEventListener('fetch', e => {
   console.log(`Тренажер: правил ${tl.reduce((a, l) => a + l.rules.length, 0)}, спроб до пояснення ${tl.reduce((a, l) => a + l.attempts.length, 0)}, тестових питань ${tl.reduce((a, l) => a + l.quiz.length, 0)}, пар ${tl.reduce((a, l) => a + l.pairs.length, 0)}, цитат ${tl.reduce((a, l) => a + l.quotes.length, 0)}, сцен ${tl.reduce((a, l) => a + l.scenes.length, 0)}, термінів ${trainer.glossary.length}, заперечень SOS ${trainer.sos.objections.length}`);
   for (const w of trainerReport.warnings) console.log(' · ' + w);
   for (const e of trainerReport.errors) report.errors.push(e);
+  {
+    const nodes = duo.course.units.reduce((a, u) => a + u.items.filter(i => i.kind === 'node').length, 0);
+    const steps = duo.course.units.reduce((a, u) => a + u.items.filter(i => i.kind === 'node').reduce((b, i) => b + i.steps, 0), 0);
+    const withContent = Object.values(duo.course.lessons).filter(l => l.nodes.length).length;
+    console.log(`Duo-шар: головна — ${DUO_HOME ? 'шлях (стара «Сьогодні» → sogodni.html)' : 'стара «Сьогодні» (DUO_HOME=0)'}; уроків із вправами ${withContent} з 12, вузлів ${nodes}, кроків ${steps}, згенерованих кроків ${duo.report.generated.length}`);
+    // невалідні вправи на сайт не потрапляють (як і розмітка тренажера) — у звіт; тест duo-content.mjs вимагає 0 помилок
+    for (const e of duo.report.errors) console.log(' · Duo: вправи відкинуто — ' + e);
+  }
   if (report.errors.length) {
     console.log(`\nПОМИЛКИ (${report.errors.length}):`);
     for (const e of report.errors) console.log(' - ' + e);
