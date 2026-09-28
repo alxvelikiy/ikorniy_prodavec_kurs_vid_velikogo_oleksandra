@@ -31,6 +31,13 @@ grant all on schema public to authenticated, service_role;
 
 grant select, insert, update, delete on public.profiles, public.progress, public.attempts, public.coach_usage to authenticated;
 grant all on public.profiles, public.progress, public.attempts, public.coach_usage to service_role;
+
+-- DUO-редизайн: ігровий прогрес. Як у Supabase за замовчуванням, anon/authenticated мають усі права на таблиці
+-- схеми public — захищає саме RLS (це й перевіряють тести 21–26).
+\i supabase/migrations/0004_duo_progress.sql
+grant usage on schema public to anon;
+grant select, insert, update, delete on public.duo_progress to authenticated, anon;
+grant all on public.duo_progress to service_role;
 grant usage, select on all sequences in schema public to authenticated;
 
 -- ---------- тестові користувачі ----------
@@ -356,5 +363,115 @@ begin
   raise notice 'OK test20: прямий INSERT/UPDATE/DELETE у coach_usage без ефекту — лише bump_coach_usage() пише';
 end $$;
 
+-- =====================================================================
+-- Тест 21 (DUO): новачок1 створює свій рядок duo_progress; xp_total рахує сервер із подій, а не бере з клієнта
+-- =====================================================================
+select set_config('request.jwt.claim.sub', '11111111-1111-1111-1111-111111111111', false);
+select set_config('request.jwt.claims', '{"sub":"11111111-1111-1111-1111-111111111111","role":"authenticated"}', false);
+do $$
+declare x int;
+begin
+  insert into public.duo_progress (user_id, state, xp_total)
+  values ('11111111-1111-1111-1111-111111111111', '{"v":1,"xp":[{"id":"node:u01-1:1","t":1,"d":"2026-09-28","xp":15,"src":"node"},{"id":"chest:c1","t":2,"d":"2026-09-28","xp":10,"src":"chest"}]}', 9999);
+  select xp_total into x from public.duo_progress where user_id = '11111111-1111-1111-1111-111111111111';
+  if x <> 25 then raise exception 'FAIL test21: xp_total = %, очікувалось 25 (сума подій; клієнтські 9999 ігноруються)', x; end if;
+  raise notice 'OK test21: свій рядок duo_progress створено, xp_total = % пораховано сервером', x;
+end $$;
+
+-- =====================================================================
+-- Тест 22 (DUO): новачок1 НЕ може створити рядок duo_progress за новачка2
+-- =====================================================================
+do $$
+declare caught boolean := false;
+begin
+  begin
+    insert into public.duo_progress (user_id, state) values ('22222222-2222-2222-2222-222222222222', '{"v":1,"xp":[]}');
+  exception when others then caught := true;
+  end;
+  if not caught then raise exception 'FAIL test22: новачок1 створив рядок duo_progress за новачка2'; end if;
+  raise notice 'OK test22: чужий рядок duo_progress створити не можна (RLS with check)';
+end $$;
+
+-- =====================================================================
+-- Тест 23 (DUO): новачок2 не бачить і не змінює прогрес новачка1
+-- =====================================================================
+select set_config('request.jwt.claim.sub', '22222222-2222-2222-2222-222222222222', false);
+select set_config('request.jwt.claims', '{"sub":"22222222-2222-2222-2222-222222222222","role":"authenticated"}', false);
+insert into public.duo_progress (user_id, state) values ('22222222-2222-2222-2222-222222222222', '{"v":1,"xp":[{"id":"a","t":1,"d":"2026-09-28","xp":5,"src":"node"}]}');
+do $$
+declare c int;
+begin
+  select count(*) into c from public.duo_progress where user_id = '11111111-1111-1111-1111-111111111111';
+  if c <> 0 then raise exception 'FAIL test23: новачок2 бачить % рядків duo_progress новачка1', c; end if;
+  select count(*) into c from public.duo_progress;
+  if c <> 1 then raise exception 'FAIL test23: новачок2 бачить % рядків duo_progress, очікувався лише свій', c; end if;
+  update public.duo_progress set state = '{"v":1,"xp":[]}' where user_id = '11111111-1111-1111-1111-111111111111';
+  get diagnostics c = row_count;
+  if c <> 0 then raise exception 'FAIL test23: новачок2 змінив % рядків duo_progress новачка1', c; end if;
+  raise notice 'OK test23: чужий прогрес не видно і не змінити';
+end $$;
+
+-- =====================================================================
+-- Тест 24 (DUO): новачок1 оновлює свій рядок — xp_total перераховується; «віддати» рядок іншому не можна
+-- =====================================================================
+select set_config('request.jwt.claim.sub', '11111111-1111-1111-1111-111111111111', false);
+select set_config('request.jwt.claims', '{"sub":"11111111-1111-1111-1111-111111111111","role":"authenticated"}', false);
+do $$
+declare x int; caught boolean := false;
+begin
+  update public.duo_progress set state = '{"v":1,"xp":[{"id":"node:u01-1:1","t":1,"d":"2026-09-28","xp":15,"src":"node"},{"id":"chest:c1","t":2,"d":"2026-09-28","xp":10,"src":"chest"},{"id":"node:u01-2:3","t":3,"d":"2026-09-28","xp":10,"src":"node"}]}'
+   where user_id = '11111111-1111-1111-1111-111111111111';
+  select xp_total into x from public.duo_progress where user_id = '11111111-1111-1111-1111-111111111111';
+  if x <> 35 then raise exception 'FAIL test24: xp_total після оновлення = %, очікувалось 35', x; end if;
+  begin
+    update public.duo_progress set user_id = '22222222-2222-2222-2222-222222222222' where user_id = '11111111-1111-1111-1111-111111111111';
+  exception when others then caught := true;
+  end;
+  if not caught then raise exception 'FAIL test24: новачок1 переписав свій рядок на новачка2 (RLS with check)'; end if;
+  raise notice 'OK test24: своє оновлюється (xp_total = %), «віддати» рядок іншому не можна', x;
+end $$;
+
+-- =====================================================================
+-- Тест 25 (DUO): неправдоподібна подія XP відхиляється; видалити свій рядок з клієнта не можна
+-- =====================================================================
+do $$
+declare c int; caught boolean := false;
+begin
+  begin
+    update public.duo_progress set state = '{"v":1,"xp":[{"id":"hack","t":1,"d":"2026-09-28","xp":5000,"src":"node"}]}' where user_id = '11111111-1111-1111-1111-111111111111';
+  exception when others then caught := true;
+  end;
+  if not caught then raise exception 'FAIL test25: подію +5000 XP прийнято'; end if;
+  delete from public.duo_progress where user_id = '11111111-1111-1111-1111-111111111111';
+  get diagnostics c = row_count;
+  if c <> 0 then raise exception 'FAIL test25: клієнт видалив свій рядок duo_progress (% рядків), delete-політики немає', c; end if;
+  select count(*) into c from public.duo_progress where user_id = '11111111-1111-1111-1111-111111111111';
+  if c <> 1 then raise exception 'FAIL test25: рядок новачка1 зник'; end if;
+  raise notice 'OK test25: подія поза 0..100 XP відхилена, видалення з клієнта без ефекту';
+end $$;
+
+-- =====================================================================
+-- Тест 26 (DUO): наставник бачить лише свій duo_progress (політики «лише своє»), анонім — нічого
+-- =====================================================================
+select set_config('request.jwt.claim.sub', '33333333-3333-3333-3333-333333333333', false);
+select set_config('request.jwt.claims', '{"sub":"33333333-3333-3333-3333-333333333333","role":"authenticated"}', false);
+do $$
+declare c int;
+begin
+  select count(*) into c from public.duo_progress;
+  if c <> 0 then raise exception 'FAIL test26: наставник бачить % чужих рядків duo_progress, очікувалось 0', c; end if;
+end $$;
 reset role;
-\echo 'РАЗОМ: усі 20 тестів RLS пройдені (реальний Postgres, наближена auth-схема)'
+set role anon;
+select set_config('request.jwt.claim.sub', '', false);
+select set_config('request.jwt.claims', '{"role":"anon"}', false);
+do $$
+declare c int;
+begin
+  select count(*) into c from public.duo_progress;
+  if c <> 0 then raise exception 'FAIL test26: анонім бачить % рядків duo_progress', c; end if;
+  raise notice 'OK test26: наставник не бачить чужий duo_progress, анонім — жодного рядка';
+end $$;
+
+reset role;
+\echo 'РАЗОМ: усі 26 тестів RLS пройдені (реальний Postgres, наближена auth-схема)'

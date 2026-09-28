@@ -1,7 +1,7 @@
 {
  "name": "rls-test",
- "at": "2026-09-28T09:43:36.845Z",
- "passed": 23,
+ "at": "2026-09-28T10:52:20.961Z",
+ "passed": 29,
  "failed": 0,
  "items": [
   {
@@ -110,9 +110,39 @@
    "detail": ""
   },
   {
-   "id": "rls.all-20-ran",
+   "id": "rls.test21",
    "ok": true,
-   "detail": "пройшло тестів у SQL-скрипті: 20 з 20"
+   "detail": ""
+  },
+  {
+   "id": "rls.test22",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "rls.test23",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "rls.test24",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "rls.test25",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "rls.test26",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "rls.all-26-ran",
+   "ok": true,
+   "detail": "пройшло тестів у SQL-скрипті: 26 з 26"
   },
   {
    "id": "rls.no-recursion-or-escalation-bugs",

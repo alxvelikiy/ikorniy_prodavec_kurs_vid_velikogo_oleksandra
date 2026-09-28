@@ -14,10 +14,13 @@
 // due/step), симулятор і особиста колода — union за id. Деталі — mergeState() нижче.
 (function () {
   'use strict';
-  if (!window.SUPABASE_CONFIG || !window.supabase || !window.MVP) return;
+  if (!window.SUPABASE_CONFIG || !window.supabase) return;
   var CFG = window.SUPABASE_CONFIG;
   var sb = window.supabase.createClient(CFG.url, CFG.anonKey, { auth: { persistSession: true, autoRefreshToken: true } });
-  var MVP = window.MVP;
+  // Duo-сторінки (DUO-редизайн) не вантажать trainer.js: там лише сесія, кука sb_at для гейтингу й клієнт
+  // Supabase для синхронізації Duo-прогресу (assets/duo/progress.js); синхронізація стану тренажера — лише з MVP.
+  var MVP = window.MVP || null;
+  var HAS_MVP = !!MVP;
   var PUSH_MS = 4000; // локальні зміни → хмара
   var RECONCILE_MS = 20000; // повне злиття з хмарою (може прийти прогрес з іншого пристрою)
   var RELOAD_COOLDOWN_MS = 15000;
@@ -190,7 +193,7 @@
   // одночасно, і один із них інколи падає з ERR_ABORTED (гонитва в браузері/мок-сервері).
   var pushInFlight = null;
   function pushProgress() {
-    if (!session) return Promise.resolve();
+    if (!session || !HAS_MVP) return Promise.resolve();
     if (navigator.onLine === false) { setStatus('offline'); return Promise.resolve(); }
     if (pushInFlight) return pushInFlight;
     var snap = currentSnapshot();
@@ -228,7 +231,7 @@
   var lastDeferredMerge = null; // щоб не пушити той самий незастосований merge щораз повторно
   var reconcileInFlight = null; // той самий захист від паралельних викликів, що й pushInFlight
   function reconcile() {
-    if (!session) return Promise.resolve();
+    if (!session || !HAS_MVP) return Promise.resolve();
     if (navigator.onLine === false) { setStatus('offline'); return Promise.resolve(); }
     if (reconcileInFlight) return reconcileInFlight;
     var isInitial = !didInitialReconcile;
@@ -395,7 +398,7 @@
   // ---------- кабінет наставника (kerivnyku.html, #mentor-app): список новачків з хмари ----------
   function renderMentorDashboard() {
     var app = document.getElementById('mentor-app');
-    if (!app) return;
+    if (!app || !HAS_MVP) return;
 
     function attemptsHtml(list) {
       if (!list || !list.length) return '<p class="mvp-muted">Спроб ще немає.</p>';
@@ -495,14 +498,14 @@
     renderWidget();
     renderAccountPage();
     renderMentorDashboard();
-    if (session) { startPolling(); reconcile(); }
+    if (session && HAS_MVP) { startPolling(); reconcile(); }
   });
   sb.auth.onAuthStateChange(function (event, s) {
     var was = !!session;
     session = s;
     syncSessionCookie(session);
     renderWidget();
-    if (session && !was) { startPolling(); reconcile(); }
+    if (session && !was && HAS_MVP) { startPolling(); reconcile(); }
     if (!session && was) { stopPolling(); lastSnapshot = null; }
   });
 

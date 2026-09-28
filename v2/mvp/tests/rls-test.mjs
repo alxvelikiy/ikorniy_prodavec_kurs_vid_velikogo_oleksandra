@@ -20,7 +20,7 @@ try { sh('pg_isready -q || sudo -n pg_ctlcluster 16 main start'); sh('sleep 1; p
 
 // Немає системного Postgres (Windows/macOS) — той самий скрипт на справжньому Postgres з npm-пакета
 // embedded-postgres (нативні бінарники, тимчасовий кластер), інструкція за інструкцією через pg.
-const EXPECTED_TESTS = 20;
+const EXPECTED_TESTS = 26; // 20 (зрізи 1–5) + 6 (DUO: duo_progress)
 if (!pgOk && await embeddedAvailable()) {
   try {
     const { notices, error, statements, version } = await runSqlOnEmbedded(fs.readFileSync(sql, 'utf8'), { baseDir: REPO, db: DB });

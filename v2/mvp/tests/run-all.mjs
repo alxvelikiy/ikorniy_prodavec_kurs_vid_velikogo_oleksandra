@@ -19,6 +19,7 @@ const steps = [
   { name: 'Акаунти: реєстрація, вхід, ролі, синхронізація прогресу (наближений мок Supabase)', cmd: [path.join(HERE, 'account-e2e.mjs')], result: 'account-e2e.json' },
   { name: 'Гейтинг контенту (Netlify Edge Function) — чиста логіка публічних шляхів', cmd: [path.join(HERE, 'gate-content-test.mjs')], result: 'gate-content.json' },
   { name: 'ІІ-тренер як Netlify Function — авторизація, ліміт, формат відповіді (проти стаба Supabase)', cmd: [path.join(HERE, 'coach-function-test.mjs')], result: 'coach-function.json' },
+  { name: 'DUO: логіка прогресу — XP, серія (Europe/Kyiv), ціль, серця, завдання, злиття станів (юніт)', cmd: [path.join(HERE, 'duo-progress-unit.mjs')], result: 'duo-progress-unit.json' },
   { name: 'Клік-сценарії: зрізи 1–5 (ніч 1) + виправлення і контент ночі 2', cmd: [path.join(HERE, 'e2e.mjs')], result: 'e2e.json' },
   { name: 'Матриця: сторінки × 375/1280 × теми; розбір у 3 частини на всіх уроках', cmd: [path.join(HERE, 'matrix.mjs')], result: 'matrix.json' },
 ];

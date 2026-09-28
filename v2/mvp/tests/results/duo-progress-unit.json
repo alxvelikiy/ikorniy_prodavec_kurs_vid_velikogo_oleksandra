@@ -1,0 +1,258 @@
+{
+ "name": "duo-progress-unit",
+ "at": "2026-09-28T10:52:10.771Z",
+ "passed": 50,
+ "failed": 0,
+ "items": [
+  {
+   "id": "date.kyiv-summer-after-midnight",
+   "ok": true,
+   "detail": "2026-09-28"
+  },
+  {
+   "id": "date.kyiv-summer-before-midnight",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "date.kyiv-winter-new-year",
+   "ok": true,
+   "detail": "2027-01-01"
+  },
+  {
+   "id": "date.add-days-across-month",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "date.weekday-monday-0",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "xp.first-perfect-15",
+   "ok": true,
+   "detail": "[[\"lesson\",10],[\"perfect\",5]]"
+  },
+  {
+   "id": "xp.repeat-with-mistakes-5",
+   "ok": true,
+   "detail": "[[\"repeat\",5]]"
+  },
+  {
+   "id": "xp.total-20",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "node.best-accuracy-kept",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "xp.first-today-once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "next-node-after-u01-1",
+   "ok": true,
+   "detail": "u01-2"
+  },
+  {
+   "id": "streak.alive-before-today-activity",
+   "ok": true,
+   "detail": "{\"c\":3,\"a\":false}"
+  },
+  {
+   "id": "streak.plus-one-on-first-lesson",
+   "ok": true,
+   "detail": "{\"before\":3,\"after\":4}"
+  },
+  {
+   "id": "streak.week-mon-sun",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "streak.lost-after-gap-soft",
+   "ok": true,
+   "detail": "{\"c\":0,\"lost\":4}"
+  },
+  {
+   "id": "streak.kyiv-midnight-counts-two-days",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "streak.best",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "goal.not-reached-first",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "goal.reached-now-once",
+   "ok": true,
+   "detail": "{\"before\":15,\"after\":25,\"target\":20,\"reachedNow\":true}"
+  },
+  {
+   "id": "goal.not-celebrated-twice",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "hearts.lose",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "hearts.regen-30min",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "hearts.regen-cap",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "hearts.floor-zero",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "hearts.refill",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "mistakes.dedupe-and-order",
+   "ok": true,
+   "detail": "[{\"stepId\":\"u04-1-s3\",\"lesson\":4,\"nodeId\":\"u04-1\",\"t\":2000,\"n\":2},{\"stepId\":\"u01-1-s2\",\"lesson\":1,\"nodeId\":\"u01-1\",\"t\":3000,\"n\":1}]"
+  },
+  {
+   "id": "mistakes.resolve",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "path.first-current",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "path.chest-locked",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "path.chest-available",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "chest.xp-once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "path.boss-available-after-unit",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "path.boss-optional",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "path.done-state",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "quests.all-done",
+   "ok": true,
+   "detail": "[{\"id\":\"perfect\",\"target\":1,\"value\":1,\"done\":true},{\"id\":\"xp30\",\"target\":30,\"value\":30,\"done\":true},{\"id\":\"coach\",\"target\":1,\"value\":1,\"done\":true}]"
+  },
+  {
+   "id": "quests.reported-as-just-done",
+   "ok": true,
+   "detail": "[\"xp30\",\"coach\"]"
+  },
+  {
+   "id": "quests.chest-once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "quests.coach-offline-alternative",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "ach.unlock-level-1",
+   "ok": true,
+   "detail": "[{\"id\":\"objections\",\"level\":1},{\"id\":\"perfect\",\"level\":1}]"
+  },
+  {
+   "id": "ach.not-twice",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "merge.union-xp",
+   "ok": true,
+   "detail": "25 = 15 + 10"
+  },
+  {
+   "id": "merge.union-nodes",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "merge.streak-from-both-devices",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "merge.idempotent",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "merge.commutative-totals",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "merge.server-wins-xp-conflict",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "merge.mistake-tombstone",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "merge.chest-xp-once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "sanitize.bad-version-blank",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "sanitize.filters-and-defaults",
+   "ok": true,
+   "detail": ""
+  }
+ ]
+}
