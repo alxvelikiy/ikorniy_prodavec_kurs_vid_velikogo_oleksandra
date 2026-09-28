@@ -75,4 +75,5 @@ try {
 
 const f = R.save(path.join(V2, 'mvp', 'tests', 'results'));
 console.log(`\nРАЗОМ: ${R.items.length - R.failed.length} ok, ${R.failed.length} fail → ${path.relative(REPO, f)}`);
-process.exit(R.failed.length ? 1 : 0);
+// exitCode замість process.exit(): на Windows примусовий вихід під час закриття сокетів валить libuv
+process.exitCode = R.failed.length ? 1 : 0;

@@ -132,7 +132,8 @@ const phoneHits = [];
 [path.join(V2, 'site'), path.join(V2, 'coach'), path.join(V2, 'mvp')].forEach(d => scanDir(d, phoneHits));
 R.check('privacy.no-phones', phoneHits.length === 0, phoneHits.slice(0, 5).join(' | ') || 'v2/site, v2/coach, v2/mvp — чисто');
 let changed = [];
-try { changed = execSync('git diff --name-only master -- . ; git ls-files --others --exclude-standard', { cwd: REPO, encoding: 'utf8' }).split('\n').filter(Boolean); } catch (e) { /* немає git */ }
+// два окремі виклики: у cmd.exe (Windows) «;» не розділяє команди, і список тихо лишався б неповним
+try { changed = ['git diff --name-only master -- .', 'git ls-files --others --exclude-standard'].flatMap(c => execSync(c, { cwd: REPO, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }).split('\n')).filter(Boolean); } catch (e) { /* немає git */ }
 const changedHits = changed.filter(f => fs.existsSync(path.join(REPO, f)) && /\.(html|js|mjs|json|css|md|txt)$/.test(f) && !/node_modules|\/results\//.test(f) && !isPinnedVendorFile(path.join(REPO, f)))
   .filter(f => PHONE.test(fs.readFileSync(path.join(REPO, f), 'utf8')) || PHONE.test(f));
 R.check('privacy.no-phones-in-branch-changes', changedHits.length === 0, changedHits.slice(0, 5).join(' | ') || `${changed.length} змінених файлів — чисто`);
@@ -141,7 +142,7 @@ R.check('privacy.no-phones-in-branch-changes', changedHits.length === 0, changed
 const KEYRE = /sk-ant-[A-Za-z0-9_\-]{16,}/;
 const envKey = process.env.ANTHROPIC_API_KEY || '';
 let tracked = [];
-try { tracked = execSync('git ls-files; git ls-files --others --exclude-standard', { cwd: REPO, encoding: 'utf8' }).split('\n').filter(Boolean); } catch (e) { /* */ }
+try { tracked = ['git ls-files', 'git ls-files --others --exclude-standard'].flatMap(c => execSync(c, { cwd: REPO, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }).split('\n')).filter(Boolean); } catch (e) { /* */ }
 const keyHits = [];
 for (const f of tracked) {
   const p = path.join(REPO, f);

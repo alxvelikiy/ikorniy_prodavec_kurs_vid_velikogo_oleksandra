@@ -1,15 +1,15 @@
 {
- "at": "2026-09-27T15:26:28.874Z",
+ "at": "2026-09-28T09:43:23.064Z",
  "steps": [
   {
    "name": "Збірка сайту",
    "exit": 0,
-   "seconds": 0
+   "seconds": 1
   },
   {
    "name": "Статичні перевірки (дослівність, частки, приватність, ключ)",
    "exit": 0,
-   "seconds": 1,
+   "seconds": 2,
    "passed": 12,
    "failed": 0,
    "skipped": false,
@@ -37,7 +37,7 @@
   {
    "name": "RLS-політики Supabase на реальному Postgres (не лише синтаксис)",
    "exit": 0,
-   "seconds": 2,
+   "seconds": 9,
    "passed": 23,
    "failed": 0,
    "skipped": false,
@@ -46,7 +46,7 @@
   {
    "name": "Акаунти: реєстрація, вхід, ролі, синхронізація прогресу (наближений мок Supabase)",
    "exit": 0,
-   "seconds": 35,
+   "seconds": 42,
    "passed": 62,
    "failed": 0,
    "skipped": false,
@@ -64,7 +64,7 @@
   {
    "name": "ІІ-тренер як Netlify Function — авторизація, ліміт, формат відповіді (проти стаба Supabase)",
    "exit": 0,
-   "seconds": 0,
+   "seconds": 1,
    "passed": 11,
    "failed": 0,
    "skipped": false,
@@ -73,7 +73,7 @@
   {
    "name": "Клік-сценарії: зрізи 1–5 (ніч 1) + виправлення і контент ночі 2",
    "exit": 0,
-   "seconds": 86,
+   "seconds": 106,
    "passed": 185,
    "failed": 0,
    "skipped": false,
@@ -82,7 +82,7 @@
   {
    "name": "Матриця: сторінки × 375/1280 × теми; розбір у 3 частини на всіх уроках",
    "exit": 0,
-   "seconds": 201,
+   "seconds": 227,
    "passed": 2,
    "failed": 0,
    "skipped": false,

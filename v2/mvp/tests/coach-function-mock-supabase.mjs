@@ -35,7 +35,7 @@ export function startMockAuthRpc({ port = 0 } = {}) {
   return new Promise(resolve => {
     server.listen(port, '127.0.0.1', () => {
       const { port: p2 } = server.address();
-      resolve({ url: `http://127.0.0.1:${p2}`, close: () => server.close(), _usage: usage });
+      resolve({ url: `http://127.0.0.1:${p2}`, close: () => { server.closeAllConnections(); server.close(); }, _usage: usage });
     });
   });
 }

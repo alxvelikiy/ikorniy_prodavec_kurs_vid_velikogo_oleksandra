@@ -24,7 +24,10 @@ async function openAccountPage(browser, url, { width = 1280, height = 900, theme
   // gotrue-js навмисно не чекає мережевого /auth/v1/logout — локальний вихід відбувається одразу
   // (щоб працював і без мережі), а запит іноді скасовується (ERR_ABORTED); це поведінка самої
   // бібліотеки з будь-яким бекендом (мок чи справжній Supabase), не помилка нашого коду.
-  page.on('requestfailed', r => { const u = r.url(); if (!/fonts\.(googleapis|gstatic)|\/auth\/v1\/logout/.test(u)) errors.push('requestfailed: ' + u + ' ' + (r.failure() || {}).errorText); });
+  // Статичний ресурс (/assets/…), скасований самою навігацією (reloadOnce після злиття), — теж не помилка:
+  // на повільнішій машині (Windows) лого ще вантажиться в момент перезавантаження і падає з ERR_ABORTED.
+  const abortedByNavigation = (u, err) => /ERR_ABORTED/.test(err || '') && /\/assets\//.test(u);
+  page.on('requestfailed', r => { const u = r.url(); const err = (r.failure() || {}).errorText; if (!/fonts\.(googleapis|gstatic)|\/auth\/v1\/logout/.test(u) && !abortedByNavigation(u, err)) errors.push('requestfailed: ' + u + ' ' + err); });
   await page.goto(url, { waitUntil: 'load' });
   return { page, ctx, errors };
 }

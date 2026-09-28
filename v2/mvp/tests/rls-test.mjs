@@ -5,7 +5,9 @@
 // пропускається з чітким поясненням, а не мовчки «зеленим».
 import { execSync } from 'node:child_process';
 import path from 'node:path';
+import fs from 'node:fs';
 import { Results, V2, REPO } from './lib.mjs';
+import { embeddedAvailable, runSqlOnEmbedded } from './pg-embedded.mjs';
 
 const R = new Results('rls-test');
 const DB = 'ikorka_rls_test';
@@ -16,7 +18,24 @@ function sh(cmd) { return execSync(cmd, { cwd: REPO, encoding: 'utf8', stdio: ['
 let pgOk = false;
 try { sh('pg_isready -q || sudo -n pg_ctlcluster 16 main start'); sh('sleep 1; pg_isready -q'); pgOk = true; } catch (e) { pgOk = false; }
 
-if (!pgOk) {
+// Немає системного Postgres (Windows/macOS) — той самий скрипт на справжньому Postgres з npm-пакета
+// embedded-postgres (нативні бінарники, тимчасовий кластер), інструкція за інструкцією через pg.
+const EXPECTED_TESTS = 20;
+if (!pgOk && await embeddedAvailable()) {
+  try {
+    const { notices, error, statements, version } = await runSqlOnEmbedded(fs.readFileSync(sql, 'utf8'), { baseDir: REPO, db: DB });
+    console.log(`  · embedded Postgres ${version}: ${statements} інструкцій`);
+    const oks = notices.map(m => /^OK ([\w.]+):/.exec(m)).filter(Boolean).map(m => m[1]);
+    const fails = notices.filter(m => /^FAIL/.test(m)).concat(error ? [error] : []);
+    for (const id of oks) R.ok('rls.' + id);
+    for (const f of fails) R.fail('rls.error', f);
+    const testCount = oks.filter(id => /^test\d/.test(id)).length;
+    R.check(`rls.all-${EXPECTED_TESTS}-ran`, testCount === EXPECTED_TESTS, `пройшло тестів у SQL-скрипті: ${testCount} з ${EXPECTED_TESTS}`);
+    R.check('rls.no-recursion-or-escalation-bugs', fails.length === 0, fails.join(' | '));
+  } catch (e) {
+    R.fail('rls.execution', String(e.stack || e.message || e).split('\n').slice(0, 5).join(' | '));
+  }
+} else if (!pgOk) {
   console.log('  · пропущено: локальний Postgres недоступний у цьому середовищі');
   R.items.push({ id: 'rls.skipped', ok: true, detail: 'немає локального Postgres — не проведено' });
 } else {
@@ -28,7 +47,7 @@ if (!pgOk) {
     for (const id of oks) R.ok('rls.' + id);
     for (const f of fails) R.fail('rls.error', f);
     const testCount = oks.filter(id => /^test\d/.test(id)).length;
-    R.check('rls.all-20-ran', testCount === 20, `пройшло тестів у SQL-скрипті: ${testCount} з 20`);
+    R.check(`rls.all-${EXPECTED_TESTS}-ran`, testCount === EXPECTED_TESTS, `пройшло тестів у SQL-скрипті: ${testCount} з ${EXPECTED_TESTS}`);
     R.check('rls.no-recursion-or-escalation-bugs', fails.length === 0, fails.join(' | '));
   } catch (e) {
     R.fail('rls.execution', String(e.stderr || e.message || e).split('\n').slice(0, 5).join(' | '));

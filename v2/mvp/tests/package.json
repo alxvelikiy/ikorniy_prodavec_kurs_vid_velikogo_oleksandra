@@ -16,5 +16,9 @@
     "matrix": "node matrix.mjs",
     "rls": "node rls-test.mjs",
     "account": "node account-e2e.mjs"
+  },
+  "optionalDependencies": {
+    "embedded-postgres": "^18.4.0-beta.17",
+    "pg": "^8.23.0"
   }
 }
