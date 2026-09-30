@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ikorka Duo · Маскот (стенд)</title>
+<!-- Без параметра — дві теми поруч (iframe). ?t=light|dark — сама сітка. Запуск: відкрити файл у браузері. -->
+<script>
+  var P = new URLSearchParams(location.search).get('t');
+  if (P === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+</script>
+<link rel="stylesheet" href="../../build/assets/duo/tokens.css">
+<link rel="stylesheet" href="../../build/assets/duo/core.css">
+<link rel="stylesheet" href="../../build/assets/duo/mascot.css">
+<style>
+  body { margin: 0; background: var(--c-bg); color: var(--c-text); font-family: var(--font-ui); }
+  .both { display: grid; grid-template-columns: 1fr 1fr; height: 100vh; }
+  .both iframe { width: 100%; height: 100%; border: 0; }
+  .both iframe + iframe { border-left: var(--bw) solid var(--c-line); }
+  .lab { padding: var(--s-4); }
+  .lab h1 { margin: 0 0 var(--s-1); font-size: var(--fs-lg); font-weight: var(--fw-black); }
+  .lab p { margin: 0 0 var(--s-3); color: var(--c-muted); font-size: var(--fs-sm); }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-3); }
+  .card { display: flex; flex-direction: column; align-items: center; gap: var(--s-1); padding: var(--s-3) var(--s-2); background: var(--c-surface); border: var(--bw) solid var(--c-line); border-radius: var(--r-lg); }
+  .card b { font-size: var(--fs-sm); font-weight: var(--fw-xbold); }
+  .card small { color: var(--c-muted); font-size: var(--fs-xs); }
+  .bar { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-top: var(--s-4); }
+  .bar button { font: inherit; font-size: var(--fs-sm); font-weight: var(--fw-xbold); padding: var(--s-2) var(--s-3); min-height: var(--tap-min); color: var(--c-text); background: var(--c-surface); border: var(--bw) solid var(--c-line-shadow); border-radius: var(--r-md); cursor: pointer; }
+  .bar button:focus-visible { outline: var(--focus-ring-w) solid var(--c-focus); outline-offset: var(--focus-ring-offset); }
+  @media (max-width: 720px) { .both { grid-template-columns: 1fr; height: auto; } .both iframe { height: 640px; } .grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<script>
+  if (!P) {
+    document.body.innerHTML = '<div class="both"><iframe title="Світла тема" src="mascot.html?t=light"></iframe><iframe title="Темна тема" src="mascot.html?t=dark"></iframe></div>';
+  } else {
+    document.body.innerHTML =
+      '<main class="lab"><h1>Ікринка · ' + (P === 'dark' ? 'темна' : 'світла') + ' тема</h1>' +
+      '<p>8 емоцій. Тап по картці: моргання, помах, стрибок, кивок по черзі.</p>' +
+      '<div class="grid" id="g"></div>' +
+      '<div class="bar"><button data-s="correct">сигнал: correct</button><button data-s="wrong">wrong</button><button data-s="streak">streak</button><button data-s="lesson_complete">lesson_complete</button><button id="pl">peek ліворуч</button><button id="pr">peek праворуч</button></div></main>';
+  }
+</script>
+<script src="../../build/assets/duo/core.js"></script>
+<script src="../../build/assets/duo/mascot.js"></script>
+<script>
+  if (P) (function () {
+    var acts = ['blink', 'wave', 'jump', 'nod'], g = document.getElementById('g'), hs = [];
+    Duo.mascot.EMOTIONS.forEach(function (e) {
+      var c = document.createElement('button');
+      c.className = 'card'; c.type = 'button'; c.style.font = 'inherit'; c.style.color = 'inherit'; c.style.cursor = 'pointer';
+      c.innerHTML = '<b>' + e + '</b><small>' + (e === 'idle' ? 'реагує на сигнали' : 'тап: дія') + '</small>';
+      var slot = document.createElement('span'); c.insertBefore(slot, c.firstChild);
+      var h = Duo.mascot.mount(slot, { emotion: e, size: 96, idle: true, react: e === 'idle' }), i = 0;
+      c.onclick = function () { h.play(acts[i++ % acts.length]); };
+      g.appendChild(c); hs.push(h);
+    });
+    document.querySelectorAll('[data-s]').forEach(function (b) { b.onclick = function () { Duo.env.emit('signal', { name: b.getAttribute('data-s') }); }; });
+    document.getElementById('pl').onclick = function () { Duo.mascot.peek({ side: 'left', text: '5 поспіль!', emotion: 'excited', ms: 2600 }); };
+    document.getElementById('pr').onclick = function () { Duo.mascot.peek({ side: 'right', text: 'Так тримати!', emotion: 'happy', ms: 2600 }); };
+  })();
+</script>
+</body>
+</html>

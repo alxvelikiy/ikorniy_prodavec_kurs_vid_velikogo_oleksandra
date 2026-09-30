@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кнопки: default / pressed / disabled</title>
+<script>try{if(localStorage.getItem('ikorka-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../build/assets/duo/tokens.css">
+<link rel="stylesheet" href="../../build/assets/duo/core.css">
+<style>
+  body { padding: var(--s-4); max-width: 720px; margin: 0 auto; }
+  h2 { font-size: var(--fs-md); margin: var(--s-4) 0 var(--s-2); color: var(--c-muted); }
+  .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-3); padding-bottom: var(--s-2); align-items: start; }
+</style>
+</head>
+<body>
+<h2>default / pressed / disabled</h2>
+<div class="row">
+  <button class="d-btn d-btn--primary d-btn--md">Перевірити</button>
+  <button class="d-btn d-btn--primary d-btn--md is-pressed">Перевірити</button>
+  <button class="d-btn d-btn--primary d-btn--md" disabled>Перевірити</button>
+  <button class="d-btn d-btn--secondary d-btn--md">Зрозуміло</button>
+  <button class="d-btn d-btn--secondary d-btn--md is-pressed">Зрозуміло</button>
+  <button class="d-btn d-btn--secondary d-btn--md" disabled>Зрозуміло</button>
+  <button class="d-btn d-btn--success d-btn--md">Далі</button>
+  <button class="d-btn d-btn--success d-btn--md is-pressed">Далі</button>
+  <button class="d-btn d-btn--success d-btn--md" disabled>Далі</button>
+  <button class="d-btn d-btn--info d-btn--md">Обрати</button>
+  <button class="d-btn d-btn--info d-btn--md is-pressed">Обрати</button>
+  <button class="d-btn d-btn--info d-btn--md" disabled>Обрати</button>
+  <button class="d-btn d-btn--gold d-btn--md">Сундук</button>
+  <button class="d-btn d-btn--gold d-btn--md is-pressed">Сундук</button>
+  <button class="d-btn d-btn--gold d-btn--md" disabled>Сундук</button>
+  <button class="d-btn d-btn--danger d-btn--md">Скинути</button>
+  <button class="d-btn d-btn--danger d-btn--md is-pressed">Скинути</button>
+  <button class="d-btn d-btn--danger d-btn--md" disabled>Скинути</button>
+</div>
+<h2>Шпаргалка (sm) / lg / block</h2>
+<div class="row">
+  <button class="d-btn d-btn--secondary d-btn--sm">Шпаргалка</button>
+  <button class="d-btn d-btn--primary d-btn--lg">Продовжити</button>
+  <button class="d-btn d-btn--ghost d-btn--md">Пізніше</button>
+</div>
+<button class="d-btn d-btn--primary d-btn--lg d-btn--block">На всю ширину</button>
+<h2>Фокус (Tab)</h2>
+<div class="row"><button class="d-btn d-btn--primary d-btn--md" id="f">Фокус</button></div>
+</body>
+</html>

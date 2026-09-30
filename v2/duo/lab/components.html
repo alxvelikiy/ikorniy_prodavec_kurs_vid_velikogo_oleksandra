@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ikorka Duo · Design System Lab</title>
+<script>try{if(localStorage.getItem('ikorka-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../build/assets/duo/tokens.css">
+<link rel="stylesheet" href="../../build/assets/duo/core.css">
+<style>
+  /* Стилі самого стенду (не частина дизайн-системи) */
+  .lab-topbar {
+    position: sticky; top: 0; z-index: var(--z-nav);
+    display: flex; align-items: center; gap: var(--s-3);
+    padding: var(--s-3) var(--s-4);
+    background: var(--c-surface); border-bottom: 1px solid var(--c-line);
+  }
+  .lab-mark {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: var(--r-md);
+    background: var(--c-brand); color: #fff; flex: none;
+  }
+  .lab-title { font-weight: var(--fw-xbold); font-size: var(--fs-md); margin-right: auto; }
+  .lab-title small { display: block; font-weight: var(--fw-bold); color: var(--c-muted); font-size: var(--fs-xs); }
+
+  .lab-main { max-width: 980px; margin: 0 auto; padding: var(--s-6) var(--s-4) var(--s-9); }
+  .lab-section { margin-bottom: var(--s-9); }
+  .lab-section__head { display: flex; align-items: baseline; gap: var(--s-3); margin-bottom: var(--s-4); }
+  .lab-section__head h2 { margin: 0; }
+  .lab-section__head span { color: var(--c-muted); font-size: var(--fs-sm); }
+  .lab-row { display: flex; flex-wrap: wrap; gap: var(--s-3); align-items: center; }
+  .lab-col { display: flex; flex-direction: column; gap: var(--s-3); }
+  .lab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--s-4); }
+  .lab-swatch { border-radius: var(--r-md); overflow: hidden; border: 1px solid var(--c-line); }
+  .lab-swatch__fill { height: 56px; }
+  .lab-swatch__label { padding: var(--s-2) var(--s-3); background: var(--c-surface); font-size: var(--fs-xs); font-weight: var(--fw-bold); }
+  .lab-swatch__label code { color: var(--c-muted); display: block; }
+  .lab-icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: var(--s-3); }
+  .lab-icon-cell {
+    display: flex; flex-direction: column; align-items: center; gap: var(--s-2);
+    padding: var(--s-4) var(--s-2); background: var(--c-surface); border: 1px solid var(--c-line);
+    border-radius: var(--r-md); color: var(--c-text);
+  }
+  .lab-icon-cell span { font-size: var(--fs-xs); color: var(--c-muted); text-align: center; }
+  .lab-mockbar {
+    display: flex; align-items: center; gap: var(--s-3);
+    padding: var(--s-4); background: var(--c-surface); border-radius: var(--r-lg);
+    border: 1px solid var(--c-line); box-shadow: var(--shadow-sm);
+  }
+  .lab-mockbar .d-progress__track { flex: 1; }
+  .lab-path-row { display: flex; gap: var(--s-4); flex-wrap: wrap; }
+  .lab-path-node {
+    display: flex; align-items: center; justify-content: center;
+    width: 64px; height: 64px; border-radius: 50%; color: #fff; flex: none;
+    border: var(--bw) solid rgba(0,0,0,.15);
+  }
+  .lab-stack-demo { display: flex; align-items: flex-end; gap: var(--s-2); }
+  .lab-ring-wrap { display: flex; align-items: center; gap: var(--s-5); }
+  .lab-ring-num { position: relative; width: 96px; height: 96px; }
+  .lab-ring-num span {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: var(--fs-lg); font-weight: var(--fw-black);
+  }
+  .lab-sentence { display: flex; flex-wrap: wrap; gap: var(--s-2); padding: var(--s-4); background: var(--c-surface-2); border-radius: var(--r-lg); }
+  .lab-bank { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-top: var(--s-3); }
+  .lab-note { font-size: var(--fs-sm); color: var(--c-muted); margin-top: var(--s-2); }
+</style>
+</head>
+<body class="duo">
+<a class="skip-link" href="#main-content">Перейти до змісту</a>
+
+<header class="lab-topbar">
+  <div class="lab-mark" id="labMarkIcon"></div>
+  <div class="lab-title">Ikorka Duo <small>Design System Lab — світла/темна тема, усі стани</small></div>
+  <button type="button" class="d-btn d-btn--secondary d-btn--sm" id="themeToggle">
+    <span class="d-btn__icon" id="themeToggleIcon"></span>
+    <span class="d-btn__label">Тема</span>
+  </button>
+</header>
+
+<main id="main-content" class="lab-main">
+
+  <section class="lab-section">
+    <div class="lab-section__head"><h2>Композиція: шапка уроку</h2><span>прогрес, серця, streak — не ізольовані свотчі, а реальна комбінація</span></div>
+    <div class="lab-mockbar">
+      <button type="button" class="d-btn d-btn--ghost d-btn--sm" aria-label="Назад" id="mockBackBtn"></button>
+      <div class="d-progress" style="flex:1"><div class="d-progress__track"><div class="d-progress__fill" style="transform:scaleX(.62)"><span class="d-progress__shine"></span></div></div></div>
+      <span class="d-badge d-badge--danger" id="heartsBadge"></span>
+      <span class="d-badge d-badge--streak" id="streakBadge"></span>
+    </div>
+  </section>
+
+  <section class="lab-section">
+    <div class="lab-section__head"><h2>Кольори</h2><span>токени tokens.css, поточна тема</span></div>
+    <div class="lab-grid" id="colorGrid"></div>
+  </section>
+
+  <section class="lab-section">
+    <div class="lab-section__head"><h2>Кнопки .d-btn</h2><span>варіанти × розміри × стани</span></div>
+    <div class="lab-col">
+      <div class="lab-row">
+        <button class="d-btn d-btn--primary d-btn--lg">Продовжити</button>
+        <button class="d-btn d-btn--secondary d-btn--lg">Пропустити</button>
+        <button class="d-btn d-btn--success d-btn--lg">Перевірити</button>
+        <button class="d-btn d-btn--danger d-btn--lg">Скинути серце</button>
+        <button class="d-btn d-btn--info d-btn--lg">Обрати</button>
+        <button class="d-btn d-btn--ghost d-btn--lg">Пізніше</button>
+      </div>
+      <div class="lab-row">
+        <button class="d-btn d-btn--primary d-btn--md">Середня</button>
+        <button class="d-btn d-btn--primary d-btn--sm">Мала</button>
+        <button class="d-btn d-btn--primary d-btn--lg is-loading">Завантаження</button>
+        <button class="d-btn d-btn--primary d-btn--lg" disabled>Недоступно</button>
+      </div>
+      <div class="lab-row" id="iconBtnRow"></div>
+      <button class="d-btn d-btn--primary d-btn--lg d-btn--block">На всю ширину</button>
+    </div>
+  </section>
+
+  <section class="lab-section">
+    <div class="lab-section__head"><h2>Варіанти відповіді .d-option</h2><span>default / selected / correct / wrong / disabled + підказка клавіші</span></div>
+    <p class="lab-note">Оберіть правильний переклад слова «сет».</p>
+    <div class="lab-col">
+      <button type="button" class="d-option"><span class="d-option__key">1</span><span>A product bundle</span></button>
+      <button type="button" class="d-option is-selected"><span class="d-option__key">2</span><span>A single item</span></button>
+      <button type="button" class="d-option is-correct"><span class="d-option__key">3</span><span>Набір товару</span></button>
+      <button type="button" class="d-option is-wrong"><span class="d-option__key">4</span><span>Знижка</span></button>
+      <button type="button" class="d-option is-disabled" disabled><span class="d-option__key">5</span><span>Недоступний варіант</span></button>
+    </div>
+  </section>
+
+  <section class="lab-section">
+    <div class="lab-section__head"><h2>Word bank .d-tile</h2><span>складання речення + банк плиток</span></div>
+    <div class="lab-sentence" id="sentenceRow"></div>
+    <div class="lab-bank" id="bankRow"></div>
+  </section>
+
+  <section class="lab-section">
+    <div class="lab-section__head"><h2>Шлях: юніти дня .d-unit</h2><span>--c-unit-1…5, кожен із власною тінню</span></div>
+    <div class="lab-path-row" id="pathRow"></div>
+  </section>
+
+  <section class="lab-section">
+    <div class="lab-section__head"><h2>Картки, бейджі, чіпи</h2></div>
+    <div class="lab-row" style="align-items:stretch">
+      <div class="d-card" style="max-width:280px">
+        <h3>Урок 5 · Заклик до дії</h3>
+        <p class="lab-note">Коротка вправа на 12 кроків.</p>
+        <div class="lab-row">
+          <span class="d-badge"><span class="d-icon" id="badgeBrandIcon"></span>Бренд</span>
+          <span class="d-badge d-badge--success"><span class="d-icon" id="badgeSuccessIcon"></span>Успіх</span>
+          <span class="d-badge d-badge--danger">Помилка</span>
+          <span class="d-badge d-badge--info">Інфо</span>
+          <span class="d-badge d-badge--streak">Streak</span>
+          <span class="d-badge d-badge--xp">XP</span>
+        </div>
+      </div>
+      <div class="lab-col">
+        <div class="d-segmented" id="goalSegmented"></div>
+        <div class="lab-row">
+          <button type="button" class="d-chip is-selected">998</button>
+          <button type="button" class="d-chip">1149</button>
+          <button type="button" class="d-chip">1549</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lab-section">
+    <div class="lab-section__head"><h2>Прогрес і кільце</h2></div>
+    <div class="lab-col" style="max-width:420px">
+      <div class="d-progress"><div class="d-progress__track"><div class="d-progress__fill" style="transform:scaleX(.4)"><span class="d-progress__shine"></span></div></div></div>
+      <div class="d-progress is-combo"><div class="d-progress__track"><div class="d-progress__fill" style="transform:scaleX(.8)"><span class="d-progress__shine"></span></div></div></div>
+    </div>
+    <div class="lab-ring-wrap">
+      <div class="lab-ring-num">
+        <svg viewBox="0 0 96 96" width="96" height="96">
+          <circle class="d-ring__track" cx="48" cy="48" r="40" stroke-width="10"></circle>
+          <circle class="d-ring__fill" cx="48" cy="48" r="40" stroke-width="10"
+            stroke-dasharray="251.2" stroke-dashoffset="70" transform="rotate(-90 48 48)"></circle>
+        </svg>
+        <span>72%</span>
+      </div>
+      <p class="lab-note">Денна ціль XP — <code>.d-ring__track</code> / <code>.d-ring__fill</code>, дошкрутка через <code>stroke-dashoffset</code>.</p>
+    </div>
+  </section>
+
+  <section class="lab-section">
+    <div class="lab-section__head"><h2>Підсумок уроку .d-stat</h2></div>
+    <div class="lab-row">
+      <div class="d-card d-stat d-stat--xp"><div class="d-stat__label">XP</div><div class="d-stat__value">24</div></div>
+      <div class="d-card d-stat d-stat--streak"><div class="d-stat__label">Streak</div><div class="d-stat__value">12</div></div>
+      <div class="d-card d-stat d-stat--success"><div class="d-stat__label">Точність</div><div class="d-stat__value">92%</div></div>
+    </div>
+  </section>
+
+  <section class="lab-section">
+    <div class="lab-section__head"><h2>Маскот і репліка .d-speech</h2></div>
+    <div class="lab-row" style="align-items:flex-end">
+      <div style="width:64px;height:64px;border-radius:50%;background:var(--c-mascot);flex:none"></div>
+      <div class="d-speech">Ще трохи — і рекорд буде побито!</div>
+    </div>
+  </section>
+
+  <section class="lab-section">
+    <div class="lab-section__head"><h2>Перемикачі та скелетон</h2></div>
+    <div class="lab-row">
+      <label class="d-switch"><input type="checkbox" checked><span class="d-switch__track"><span class="d-switch__thumb"></span></span>Звук</label>
+      <label class="d-switch"><input type="checkbox"><span class="d-switch__track"><span class="d-switch__thumb"></span></span>Вібрація</label>
+    </div>
+    <div class="lab-row" style="margin-top:var(--s-4)">
+      <div class="d-skeleton" style="width:64px;height:64px;border-radius:50%"></div>
+      <div class="lab-col" style="flex:1;min-width:200px">
+        <div class="d-skeleton" style="height:16px;width:70%"></div>
+        <div class="d-skeleton" style="height:16px;width:40%"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lab-section">
+    <div class="lab-section__head"><h2>Sheet / Modal / Toast</h2><span>Duo.ui — focus-trap, Esc, повернення фокуса</span></div>
+    <div class="lab-row">
+      <button class="d-btn d-btn--secondary d-btn--md" id="btnSheetNeutral">Sheet: нейтральний</button>
+      <button class="d-btn d-btn--success d-btn--md" id="btnSheetSuccess">Sheet: успіх</button>
+      <button class="d-btn d-btn--danger d-btn--md" id="btnSheetError">Sheet: помилка</button>
+      <button class="d-btn d-btn--secondary d-btn--md" id="btnModal">Modal</button>
+      <button class="d-btn d-btn--secondary d-btn--md" id="btnToastSuccess">Toast: успіх</button>
+      <button class="d-btn d-btn--secondary d-btn--md" id="btnToastError">Toast: помилка</button>
+    </div>
+  </section>
+
+  <section class="lab-section">
+    <div class="lab-section__head"><h2>Іконки Duo.icon()</h2><span id="iconCount"></span></div>
+    <div class="lab-icon-grid" id="iconGrid"></div>
+  </section>
+
+</main>
+
+<script src="../../build/assets/duo/core.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  'use strict';
+
+  /* ---- тема ---- */
+  var root = document.documentElement;
+  function isDark() { return root.getAttribute('data-theme') === 'dark'; }
+  function syncThemeIcon() {
+    document.getElementById('themeToggleIcon').innerHTML = Duo.icon(isDark() ? 'sun' : 'moon', { size: 16 });
+  }
+  document.getElementById('themeToggle').addEventListener('click', function () {
+    var next = isDark() ? 'light' : 'dark';
+    if (next === 'dark') root.setAttribute('data-theme', 'dark'); else root.removeAttribute('data-theme');
+    try { localStorage.setItem('ikorka-theme', next); } catch (e) {}
+    syncThemeIcon();
+    renderColorGrid();
+  });
+  syncThemeIcon();
+
+  document.getElementById('labMarkIcon').innerHTML = Duo.icon('bolt', { size: 20 });
+  document.getElementById('mockBackBtn').innerHTML = Duo.icon('arrow-left', { size: 20 });
+  document.getElementById('heartsBadge').innerHTML = Duo.icon('heart', { size: 14 }) + ' 5';
+  document.getElementById('streakBadge').innerHTML = Duo.icon('flame', { size: 14 }) + ' 12';
+  document.getElementById('badgeBrandIcon').innerHTML = Duo.icon('star', { size: 14 });
+  document.getElementById('badgeSuccessIcon').innerHTML = Duo.icon('check', { size: 14 });
+
+  /* ---- кнопки з іконками через Duo.ui.button ---- */
+  var iconRow = document.getElementById('iconBtnRow');
+  [['check', 'Перевірити', 'success'], ['arrow-right', 'Далі', 'primary'], ['volume', 'Звук', 'secondary']].forEach(function (d) {
+    iconRow.appendChild(Duo.ui.button(d[1], { icon: d[0], kind: d[2], size: 'md' }));
+  });
+
+  /* ---- кольорові свотчі (перебудовуються при зміні теми) ---- */
+  var SWATCHES = [
+    ['--c-brand', 'Brand'], ['--c-brand-shadow', 'Brand shadow'],
+    ['--c-success', 'Success'], ['--c-error', 'Error'], ['--c-info', 'Info'],
+    ['--c-streak', 'Streak'], ['--c-xp', 'XP'],
+    ['--c-unit-1', 'Unit 1'], ['--c-unit-2', 'Unit 2'], ['--c-unit-3', 'Unit 3'], ['--c-unit-4', 'Unit 4'], ['--c-unit-5', 'Unit 5'],
+    ['--c-bg', 'BG'], ['--c-surface', 'Surface'], ['--c-surface-2', 'Surface 2'],
+    ['--c-text', 'Text'], ['--c-muted', 'Muted'], ['--c-line-shadow', 'Line shadow']
+  ];
+  function renderColorGrid() {
+    var grid = document.getElementById('colorGrid');
+    var cs = getComputedStyle(root);
+    grid.innerHTML = SWATCHES.map(function (s) {
+      var val = cs.getPropertyValue(s[0]).trim();
+      return '<div class="lab-swatch"><div class="lab-swatch__fill" style="background:var(' + s[0] + ')"></div>' +
+        '<div class="lab-swatch__label">' + s[1] + '<code>' + val + '</code></div></div>';
+    }).join('');
+  }
+  renderColorGrid();
+
+  /* ---- word bank демо ---- */
+  var WORDS = ['Доброго', 'дня,', 'мене', 'звати', 'Олена'];
+  var sentence = document.getElementById('sentenceRow');
+  var bank = document.getElementById('bankRow');
+  function renderBank() {
+    sentence.innerHTML = '<div class="d-tile--ghost d-tile">заповніть</div>';
+    bank.innerHTML = '';
+    WORDS.forEach(function (w) {
+      var t = document.createElement('button');
+      t.type = 'button'; t.className = 'd-tile'; t.textContent = w;
+      t.addEventListener('click', function () { t.classList.toggle('is-used'); });
+      bank.appendChild(t);
+    });
+  }
+  renderBank();
+
+  /* ---- юніти шляху ---- */
+  var pathRow = document.getElementById('pathRow');
+  for (var i = 1; i <= 5; i++) {
+    var node = document.createElement('div');
+    node.className = 'lab-path-node';
+    node.style.background = 'var(--c-unit-' + i + ')';
+    node.style.boxShadow = '0 var(--lip) 0 0 var(--c-unit-' + i + '-shadow)';
+    node.innerHTML = Duo.icon(i < 4 ? 'check' : (i === 4 ? 'star' : 'lock'), { size: 24 });
+    pathRow.appendChild(node);
+  }
+
+  /* ---- сегментований контроль ---- */
+  var seg = document.getElementById('goalSegmented');
+  ['Легко', 'Стандарт', 'Інтенсив'].forEach(function (label, i) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'd-segmented__item' + (i === 1 ? ' is-selected' : '');
+    b.textContent = label;
+    b.addEventListener('click', function () {
+      Array.prototype.forEach.call(seg.children, function (c) { c.classList.remove('is-selected'); });
+      b.classList.add('is-selected');
+    });
+    seg.appendChild(b);
+  });
+
+  /* ---- sheet / modal / toast ---- */
+  document.getElementById('btnSheetNeutral').addEventListener('click', function () {
+    Duo.ui.sheet({ html: '<h3>Щоденна ціль</h3><p>Оберіть, скільки XP хочете набирати щодня.</p>', actions: [{ label: 'Готово', kind: 'primary' }] });
+  });
+  document.getElementById('btnSheetSuccess').addEventListener('click', function () {
+    Duo.ui.sheet({ tone: 'success', html: '<h3>Урок завершено</h3><p>Точність 92%, +24 XP.</p>', actions: [{ label: 'Далі', kind: 'success' }] });
+  });
+  document.getElementById('btnSheetError').addEventListener('click', function () {
+    Duo.ui.sheet({ tone: 'error', html: '<h3>Серця закінчились</h3><p>Почекайте або повторіть помилки.</p>', actions: [{ label: 'Повторити помилки', kind: 'danger' }, { label: 'Закрити', kind: 'ghost' }] });
+  });
+  document.getElementById('btnModal').addEventListener('click', function () {
+    Duo.ui.modal({ html: '<h3>Вийти з уроку?</h3><p>Прогрес цього уроку не збережеться.</p>', actions: [{ label: 'Вийти', kind: 'danger' }, { label: 'Залишитись', kind: 'secondary' }] });
+  });
+  document.getElementById('btnToastSuccess').addEventListener('click', function () {
+    Duo.ui.toast('Збережено', { tone: 'success' });
+  });
+  document.getElementById('btnToastError').addEventListener('click', function () {
+    Duo.ui.toast('Немає з’єднання', { tone: 'error' });
+  });
+
+  /* ---- галерея іконок ---- */
+  var ICON_NAMES = ['heart', 'heart-broken', 'flame', 'bolt', 'check', 'close', 'arrow-left', 'arrow-right',
+    'chevron-down', 'volume', 'volume-off', 'vibrate', 'gear', 'trophy', 'medal', 'chest', 'target', 'book',
+    'headset', 'path', 'dumbbell', 'list', 'user', 'lock', 'star', 'keyboard', 'crown', 'clock', 'refresh',
+    'moon', 'sun', 'phone'];
+  document.getElementById('iconCount').textContent = ICON_NAMES.length + ' іконок, товщина лінії 2px';
+  document.getElementById('iconGrid').innerHTML = ICON_NAMES.map(function (name) {
+    return '<div class="lab-icon-cell">' + Duo.icon(name, { size: 24 }) + '<span>' + name + '</span></div>';
+  }).join('');
+});
+</script>
+</body>
+</html>
