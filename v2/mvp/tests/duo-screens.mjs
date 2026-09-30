@@ -36,7 +36,8 @@ async function launch(engine) {
   }
 }
 
-const srv = await startServer({ port: 7300 + Math.floor(Math.random() * 400) });
+// SITE_OUT (напр. сайт до редизайну, розпакований з коміту) — роздаємо статично саме його
+const srv = await startServer({ port: 7300 + Math.floor(Math.random() * 400), env: process.env.SITE_OUT ? { STATIC_ONLY: '1' } : {} });
 const made = [];
 try {
   for (const size of SIZES) {
