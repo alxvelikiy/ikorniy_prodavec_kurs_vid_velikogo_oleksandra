@@ -1,0 +1,83 @@
+<title>Профіль · Ikorka Shop</title>
+<meta name="description" content="Статистика, досягнення, календар і налаштування.">
+
+<meta name="theme-color" content="#ffffff">
+<link rel="preload" href="assets/duo/fonts/nunito-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<script>try{if(localStorage.getItem('ikorka-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<link rel="icon" type="image/png" href="assets/ikorka-logo.png">
+<link rel="stylesheet" href="assets/duo/tokens.css">
+<link rel="stylesheet" href="assets/duo/core.css">
+<link rel="stylesheet" href="assets/duo/mascot.css">
+<link rel="stylesheet" href="assets/duo/home.css">
+<link rel="stylesheet" href="assets/duo/meta.css">
+<a class="skip-link" href="#main-content">Перейти до змісту</a>
+<header class="duo-top">
+<div class="duo-top__in">
+<a class="duo-top__brand" href="index.html"><img src="assets/ikorka-logo.png" width="28" height="28" alt=""><span class="duo-top__name">Ikorka</span><span class="sr-only"> Shop — на головну</span></a>
+<ul class="duo-stats" id="duo-stats" aria-label="Твоя статистика">
+<li class="duo-stat duo-stat--streak" data-stat="streak"><svg class="d-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21a6.5 6.5 0 0 1-6.5-6.5c0-3 2-5 2.8-7.6.6 1.7 1.8 2.6 1.8 2.6-.7-3 .8-5.5 2.9-7.5-.2 3 .9 4.3 2.7 6.3 1.7 1.9 2.8 3.8 2.8 6.2A6.5 6.5 0 0 1 12 21z"/></svg><span class="duo-stat__v" aria-hidden="true"><b>0</b> дн.</span><span class="sr-only">Серія: 0 днів</span></li>
+<li class="duo-stat duo-stat--hearts" data-stat="hearts"><svg class="d-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20.5c-4.4-2.9-8-6.4-8-10.2A4.3 4.3 0 0 1 8.3 6c1.6 0 3 .8 3.7 2 .7-1.2 2.1-2 3.7-2A4.3 4.3 0 0 1 20 10.3c0 3.8-3.6 7.3-8 10.2z"/></svg><span class="duo-stat__v" aria-hidden="true"><b>5</b></span><span class="sr-only">Серця: 5 з 5</span></li>
+<li class="duo-stat duo-stat--xp" data-stat="xp"><svg class="d-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg><span class="duo-stat__v" aria-hidden="true"><b>0</b> з 20 XP</span><span class="duo-stat__bar" aria-hidden="true"><i></i></span><span class="sr-only">Сьогодні 0 XP з цілі 20 XP</span></li>
+</ul>
+</div>
+</header>
+<nav class="duo-nav" aria-label="Розділи">
+<div class="duo-nav__in"><a class="duo-tab" href="index.html"><svg class="d-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 19c4-7 12 3 16-4"/><circle cx="4" cy="19" r="1.6" fill="currentColor" stroke="none"/><circle cx="20" cy="15" r="1.6" fill="currentColor" stroke="none"/></svg><span class="duo-tab__label">Навчання</span></a><a class="duo-tab" href="praktyka.html"><svg class="d-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="7" y1="7" x2="7" y2="17"/><line x1="17" y1="7" x2="17" y2="17"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="4" y1="9" x2="4" y2="15"/><line x1="20" y1="9" x2="20" y2="15"/></svg><span class="duo-tab__label">Практика</span></a><a class="duo-tab" href="zavdannia.html"><svg class="d-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="2"/></svg><span class="duo-tab__label">Завдання</span></a><a class="duo-tab is-active" href="profil.html" aria-current="page"><svg class="d-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><span class="duo-tab__label">Профіль</span></a></div>
+</nav>
+
+<main id="main-content" tabindex="-1" class="duo-main">
+<div id="duo-profile" class="duo-meta">
+<h1 class="mt-h1">Профіль</h1>
+
+<section aria-labelledby="pf-stat-h">
+<h2 class="mt-h2" id="pf-stat-h">Статистика</h2>
+<ul class="mt-kpis" id="pf-stats"></ul>
+</section>
+
+<section class="d-card mt-card" aria-labelledby="pf-cal-h">
+<h2 class="mt-h2" id="pf-cal-h">Календар серії</h2>
+<div id="pf-cal"></div>
+</section>
+
+<section aria-labelledby="pf-ach-h">
+<h2 class="mt-h2" id="pf-ach-h">Досягнення</h2>
+<ul class="mt-achs" id="pf-achs"></ul>
+</section>
+
+<section class="d-card mt-card" aria-labelledby="pf-set-h">
+<h2 class="mt-h2" id="pf-set-h">Налаштування</h2>
+<div class="mt-field">
+<label class="mt-label" for="pf-goal">Ціль дня</label>
+<select class="mt-select" id="pf-goal" aria-describedby="pf-goal-hint">
+<option value="10">10 XP на день, легко</option>
+<option value="20" selected>20 XP на день, звично</option>
+<option value="30">30 XP на день, серйозно</option>
+<option value="50">50 XP на день, інтенсив</option>
+</select>
+<p class="mt-hint" id="pf-goal-hint">Скільки XP на день зараховується до цілі.</p>
+</div>
+<div class="mt-field" id="pf-signals"></div>
+<div class="mt-field">
+<span class="mt-label" id="pf-theme-l">Тема</span>
+<div class="d-segmented" role="group" aria-labelledby="pf-theme-l" id="pf-theme">
+<button type="button" class="d-segmented__item" data-theme-set="light" aria-pressed="true">Світла</button>
+<button type="button" class="d-segmented__item" data-theme-set="dark" aria-pressed="false">Темна</button>
+</div>
+</div>
+</section>
+<noscript><p class="mt-text">Статистика й налаштування працюють, коли в браузері ввімкнений JavaScript.</p></noscript>
+</div>
+</main>
+
+<script src="data/duo-course.js" defer></script>
+<script src="assets/duo/core.js" defer></script>
+<script src="assets/duo/motion.js" defer></script>
+<script src="assets/duo/sfx.js" defer></script>
+<script src="assets/duo/signals.js" defer></script>
+<script src="assets/duo/progress-core.js" defer></script>
+<script src="assets/duo/progress.js" defer></script>
+<script src="assets/duo/mascot.js" defer></script>
+<script src="assets/duo/celebrate.js" defer></script>
+<script src="assets/duo/shell.js" defer></script>
+<script src="assets/duo/meta.js" defer></script>
+<script>try{if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))navigator.serviceWorker.register('sw.js').catch(function(){})}catch(e){}</script>

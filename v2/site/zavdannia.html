@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="uk" data-sw="1" data-duo="zavdannia">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Завдання · Ikorka Shop</title>
+<meta name="description" content="Щоденні завдання і скриня з XP.">
+
+<meta name="theme-color" content="#ffffff">
+<link rel="preload" href="assets/duo/fonts/nunito-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<script>try{if(localStorage.getItem('ikorka-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<link rel="icon" type="image/png" href="assets/ikorka-logo.png">
+<link rel="stylesheet" href="assets/duo/tokens.css">
+<link rel="stylesheet" href="assets/duo/core.css">
+<link rel="stylesheet" href="assets/duo/mascot.css">
+<link rel="stylesheet" href="assets/duo/home.css">
+<link rel="stylesheet" href="assets/duo/meta.css">
+</head>
+<body class="duo duo-page--zavdannia duo-has-nav">
+<a class="skip-link" href="#main-content">Перейти до змісту</a>
+<header class="duo-top">
+<div class="duo-top__in">
+<a class="duo-top__brand" href="index.html"><img src="assets/ikorka-logo.png" width="28" height="28" alt=""><span class="duo-top__name">Ikorka</span><span class="sr-only"> Shop — на головну</span></a>
+<ul class="duo-stats" id="duo-stats" aria-label="Твоя статистика">
+<li class="duo-stat duo-stat--streak" data-stat="streak"><svg class="d-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21a6.5 6.5 0 0 1-6.5-6.5c0-3 2-5 2.8-7.6.6 1.7 1.8 2.6 1.8 2.6-.7-3 .8-5.5 2.9-7.5-.2 3 .9 4.3 2.7 6.3 1.7 1.9 2.8 3.8 2.8 6.2A6.5 6.5 0 0 1 12 21z"/></svg><span class="duo-stat__v" aria-hidden="true"><b>0</b> дн.</span><span class="sr-only">Серія: 0 днів</span></li>
+<li class="duo-stat duo-stat--hearts" data-stat="hearts"><svg class="d-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20.5c-4.4-2.9-8-6.4-8-10.2A4.3 4.3 0 0 1 8.3 6c1.6 0 3 .8 3.7 2 .7-1.2 2.1-2 3.7-2A4.3 4.3 0 0 1 20 10.3c0 3.8-3.6 7.3-8 10.2z"/></svg><span class="duo-stat__v" aria-hidden="true"><b>5</b></span><span class="sr-only">Серця: 5 з 5</span></li>
+<li class="duo-stat duo-stat--xp" data-stat="xp"><svg class="d-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg><span class="duo-stat__v" aria-hidden="true"><b>0</b> з 20 XP</span><span class="duo-stat__bar" aria-hidden="true"><i></i></span><span class="sr-only">Сьогодні 0 XP з цілі 20 XP</span></li>
+</ul>
+</div>
+</header>
+<nav class="duo-nav" aria-label="Розділи">
+<div class="duo-nav__in"><a class="duo-tab" href="index.html"><svg class="d-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 19c4-7 12 3 16-4"/><circle cx="4" cy="19" r="1.6" fill="currentColor" stroke="none"/><circle cx="20" cy="15" r="1.6" fill="currentColor" stroke="none"/></svg><span class="duo-tab__label">Навчання</span></a><a class="duo-tab" href="praktyka.html"><svg class="d-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="7" y1="7" x2="7" y2="17"/><line x1="17" y1="7" x2="17" y2="17"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="4" y1="9" x2="4" y2="15"/><line x1="20" y1="9" x2="20" y2="15"/></svg><span class="duo-tab__label">Практика</span></a><a class="duo-tab is-active" href="zavdannia.html" aria-current="page"><svg class="d-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="2"/></svg><span class="duo-tab__label">Завдання</span></a><a class="duo-tab" href="profil.html"><svg class="d-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><span class="duo-tab__label">Профіль</span></a></div>
+</nav>
+
+<main id="main-content" tabindex="-1" class="duo-main">
+<div id="duo-quests" class="duo-meta">
+<h1 class="mt-h1">Завдання</h1>
+<p class="mt-lead">Нові завдання з'являються щодня. Виконай усі три й відкрий скриню.</p>
+
+<section class="d-card mt-card" aria-labelledby="qz-goal-h">
+<h2 class="mt-h2" id="qz-goal-h">Ціль дня</h2>
+<div id="qz-goal"><p class="mt-text">Завантажуємо…</p></div>
+</section>
+
+<section aria-labelledby="qz-list-h">
+<h2 class="mt-h2" id="qz-list-h">Завдання на сьогодні</h2>
+<ul class="mt-quests" id="qz-list"></ul>
+</section>
+
+<section class="d-card mt-card mt-chest" aria-labelledby="qz-chest-h">
+<div class="mt-mascot" aria-hidden="true"><svg class="dm dm--happy" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="72" height="72" aria-hidden="true" focusable="false"><ellipse class="dm-gnd" cx="60" cy="109" rx="30" ry="5"/><g class="dm-all"><g class="dm-arm dm-arm-l"><g transform="translate(19 76) rotate(16)"><ellipse class="dm-limb" rx="7.5" ry="12"/></g></g><g class="dm-arm dm-arm-r"><g transform="translate(101 76) rotate(-16)"><ellipse class="dm-limb" rx="7.5" ry="12"/></g></g><circle class="dm-body" cx="60" cy="64" r="42"/><path class="dm-shade" d="M21.3 74A40 40 0 0 0 98.7 74A40 20 0 0 1 21.3 74Z"/><ellipse class="dm-hi" cx="42" cy="40" rx="10" ry="5.5" transform="rotate(-35 42 40)"/><g class="dm-eyes"><path class="dm-line" d="M38 65Q46 54 54 65"/><path class="dm-line" d="M66 65Q74 54 82 65"/></g><path class="dm-mouth" d="M47 77Q60 96 73 77Z"/><ellipse class="dm-cheek" cx="33" cy="76" rx="6" ry="4"/><ellipse class="dm-cheek" cx="87" cy="76" rx="6" ry="4"/></g></svg></div>
+<div class="mt-hero__body">
+<h2 class="mt-h2" id="qz-chest-h">Скриня завдань</h2>
+<div id="qz-chest"></div>
+</div>
+</section>
+<div class="sr-only" id="qz-live" role="status" aria-live="polite"></div>
+<noscript><p class="mt-text">Завдання працюють, коли в браузері ввімкнений JavaScript.</p></noscript>
+</div>
+</main>
+
+<script src="data/duo-course.js" defer></script>
+<script src="assets/duo/core.js" defer></script>
+<script src="assets/duo/motion.js" defer></script>
+<script src="assets/duo/sfx.js" defer></script>
+<script src="assets/duo/signals.js" defer></script>
+<script src="assets/duo/progress-core.js" defer></script>
+<script src="assets/duo/progress.js" defer></script>
+<script src="assets/duo/mascot.js" defer></script>
+<script src="assets/duo/celebrate.js" defer></script>
+<script src="assets/duo/shell.js" defer></script>
+<script src="assets/duo/meta.js" defer></script>
+<script>try{if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))navigator.serviceWorker.register('sw.js').catch(function(){})}catch(e){}</script>
+</body>
+</html>

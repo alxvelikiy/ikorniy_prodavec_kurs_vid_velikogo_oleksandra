@@ -1,0 +1,267 @@
+/* ==========================================================================
+   Ikorka Duo — design tokens
+   Власник: design-system-engineer. Контракт: docs/design/ARCHITECTURE.md §5.
+   Світла тема — :root. Темна — :root[data-theme="dark"] (атрибут на <html>).
+   Ніяких магічних чисел у компонентах — лише var(--…) з цього файлу.
+   Контраст усіх пар текст/фон перевіряє v2/duo/lab/ds-contrast.mjs,
+   таблиця результатів — docs/design/DESIGN_SYSTEM.md.
+   ========================================================================== */
+
+/* ---- Шрифт: Nunito, self-host (v2/build/assets/duo/fonts/) --------------- */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 200 1000;
+  font-display: swap;
+  src: url('fonts/nunito-cyrillic.woff2') format('woff2-variations'), url('fonts/nunito-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-052F, U+1C80-1C88, U+2000-206F, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 200 1000;
+  font-display: swap;
+  src: url('fonts/nunito-latin.woff2') format('woff2-variations'), url('fonts/nunito-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light;
+
+  /* ---- Типографіка ---- */
+  --font-ui: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fs-xs: 12px;
+  --fs-sm: 14px;
+  --fs-md: 16px;
+  --fs-lg: 19px;
+  --fs-xl: 24px;
+  --fs-2xl: 32px;
+  --fs-display: 40px; /* тільки для екранів-святкувань */
+  --fw-bold: 700;
+  --fw-xbold: 800;
+  --fw-black: 900;
+  --lh-tight: 1.15;
+  --lh-snug: 1.3;
+  --lh-normal: 1.5;
+  --tracking-caps: 0.06em; /* трекінг для UPPERCASE кнопок */
+
+  /* ---- Відступи (шкала 4/8) ---- */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 40px;
+  --s-8: 48px;
+  --s-9: 64px;
+
+  /* ---- Радіуси ---- */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 24px;
+  --r-pill: 999px;
+
+  /* ---- 3D-товщини ---- */
+  --bw: 2px;   /* рамка */
+  --lip: 4px;  /* нижня "губа" (картки-варіанти, плитки) */
+  --ledge-btn: 6px;   /* "полиця" кнопок: box-shadow 0 var(--ledge-btn) 0 var(--edge-*), натискання = translateY на ту саму величину */
+  --ledge-node: 12px; /* "полиця" вузлів шляху (один токен не підходить: 12px на кнопці заввишки 52px — надто грубо) */
+  --btn-h: 52px;      /* мінімальна висота кнопки на мобільному */
+
+  /* ---- Розміри дотику / макет ---- */
+  --tap-min: 48px;
+  --content-max: 640px;
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
+
+  /* ---- Z-шари ---- */
+  --z-nav: 100;
+  --z-peek: 300;
+  --z-sheet: 400;
+  --z-modal: 500;
+  --z-toast: 600;
+
+  /* ---- Motion (узгоджено з motion-дизайнером, значення фіксовані) ---- */
+  --dur-instant: 80ms;
+  --dur-press: 100ms;
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-slow: 400ms;
+  --dur-celebrate: 1200ms;
+  --ease-out: cubic-bezier(.22,1,.36,1);
+  --ease-in-out: cubic-bezier(.65,0,.35,1);
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);
+
+  /* ---- Нейтральні поверхні (тепла світла палітра) ---- */
+  --c-bg: #FBF8F4;
+  --c-surface: #FFFFFF;
+  --c-surface-2: #F2ECE3;
+  --c-text: #2B2420;
+  --c-muted: #79695C;
+  --c-line: #E7DDD0;        /* тиха роздільна лінія, декоративна */
+  --c-line-shadow: #9C8E7E; /* функціональна рамка/губа нейтральних 3D-елементів, ≥3:1 */
+  --c-text-inverse: #FFFFFF;
+
+  /* ---- Бренд Ikorka: тепло-помаранчевий + бурштин ----
+     --c-brand/-shadow і всі семантичні base/-shadow нижче — НАВМИСНО однакові
+     в світлій і темній темі: це кольори суцільної заливки під білий текст
+     (кнопки, toast), самодостатні й не залежать від теми сторінки (перевірено
+     ds-contrast.mjs). Те, що читається ЯК ТЕКСТ/рамка на поверхні (плашки-badge,
+     рамка "обрано/правильно/неправильно", ghost-кнопка), бере відповідний
+     `-on-soft` — він навпаки АДАПТУЄТЬСЯ під тему (в світлій = темний -shadow,
+     в темній — світліший пастельний відтінок), інакше на майже чорному тлі
+     така рамка/текст стає нечитабельною. */
+  --c-brand: #C8440F;
+  --c-brand-shadow: #8F2E07;
+  --c-brand-soft: #FCE7DA;
+  --c-brand-on-soft: #8F2E07;
+  --c-link: #8F2E07; /* колір тексту посилань — теж адаптивний, як -on-soft (значення нижче теж) */
+
+  /* ---- Семантика ---- */
+  --c-success: #237A35;
+  --c-success-shadow: #154A20;
+  --c-success-soft: #E4F5E7;
+  --c-success-on-soft: #154A20;
+
+  --c-error: #C41E3A;       /* малиново-червоний — відрізняється від бренд-помаранчевого */
+  --c-error-shadow: #8A1329;
+  --c-error-soft: #FBE4E8;
+  --c-error-on-soft: #8A1329;
+
+  --c-info: #1868B0;        /* стан "вибрано" */
+  --c-info-shadow: #0E4478;
+  --c-info-soft: #E3F0FB;
+  --c-info-on-soft: #0E4478;
+
+  --c-streak: #B25400;      /* вогонь streak — пряме читання як текст/іконка, тому адаптивне під тему */
+  --c-streak-shadow: #7A3900;
+  --c-streak-soft: #FBEBD9;
+  --c-streak-on-soft: #7A3900;
+
+  --c-xp: #8A6A00;          /* золото XP (затемнене заради AA) — пряме читання як текст/іконка */
+  --c-xp-shadow: #5C4600;
+  --c-xp-soft: #FFF3D0;
+  --c-xp-on-soft: #5C4600;
+
+  /* ---- Кольори юнітів (5 днів шляху), приглушено-соковиті ---- */
+  --c-unit-1: #147A6A; --c-unit-1-shadow: #0B4A40; /* тіл-бірюзовий */
+  --c-unit-2: #8A3F96; --c-unit-2-shadow: #5B2966; /* слива */
+  --c-unit-3: #3B5BA9; --c-unit-3-shadow: #24397A; /* індиго-синій */
+  --c-unit-4: #6B7A1E; --c-unit-4-shadow: #454F0F; /* оливковий */
+  --c-unit-5: #A8306E; --c-unit-5-shadow: #6E1C49; /* малиново-рожевий */
+
+  --c-mascot: #6B2E1A; /* колір ікринок для ілюстрацій */
+
+  /* ---- Допоміжні ---- */
+  --c-focus: #1868B0;
+  --focus-ring-w: 3px;
+  --focus-ring-offset: 2px;
+  --c-backdrop: rgba(43,36,32,.45);
+  --c-disabled-bg: #E3DCD2;
+  --c-disabled-text: #7D7160;
+  --c-skeleton-base: #EFE7DC;
+  --c-skeleton-shine: #FBF8F4;
+
+  /* ---- Об'ємні пари face/edge (кнопки, вузли шляху, плашка дня) ----
+     face — заливка під --c-text-inverse (біла, ≥4.5:1), edge — "полиця" на ~20% темніша за яскравістю.
+     Пари однакові в обох темах: це самодостатня заливка, що не залежить від теми сторінки
+     (виняток locked — нейтральна, адаптується). on-gold/on-locked — колір іконки/тексту на face. */
+  --face-brand: #C8440F;  --edge-brand: #A0360C;
+  --face-done: #237A35;   --edge-done: #1C622A;
+  --face-violet: #7A3FB0; --edge-violet: #62328D;
+  --face-blue: #1868B0;   --edge-blue: #13538D;
+  --face-gold: #F2B01E;   --edge-gold: #CE910C;   --on-gold: #3A2600;
+  --face-locked: #E3DCD2; --edge-locked: #C5B6A2; --on-locked: #7D7160;
+  --c-path-tint: rgba(43,36,32,.025); /* ледь темніший тон під колонкою шляху */
+  --c-path-blob: rgba(200,68,15,.06); /* великі кола по боках шляху — на межі помітності */
+
+  --shadow-sm: 0 1px 3px rgba(43,36,32,.14);
+  --shadow-md: 0 4px 16px rgba(43,36,32,.16);
+  --shadow-lg: 0 12px 32px rgba(43,36,32,.22);
+}
+
+/* ==========================================================================
+   Темна тема — повноцінна палітра (теплі темні поверхні з перерахованою
+   яскравістю), НЕ інверсія і НЕ копія темної теми Duolingo.
+   ========================================================================== */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --c-bg: #221A16;
+  --c-surface: #2E241D;
+  --c-surface-2: #3A2E25;
+  --c-text: #F2E9DE;
+  --c-muted: #B4A493;
+  --c-line: #3C3025;
+  --c-line-shadow: #8A7160; /* світліша "полиця" — в темній темі відтінити темнішим за майже чорне тло неможливо, тому лип свідомо світліший за поверхню (≥3:1 до bg і surface) */
+  --c-text-inverse: #FFFFFF;
+
+  /* base/-shadow — теж самі значення, що в світлій темі (заливка під білий текст,
+     самодостатня). on-soft — освітлені пастельні варіанти для тексту/рамки на
+     темній поверхні (див. коментар у світлій темі). */
+  --c-brand: #C8440F;
+  --c-brand-shadow: #8F2E07;
+  --c-brand-soft: #3A2317;
+  --c-brand-on-soft: #D98A54;
+  --c-link: #D98A54;
+
+  --c-success: #237A35;
+  --c-success-shadow: #154A20;
+  --c-success-soft: #1F3324;
+  --c-success-on-soft: #5FC07F;
+
+  --c-error: #C41E3A;
+  --c-error-shadow: #8A1329;
+  --c-error-soft: #3A1F26;
+  --c-error-on-soft: #D96C82;
+
+  --c-info: #1868B0;
+  --c-info-shadow: #0E4478;
+  --c-info-soft: #1B2E3F;
+  --c-info-on-soft: #5B9BD9;
+
+  --c-streak: #D9791E;
+  --c-streak-shadow: #7A3900;
+  --c-streak-soft: #3A2811;
+  --c-streak-on-soft: #CC8836;
+
+  --c-xp: #C9A22E;
+  --c-xp-shadow: #5C4600;
+  --c-xp-soft: #362B10;
+  --c-xp-on-soft: #B8952E;
+
+  /* Юніти шляху — так само заливка під білу іконку/чекмарк вузла шляху,
+     тому так само стала між темами (як brand/success/error/info вище). */
+  --c-unit-1: #147A6A; --c-unit-1-shadow: #0B4A40;
+  --c-unit-2: #8A3F96; --c-unit-2-shadow: #5B2966;
+  --c-unit-3: #3B5BA9; --c-unit-3-shadow: #24397A;
+  --c-unit-4: #6B7A1E; --c-unit-4-shadow: #454F0F;
+  --c-unit-5: #A8306E; --c-unit-5-shadow: #6E1C49;
+
+  --c-mascot: #C97A4A;
+
+  --c-focus: #5BA8E8;
+  --c-backdrop: rgba(0,0,0,.6);
+  --c-disabled-bg: #332A22;
+  --c-disabled-text: #8A7A68;
+  --c-skeleton-base: #2E251E;
+  --c-skeleton-shine: #3E322A;
+
+  --face-brand: #C8440F;  --edge-brand: #A0360C;
+  --face-done: #237A35;   --edge-done: #1C622A;
+  --face-violet: #7A3FB0; --edge-violet: #62328D;
+  --face-blue: #1868B0;   --edge-blue: #13538D;
+  --face-gold: #F2B01E;   --edge-gold: #CE910C;   --on-gold: #3A2600;
+  --face-locked: #4A3D33; --edge-locked: #3B3129; --on-locked: #B4A493;
+  --c-path-tint: rgba(0,0,0,.035);
+  --c-path-blob: rgba(217,138,84,.07);
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.4);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.5);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,.6);
+}

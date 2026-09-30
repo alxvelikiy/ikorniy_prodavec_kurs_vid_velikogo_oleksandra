@@ -1,0 +1,459 @@
+/* ==========================================================================
+   Ikorka Duo — core.css
+   Власник: design-system-engineer. Контракт: docs/design/ARCHITECTURE.md §5.
+   База + компоненти з префіксом d-. Лише var(--…) з tokens.css, жодних
+   магічних чисел. Анімуємо лише transform/opacity (окрім box-shadow/border-color
+   переходів між станами — вони не в списку "постійних анімацій спокою").
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------- */
+/* 1. База                                                                 */
+/* ---------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-size: var(--fs-md);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 { margin: 0 0 var(--s-3); font-weight: var(--fw-xbold); line-height: var(--lh-tight); }
+h1 { font-size: var(--fs-2xl); }
+h2 { font-size: var(--fs-xl); }
+h3 { font-size: var(--fs-lg); }
+p { margin: 0 0 var(--s-3); }
+a { color: var(--c-link); }
+img, svg { display: block; max-width: 100%; }
+button { font-family: inherit; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+.d-container { max-width: var(--content-max); margin-inline: auto; padding-inline: var(--s-4); }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--c-surface); color: var(--c-text);
+  padding: var(--s-3) var(--s-4); border-radius: var(--r-md);
+  box-shadow: var(--shadow-md); z-index: var(--z-toast);
+  font-weight: var(--fw-bold); text-decoration: none;
+}
+.skip-link:focus { left: var(--s-3); top: var(--s-3); }
+
+/* ---- Фокус ---- */
+:focus { outline: none; }
+:focus-visible {
+  outline: var(--focus-ring-w) solid var(--c-focus);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--r-sm);
+}
+
+/* ---- Reduced motion: миттєві кінцеві стани ---- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* 2. .d-btn — 3D-кнопка                                                   */
+/* ---------------------------------------------------------------------- */
+.d-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  border: var(--bw) solid transparent;
+  border-radius: var(--r-lg);
+  font-family: inherit;
+  font-weight: var(--fw-xbold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform var(--dur-instant) var(--ease-out),
+              box-shadow var(--dur-instant) var(--ease-out),
+              background-color var(--dur-fast) var(--ease-out),
+              filter var(--dur-fast) var(--ease-out);
+}
+.d-btn__icon { width: 20px; height: 20px; flex: none; }
+.d-btn__label { display: inline-block; }
+
+/* Розміри (висота ≥ --btn-h на мобільному; sm — компактна, для неосновних дій) */
+.d-btn--lg { height: 56px; padding: 0 var(--s-6); font-size: var(--fs-lg); border-radius: var(--r-lg); }
+.d-btn--md { height: var(--btn-h); padding: 0 var(--s-5); font-size: var(--fs-md); }
+.d-btn--sm { height: 44px; padding: 0 var(--s-4); font-size: var(--fs-sm); border-radius: var(--r-md); gap: var(--s-1); }
+.d-btn--sm .d-btn__icon { width: 16px; height: 16px; }
+.d-btn--block { display: flex; width: 100%; }
+
+/* Єдина схема: --btn-face + --btn-edge → заливка + "полиця" (box-shadow 0 ledge 0 edge) + натискання вниз на ledge.
+   Кольорові варіанти — пари face/edge з tokens.css; border = колір face (розмір не залежить від варіанту). */
+.d-btn--primary { --btn-face: var(--face-brand); --btn-edge: var(--edge-brand); --btn-ink: var(--c-text-inverse); }
+.d-btn--success { --btn-face: var(--face-done);  --btn-edge: var(--edge-done);  --btn-ink: var(--c-text-inverse); }
+.d-btn--info    { --btn-face: var(--face-blue);  --btn-edge: var(--edge-blue);  --btn-ink: var(--c-text-inverse); }
+.d-btn--gold    { --btn-face: var(--face-gold);  --btn-edge: var(--edge-gold);  --btn-ink: var(--on-gold); }
+.d-btn--danger  { --btn-face: var(--c-error);    --btn-edge: var(--c-error-shadow); --btn-ink: var(--c-text-inverse); }
+.d-btn--primary, .d-btn--success, .d-btn--info, .d-btn--gold, .d-btn--danger {
+  background: var(--btn-face); color: var(--btn-ink);
+  border-color: var(--btn-face);
+  box-shadow: 0 var(--ledge-btn) 0 0 var(--btn-edge);
+}
+/* secondary: поверхня + нейтральна полиця */
+.d-btn--secondary {
+  background: var(--c-surface); color: var(--c-text);
+  border-color: var(--c-line-shadow);
+  box-shadow: 0 var(--ledge-btn) 0 0 var(--c-line-shadow);
+}
+/* ghost — пласка, без полиці */
+.d-btn--ghost {
+  background: transparent; color: var(--c-brand-on-soft);
+  border-color: transparent; box-shadow: none;
+}
+
+@media (hover: hover) {
+  .d-btn--primary:hover,
+  .d-btn--success:hover,
+  .d-btn--danger:hover,
+  .d-btn--gold:hover,
+  .d-btn--info:hover { filter: brightness(1.06); }
+  .d-btn--secondary:hover { background: var(--c-surface-2); }
+  .d-btn--ghost:hover { background: var(--c-brand-soft); }
+}
+
+.d-btn:active:not(:disabled):not(.is-disabled),
+.d-btn.is-pressed:not(:disabled):not(.is-disabled) {
+  transform: translateY(var(--ledge-btn));
+  box-shadow: 0 0 0 0 transparent;
+}
+.d-btn--ghost:active { transform: none; }
+
+/* disabled: плоска, без полиці; текст ≥3:1 до заливки */
+.d-btn:disabled, .d-btn.is-disabled {
+  background: var(--c-disabled-bg); color: var(--c-disabled-text);
+  border-color: var(--c-disabled-bg); box-shadow: none;
+  cursor: not-allowed; transform: none; filter: none;
+}
+
+/* Завантаження: текст ховаємо, розмір не стрибає */
+.d-btn.is-loading { color: transparent; pointer-events: none; }
+.d-btn.is-loading .d-btn__icon { visibility: hidden; }
+.d-btn__spinner {
+  display: none;
+  position: absolute; inset: 0; margin: auto;
+  width: 20px; height: 20px;
+  border: 3px solid rgba(255,255,255,.4);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  color: var(--c-text-inverse);
+}
+.d-btn--secondary .d-btn__spinner, .d-btn--ghost .d-btn__spinner { color: var(--c-link); border-color: var(--c-line); border-top-color: var(--c-link); }
+.d-btn.is-loading .d-btn__spinner { display: block; }
+@media (prefers-reduced-motion: no-preference) {
+  .d-btn.is-loading .d-btn__spinner { animation: d-spin 700ms linear infinite; }
+}
+@keyframes d-spin { to { transform: rotate(360deg); } }
+
+/* ---------------------------------------------------------------------- */
+/* 3. .d-option — картка-варіант відповіді                                */
+/* ---------------------------------------------------------------------- */
+.d-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
+  min-height: var(--tap-min);
+  padding: var(--s-4);
+  background: var(--c-surface);
+  color: var(--c-text);
+  border: var(--bw) solid var(--c-line-shadow);
+  border-radius: var(--r-lg);
+  box-shadow: 0 var(--lip) 0 0 var(--c-line-shadow);
+  font-family: inherit; font-size: var(--fs-md); font-weight: var(--fw-bold);
+  text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: transform var(--dur-press) var(--ease-out),
+              box-shadow var(--dur-press) var(--ease-out),
+              border-color var(--dur-fast) var(--ease-out),
+              background-color var(--dur-fast) var(--ease-out);
+}
+@media (hover: hover) {
+  .d-option:hover { background: var(--c-surface-2); }
+}
+.d-option:active:not(.is-disabled), .d-option.is-pressed:not(.is-disabled) {
+  transform: translateY(var(--lip)); box-shadow: 0 0 0 0 transparent;
+}
+.d-option.is-selected {
+  background: var(--c-info-soft); border-color: var(--c-info-on-soft);
+  box-shadow: 0 var(--lip) 0 0 var(--c-info-shadow);
+}
+.d-option.is-correct {
+  background: var(--c-success-soft); border-color: var(--c-success-on-soft);
+  box-shadow: 0 var(--lip) 0 0 var(--c-success-shadow);
+}
+.d-option.is-wrong {
+  background: var(--c-error-soft); border-color: var(--c-error-on-soft);
+  box-shadow: 0 var(--lip) 0 0 var(--c-error-shadow);
+}
+.d-option.is-disabled {
+  cursor: not-allowed; color: var(--c-muted);
+  border-color: var(--c-line); box-shadow: none;
+}
+.d-option.is-disabled:not(.is-selected):not(.is-correct):not(.is-wrong) { opacity: .65; }
+
+.d-option__key {
+  display: none;
+  align-items: center; justify-content: center;
+  width: 22px; height: 22px; flex: none;
+  border: 1px solid var(--c-line-shadow); border-radius: var(--r-sm);
+  font-size: var(--fs-xs); font-weight: var(--fw-xbold); color: var(--c-muted);
+  background: var(--c-surface-2);
+}
+@media (hover: hover) and (pointer: fine) {
+  .d-option__key { display: inline-flex; }
+}
+
+/* ---------------------------------------------------------------------- */
+/* 4. .d-tile — плитка word bank                                          */
+/* ---------------------------------------------------------------------- */
+.d-tile {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 40px; padding: var(--s-2) var(--s-4);
+  background: var(--c-surface); color: var(--c-text);
+  border: var(--bw) solid var(--c-line-shadow); border-radius: var(--r-md);
+  box-shadow: 0 calc(var(--lip) - 1px) 0 0 var(--c-line-shadow);
+  font-weight: var(--fw-xbold); font-size: var(--fs-md);
+  cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;
+  transition: transform var(--dur-press) var(--ease-out), box-shadow var(--dur-press) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
+}
+@media (hover: hover) { .d-tile:hover { background: var(--c-surface-2); } }
+.d-tile:active, .d-tile.is-pressed {
+  transform: translateY(calc(var(--lip) - 1px)); box-shadow: 0 0 0 0 transparent;
+}
+.d-tile.is-used { opacity: 0; pointer-events: none; }
+
+.d-tile--ghost {
+  background: transparent; color: transparent;
+  border: var(--bw) dashed var(--c-line); box-shadow: none; cursor: default;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 5. .d-card                                                              */
+/* ---------------------------------------------------------------------- */
+.d-card {
+  background: var(--c-surface); border: 1px solid var(--c-line);
+  border-radius: var(--r-lg); padding: var(--s-5); box-shadow: var(--shadow-sm);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 6. .d-badge / .d-chip                                                   */
+/* ---------------------------------------------------------------------- */
+.d-badge {
+  display: inline-flex; align-items: center; gap: var(--s-1);
+  padding: var(--s-1) var(--s-3); border-radius: var(--r-pill);
+  font-size: var(--fs-xs); font-weight: var(--fw-xbold); line-height: 1;
+  background: var(--c-brand-soft); color: var(--c-brand-on-soft);
+}
+.d-badge .d-icon { width: 14px; height: 14px; }
+.d-badge--success { background: var(--c-success-soft); color: var(--c-success-on-soft); }
+.d-badge--danger  { background: var(--c-error-soft);   color: var(--c-error-on-soft); }
+.d-badge--info    { background: var(--c-info-soft);    color: var(--c-info-on-soft); }
+.d-badge--streak  { background: var(--c-streak-soft);  color: var(--c-streak-on-soft); }
+.d-badge--xp      { background: var(--c-xp-soft);      color: var(--c-xp-on-soft); }
+
+.d-chip {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s-1);
+  min-height: 40px; padding: var(--s-2) var(--s-4);
+  background: var(--c-surface); color: var(--c-text);
+  border: var(--bw) solid var(--c-line-shadow); border-radius: var(--r-pill);
+  font-weight: var(--fw-bold); font-size: var(--fs-sm); cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.d-chip.is-selected { background: var(--c-brand); color: var(--c-text-inverse); border-color: var(--c-brand-shadow); }
+
+/* ---------------------------------------------------------------------- */
+/* 7. .d-progress                                                          */
+/* ---------------------------------------------------------------------- */
+.d-progress__track {
+  position: relative; height: var(--s-3); width: 100%;
+  background: var(--c-surface-2); border: 1px solid var(--c-line);
+  border-radius: var(--r-pill); overflow: hidden;
+}
+.d-progress__fill {
+  position: relative; height: 100%; width: 100%;
+  background: var(--c-brand); border-radius: var(--r-pill);
+  transform: scaleX(0); transform-origin: left center;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.d-progress__shine {
+  position: absolute; top: 0; left: 0; right: 0; height: 45%;
+  background: rgba(255,255,255,.35); border-radius: var(--r-pill) var(--r-pill) 0 0;
+}
+.d-progress.is-combo .d-progress__fill { background: var(--c-xp); }
+.d-progress.is-combo .d-progress__track { box-shadow: 0 0 0 3px var(--c-xp-soft); }
+
+/* ---------------------------------------------------------------------- */
+/* 8. .d-sheet / .d-modal / .d-backdrop / .d-toast                        */
+/* ---------------------------------------------------------------------- */
+.d-backdrop {
+  position: fixed; inset: 0; background: var(--c-backdrop);
+  z-index: calc(var(--z-sheet) - 1); opacity: 1;
+}
+.d-backdrop--modal { z-index: calc(var(--z-modal) - 1); }
+
+.d-sheet {
+  position: fixed; left: 0; right: 0; bottom: 0; margin-inline: auto;
+  max-width: var(--content-max); width: 100%;
+  background: var(--c-surface); color: var(--c-text);
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  border-top: var(--bw) solid var(--c-line);
+  padding: var(--s-5) var(--s-5) calc(var(--s-5) + var(--safe-b));
+  box-shadow: var(--shadow-lg); z-index: var(--z-sheet);
+}
+.d-sheet__handle {
+  width: 36px; height: 4px; margin: 0 auto var(--s-4); border-radius: var(--r-pill);
+  background: var(--c-line-shadow);
+}
+.d-sheet--success { border-top-color: var(--c-success-on-soft); }
+.d-sheet--error   { border-top-color: var(--c-error-on-soft); }
+.d-sheet__actions { display: flex; flex-direction: column; gap: var(--s-3); margin-top: var(--s-5); }
+
+.d-modal {
+  position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: min(92vw, 480px); max-height: 86vh; overflow-y: auto;
+  background: var(--c-surface); color: var(--c-text);
+  border-radius: var(--r-xl); padding: var(--s-6);
+  box-shadow: var(--shadow-lg); z-index: var(--z-modal);
+}
+.d-modal__actions { display: flex; flex-direction: column; gap: var(--s-3); margin-top: var(--s-5); }
+
+.d-toast {
+  position: fixed; left: 50%; bottom: calc(var(--s-5) + var(--safe-b));
+  transform: translateX(-50%);
+  display: flex; align-items: center; gap: var(--s-2);
+  max-width: min(92vw, 420px); padding: var(--s-3) var(--s-5);
+  background: var(--c-text); color: var(--c-bg);
+  border-radius: var(--r-md); box-shadow: var(--shadow-md);
+  font-weight: var(--fw-bold); font-size: var(--fs-sm); z-index: var(--z-toast);
+}
+.d-toast--success { background: var(--c-success-shadow); color: #fff; }
+.d-toast--error   { background: var(--c-error-shadow);   color: #fff; }
+.d-toast--info    { background: var(--c-info-shadow);    color: #fff; }
+
+/* ---------------------------------------------------------------------- */
+/* 9. .d-switch / .d-segmented                                             */
+/* ---------------------------------------------------------------------- */
+.d-switch {
+  display: inline-flex; align-items: center; gap: var(--s-3);
+  min-height: var(--tap-min); cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.d-switch input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.d-switch__track {
+  position: relative; width: 48px; height: 28px; flex: none;
+  background: var(--c-line-shadow); border-radius: var(--r-pill);
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+.d-switch__thumb {
+  position: absolute; top: 2px; left: 2px; width: 24px; height: 24px;
+  background: #fff; border-radius: 50%; box-shadow: var(--shadow-sm);
+  transition: transform var(--dur-fast) var(--ease-spring);
+}
+.d-switch input:checked + .d-switch__track { background: var(--c-brand); }
+.d-switch input:checked + .d-switch__track .d-switch__thumb { transform: translateX(20px); }
+.d-switch input:focus-visible + .d-switch__track {
+  outline: var(--focus-ring-w) solid var(--c-focus); outline-offset: var(--focus-ring-offset);
+}
+
+.d-segmented {
+  display: flex; gap: var(--s-1); padding: var(--s-1);
+  background: var(--c-surface-2); border-radius: var(--r-lg);
+}
+.d-segmented__item {
+  flex: 1; min-height: 40px; padding: var(--s-2) var(--s-3);
+  border: none; border-radius: var(--r-md); background: transparent; color: var(--c-muted);
+  font-weight: var(--fw-bold); font-size: var(--fs-sm); cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+.d-segmented__item.is-selected { background: var(--c-surface); color: var(--c-brand-on-soft); box-shadow: var(--shadow-sm); }
+
+/* ---------------------------------------------------------------------- */
+/* 10. .d-speech / .d-stat                                                 */
+/* ---------------------------------------------------------------------- */
+.d-speech {
+  position: relative; max-width: 320px; padding: var(--s-4);
+  background: var(--c-surface); border: var(--bw) solid var(--c-line);
+  border-radius: var(--r-lg); box-shadow: var(--shadow-sm);
+  font-weight: var(--fw-bold);
+}
+.d-speech::after {
+  content: ""; position: absolute; left: var(--s-5); bottom: -7px;
+  width: 14px; height: 14px; background: var(--c-surface);
+  border-right: var(--bw) solid var(--c-line); border-bottom: var(--bw) solid var(--c-line);
+  transform: rotate(45deg);
+}
+.d-speech--right::after { left: auto; right: var(--s-5); }
+
+.d-stat { text-align: center; padding: var(--s-4); }
+.d-stat__label {
+  display: inline-flex; padding: var(--s-1) var(--s-3); border-radius: var(--r-pill);
+  background: var(--c-brand-soft); color: var(--c-brand-on-soft);
+  font-size: var(--fs-xs); font-weight: var(--fw-xbold); text-transform: uppercase; letter-spacing: var(--tracking-caps);
+  margin-bottom: var(--s-2);
+}
+.d-stat--success .d-stat__label { background: var(--c-success-soft); color: var(--c-success-on-soft); }
+.d-stat--neutral .d-stat__label { background: var(--c-surface-2); color: var(--c-text); }
+.d-stat--xp .d-stat__label      { background: var(--c-xp-soft);      color: var(--c-xp-on-soft); }
+.d-stat--streak .d-stat__label  { background: var(--c-streak-soft);  color: var(--c-streak-on-soft); }
+.d-stat__value { font-size: var(--fs-2xl); font-weight: var(--fw-black); line-height: var(--lh-tight); }
+
+/* ---------------------------------------------------------------------- */
+/* 11. .d-skeleton                                                         */
+/* ---------------------------------------------------------------------- */
+.d-skeleton {
+  position: relative; overflow: hidden; background: var(--c-skeleton-base);
+  border-radius: var(--r-md);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .d-skeleton::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, var(--c-skeleton-shine), transparent);
+    transform: translateX(-100%);
+    animation: d-shimmer 1400ms ease-in-out infinite;
+  }
+}
+@keyframes d-shimmer { to { transform: translateX(100%); } }
+
+/* ---------------------------------------------------------------------- */
+/* 12. .d-ring — SVG кільце прогресу (класи трек/заливка)                  */
+/* ---------------------------------------------------------------------- */
+.d-ring__track { fill: none; stroke: var(--c-surface-2); }
+.d-ring__fill {
+  fill: none; stroke: var(--c-brand); stroke-linecap: round;
+  transition: stroke-dashoffset var(--dur-slow) var(--ease-out);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 13. Іконки                                                              */
+/* ---------------------------------------------------------------------- */
+.d-icon { width: 20px; height: 20px; flex: none; display: inline-block; }
+
+/* 10. Перемикачі сигналів (signals.js → Duo.signals.mountSettings) */
+.dsig-settings { display: flex; flex-direction: column; gap: var(--s-2); }
+.dsig-row { width: 100%; justify-content: space-between; flex-direction: row-reverse; }
+.dsig-row__txt { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.dsig-row__txt small { color: var(--c-muted); font-size: var(--fs-sm); }
+.dsig-row input:disabled + .d-switch__track { opacity: .5; }

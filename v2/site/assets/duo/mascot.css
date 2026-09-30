@@ -1,0 +1,89 @@
+/* ==========================================================================
+   Ikorka Duo — маскот «Ікринка» (mascot.js). Кольори — лише токени tokens.css.
+   Рух — тільки transform/opacity; reduced motion — без руху (міняється лише вираз).
+   ========================================================================== */
+
+.dm-host { display: inline-block; line-height: 0; vertical-align: middle; }
+.dm { display: block; overflow: visible; }
+
+/* ---- Фарби ---- */
+.dm-body { fill: var(--c-brand); stroke: var(--c-brand-shadow); stroke-width: 3; }
+.dm-limb { fill: var(--c-brand); stroke: var(--c-brand-shadow); stroke-width: 3; }
+.dm-shade { fill: var(--c-brand-shadow); opacity: .3; }
+.dm-hi { fill: var(--c-text-inverse); opacity: .38; }
+.dm-w { fill: var(--c-text-inverse); }
+.dm-p { fill: var(--c-brand-shadow); }
+.dm-line { fill: none; stroke: var(--c-text-inverse); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+.dm-mouth { fill: var(--c-brand-shadow); stroke: var(--c-text-inverse); stroke-width: 2.5; stroke-linejoin: round; }
+.dm-cheek { fill: var(--c-text-inverse); opacity: .28; }
+.dm-gnd { fill: var(--c-text); opacity: .12; }
+.dm-tear { fill: var(--c-info); stroke: var(--c-text-inverse); stroke-width: 1.5; stroke-linejoin: round; }
+.dm-xp { fill: var(--c-xp); }
+.dm-c1 { fill: var(--c-xp); }
+.dm-c2 { fill: var(--c-success); }
+.dm-c3 { fill: var(--c-info); }
+.dm-ink { fill: none; stroke: var(--c-text); stroke-width: 4; stroke-linecap: round; }
+.dm-cup { fill: var(--c-text); }
+.dm-zz { fill: none; stroke: var(--c-muted); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.dm-bub { fill: var(--c-surface); stroke: var(--c-line-shadow); stroke-width: 1.5; }
+
+/* ---- Рух (transform/opacity; опорні точки — в одиницях viewBox) ---- */
+.dm-all, .dm-eyes, .dm-arm-r { transform-box: view-box; }
+.dm-all { transform-origin: 60px 106px; }
+.dm-eyes { transform-origin: 60px 62px; }
+.dm-arm-r { transform-origin: 98px 68px; }
+
+.dm-do-blink .dm-eyes { animation: dm-blink 200ms ease-in-out both; }
+.dm-do-wave .dm-arm-r { animation: dm-wave 1100ms ease-in-out both; }
+.dm-do-jump .dm-all { animation: dm-jump 700ms var(--ease-out) both; }
+.dm-do-nod .dm-all { animation: dm-nod 640ms ease-in-out both; }
+
+@keyframes dm-blink { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(.08); } }
+@keyframes dm-wave {
+  0%, 100% { transform: rotate(0); }
+  20%, 60% { transform: rotate(-125deg); }
+  40%, 80% { transform: rotate(-95deg); }
+}
+@keyframes dm-jump {
+  0% { transform: translateY(0) scale(1, 1); }
+  18% { transform: translateY(2px) scale(1.06, .92); }
+  50% { transform: translateY(-16px) scale(.97, 1.04); }
+  82% { transform: translateY(0) scale(1.05, .94); }
+  100% { transform: translateY(0) scale(1, 1); }
+}
+@keyframes dm-nod {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  25%, 75% { transform: translateY(4px) scale(1.03, .95); }
+  50% { transform: translateY(0) scale(1, 1); }
+}
+
+/* ---- peek: ікринка з реплікою збоку (z-peek, не перехоплює кліки) ---- */
+.dm-peek {
+  position: fixed; bottom: calc(var(--safe-b) + var(--s-9) + var(--s-9) + var(--s-5));
+  z-index: var(--z-peek); display: flex; align-items: flex-end; gap: var(--s-2);
+  pointer-events: none; opacity: 0;
+  transition: transform var(--dur-base) var(--ease-spring), opacity var(--dur-fast) var(--ease-out);
+}
+.dm-peek--right { right: var(--safe-r); flex-direction: row; transform: translateX(110%); }
+.dm-peek--left { left: var(--safe-l); flex-direction: row-reverse; transform: translateX(-110%); }
+.dm-peek--right .dm { margin-right: calc(var(--s-5) * -1); }
+.dm-peek--left .dm { margin-left: calc(var(--s-5) * -1); transform: scaleX(-1); }
+.dm-peek.is-in { opacity: 1; transform: translateX(0); }
+.dm-peek__bubble {
+  position: relative; max-width: 200px; margin-bottom: var(--s-6);
+  padding: var(--s-2) var(--s-3); border: var(--bw) solid var(--c-line-shadow); border-radius: var(--r-lg);
+  background: var(--c-surface); color: var(--c-text);
+  font-family: var(--font-ui); font-size: var(--fs-sm); font-weight: var(--fw-xbold); line-height: var(--lh-snug);
+}
+.dm-peek__bubble::after {
+  content: ''; position: absolute; bottom: var(--s-2); width: var(--s-2); height: var(--s-2);
+  background: var(--c-surface); border: solid var(--c-line-shadow); border-width: var(--bw) var(--bw) 0 0;
+}
+.dm-peek--right .dm-peek__bubble::after { right: calc(var(--s-1) * -1 - 2px); transform: rotate(45deg); }
+.dm-peek--left .dm-peek__bubble::after { left: calc(var(--s-1) * -1 - 2px); transform: rotate(-135deg); }
+.dm-peek--still, .dm-peek--still.is-in { transform: none; transition: opacity var(--dur-fast) linear; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dm-do-blink .dm-eyes, .dm-do-wave .dm-arm-r, .dm-do-jump .dm-all, .dm-do-nod .dm-all { animation: none; }
+  .dm-peek, .dm-peek.is-in { transform: none; transition: opacity var(--dur-fast) linear; }
+}

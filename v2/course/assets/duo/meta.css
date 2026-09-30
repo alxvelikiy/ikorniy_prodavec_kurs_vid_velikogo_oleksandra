@@ -1,0 +1,137 @@
+/* ==========================================================================
+   Ikorka Duo — meta.css: «Практика», «Завдання», «Профіль».
+   Власник: builder-celebrate. Лише var(--…) з tokens.css; рух — тільки transform/opacity;
+   за «зменшити рух» — без переходів. Оболонка (шапка, навігація) — у home.css.
+   ========================================================================== */
+.duo-meta {
+  max-width: var(--content-max); margin-inline: auto; padding: var(--s-4) var(--s-4) var(--s-6);
+  display: flex; flex-direction: column; gap: var(--s-5);
+}
+.duo-meta > * { min-width: 0; }
+.mt-h1 { margin: 0; font-size: var(--fs-2xl); line-height: var(--lh-tight); font-weight: var(--fw-black); }
+.mt-h2 { margin: 0 0 var(--s-3); font-size: var(--fs-lg); line-height: var(--lh-snug); font-weight: var(--fw-black); }
+.mt-h3 { margin: 0; font-size: var(--fs-md); line-height: var(--lh-snug); font-weight: var(--fw-black); }
+.mt-lead { margin: calc(var(--s-3) * -1) 0 0; font-size: var(--fs-md); line-height: var(--lh-normal); color: var(--c-muted); }
+.mt-text { margin: 0 0 var(--s-3); font-size: var(--fs-md); line-height: var(--lh-normal); }
+.mt-hint { margin: var(--s-1) 0 0; font-size: var(--fs-sm); color: var(--c-muted); }
+.mt-card { display: block; }
+.mt-card .mt-h2 { margin-bottom: var(--s-2); }
+.mt-card > .mt-text:last-child, .mt-hero__body > .mt-text:last-child { margin-bottom: 0; }
+
+/* Герой-картка: маскот + текст */
+.mt-hero, .mt-chest { display: flex; gap: var(--s-4); align-items: flex-start; }
+.mt-hero__body { flex: 1; min-width: 0; }
+.mt-mascot { flex: none; width: 72px; }
+.mt-mascot svg { display: block; width: 100%; height: auto; }
+.mt-actions { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-top: var(--s-3); }
+@media (max-width: 400px) { .mt-mascot { display: none; } }
+
+/* Посилання на інструменти */
+.mt-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--s-2); }
+.mt-link {
+  display: flex; align-items: center; gap: var(--s-3); padding: var(--s-3) var(--s-4); min-height: var(--tap-min);
+  background: var(--c-surface); color: var(--c-text); text-decoration: none;
+  border: var(--bw) solid var(--c-line); border-bottom-width: calc(var(--bw) + var(--lip) / 2); border-radius: var(--r-lg);
+  transition: transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.mt-link__ico { flex: none; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: var(--r-md); background: var(--c-brand-soft); color: var(--c-brand-on-soft); }
+.mt-link__txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--s-1); }
+.mt-link__txt b { font-weight: var(--fw-black); font-size: var(--fs-md); }
+.mt-link__txt span { font-size: var(--fs-sm); color: var(--c-muted); line-height: var(--lh-snug); }
+.mt-link__go { flex: none; color: var(--c-muted); }
+@media (hover: hover) { .mt-link:hover { border-color: var(--c-line-shadow); transform: translateY(-1px); } }
+.mt-link:active { transform: translateY(1px); }
+.mt-link:focus-visible { outline: var(--focus-ring-w) solid var(--c-focus); outline-offset: var(--focus-ring-offset); }
+
+/* Полоска прогресу (на базі .d-progress з core.css) */
+.mt-bar { margin-top: var(--s-2); }
+.mt-bar .d-progress__fill { width: 100%; }
+.mt-bar.is-done .d-progress__fill { background: var(--c-success); }
+.mt-bar--xp .d-progress__fill { background: var(--c-xp); }
+.mt-bar--xp.is-done .d-progress__fill { background: var(--c-success); }
+
+/* Ціль дня */
+.mt-goal__row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-3); flex-wrap: wrap; }
+.mt-goal__num { font-size: var(--fs-xl); font-weight: var(--fw-black); }
+.mt-goal__num small { font-size: var(--fs-md); font-weight: var(--fw-xbold); color: var(--c-muted); }
+
+/* Стани «виконано» / «не виконано» — текст і іконка, не лише колір */
+.mt-state { display: inline-flex; align-items: center; gap: var(--s-1); padding: var(--s-1) var(--s-3); border-radius: var(--r-pill); font-size: var(--fs-sm); font-weight: var(--fw-xbold); white-space: nowrap; background: var(--c-surface-2); color: var(--c-text); }
+.mt-state .d-icon { width: 16px; height: 16px; }
+.mt-state--done { background: var(--c-success-soft); color: var(--c-success-on-soft); }
+
+/* Щоденні завдання */
+.mt-quests { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--s-3); }
+.mt-quest { padding: var(--s-4); background: var(--c-surface); border: 1px solid var(--c-line); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); }
+.mt-quest__top { display: flex; align-items: center; gap: var(--s-3); }
+.mt-quest__ico { flex: none; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--c-xp-soft); color: var(--c-xp-on-soft); }
+.mt-quest.is-done .mt-quest__ico { background: var(--c-success); color: var(--c-text-inverse); }
+.mt-quest__t { flex: 1; min-width: 0; font-weight: var(--fw-xbold); font-size: var(--fs-md); line-height: var(--lh-snug); }
+.mt-quest .mt-state { flex: none; }
+
+/* Скриня */
+.mt-chest__status { margin: 0 0 var(--s-3); font-size: var(--fs-md); line-height: var(--lh-normal); }
+.mt-chest__status:focus { outline: none; }
+.mt-chest__status:focus-visible { outline: var(--focus-ring-w) solid var(--c-focus); outline-offset: var(--focus-ring-offset); border-radius: var(--r-sm); }
+.mt-chest__xp { display: inline-flex; align-items: center; gap: var(--s-1); margin-top: var(--s-1); font-weight: var(--fw-black); color: var(--c-xp-on-soft); background: var(--c-xp-soft); padding: var(--s-1) var(--s-3); border-radius: var(--r-pill); }
+.mt-chest__xp .d-icon { width: 16px; height: 16px; }
+
+/* Статистика */
+.mt-kpis { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3); }
+.mt-kpi.d-stat { padding: var(--s-4) var(--s-3); }
+.mt-kpi .d-stat__value { font-size: var(--fs-xl); }
+.mt-kpi .d-stat__value small { font-size: var(--fs-sm); font-weight: var(--fw-xbold); color: var(--c-muted); }
+@media (min-width: 560px) { .mt-kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* Календар */
+.mt-week { list-style: none; margin: 0 0 var(--s-4); padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--s-1); }
+.mt-wd { display: flex; flex-direction: column; align-items: center; gap: var(--s-1); font-size: var(--fs-xs); font-weight: var(--fw-xbold); color: var(--c-muted); }
+.mt-wd__dot { width: 100%; max-width: 40px; aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--c-surface-2); border: var(--bw) solid var(--c-line-shadow); color: var(--c-muted); }
+.mt-wd__dot .d-icon { width: 55%; height: 55%; }
+.mt-wd.is-on .mt-wd__dot { background: var(--c-streak-soft); border-color: var(--c-streak); color: var(--c-streak-on-soft); }
+.mt-wd.is-today { color: var(--c-text); }
+.mt-wd.is-today .mt-wd__dot { box-shadow: 0 0 0 var(--bw) var(--c-surface), 0 0 0 calc(var(--bw) * 2) var(--c-focus); }
+.mt-wd.is-future .mt-wd__dot { border-style: dashed; background: transparent; }
+.mt-month { width: 100%; border-collapse: separate; border-spacing: var(--s-1); table-layout: fixed; }
+.mt-month caption { text-align: left; font-weight: var(--fw-black); font-size: var(--fs-md); padding-bottom: var(--s-2); }
+.mt-month th { font-size: var(--fs-xs); font-weight: var(--fw-xbold); color: var(--c-muted); text-align: center; padding-bottom: var(--s-1); }
+.mt-month td { padding: 0; text-align: center; }
+.mt-day { display: flex; align-items: center; justify-content: center; height: 36px; border-radius: var(--r-md); font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--c-text); }
+.mt-day.is-on { background: var(--c-streak-soft); color: var(--c-streak-on-soft); font-weight: var(--fw-black); box-shadow: inset 0 0 0 var(--bw) var(--c-streak); }
+.mt-day.is-today { box-shadow: inset 0 0 0 var(--bw) var(--c-focus); }
+.mt-day.is-on.is-today { box-shadow: inset 0 0 0 var(--bw) var(--c-streak), 0 0 0 var(--bw) var(--c-focus); }
+.mt-day.is-future { color: var(--c-muted); }
+.mt-legend { margin: var(--s-3) 0 0; font-size: var(--fs-sm); color: var(--c-muted); }
+
+/* Досягнення */
+.mt-achs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-3); }
+@media (min-width: 480px) { .mt-achs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.mt-ach { display: flex; gap: var(--s-3); align-items: flex-start; padding: var(--s-4); background: var(--c-surface); border: 1px solid var(--c-line); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); height: 100%; }
+.mt-ach__ico { flex: none; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--c-surface-2); color: var(--c-muted); border: var(--bw) solid var(--c-line-shadow); }
+.mt-ach[data-level="1"] .mt-ach__ico, .mt-ach[data-level="2"] .mt-ach__ico, .mt-ach[data-level="3"] .mt-ach__ico { background: var(--c-xp-soft); color: var(--c-xp-on-soft); border-color: var(--c-xp); }
+.mt-ach[data-level="3"] .mt-ach__ico { background: var(--c-xp); color: var(--c-text-inverse); border-color: var(--c-xp-shadow); }
+.mt-ach__body { flex: 1; min-width: 0; }
+.mt-ach__lvl { margin: var(--s-1) 0 0; font-size: var(--fs-sm); font-weight: var(--fw-xbold); color: var(--c-muted); }
+.mt-ach__what { margin: var(--s-1) 0 0; font-size: var(--fs-sm); line-height: var(--lh-snug); }
+.mt-pips { display: inline-flex; gap: var(--s-1); margin-inline-start: var(--s-2); vertical-align: middle; }
+.mt-pips i { width: 10px; height: 10px; border-radius: 50%; border: var(--bw) solid var(--c-line-shadow); background: transparent; }
+.mt-pips i.is-on { background: var(--c-xp); border-color: var(--c-xp-shadow); }
+
+/* Налаштування */
+.mt-field { padding-block: var(--s-3); border-top: 1px solid var(--c-line); }
+.mt-field:first-of-type { border-top: 0; padding-top: 0; }
+.mt-label { display: block; margin-bottom: var(--s-2); font-weight: var(--fw-black); font-size: var(--fs-md); }
+.mt-select {
+  width: 100%; min-height: var(--tap-min); padding: var(--s-2) var(--s-4); font: inherit; font-weight: var(--fw-bold);
+  color: var(--c-text); background: var(--c-surface); border: var(--bw) solid var(--c-line-shadow); border-radius: var(--r-md);
+}
+.mt-select:focus-visible, .d-segmented__item:focus-visible { outline: var(--focus-ring-w) solid var(--c-focus); outline-offset: var(--focus-ring-offset); }
+.mt-field .d-segmented__item { min-height: var(--tap-min); color: var(--c-text); }
+.mt-field .d-segmented__item[aria-pressed="true"] { background: var(--c-surface); color: var(--c-brand-on-soft); box-shadow: var(--shadow-sm); }
+.mt-field .dsig-settings { margin-top: calc(var(--s-2) * -1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .mt-link, .mt-bar .d-progress__fill { transition: none; }
+  .mt-link:hover, .mt-link:active { transform: none; }
+}
+@media (min-width: 768px) { .duo-meta { padding-top: var(--s-6); } }
