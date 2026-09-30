@@ -15,7 +15,7 @@ const present = rel => rel.startsWith('data/') || fs.existsSync(path.join(BUILD,
 // Спільні модулі для всіх Duo-сторінок (defer, у цьому порядку)
 export const CORE_JS = [
   'data/duo-course.js',
-  'assets/duo/core.js', 'assets/duo/motion.js', 'assets/duo/sfx.js',
+  'assets/duo/core.js', 'assets/duo/motion.js', 'assets/duo/sfx.js', 'assets/duo/signals.js',
   'assets/duo/progress-core.js', 'assets/duo/progress.js',
   'assets/duo/mascot.js', 'assets/duo/illos.js', 'assets/duo/copy.js',
   'assets/duo/celebrate.js', 'assets/duo/shell.js',
