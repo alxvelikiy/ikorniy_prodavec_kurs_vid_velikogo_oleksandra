@@ -1,0 +1,238 @@
+/* ==========================================================================
+   Ikorka Duo — home.css: оболонка застосунку (шапка, таб-бар/сайдбар) + шлях навчання (index.html).
+   Власник: builder-home. Підключається і на praktyka/zavdannia/profil (оболонка). Лише var(--…) з tokens.css.
+   Рух — тільки transform/opacity; reduced motion — без руху.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------- */
+/* 1. Оболонка: шапка + навігація                                          */
+/* ---------------------------------------------------------------------- */
+body.duo-has-nav {
+  --nav-h: var(--s-9);
+  --top-h: calc(var(--s-8) + var(--s-2));
+  --side-w: 232px;
+  padding-bottom: calc(var(--nav-h) + var(--safe-b));
+}
+
+.duo-top {
+  position: sticky; top: 0; z-index: var(--z-nav);
+  background: var(--c-bg); border-bottom: 1px solid var(--c-line);
+  padding-top: var(--safe-t);
+}
+.duo-top__in {
+  max-width: var(--content-max); margin-inline: auto; min-height: var(--top-h);
+  padding-inline: var(--s-4); display: flex; align-items: center; justify-content: space-between; gap: var(--s-3);
+}
+.duo-top__brand {
+  display: inline-flex; align-items: center; gap: var(--s-2); flex: none;
+  color: var(--c-text); text-decoration: none; font-weight: var(--fw-black); font-size: var(--fs-md);
+  min-height: var(--tap-min);
+}
+.duo-top__brand img { width: var(--s-5); height: var(--s-5); border-radius: var(--r-sm); }
+.duo-top__name { display: none; }
+
+.duo-stats { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: var(--s-1); min-width: 0; }
+.duo-stat {
+  position: relative; display: inline-flex; align-items: center; gap: var(--s-1);
+  padding: var(--s-1) var(--s-2); border-radius: var(--r-pill);
+  font-size: var(--fs-sm); font-weight: var(--fw-xbold); line-height: 1; white-space: nowrap;
+  background: var(--c-surface-2); color: var(--c-text);
+}
+.duo-stat .d-icon { width: 18px; height: 18px; }
+.duo-stat b { font-weight: var(--fw-black); }
+.duo-stat--streak { background: var(--c-streak-soft); color: var(--c-streak-on-soft); }
+.duo-stat--hearts { background: var(--c-error-soft); color: var(--c-error-on-soft); }
+.duo-stat--xp { background: var(--c-xp-soft); color: var(--c-xp-on-soft); padding-bottom: calc(var(--s-1) + 5px); }
+.duo-stat.is-idle .d-icon { opacity: .6; }
+.duo-stat__bar {
+  position: absolute; left: var(--s-2); right: var(--s-2); bottom: var(--s-1); height: 3px;
+  border-radius: var(--r-pill); background: var(--c-line-shadow); overflow: hidden;
+}
+.duo-stat__bar i { display: block; height: 100%; background: currentColor; transform: scaleX(0); transform-origin: left center; }
+
+/* Навігація: мобільний таб-бар */
+.duo-nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--z-nav);
+  background: var(--c-surface); border-top: 1px solid var(--c-line);
+  padding-bottom: var(--safe-b);
+}
+.duo-nav__in { max-width: var(--content-max); margin-inline: auto; height: var(--nav-h); display: flex; }
+.duo-tab {
+  flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--s-1);
+  color: var(--c-muted); text-decoration: none; font-size: var(--fs-xs); font-weight: var(--fw-xbold);
+  border-radius: var(--r-md); margin: var(--s-1);
+}
+.duo-tab .d-icon { width: 24px; height: 24px; }
+.duo-tab__label { text-align: center; }
+.duo-tab.is-active { background: var(--c-brand-soft); color: var(--c-brand-on-soft); box-shadow: inset 0 calc(var(--bw) * -1) 0 var(--c-brand-on-soft); }
+@media (hover: hover) { .duo-tab:not(.is-active):hover { background: var(--c-surface-2); color: var(--c-text); } }
+.duo-tab:focus-visible { border-radius: var(--r-md); }
+
+/* Toast не має ховатися під таб-баром */
+.duo-has-nav .d-toast { bottom: calc(var(--nav-h) + var(--s-4) + var(--safe-b)); }
+
+@media (min-width: 480px) { .duo-top__name { display: inline; } .duo-stat { padding-inline: var(--s-3); } .duo-stat__bar { left: var(--s-3); right: var(--s-3); } }
+
+/* Десктоп/планшет: сайдбар зліва, контент по центру у колонці */
+@media (min-width: 768px) {
+  body.duo-has-nav { padding-bottom: 0; padding-left: var(--side-w); }
+  .duo-nav {
+    top: 0; right: auto; bottom: 0; width: var(--side-w);
+    border-top: 0; border-right: 1px solid var(--c-line); padding: var(--s-5) var(--s-3);
+  }
+  .duo-nav__in { flex-direction: column; height: auto; gap: var(--s-1); max-width: none; }
+  .duo-tab {
+    flex: none; flex-direction: row; justify-content: flex-start; gap: var(--s-3);
+    min-height: var(--tap-min); padding-inline: var(--s-4); margin: 0;
+    font-size: var(--fs-md); text-transform: none;
+  }
+  .duo-tab__label { text-align: left; }
+  .duo-tab.is-active { box-shadow: inset calc(var(--bw) * 2) 0 0 var(--c-brand-on-soft); }
+  .duo-has-nav .d-toast { bottom: calc(var(--s-5) + var(--safe-b)); left: calc(50% + var(--side-w) / 2); }
+}
+
+/* ---------------------------------------------------------------------- */
+/* 2. Шлях навчання                                                        */
+/* ---------------------------------------------------------------------- */
+.duo-home {
+  --face: var(--s-9);                            /* діаметр звичайного вузла */
+  --face-cur: calc(var(--s-9) + var(--s-5));     /* поточний — крупніше */
+  --box: var(--face-cur);                        /* фіксований слот: стан не зсуває розкладку */
+  --wave: clamp(var(--s-6), 16vw, 72px);         /* амплітуда зигзагу залежить від ширини екрана */
+  max-width: var(--content-max); margin-inline: auto; padding: var(--s-4) var(--s-4) var(--s-6);
+}
+/* Поки JS не розставив стани — шлях прихований (без JS лишається видимим) */
+@media (scripting: enabled) { .duo-home:not(.is-ready) .duo-units { opacity: 0; } }
+
+.duo-unit { --u: var(--c-unit-1); --u-sh: var(--c-unit-1-shadow); margin-block-end: var(--s-6); }
+.duo-unit[data-color="2"] { --u: var(--c-unit-2); --u-sh: var(--c-unit-2-shadow); }
+.duo-unit[data-color="3"] { --u: var(--c-unit-3); --u-sh: var(--c-unit-3-shadow); }
+.duo-unit[data-color="4"] { --u: var(--c-unit-4); --u-sh: var(--c-unit-4-shadow); }
+.duo-unit[data-color="5"] { --u: var(--c-unit-5); --u-sh: var(--c-unit-5-shadow); }
+
+.duo-unit__head {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-3);
+  padding: var(--s-4); border-radius: var(--r-lg);
+  background: var(--u); color: var(--c-text-inverse); box-shadow: 0 var(--lip) 0 var(--u-sh);
+}
+.duo-unit__title { margin: 0; min-width: 0; font-size: var(--fs-md); }
+.duo-unit__day { display: block; font-size: var(--fs-xs); font-weight: var(--fw-black); text-transform: uppercase; letter-spacing: var(--tracking-caps); }
+.duo-unit__topic { display: block; margin-top: var(--s-1); font-size: var(--fs-md); font-weight: var(--fw-xbold); line-height: var(--lh-snug); }
+.duo-unit__cheat { flex: none; }
+
+.duo-path { list-style: none; margin: 0; padding: var(--s-4) 0 0; display: flex; flex-direction: column; align-items: center; }
+.duo-path__item { width: 100%; display: flex; justify-content: center; padding-block: calc(var(--s-4) + var(--s-1)); }
+
+.duo-node {
+  display: flex; flex-direction: column; align-items: center; gap: var(--s-2);
+  max-width: 10rem; text-decoration: none; color: var(--c-text);
+  transform: translateX(calc(var(--k, 0) * var(--wave)));
+  -webkit-tap-highlight-color: transparent;
+}
+.duo-node:focus-visible { border-radius: var(--r-lg); outline-offset: var(--s-1); }
+.duo-node__box { position: relative; width: var(--box); height: var(--box); display: flex; align-items: center; justify-content: center; }
+.duo-node__face {
+  position: relative; width: var(--face); height: var(--face); display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: var(--u); color: var(--c-text-inverse);
+  border: var(--bw) solid var(--u-sh); box-shadow: 0 var(--lip) 0 0 var(--u-sh);
+  transition: transform var(--dur-press) var(--ease-out);
+}
+.duo-node__face .d-icon { width: var(--s-6); height: var(--s-6); }
+.duo-node:active .duo-node__face { transform: translateY(var(--lip)); box-shadow: 0 0 0 0 var(--u-sh); }
+
+.duo-node__label { font-size: var(--fs-sm); font-weight: var(--fw-xbold); line-height: var(--lh-snug); text-align: center; overflow-wrap: anywhere; }
+.duo-node__kicker {
+  display: block; margin-bottom: 2px; font-size: var(--fs-xs); font-weight: var(--fw-black);
+  text-transform: uppercase; letter-spacing: var(--tracking-caps); color: var(--c-brand-on-soft);
+}
+
+/* --- Стани вузла-уроку: форма + значок + розмір, не лише колір --- */
+.duo-node[data-state="current"] .duo-node__face {
+  width: var(--face-cur); height: var(--face-cur);
+  box-shadow: 0 var(--lip) 0 0 var(--u-sh), 0 0 0 var(--s-2) var(--c-bg), 0 0 0 calc(var(--s-2) + var(--bw)) var(--u);
+}
+.duo-node[data-state="current"] .duo-node__face .d-icon { width: var(--s-7); height: var(--s-7); }
+.duo-node[data-state="current"] .duo-node__label { font-size: var(--fs-md); font-weight: var(--fw-black); }
+.duo-node[data-state="current"]:active .duo-node__face { box-shadow: 0 0 0 0 var(--u-sh), 0 0 0 var(--s-2) var(--c-bg), 0 0 0 calc(var(--s-2) + var(--bw)) var(--u); }
+
+.duo-node[data-state="locked"] { cursor: not-allowed; }
+.duo-node[data-state="locked"] .duo-node__face {
+  background: var(--c-disabled-bg); color: var(--c-disabled-text);
+  border: var(--bw) dashed var(--c-line-shadow); box-shadow: none;
+}
+.duo-node[data-state="locked"] .duo-node__label { color: var(--c-muted); font-weight: var(--fw-bold); }
+.duo-node[data-state="locked"]:active .duo-node__face { transform: none; }
+
+/* --- Сундук: заокруглений квадрат, золото XP --- */
+.duo-node--chest .duo-node__face {
+  border-radius: var(--r-lg); background: var(--c-xp-soft); color: var(--c-xp-on-soft);
+  border-color: var(--c-xp); box-shadow: 0 var(--lip) 0 0 var(--c-xp-shadow);
+}
+.duo-node--chest[data-state="done"] .duo-node__face { background: var(--c-surface-2); color: var(--c-muted); border-color: var(--c-line-shadow); box-shadow: 0 var(--lip) 0 0 var(--c-line-shadow); }
+.duo-node--chest[data-state="locked"] .duo-node__face { background: var(--c-disabled-bg); color: var(--c-disabled-text); border: var(--bw) dashed var(--c-line-shadow); box-shadow: none; }
+.duo-node--chest[data-state="available"] .duo-node__label { color: var(--c-xp-on-soft); }
+
+/* --- Бос: «щит» з короною, бренд-колір --- */
+.duo-node--boss .duo-node__face {
+  width: calc(var(--face) + var(--s-3)); height: calc(var(--face) + var(--s-3));
+  border-radius: var(--r-xl) var(--r-xl) var(--r-md) var(--r-md);
+  background: var(--c-brand); border-color: var(--c-brand-shadow); box-shadow: 0 var(--lip) 0 0 var(--c-brand-shadow);
+}
+.duo-node--boss[data-state="done"] .duo-node__face { background: var(--c-success); border-color: var(--c-success-shadow); box-shadow: 0 var(--lip) 0 0 var(--c-success-shadow); }
+.duo-node--boss[data-state="locked"] .duo-node__face { background: var(--c-disabled-bg); color: var(--c-disabled-text); border: var(--bw) dashed var(--c-line-shadow); box-shadow: none; }
+
+/* --- Тултип «ПОЧАТИ» над поточним вузлом (підскок — Duo.motion.bounceTooltip) --- */
+.duo-node__tip {
+  position: absolute; bottom: calc(100% - var(--s-1)); left: 0; right: 0; margin-inline: auto; width: max-content;
+  padding: var(--s-2) var(--s-4); border-radius: var(--r-md);
+  background: var(--c-surface); color: var(--c-text); border: var(--bw) solid var(--u); box-shadow: var(--shadow-sm);
+  font-size: var(--fs-sm); font-weight: var(--fw-black); letter-spacing: var(--tracking-caps); text-transform: uppercase; line-height: 1;
+  pointer-events: none; z-index: 1;
+}
+.duo-node__tip::after {
+  content: ""; position: absolute; left: 50%; bottom: -7px; width: 12px; height: 12px; margin-left: -6px;
+  background: var(--c-surface); border-right: var(--bw) solid var(--u); border-bottom: var(--bw) solid var(--u);
+  transform: rotate(45deg);
+}
+
+/* --- «До поточного вузла» --- */
+.duo-jump { position: fixed; right: var(--s-4); bottom: calc(var(--nav-h) + var(--s-4) + var(--safe-b)); z-index: var(--z-nav); }
+@media (min-width: 768px) { .duo-jump { bottom: var(--s-5); } }
+.duo-jump[hidden] { display: none; }
+
+/* ---------------------------------------------------------------------- */
+/* 3. Онбординг нового користувача (блок у вмісті сторінки, не діалог)      */
+/* ---------------------------------------------------------------------- */
+.duo-onb { margin-block-end: var(--s-6); display: flex; flex-direction: column; gap: var(--s-3); }
+.duo-onb[hidden], .duo-alldone[hidden] { display: none; }
+.duo-onb h2 { margin: 0; font-size: var(--fs-xl); }
+.duo-onb__mascot { align-self: center; min-height: 96px; }
+.duo-onb__lead { margin: 0; color: var(--c-muted); font-weight: var(--fw-bold); }
+.duo-onb__how { margin: 0; padding-left: var(--s-5); display: flex; flex-direction: column; gap: var(--s-2); font-weight: var(--fw-bold); }
+.duo-onb__goal { border: 0; padding: 0; margin: var(--s-2) 0 var(--s-2); min-width: 0; }
+.duo-onb__goal legend { padding: 0; margin-bottom: var(--s-3); font-weight: var(--fw-xbold); }
+.duo-goals { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-3); }
+.duo-goal { display: block; position: relative; }
+.duo-goal__in { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.duo-goal__card {
+  display: flex; flex-direction: column; gap: 2px; min-height: var(--s-9); padding: var(--s-3) var(--s-4) var(--s-3) calc(var(--s-4) + var(--s-5));
+  position: relative; justify-content: center;
+  background: var(--c-surface); border: var(--bw) solid var(--c-line-shadow); border-radius: var(--r-md);
+  box-shadow: 0 var(--bw) 0 0 var(--c-line-shadow); cursor: pointer; font-weight: var(--fw-bold);
+}
+.duo-goal__card b { font-size: var(--fs-lg); font-weight: var(--fw-black); }
+.duo-goal__card span { font-size: var(--fs-sm); color: var(--c-muted); }
+.duo-goal__card::before {           /* радіо-індикатор: кільце, при виборі — заповнене */
+  content: ""; position: absolute; left: var(--s-4); top: 50%; width: var(--s-4); height: var(--s-4); margin-top: calc(var(--s-2) * -1);
+  border-radius: 50%; border: var(--bw) solid var(--c-line-shadow); background: var(--c-surface);
+}
+.duo-goal__in:checked + .duo-goal__card { background: var(--c-brand-soft); border-color: var(--c-brand-on-soft); box-shadow: 0 var(--bw) 0 0 var(--c-brand-on-soft); }
+.duo-goal__in:checked + .duo-goal__card span { color: var(--c-brand-on-soft); }
+.duo-goal__in:checked + .duo-goal__card::before { border-color: var(--c-brand-on-soft); background: radial-gradient(circle, var(--c-brand-on-soft) 0 40%, var(--c-surface) 45%); }
+.duo-goal__in:focus-visible + .duo-goal__card { outline: var(--focus-ring-w) solid var(--c-focus); outline-offset: var(--focus-ring-offset); }
+
+.duo-alldone { margin: 0 0 var(--s-5); font-weight: var(--fw-bold); }
+
+@media (prefers-reduced-motion: reduce) {
+  .duo-node__face { transition: none; }
+}
