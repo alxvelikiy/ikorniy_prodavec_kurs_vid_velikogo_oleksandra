@@ -33,7 +33,8 @@ const base = `http://127.0.0.1:${srv.address().port}`;
 const browser = await chromium.launch({ executablePath: CHROME, headless: true });
 
 let fails = 0;
-const ok = (c, m) => { if (!c) { fails++; console.log('  FAIL ' + m); } else console.log('  ok   ' + m); };
+const failed = [];
+const ok = (c, m) => { if (!c) { fails++; failed.push(m); console.log('  FAIL ' + m); } else console.log('  ok   ' + m); };
 
 // ---- вага JS сторінки (gzip) ----
 {
@@ -191,5 +192,6 @@ for (const w of [360, 390, 430, 1440]) {
 }
 
 await browser.close(); srv.close();
-console.log(fails ? `\nПРОВАЛІВ: ${fails}` : '\nALL OK');
+if (fails) { console.log('\nУпали перевірки:'); failed.forEach(m => console.log('  - ' + m)); }
+console.log(fails ? `ПРОВАЛІВ: ${fails} (перша: ${failed[0]})` : '\nALL OK');
 process.exit(fails ? 1 : 0);
