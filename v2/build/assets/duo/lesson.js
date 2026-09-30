@@ -677,7 +677,7 @@
     var T = FALLBACK_COPY.boss;
     showSimple({
       title: T.retry, sub: S.node.title, medal: 'target',
-      cards: [{ cls: 'success', label: T.got, value: S.correct + ' з ' + S.exTotal }],
+      cards: [{ cls: 'neutral', label: T.got, value: S.correct + ' з ' + S.exTotal }],
       note: T.retryText.replace('{n}', String(need)).replace('{t}', String(S.exTotal)),
       primary: T.again, reload: true, secondary: { label: B.toPath, href: 'index.html' }
     });
