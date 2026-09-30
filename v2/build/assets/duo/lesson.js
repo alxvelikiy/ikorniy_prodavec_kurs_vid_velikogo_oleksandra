@@ -41,7 +41,7 @@
     chest: { locked: 'Сундук відкриється після вузла «{t}». Пройди його на шляху.', opened: 'Сундук відкрито!', already: 'Цей сундук уже відкрито', sub: 'Нагорода за блок уроків', nodes: 'Вузлів пройдено', reward: 'Нагорода', take: 'Забрати', alreadyText: 'XP за нього вже зараховано.' },
     boss: { titleDone: 'Боса пройдено!', retry: 'Ще раз!', retryText: 'Потрібно щонайменше {n} з {t} вірних з першої спроби. Повтори правила й спробуй знову.', again: 'Спробувати ще раз', got: 'Вірно з першої' },
     settings: { label: 'Налаштування сигналів', title: 'Сигнали', text: 'Звук і вібрація під час уроку.', done: 'Готово' },
-    aria: { progress: 'Прогрес уроку', heartsOf: 'Серця', of: 'з', step: 'Крок', right: 'Правильно.', wrong: 'Неправильно.' },
+    aria: { progress: 'Прогрес уроку', heartsOf: 'Серця', of: 'з', step: 'Крок', right: 'Правильно.', wrong: 'Неправильно.', stage: 'Вміст кроку' },
     ex: {
       clientSays: 'Клієнт каже', manager: 'Менеджер', client: 'Клієнт', example: 'Приклад фрази',
       theoryTitle: 'Запам\'ятай', pChoice: 'Обери найкращу відповідь', pTruefalse: 'Правда чи міф?', pBuild: 'Склади фразу',
@@ -163,7 +163,7 @@
 
   function fail(text, retry) {
     root.setAttribute('data-state', 'error');
-    root.innerHTML = '<div class="dl-msg"><p class="dl-msg__text" role="alert"></p><div class="dl-msg__actions"></div></div>';
+    root.innerHTML = '<div class="dl-msg"><div role="alert"><h1 class="dl-msg__text"></h1></div><div class="dl-msg__actions"></div></div>';
     root.querySelector('.dl-msg__text').textContent = text;
     var box = root.querySelector('.dl-msg__actions');
     if (retry) {
@@ -311,7 +311,7 @@
       '</div><div class="dl-combo-wrap"><div class="dl-combo d-badge d-badge--streak" hidden aria-hidden="true"></div></div></header>' +
       '<div class="dl-stage"><div class="dl-stage__in"><section class="dl-card" tabindex="-1" role="group"></section></div></div>' +
       '<footer class="dl-foot"><div class="dl-foot__in">' +
-        '<div class="dl-foot__check"><button type="button" class="d-btn d-btn--primary d-btn--lg d-btn--block dl-primary"><span class="d-btn__label"></span></button></div>' +
+        '<div class="dl-foot__check"><button type="button" class="d-btn d-btn--primary d-btn--lg d-btn--block dl-primary is-disabled" aria-disabled="true"><span class="d-btn__label">' + esc(B.check) + '</span></button></div>' +
         '<div class="dl-sheet" hidden></div>' +
       '</div></footer>' +
       '<div class="sr-only dl-live" aria-live="assertive" aria-atomic="true"></div>';
@@ -412,9 +412,37 @@
     hideSheet();
     updatePrimary();
     call('fadeIn', card);
-    card.focus({ preventScroll: true });
+    focusStep();
     card.scrollTop = 0;
     var stage = root.querySelector('.dl-stage'); if (stage) stage.scrollTop = 0;
+    syncScrollers();
+  }
+
+  // Фокус на заголовку кроку (h1 із tabindex=-1): скринридер читає питання, Tab веде до варіантів
+  function focusStep() {
+    var h = ui.card && ui.card.querySelector('.dl-prompt');
+    if (h) { h.tabIndex = -1; h.focus({ preventScroll: true }); } else if (ui.card) ui.card.focus({ preventScroll: true });
+  }
+  // Прокручувана зона без жодного елемента, що отримує фокус (після перевірки плитки/варіанти вимкнені), недосяжна з клавіатури:
+  // тоді сама зона стає фокусованою (WCAG 2.1.1)
+  function syncScrollers() {
+    var list = [[root.querySelector('.dl-stage'), FALLBACK_COPY.aria.stage], [root.querySelector('.dl-sheet__row'), null]];
+    list.forEach(function (p) {
+      var e = p[0]; if (!e) return;
+      var need = e.scrollHeight > e.clientHeight + 1 && !e.querySelector('button:not([disabled]):not([tabindex="-1"]), a[href], input:not([disabled]), [tabindex="0"]');
+      if (need) { e.tabIndex = 0; if (p[1]) { e.setAttribute('role', 'region'); e.setAttribute('aria-label', p[1]); } }
+      else { e.removeAttribute('tabindex'); if (p[1]) { e.removeAttribute('role'); e.removeAttribute('aria-label'); } }
+    });
+  }
+  window.addEventListener('resize', function () { if (S && ui.card && S.phase !== 'done') syncScrollers(); });
+  // Duo.ui.sheet (core.js) не дає діалогу назви: беремо заголовок листа
+  var sheetUid = 0;
+  function nameSheet(sh) {
+    try {
+      var h = sh && sh.el && sh.el.querySelector('.dl-sheet-title');
+      if (h) { if (!h.id) h.id = 'dl-sheet-t' + (++sheetUid); sh.el.setAttribute('aria-labelledby', h.id); }
+    } catch (e) { /* назва необов'язкова */ }
+    return sh;
   }
 
   function updatePrimary() {
@@ -461,7 +489,7 @@
     setCombo(S.combo);
     var title = praise();
     showSheet('ok', title, res);
-    announce(FALLBACK_COPY.aria.right + ' ' + title);
+    announce(FALLBACK_COPY.aria.right + ' ' + title + (S.combo >= COMBO_FROM ? ' ' + comboText(S.combo) : ''));
   }
 
   function onWrong(res) {
@@ -487,7 +515,7 @@
   function showSheet(kind, title, res) {
     var why = (S.entry.step.why) || res.why || '';
     var h = '<div class="dl-sheet__row"><span class="dl-sheet__icon" aria-hidden="true">' + icon(kind === 'ok' ? 'check' : 'close', 22) + '</span>' +
-      '<div class="dl-sheet__body"><p class="dl-sheet__title">' + esc(title) + '</p>';
+      '<div class="dl-sheet__body"><p class="dl-sheet__title" id="dl-sheet-t-res">' + esc(title) + '</p>';
     if (kind === 'bad') {
       if (res.answerList) {
         h += '<p class="dl-sheet__label">' + esc(res.answerLabel || FALLBACK_COPY.correctAnswer) + '</p><ol class="dl-sheet__list">' +
@@ -502,6 +530,7 @@
       esc(kind === 'ok' ? B.next : B.gotIt) + '</span></button>';
     ui.sheet.innerHTML = h;
     ui.sheet.className = 'dl-sheet dl-sheet--' + kind;
+    ui.sheet.setAttribute('role', 'group'); ui.sheet.setAttribute('aria-labelledby', 'dl-sheet-t-res');
     ui.sheet.hidden = false;
     ui.checkRow.hidden = true;
     ui.foot.className = 'dl-foot is-' + kind;
@@ -512,9 +541,11 @@
     nx.focus({ preventScroll: true });
     var stage = root.querySelector('.dl-stage');
     if (stage && stage.scrollHeight > stage.clientHeight) { /* лист зменшив сцену: утримуємо відповідь у полі зору */ stage.scrollTop = stage.scrollTop; }
+    syncScrollers();
   }
   function hideSheet() {
     ui.sheet.hidden = true; ui.sheet.innerHTML = ''; ui.checkRow.hidden = false;
+    ui.sheet.removeAttribute('role'); ui.sheet.removeAttribute('aria-labelledby');
     ui.foot.className = 'dl-foot';
   }
 
@@ -538,7 +569,7 @@
   function openExit() {
     if (!S || S.dead || dialogOpen() || !Duo.ui) { if (!Duo.ui) go('index.html'); return; }
     var E = FALLBACK_COPY.exit;
-    Duo.ui.sheet({
+    var sh = Duo.ui.sheet({
       tone: 'neutral',
       html: mascotBlock('sad') + '<h2 class="dl-sheet-title">' + esc(E.title) + '</h2><p class="dl-sheet-text">' + esc(E.text) + '</p>',
       actions: [
@@ -546,8 +577,10 @@
         { label: B.leave, kind: 'ghost', onClick: function () { S.dead = true; go(S.practice ? 'praktyka.html' : 'index.html'); } }
       ],
       dismissible: true,
-      onClose: function () { if (S && !S.dead && S.phase === 'answer' && S.inst) ui.card.focus({ preventScroll: true }); }
+      // фокус повертається на хрестик (це робить Duo.ui.sheet); у вправу — лише якщо фокус загубився
+      onClose: function () { if (S && !S.dead && S.phase === 'answer' && S.inst && (!document.activeElement || document.activeElement === document.body)) focusStep(); }
     });
+    nameSheet(sh);
   }
 
   function openSettings() {
@@ -559,13 +592,14 @@
       actions: [{ label: T.done, kind: 'primary' }],
       dismissible: true
     });
+    nameSheet(sh);
     Duo.signals.mountSettings(sh.el.querySelector('.dl-settings'));
   }
 
   function heartsGate(cont) {
     if (S.free || heartsNow().n > 0 || !Duo.ui) return cont();
     var H = FALLBACK_COPY.heartsEmpty, refilled = false;
-    Duo.ui.sheet({
+    nameSheet(Duo.ui.sheet({
       tone: 'error',
       html: mascotBlock('sad') + '<h2 class="dl-sheet-title">' + esc(H.title) + '</h2><p class="dl-sheet-text">' + esc(H.text) + '</p>',
       actions: [
@@ -574,7 +608,7 @@
       ],
       dismissible: false,
       onClose: function () { if (refilled) cont(); }
-    });
+    }));
   }
 
   /* --------------------------------------------------------------------- */

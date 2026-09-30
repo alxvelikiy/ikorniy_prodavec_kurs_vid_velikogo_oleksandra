@@ -75,7 +75,7 @@
 .dl-opt__text { flex: 1; min-width: 0; overflow-wrap: break-word; line-height: var(--lh-snug); }
 .dl-options--tf { flex-direction: row; }
 .dl-option--tf { flex: 1; justify-content: center; min-height: var(--s-9); font-size: var(--fs-lg); text-align: center; }
-.dl-option--tf .dl-opt__text { flex: none; }
+.dl-option--tf .dl-opt__text { flex: 0 1 auto; }
 .d-option[aria-disabled="true"] { cursor: default; }
 
 /* Пропуск (fill) */
@@ -232,3 +232,24 @@
   .dl-sheet__row { margin-bottom: var(--s-3); }
   .dl-sheet__title { font-size: var(--fs-lg); }
 }
+
+/* ---- Стан «вірно/невірно» не лише кольором: маркер ✓/✕ (WCAG 1.4.1); alt-текст після «/» читають скринридери ---- */
+.dl-options .d-option.is-correct::after, .dl-spot .d-option.is-correct::after, .dl-blank.is-correct::after, .d-tile.is-correct::after,
+.dl-options .d-option.is-wrong::after, .dl-spot .d-option.is-wrong::after, .dl-blank.is-wrong::after, .d-tile.is-wrong::after {
+  flex: none; margin-inline-start: var(--s-2); font-weight: var(--fw-black); line-height: 1;
+}
+.dl-options .d-option.is-correct::after, .dl-spot .d-option.is-correct::after { margin-inline-start: auto; }
+.dl-options .d-option.is-wrong::after, .dl-spot .d-option.is-wrong::after { margin-inline-start: auto; }
+.dl-options .d-option.is-correct::after, .dl-spot .d-option.is-correct::after, .dl-blank.is-correct::after, .d-tile.is-correct::after { content: '\2713'; content: '\2713' / 'Правильно'; color: var(--c-success-on-soft); }
+.dl-options .d-option.is-wrong::after, .dl-spot .d-option.is-wrong::after, .dl-blank.is-wrong::after, .d-tile.is-wrong::after { content: '\2715'; content: '\2715' / 'Неправильно'; color: var(--c-error-on-soft); }
+
+/* ---- Масштаб тексту до 200% і ширина 320 px: довгі слова переносяться, кнопки ростуть по висоті, нічого не обрізається ---- */
+.dl-prompt, .dl-question, .dl-say__text, .dl-statement, .dl-theory__text, .dl-quote__text, .dl-line, .dl-tile, .dl-opt__text,
+.dl-sheet__title, .dl-sheet__answer, .dl-sheet__list, .dl-sheet__why, .dl-done__title, .dl-done__sub, .dl-done__epithet, .dl-done__meta,
+.dl-msg__text, .dl-sheet-title, .dl-sheet-text { overflow-wrap: anywhere; }
+.dl-options--tf { flex-wrap: wrap; }
+.dl-option--tf { flex: 1 1 40%; min-width: min-content; }
+.dl .d-btn, .d-sheet .d-btn { white-space: normal; height: auto; min-height: 56px; padding-block: var(--s-2); text-align: center; line-height: var(--lh-snug); }
+.dl-foot .d-btn--lg { min-height: var(--tap-min); }
+.d-sheet { max-height: 92vh; max-height: 92dvh; overflow-y: auto; overscroll-behavior: contain; }
+@media (max-height: 700px) { .dl-foot .d-btn--lg { height: auto; } }
