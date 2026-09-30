@@ -110,13 +110,16 @@ body.duo-has-nav {
 }
 /* Фон: кілька великих кіл по боках шляху на межі помітності (без картинок і градієнтів на весь екран) */
 .duo-home::before {
-  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  --bleed: 190px; /* кола виходять за колонку (радіус найбільшого 170px), щоб не було різкого зрізу по її краю */
+  content: ""; position: absolute; inset: 0 calc(-1 * var(--bleed)); z-index: -1; pointer-events: none;
   background:
-    radial-gradient(circle 120px at 0 12%, var(--c-path-blob) 0 99%, transparent 100%),
-    radial-gradient(circle 170px at 100% 31%, var(--c-path-blob) 0 99%, transparent 100%),
-    radial-gradient(circle 110px at 0 58%, var(--c-path-blob) 0 99%, transparent 100%),
-    radial-gradient(circle 150px at 100% 83%, var(--c-path-blob) 0 99%, transparent 100%);
+    radial-gradient(circle 120px at var(--bleed) 12%, var(--c-path-blob) 0 99%, transparent 100%),
+    radial-gradient(circle 170px at calc(100% - var(--bleed)) 31%, var(--c-path-blob) 0 99%, transparent 100%),
+    radial-gradient(circle 110px at var(--bleed) 58%, var(--c-path-blob) 0 99%, transparent 100%),
+    radial-gradient(circle 150px at calc(100% - var(--bleed)) 83%, var(--c-path-blob) 0 99%, transparent 100%);
 }
+/* Зріз по краю екрана/бічної панелі робить <main>; clip (на відміну від hidden) не ламає липкі шапки */
+.duo-main { overflow-x: clip; }
 /* Поки JS не розставив стани — шлях прихований (без JS лишається видимим) */
 @media (scripting: enabled) { .duo-home:not(.is-ready) .duo-units { opacity: 0; } }
 
