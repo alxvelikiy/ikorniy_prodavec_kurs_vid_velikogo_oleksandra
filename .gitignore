@@ -8,3 +8,7 @@ v2/mvp/dist/
 
 # DUO-редизайн: окремі теки збірки агентів-білдерів (SITE_OUT/COURSE_OUT)
 v2/.out-*/
+
+# результаты прогонов тестов: метки времени, шум в диффах (SUMMARY.json отслеживается)
+v2/mvp/tests/results/*.json
+!v2/mvp/tests/results/SUMMARY.json
