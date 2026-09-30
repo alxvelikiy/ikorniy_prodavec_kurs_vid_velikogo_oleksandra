@@ -5,6 +5,15 @@
   'use strict';
   var D = window.Duo = window.Duo || {};
   var root = null, timer = 0;
+  // позначка «Ціль виконано»: іконка + текст (текст — від 480px), не лише колір
+  var DONE_MARK = '<span class="duo-stat__done"><svg class="d-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12.5l5 5L20 6.5"/></svg><span class="duo-stat__donetxt">Ціль виконано</span></span>';
+  function addStyle() {
+    if (document.querySelector('style[data-duo-shell]')) return;
+    var st = document.createElement('style'); st.setAttribute('data-duo-shell', '');
+    st.textContent = '.duo-stat__done{display:inline-flex;align-items:center;gap:var(--s-1);margin-inline-start:var(--s-1)}.duo-stat__done .d-icon{width:14px;height:14px}' +
+      '.duo-stat__donetxt{display:none}@media (min-width:480px){.duo-stat__donetxt{display:inline}}';
+    document.head.appendChild(st);
+  }
 
   function plural(n, one, few, many) {
     var a = Math.abs(n) % 100, b = a % 10;
@@ -35,7 +44,10 @@
     }
     if (xl) {
       var xp = g.xpToday != null ? g.xpToday : P.xpToday(), frac = g.target ? Math.min(1, xp / g.target) : 0;
-      setText(xl, '<b>' + xp + '</b> з ' + g.target + ' XP', 'Сьогодні ' + xp + ' XP з цілі ' + g.target + ' XP' + (g.done ? ', ціль виконано' : ''));
+      // над ціллю показуємо «ціль з цілі» (20 з 20 XP) і позначку; реальний XP лишається в профілі
+      var shown = Math.min(xp, g.target);
+      setText(xl, '<b>' + shown + '</b> з ' + g.target + ' XP' + (g.done ? DONE_MARK : ''),
+        g.done ? 'Ціль виконано: ' + g.target + ' XP з ' + g.target + ' XP на сьогодні' : 'Сьогодні ' + xp + ' XP з цілі ' + g.target + ' XP');
       var bar = xl.querySelector('.duo-stat__bar i');
       if (bar) bar.style.transform = 'scaleX(' + frac + ')';
       xl.classList.toggle('is-done', !!g.done);
@@ -60,6 +72,7 @@
       if (mq) { if (mq.addEventListener) mq.addEventListener('change', function (e) { place(e.matches); }); }
     }
     if (!root) return;
+    addStyle();
     render();
     if (D.env && D.env.on) D.env.on('progress:change', render);
     document.addEventListener('visibilitychange', function () { if (!document.hidden) render(); });
