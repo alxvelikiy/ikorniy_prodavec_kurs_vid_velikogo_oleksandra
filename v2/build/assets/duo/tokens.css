@@ -66,7 +66,10 @@
 
   /* ---- 3D-товщини ---- */
   --bw: 2px;   /* рамка */
-  --lip: 4px;  /* нижня "губа" */
+  --lip: 4px;  /* нижня "губа" (картки-варіанти, плитки) */
+  --ledge-btn: 6px;   /* "полиця" кнопок: box-shadow 0 var(--ledge-btn) 0 var(--edge-*), натискання = translateY на ту саму величину */
+  --ledge-node: 12px; /* "полиця" вузлів шляху (один токен не підходить: 12px на кнопці заввишки 52px — надто грубо) */
+  --btn-h: 52px;      /* мінімальна висота кнопки на мобільному */
 
   /* ---- Розміри дотику / макет ---- */
   --tap-min: 48px;
@@ -164,6 +167,19 @@
   --c-skeleton-base: #EFE7DC;
   --c-skeleton-shine: #FBF8F4;
 
+  /* ---- Об'ємні пари face/edge (кнопки, вузли шляху, плашка дня) ----
+     face — заливка під --c-text-inverse (біла, ≥4.5:1), edge — "полиця" на ~20% темніша за яскравістю.
+     Пари однакові в обох темах: це самодостатня заливка, що не залежить від теми сторінки
+     (виняток locked — нейтральна, адаптується). on-gold/on-locked — колір іконки/тексту на face. */
+  --face-brand: #C8440F;  --edge-brand: #A0360C;
+  --face-done: #237A35;   --edge-done: #1C622A;
+  --face-violet: #7A3FB0; --edge-violet: #62328D;
+  --face-blue: #1868B0;   --edge-blue: #13538D;
+  --face-gold: #F2B01E;   --edge-gold: #CE910C;   --on-gold: #3A2600;
+  --face-locked: #E3DCD2; --edge-locked: #C5B6A2; --on-locked: #7D7160;
+  --c-path-tint: rgba(43,36,32,.025); /* ледь темніший тон під колонкою шляху */
+  --c-path-blob: rgba(200,68,15,.06); /* великі кола по боках шляху — на межі помітності */
+
   --shadow-sm: 0 1px 3px rgba(43,36,32,.14);
   --shadow-md: 0 4px 16px rgba(43,36,32,.16);
   --shadow-lg: 0 12px 32px rgba(43,36,32,.22);
@@ -197,7 +213,7 @@
   --c-success: #237A35;
   --c-success-shadow: #154A20;
   --c-success-soft: #1F3324;
-  --c-success-on-soft: #4FAE6E;
+  --c-success-on-soft: #5FC07F;
 
   --c-error: #C41E3A;
   --c-error-shadow: #8A1329;
@@ -235,6 +251,15 @@
   --c-disabled-text: #8A7A68;
   --c-skeleton-base: #2E251E;
   --c-skeleton-shine: #3E322A;
+
+  --face-brand: #C8440F;  --edge-brand: #A0360C;
+  --face-done: #237A35;   --edge-done: #1C622A;
+  --face-violet: #7A3FB0; --edge-violet: #62328D;
+  --face-blue: #1868B0;   --edge-blue: #13538D;
+  --face-gold: #F2B01E;   --edge-gold: #CE910C;   --on-gold: #3A2600;
+  --face-locked: #4A3D33; --edge-locked: #3B3129; --on-locked: #B4A493;
+  --c-path-tint: rgba(0,0,0,.035);
+  --c-path-blob: rgba(217,138,84,.07);
 
   --shadow-sm: 0 1px 3px rgba(0,0,0,.4);
   --shadow-md: 0 4px 16px rgba(0,0,0,.5);

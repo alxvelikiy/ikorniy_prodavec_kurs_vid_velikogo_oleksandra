@@ -5,7 +5,7 @@
 (function () {
   'use strict';
   var D = window.Duo = window.Duo || {};
-  var root, onb, done, jump, tip, tipFor = null, tipH = null, io = null, curEl = null, ready = false;
+  var root, onb, done, jump, tip, tipFor = null, tipH = null, io = null, curEl = null, ready = false, mascotH = null, mascotLi = null;
 
   var STATE_TXT = { locked: 'закрито', available: 'доступно', current: 'поточний', done: 'пройдено' };
   var CHEST_TXT = { locked: 'закритий', available: 'готовий, можна відкрити', done: 'відкрито' };
@@ -42,6 +42,25 @@
     if (D.motion && D.motion.bounceTooltip) tipH = D.motion.bounceTooltip(tip);
   }
 
+  // ---------- маскот збоку від активного вузла (декор) ----------
+  function placeMascot(el) {
+    var li = el && el.closest ? el.closest('.duo-path__item') : null;
+    if (li === mascotLi) return;
+    if (mascotH) { mascotH.destroy(); mascotH = null; }
+    mascotLi = li;
+    if (!li || !D.mascot || !D.mascot.mount) return;
+    var host = li.querySelector('.duo-mascot');
+    if (!host) {
+      host = document.createElement('span');
+      host.className = 'duo-mascot';
+      host.setAttribute('aria-hidden', 'true');
+      li.appendChild(host);
+    }
+    // з того боку, де більше місця: вузол правіше центру (k ≥ 0) — маскот ліворуч, і навпаки
+    host.style.setProperty('--side', parseFloat(li.style.getPropertyValue('--k')) >= 0 ? '-1' : '1');
+    mascotH = D.mascot.mount(host, { emotion: 'happy', size: 112, idle: true });
+  }
+
   // ---------- стани вузлів ----------
   function updateNodes() {
     var p = P(), cur = null;
@@ -59,6 +78,7 @@
     }
     curEl = cur;
     placeTip(cur);
+    placeMascot(cur);
     observeCurrent();
   }
 

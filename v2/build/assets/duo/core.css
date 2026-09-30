@@ -86,52 +86,40 @@ button { font-family: inherit; }
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  transition: transform var(--dur-press) var(--ease-out),
-              box-shadow var(--dur-press) var(--ease-out),
+  transition: transform var(--dur-instant) var(--ease-out),
+              box-shadow var(--dur-instant) var(--ease-out),
               background-color var(--dur-fast) var(--ease-out),
               filter var(--dur-fast) var(--ease-out);
 }
 .d-btn__icon { width: 20px; height: 20px; flex: none; }
 .d-btn__label { display: inline-block; }
 
-/* Розміри */
+/* Розміри (висота ≥ --btn-h на мобільному; sm — компактна, для неосновних дій) */
 .d-btn--lg { height: 56px; padding: 0 var(--s-6); font-size: var(--fs-lg); border-radius: var(--r-lg); }
-.d-btn--md { height: var(--tap-min); padding: 0 var(--s-5); font-size: var(--fs-md); }
-.d-btn--sm { height: 40px; padding: 0 var(--s-4); font-size: var(--fs-sm); border-radius: var(--r-md); gap: var(--s-1); }
+.d-btn--md { height: var(--btn-h); padding: 0 var(--s-5); font-size: var(--fs-md); }
+.d-btn--sm { height: 44px; padding: 0 var(--s-4); font-size: var(--fs-sm); border-radius: var(--r-md); gap: var(--s-1); }
 .d-btn--sm .d-btn__icon { width: 16px; height: 16px; }
 .d-btn--block { display: flex; width: 100%; }
 
-/* Варіант: primary (бренд) */
-.d-btn--primary {
-  background: var(--c-brand); color: var(--c-text-inverse);
-  border-color: var(--c-brand-shadow);
-  box-shadow: 0 var(--lip) 0 0 var(--c-brand-shadow);
+/* Єдина схема: --btn-face + --btn-edge → заливка + "полиця" (box-shadow 0 ledge 0 edge) + натискання вниз на ledge.
+   Кольорові варіанти — пари face/edge з tokens.css; border = колір face (розмір не залежить від варіанту). */
+.d-btn--primary { --btn-face: var(--face-brand); --btn-edge: var(--edge-brand); --btn-ink: var(--c-text-inverse); }
+.d-btn--success { --btn-face: var(--face-done);  --btn-edge: var(--edge-done);  --btn-ink: var(--c-text-inverse); }
+.d-btn--info    { --btn-face: var(--face-blue);  --btn-edge: var(--edge-blue);  --btn-ink: var(--c-text-inverse); }
+.d-btn--gold    { --btn-face: var(--face-gold);  --btn-edge: var(--edge-gold);  --btn-ink: var(--on-gold); }
+.d-btn--danger  { --btn-face: var(--c-error);    --btn-edge: var(--c-error-shadow); --btn-ink: var(--c-text-inverse); }
+.d-btn--primary, .d-btn--success, .d-btn--info, .d-btn--gold, .d-btn--danger {
+  background: var(--btn-face); color: var(--btn-ink);
+  border-color: var(--btn-face);
+  box-shadow: 0 var(--ledge-btn) 0 0 var(--btn-edge);
 }
-/* Варіант: secondary (поверхня, сіра губа) */
+/* secondary: поверхня + нейтральна полиця */
 .d-btn--secondary {
   background: var(--c-surface); color: var(--c-text);
   border-color: var(--c-line-shadow);
-  box-shadow: 0 var(--lip) 0 0 var(--c-line-shadow);
+  box-shadow: 0 var(--ledge-btn) 0 0 var(--c-line-shadow);
 }
-/* Варіант: success */
-.d-btn--success {
-  background: var(--c-success); color: var(--c-text-inverse);
-  border-color: var(--c-success-shadow);
-  box-shadow: 0 var(--lip) 0 0 var(--c-success-shadow);
-}
-/* Варіант: danger */
-.d-btn--danger {
-  background: var(--c-error); color: var(--c-text-inverse);
-  border-color: var(--c-error-shadow);
-  box-shadow: 0 var(--lip) 0 0 var(--c-error-shadow);
-}
-/* Варіант: info */
-.d-btn--info {
-  background: var(--c-info); color: var(--c-text-inverse);
-  border-color: var(--c-info-shadow);
-  box-shadow: 0 var(--lip) 0 0 var(--c-info-shadow);
-}
-/* Варіант: ghost — пласка, без 3D-губи */
+/* ghost — пласка, без полиці */
 .d-btn--ghost {
   background: transparent; color: var(--c-brand-on-soft);
   border-color: transparent; box-shadow: none;
@@ -141,6 +129,7 @@ button { font-family: inherit; }
   .d-btn--primary:hover,
   .d-btn--success:hover,
   .d-btn--danger:hover,
+  .d-btn--gold:hover,
   .d-btn--info:hover { filter: brightness(1.06); }
   .d-btn--secondary:hover { background: var(--c-surface-2); }
   .d-btn--ghost:hover { background: var(--c-brand-soft); }
@@ -148,15 +137,16 @@ button { font-family: inherit; }
 
 .d-btn:active:not(:disabled):not(.is-disabled),
 .d-btn.is-pressed:not(:disabled):not(.is-disabled) {
-  transform: translateY(var(--lip));
+  transform: translateY(var(--ledge-btn));
   box-shadow: 0 0 0 0 transparent;
 }
 .d-btn--ghost:active { transform: none; }
 
+/* disabled: плоска, без полиці; текст ≥3:1 до заливки */
 .d-btn:disabled, .d-btn.is-disabled {
   background: var(--c-disabled-bg); color: var(--c-disabled-text);
   border-color: var(--c-disabled-bg); box-shadow: none;
-  cursor: not-allowed; transform: none;
+  cursor: not-allowed; transform: none; filter: none;
 }
 
 /* Завантаження: текст ховаємо, розмір не стрибає */
@@ -425,6 +415,7 @@ button { font-family: inherit; }
   margin-bottom: var(--s-2);
 }
 .d-stat--success .d-stat__label { background: var(--c-success-soft); color: var(--c-success-on-soft); }
+.d-stat--neutral .d-stat__label { background: var(--c-surface-2); color: var(--c-text); }
 .d-stat--xp .d-stat__label      { background: var(--c-xp-soft);      color: var(--c-xp-on-soft); }
 .d-stat--streak .d-stat__label  { background: var(--c-streak-soft);  color: var(--c-streak-on-soft); }
 .d-stat__value { font-size: var(--fs-2xl); font-weight: var(--fw-black); line-height: var(--lh-tight); }
