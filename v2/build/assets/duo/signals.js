@@ -15,7 +15,10 @@
     streak:          { sfx: 'combo',          hap: null },
     node_complete:   { sfx: 'unlock',         hap: 'celebrate' },
     lesson_complete: { sfx: 'lessonComplete', hap: 'celebrate' },
-    tap_tile:        { sfx: 'tileSelect',     hap: null }
+    tap_tile:        { sfx: 'tileSelect',     hap: null },
+    goal:            { sfx: 'goal',           hap: 'celebrate' },
+    quest:           { sfx: 'chest',          hap: null },
+    achievement:     { sfx: 'unlock',         hap: 'celebrate' }
   };
 
   function reduced() {
