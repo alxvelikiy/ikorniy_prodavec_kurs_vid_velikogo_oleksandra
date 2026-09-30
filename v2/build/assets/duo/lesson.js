@@ -40,7 +40,7 @@
     sos: { title: 'Швидке повторення', done: 'Готово!', sub: 'Ключові правила повторено', cards: 'Карток', answers: 'Відповідей', note: 'Це швидке повторення: без сердець і XP.' },
     chest: { locked: 'Сундук відкриється після вузла «{t}». Пройди його на шляху.', opened: 'Сундук відкрито!', already: 'Цей сундук уже відкрито', sub: 'Нагорода за блок уроків', nodes: 'Вузлів пройдено', reward: 'Нагорода', take: 'Забрати', alreadyText: 'XP за нього вже зараховано.' },
     boss: { titleDone: 'Боса пройдено!', retry: 'Ще раз!', retryText: 'Потрібно щонайменше {n} з {t} вірних з першої спроби. Повтори правила й спробуй знову.', again: 'Спробувати ще раз', got: 'Вірно з першої' },
-    settings: { label: 'Налаштування сигналів', title: 'Сигнали', text: 'Звук і вібрація під час уроку.', done: 'Готово' },
+    settings: { label: 'Налаштування сигналів', title: 'Сигнали', done: 'Готово' },
     aria: { progress: 'Прогрес уроку', heartsOf: 'Серця', of: 'з', step: 'Крок', right: 'Правильно.', wrong: 'Неправильно.', stage: 'Вміст кроку' },
     ex: {
       clientSays: 'Клієнт каже', manager: 'Менеджер', client: 'Клієнт', example: 'Приклад фрази',
@@ -588,7 +588,7 @@
     var T = FALLBACK_COPY.settings;
     var sh = Duo.ui.sheet({
       tone: 'neutral',
-      html: '<h2 class="dl-sheet-title">' + esc(T.title) + '</h2><p class="dl-sheet-text">' + esc(T.text) + '</p><div class="dl-settings"></div>',
+      html: '<h2 class="dl-sheet-title">' + esc(T.title) + '</h2><div class="dl-settings"></div>',
       actions: [{ label: T.done, kind: 'primary' }],
       dismissible: true
     });
