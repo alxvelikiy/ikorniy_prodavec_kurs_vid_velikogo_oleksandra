@@ -503,12 +503,21 @@
   }
   function dialogOpen() { return !!document.querySelector('.d-sheet, .d-modal'); }
 
+  // сторінка теорії уроку поточної частини (лише режим частини; у повторі помилок, SOS і босі — немає)
+  function theoryHref() {
+    if (!S || S.mode !== 'node' || !S.node.lesson) return null;
+    var l = courseData().lessons && courseData().lessons[S.node.lesson];
+    return l && l.href ? l.href : null;
+  }
+
   function openExit() {
     if (!S || S.dead || dialogOpen() || !Duo.ui) { if (!Duo.ui) go('index.html'); return; }
-    var E = TX.exit;
+    var E = TX.exit, th = theoryHref();
     var sh = Duo.ui.sheet({
       tone: 'neutral',
-      html: mascotBlock('sad') + '<h2 class="dl-sheet-title">' + esc(E.title) + '</h2><p class="dl-sheet-text">' + esc(E.text) + '</p>',
+      html: mascotBlock('sad') + '<h2 class="dl-sheet-title">' + esc(E.title) + '</h2><p class="dl-sheet-text">' + esc(E.text) + '</p>' +
+        // теорія — у новій вкладці: незбережений прогрес частини лишається тут
+        (th ? '<p class="dl-sheet-text"><a class="dl-theory" href="' + esc(th) + '" target="_blank" rel="noopener">' + esc(TX.theory) + '<span class="sr-only">' + esc(TX.newTab) + '</span></a></p>' : ''),
       actions: [
         { label: B.stay, kind: 'primary' },
         { label: B.leave, kind: 'ghost', onClick: function () { S.dead = true; go(S.practice ? 'praktyka.html' : 'index.html'); } }
@@ -518,6 +527,8 @@
       onClose: function () { if (S && !S.dead && S.phase === 'answer' && S.inst && (!document.activeElement || document.activeElement === document.body)) focusStep(); }
     });
     nameSheet(sh);
+    // початковий фокус — «Продовжити», а не посилання в тексті листа
+    var stay = sh && sh.el && sh.el.querySelector('.d-sheet__actions .d-btn'); if (stay) stay.focus();
   }
 
   function openSettings() {
@@ -680,6 +691,8 @@
         '<div class="dl-done__actions">' +
           '<button type="button" class="d-btn d-btn--primary d-btn--lg d-btn--block dl-continue"><span class="d-btn__label">' + esc(B.cont) + '</span><span class="d-btn__spinner"></span></button>' +
           (res.nextNodeId ? '<a class="d-btn d-btn--ghost d-btn--lg d-btn--block" href="index.html">' + esc(B.toLearn) + '</a>' : '') +
+          // прогрес частини вже збережено (completeNode) — теорія відкривається в цій вкладці
+          (theoryHref() ? '<a class="d-btn d-btn--ghost d-btn--lg d-btn--block dl-theory" href="' + esc(theoryHref()) + '">' + esc(TX.theory) + '</a>' : '') +
         '</div>' +
       '</section><div class="sr-only dl-live" aria-live="polite"></div>';
     var cards = Array.prototype.slice.call(root.querySelectorAll('.dl-stat'));

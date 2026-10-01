@@ -110,6 +110,35 @@ async function finishNode(page) {
   await ctx.close();
 }
 
+// ---- 1.4 «Теорія уроку» з плеєра: лист «Точно вийти?» (нова вкладка) і підсумок частини (прогрес уже збережено) ----
+{
+  console.log('== 1.4 посилання на теорію з плеєра');
+  let { ctx, page, errs } = await mk('vprava.html?n=u01-1', { prep: '(() => Duo.progress.setOnboarded())()' });
+  await page.waitForSelector('.dl-close'); await page.click('.dl-close'); await page.waitForSelector('.d-sheet .dl-theory');
+  const ex = await page.evaluate(() => { const a = document.querySelector('.d-sheet .dl-theory'); return { href: a.getAttribute('href'), target: a.target, rel: a.rel, name: a.textContent, focus: document.activeElement && document.activeElement.textContent.trim() }; });
+  console.log('  ', JSON.stringify(ex));
+  ok(ex.href === 'urok-01.html' && ex.target === '_blank' && /noopener/.test(ex.rel), 'лист виходу: «Теорія уроку» → urok-01.html у новій вкладці');
+  ok(ex.name === 'Теорія уроку (відкриється в новій вкладці)', 'читалка чує про нову вкладку');
+  ok(ex.focus === 'Продовжити', 'початковий фокус листа — «Продовжити»');
+  const [tab] = await Promise.all([ctx.waitForEvent('page'), page.click('.d-sheet .dl-theory')]);
+  await tab.waitForLoadState();
+  ok(tab.url().endsWith('/urok-01.html') && page.url().includes('vprava.html?n=u01-1') && (await page.getAttribute('#duo-lesson', 'data-state')) === 'play', 'теорія відкрилась у новій вкладці, частина лишилась відкритою');
+  await tab.close();
+  await page.keyboard.press('Escape'); await page.waitForTimeout(300);
+  const title = await finishNode(page);
+  const d = await page.evaluate(() => { const a = document.querySelector('.dl-done .dl-theory'); return { href: a && a.getAttribute('href'), target: a && a.target, done: Duo.progress.isDone('u01-1') }; });
+  ok(title === 'Частину пройдено!' && d.href === 'urok-01.html' && !d.target && d.done, 'підсумок: «Теорія уроку» → urok-01.html, частину вже збережено');
+  await page.click('.dl-done .dl-theory'); await page.waitForURL(/urok-01\.html$/);
+  await page.goto(base + '/index.html'); await page.waitForTimeout(300);
+  ok((await page.getAttribute('.duo-node[data-id="u01-1"]', 'data-state')) === 'done', 'після переходу в теорію частина u01-1 пройдена на шляху');
+  ok(errs.filter(e => !/urok-01/.test(e)).length === 0, 'консоль чиста ' + errs.join(';'));
+  await ctx.close();
+  ({ ctx, page, errs } = await mk('vprava.html?mode=mistakes', { prep: "(() => { Duo.progress.setOnboarded(); Duo.progress.recordMistake({ lesson: 1, stepId: 'u01-1-s2', nodeId: 'u01-1' }); })()" }));
+  await page.waitForSelector('.dl-close'); await page.click('.dl-close'); await page.waitForSelector('.d-sheet');
+  ok(!(await page.$('.d-sheet .dl-theory')), 'повтор помилок: у листі виходу посилання на теорію немає');
+  await ctx.close();
+}
+
 await browser.close(); srv.close();
 console.log(fails ? '\nFAILS: ' + fails : '\nALL OK');
 process.exit(fails ? 1 : 0);
