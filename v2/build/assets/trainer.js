@@ -565,7 +565,7 @@
     }
     var due = rvDueList().length;
     var extra = '';
-    if (due) extra += '<a class="mvp-btn" href="povtorennia.html">Повторення: ' + due + ' ' + (due === 1 ? 'картка' : (due < 5 ? 'картки' : 'карток')) + '</a>';
+    if (due) extra += '<a class="mvp-btn" href="povtorennia.html">Картки повторення: ' + due + '</a>';
     if (st.last && st.last.slug && st.last.slug !== SLUG) {
       extra += '<a class="mvp-btn ghost" href="' + esc(st.last.slug) + '.html#' + esc(st.last.id) + '">Продовжити з місця: ' + esc((st.last.title || '').trim()) + ' → «' + esc(st.last.text) + '»</a>';
     }
@@ -728,7 +728,7 @@
         var html = '<p class="mvp-result ' + (pass ? 'ok' : 'no') + '">' + (pass ? 'Урок зараховано ✓' : 'Ще не зараховано (поріг 80 %)') + ' — з першої спроби правильно ' + ok + '/' + total + ' (' + pct + '%).</p>' +
           '<p class="mvp-compare">Впевненість ' + conf + '/5, результат ' + pct + '%: ' + cmp + '</p>';
         if (wr.length) html += '<p class="mvp-sub" style="margin-top:10px;font-weight:700">Повтори правила:</p><ul class="mvp-weak">' + wr.map(function (c) { var r = ruleByCode(c); return r ? '<li><b>' + esc(c) + '</b> ' + esc(cap(r.text)) + '</li>' : ''; }).join('') + '</ul>';
-        html += '<p class="mvp-hint">Питання цього уроку додано в «Повторення»: ті, де була помилка, повернуться вже завтра.</p>';
+        html += '<p class="mvp-hint">Питання цього уроку додано в «Картки повторення»: ті, де була помилка, повернуться вже завтра.</p>';
         card.innerHTML = '<div class="mvp-test-head"><p class="mvp-card-title">Перевірка уроку</p></div><div class="mvp-test-res" tabindex="-1">' + html + '</div><div class="mvp-row"><button type="button" class="mvp-btn mvp-again">Пройти ще раз</button><a class="mvp-btn primary" href="index.html">До «Сьогодні»</a></div>';
         card.querySelector('.mvp-again').addEventListener('click', function () { prevTest = ls(l.n).test; start(); });
         card.querySelector('.mvp-test-res').focus();
@@ -1086,7 +1086,7 @@
       html += '<section class="mvp-weakcard" aria-label="Слабкі теми"><p class="mvp-card-title">Слабкі теми</p>' + (weakList.length ? '<ul class="mvp-weak">' + weakList.map(function (w) {
         var l = L(w.n);
         return '<li><a href="' + l.href + '"><b>Урок ' + w.n + '. ' + esc(l.title) + '</b></a> — помилок: ' + w.wrong + Object.keys(w.rules).map(function (c) { var r = ruleByCode(c); return r ? '<br><span class="mvp-muted"><b>' + esc(c) + '</b> ' + esc(cap(r.text)) + '</span>' : ''; }).join('') + '</li>';
-      }).join('') + '</ul><p class="mvp-hint">Питання з помилками додано в «Повторення» — вони повернуться вже завтра.</p>' : '<p>Слабких тем немає — усі відповіді правильні.</p>') + '</section>';
+      }).join('') + '</ul><p class="mvp-hint">Питання з помилками додано в «Картки повторення» — вони повернуться вже завтра.</p>' : '<p>Слабких тем немає — усі відповіді правильні.</p>') + '</section>';
       card.innerHTML = '<div class="mvp-test-head"><p class="mvp-card-title">Перевірка готовності</p></div><div class="mvp-test-res" tabindex="-1">' + html + '</div>' +
         '<div class="mvp-row"><button type="button" class="mvp-btn mvp-again">Пройти ще раз</button><a class="mvp-btn primary" href="povtorennia.html">До повторення</a><a class="mvp-btn ghost" href="index.html">До «Сьогодні»</a></div>';
       card.querySelector('.mvp-again').addEventListener('click', intro);

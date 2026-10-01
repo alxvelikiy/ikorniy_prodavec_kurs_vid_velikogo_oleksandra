@@ -200,6 +200,24 @@ async function finishNode(page) {
   await ctx.close();
 }
 
+// ---- 1.8 унікальні назви: «Картки повторення», «Робота над помилками», «Розминка перед дзвінком» ----
+{
+  console.log('== 1.8 назви повторення/практики');
+  let { ctx, page, errs } = await mk('praktyka.html', { prep: "(() => { Duo.progress.setOnboarded(); Duo.progress.recordMistake({ lesson: 1, stepId: 'u01-1-s2', nodeId: 'u01-1' }); })()" });
+  const p = await page.evaluate(() => ({ h2: [...document.querySelectorAll('#main-content h2')].map(h => h.textContent.trim()), btn: (document.querySelector('#pr-mis-btn') || {}).textContent, tools: [...document.querySelectorAll('.mt-link b')].map(b => b.textContent) }));
+  console.log('  ', JSON.stringify(p));
+  ok(p.h2.includes('Робота над помилками') && p.h2.includes('Розминка перед дзвінком'), 'Практика: «Робота над помилками», «Розминка перед дзвінком»');
+  ok((p.btn || '').trim() === 'Працювати над помилками', 'кнопка «Працювати над помилками»');
+  ok(p.tools.includes('Картки повторення') && !p.tools.includes('Повторення'), 'посилання «Картки повторення»');
+  await page.goto(base + '/vprava.html?mode=mistakes');
+  ok((await finishNode(page)) === 'Помилки опрацьовано!', 'підсумок роботи над помилками: «Помилки опрацьовано!»');
+  await page.goto(base + '/povtorennia.html'); await page.waitForTimeout(300);
+  const r = await page.evaluate(() => ({ title: document.title, nav: [...document.querySelectorAll('#site-nav a')].map(a => a.textContent.trim()) }));
+  ok(/^Картки повторення/.test(r.title) && r.nav.includes('Картки повторення') && !r.nav.includes('Повторення'), 'стара сторінка: заголовок і меню «Картки повторення»');
+  ok(errs.length === 0, 'консоль чиста ' + errs.join(';'));
+  await ctx.close();
+}
+
 await browser.close(); srv.close();
 console.log(fails ? '\nFAILS: ' + fails : '\nALL OK');
 process.exit(fails ? 1 : 0);
