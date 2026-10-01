@@ -2,6 +2,10 @@
 // Власник — builder-celebrate. Розмітка статична (працює без JS: посилання, заголовки, підписи);
 // лічильники, полоски, календар і досягнення малює assets/duo/meta.js, стилі — assets/duo/meta.css.
 // Кожна функція → { title, description, body, css, js, nav }. ctx: { course, esc, mascotSvg(emotion, opts) | null }
+import { COPY } from '../copy.mjs';
+
+const PG = COPY.pages;
+const e = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const common = { css: ['assets/duo/home.css', 'assets/duo/meta.css'], js: ['assets/duo/meta.js'], nav: true };
 
 const ico = (d, extra = '') => `<svg class="d-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"${extra}>${d}</svg>`;
@@ -19,112 +23,109 @@ const mascot = (ctx, emotion) => (ctx && ctx.mascotSvg ? `<div class="mt-mascot"
 
 const tool = (href, icon, title, text) => `<li><a class="mt-link" href="${href}">
 <span class="mt-link__ico" aria-hidden="true">${ico(I[icon])}</span>
-<span class="mt-link__txt"><b>${title}</b><span>${text}</span></span>
+<span class="mt-link__txt"><b>${e(title)}</b><span>${e(text)}</span></span>
 <span class="mt-link__go" aria-hidden="true">${ico('<path d="M9 5l7 7-7 7"/>')}</span>
 </a></li>`;
 
 export function praktyka(ctx) {
-  return { ...common, title: 'Практика', description: 'Повторення помилок, SOS-тренування і тренажери курсу.', body: `<div id="duo-practice" class="duo-meta">
-<h1 class="mt-h1">Практика</h1>
-<p class="mt-lead">Повторюй пройдене й тренуйся без тиску.</p>
+  const X = PG.praktyka;
+  return { ...common, title: X.title, description: X.description, body: `<div id="duo-practice" class="duo-meta">
+<h1 class="mt-h1">${e(X.title)}</h1>
+<p class="mt-lead">${e(X.lead)}</p>
 
 <section class="d-card mt-card mt-hero" aria-labelledby="pr-mis-h">
 ${mascot(ctx, 'thinking')}
 <div class="mt-hero__body">
-<h2 class="mt-h2" id="pr-mis-h">Повторити помилки</h2>
-<p class="mt-text" id="pr-mis-text">Тут збираються завдання, у яких ти помилився. Повторення закріплює їх.</p>
-<div class="mt-actions" id="pr-mis-act"><a class="d-btn d-btn--primary d-btn--md" id="pr-mis-btn" href="vprava.html?mode=mistakes"><span class="d-btn__label">Повторити помилки</span></a></div>
+<h2 class="mt-h2" id="pr-mis-h">${e(X.misTitle)}</h2>
+<p class="mt-text" id="pr-mis-text">${e(X.misText)}</p>
+<div class="mt-actions" id="pr-mis-act"><a class="d-btn d-btn--primary d-btn--md" id="pr-mis-btn" href="vprava.html?mode=mistakes"><span class="d-btn__label">${e(COPY.meta.repeatMistakes)}</span></a></div>
 </div>
 </section>
 
 <section class="d-card mt-card mt-hero" aria-labelledby="pr-sos-h">
 <div class="mt-hero__body">
-<h2 class="mt-h2" id="pr-sos-h">SOS-тренування</h2>
-<p class="mt-text">Швидкий повтор ключових правил перед складною розмовою. Кілька карток і пара питань.</p>
-<div class="mt-actions"><a class="d-btn d-btn--secondary d-btn--md" href="vprava.html?mode=sos"><span class="d-btn__label">Почати SOS-тренування</span></a></div>
+<h2 class="mt-h2" id="pr-sos-h">${e(X.sosTitle)}</h2>
+<p class="mt-text">${e(X.sosText)}</p>
+<div class="mt-actions"><a class="d-btn d-btn--secondary d-btn--md" href="vprava.html?mode=sos"><span class="d-btn__label">${e(X.sosStart)}</span></a></div>
 </div>
 </section>
 
 <section aria-labelledby="pr-more-h">
-<h2 class="mt-h2" id="pr-more-h">Ще для практики</h2>
+<h2 class="mt-h2" id="pr-more-h">${e(X.more)}</h2>
 <ul class="mt-links">
-${tool('povtorennia.html', 'refresh', 'Повторення', 'Картки з інтервалами: повертаються тоді, коли їх час повторити.')}
-${tool('trenazher.html', 'phone', 'Тренажер дзвінка', 'Симулятор розмови з клієнтом крок за кроком.')}
-${tool('trener.html', 'headset', 'ІІ-тренер', 'Розмова з ІІ-клієнтом: відпрацьовуй заперечення наживо.')}
-${tool('sos.html', 'list', 'SOS: скажи так', 'Готові фрази для складних ситуацій, які можна прочитати за хвилину.')}
+${X.tools.map(t => tool(t.href, t.icon, t.title, t.text)).join('\n')}
 </ul>
 </section>
-<noscript><p class="mt-text">Кількість помилок для повторення з'являється, коли в браузері ввімкнений JavaScript.</p></noscript>
+<noscript><p class="mt-text">${e(X.noscript)}</p></noscript>
 </div>` };
 }
 
 export function zavdannia(ctx) {
-  return { ...common, title: 'Завдання', description: 'Щоденні завдання і скриня з XP.', body: `<div id="duo-quests" class="duo-meta">
-<h1 class="mt-h1">Завдання</h1>
-<p class="mt-lead">Нові завдання з'являються щодня. Виконай усі три й відкрий скриню.</p>
+  const X = PG.zavdannia;
+  return { ...common, title: X.title, description: X.description, body: `<div id="duo-quests" class="duo-meta">
+<h1 class="mt-h1">${e(X.title)}</h1>
+<p class="mt-lead">${e(X.lead)}</p>
 
 <section class="d-card mt-card" aria-labelledby="qz-goal-h">
-<h2 class="mt-h2" id="qz-goal-h">Ціль дня</h2>
-<div id="qz-goal"><p class="mt-text">Завантажуємо…</p></div>
+<h2 class="mt-h2" id="qz-goal-h">${e(X.goal)}</h2>
+<div id="qz-goal"><p class="mt-text">${e(X.loading)}</p></div>
 </section>
 
 <section aria-labelledby="qz-list-h">
-<h2 class="mt-h2" id="qz-list-h">Завдання на сьогодні</h2>
+<h2 class="mt-h2" id="qz-list-h">${e(X.list)}</h2>
 <ul class="mt-quests" id="qz-list"></ul>
 </section>
 
 <section class="d-card mt-card mt-chest" aria-labelledby="qz-chest-h">
 ${mascot(ctx, 'happy')}
 <div class="mt-hero__body">
-<h2 class="mt-h2" id="qz-chest-h">Скриня завдань</h2>
+<h2 class="mt-h2" id="qz-chest-h">${e(X.chest)}</h2>
 <div id="qz-chest"></div>
 </div>
 </section>
 <div class="sr-only" id="qz-live" role="status" aria-live="polite"></div>
-<noscript><p class="mt-text">Завдання працюють, коли в браузері ввімкнений JavaScript.</p></noscript>
+<noscript><p class="mt-text">${e(X.noscript + ' ' + PG.noJs)}</p></noscript>
 </div>` };
 }
 
 export function profil() {
-  return { ...common, title: 'Профіль', description: 'Статистика, досягнення, календар і налаштування.', body: `<div id="duo-profile" class="duo-meta">
-<h1 class="mt-h1">Профіль</h1>
+  const X = PG.profil;
+  return { ...common, title: X.title, description: X.description, body: `<div id="duo-profile" class="duo-meta">
+<h1 class="mt-h1">${e(X.title)}</h1>
 
 <section aria-labelledby="pf-stat-h">
-<h2 class="mt-h2" id="pf-stat-h">Статистика</h2>
+<h2 class="mt-h2" id="pf-stat-h">${e(X.stats)}</h2>
 <ul class="mt-kpis" id="pf-stats"></ul>
 </section>
 
 <section class="d-card mt-card" aria-labelledby="pf-cal-h">
-<h2 class="mt-h2" id="pf-cal-h">Календар серії</h2>
+<h2 class="mt-h2" id="pf-cal-h">${e(X.cal)}</h2>
 <div id="pf-cal"></div>
 </section>
 
 <section aria-labelledby="pf-ach-h">
-<h2 class="mt-h2" id="pf-ach-h">Досягнення</h2>
+<h2 class="mt-h2" id="pf-ach-h">${e(X.achs)}</h2>
 <ul class="mt-achs" id="pf-achs"></ul>
 </section>
 
 <section class="d-card mt-card" aria-labelledby="pf-set-h">
-<h2 class="mt-h2" id="pf-set-h">Налаштування</h2>
+<h2 class="mt-h2" id="pf-set-h">${e(X.settings)}</h2>
 <div class="mt-field">
-<label class="mt-label" for="pf-goal">Ціль дня</label>
+<label class="mt-label" for="pf-goal">${e(X.goal)}</label>
 <select class="mt-select" id="pf-goal" aria-describedby="pf-goal-hint">
-<option value="10">10 XP на день, легко</option>
-<option value="20" selected>20 XP на день, звично</option>
-<option value="30">30 XP на день, серйозно</option>
-<option value="50">50 XP на день, інтенсив</option>
+${PG.goals.map(g => `<option value="${g.xp}"${g.xp === 20 ? ' selected' : ''}>${e(X.goalOption(g.xp, g.name))}</option>`).join('\n')}
 </select>
-<p class="mt-hint" id="pf-goal-hint">Скільки XP на день зараховується до цілі.</p>
+<p class="mt-hint" id="pf-goal-hint">${e(X.goalHint)}</p>
 </div>
 <div class="mt-field" id="pf-signals"></div>
 <div class="mt-field">
-<span class="mt-label" id="pf-theme-l">Тема</span>
+<span class="mt-label" id="pf-theme-l">${e(X.theme)}</span>
 <div class="d-segmented" role="group" aria-labelledby="pf-theme-l" id="pf-theme">
-<button type="button" class="d-segmented__item" data-theme-set="light" aria-pressed="true">Світла</button>
-<button type="button" class="d-segmented__item" data-theme-set="dark" aria-pressed="false">Темна</button>
+<button type="button" class="d-segmented__item" data-theme-set="light" aria-pressed="true">${e(X.light)}</button>
+<button type="button" class="d-segmented__item" data-theme-set="dark" aria-pressed="false">${e(X.dark)}</button>
 </div>
 </div>
 </section>
-<noscript><p class="mt-text">Статистика й налаштування працюють, коли в браузері ввімкнений JavaScript.</p></noscript>
+<noscript><p class="mt-text">${e(X.noscript + ' ' + PG.noJs)}</p></noscript>
 </div>` };
 }

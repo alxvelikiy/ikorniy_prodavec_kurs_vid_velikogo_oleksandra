@@ -1,12 +1,15 @@
 // Duo-слой: навігація застосунку. Власник — builder-home.
 // Статична розмітка (працює без JS); лічильники верхньої панелі оживляє assets/duo/shell.js, стилі — assets/duo/home.css.
 // Мобільний: компактна шапка (логотип · серія · серця · XP дня) + нижній таб-бар;
-// від 768px: лівий сайдбар, шапка лишається у колонці контенту (max-width як у плеєра).
+// від 768px: лівий сайдбар, шапка лишається у колонці контенту (max-width як у плеєра). Тексти — copy.js.
+import { COPY } from './copy.mjs';
+
+const N = COPY.nav, TB = COPY.topbar;
 export const TABS = [
-  { slug: 'index', href: 'index.html', label: 'Навчання', icon: 'path' },
-  { slug: 'praktyka', href: 'praktyka.html', label: 'Практика', icon: 'dumbbell' },
-  { slug: 'zavdannia', href: 'zavdannia.html', label: 'Завдання', icon: 'target' },
-  { slug: 'profil', href: 'profil.html', label: 'Профіль', icon: 'user' },
+  { slug: 'index', href: 'index.html', label: N.tabs.index, icon: 'path' },
+  { slug: 'praktyka', href: 'praktyka.html', label: N.tabs.praktyka, icon: 'dumbbell' },
+  { slug: 'zavdannia', href: 'zavdannia.html', label: N.tabs.zavdannia, icon: 'target' },
+  { slug: 'profil', href: 'profil.html', label: N.tabs.profil, icon: 'user' },
 ];
 
 // Контури іконок — ті самі, що в Duo.icon (core.js): один набір, лінія 2px.
@@ -28,15 +31,15 @@ export function navHtml(active) {
   }).join('');
   return `<header class="duo-top">
 <div class="duo-top__in">
-<a class="duo-top__brand" href="index.html"><img src="assets/ikorka-logo.png" width="28" height="28" alt=""><span class="duo-top__name">Ikorka</span><span class="sr-only"> Shop — на головну</span></a>
-<ul class="duo-stats" id="duo-stats" aria-label="Твоя статистика">
-<li class="duo-stat duo-stat--streak" data-stat="streak">${svg('flame')}<span class="duo-stat__v" aria-hidden="true"><b>0</b> дн.</span><span class="sr-only">Серія: 0 днів</span></li>
-<li class="duo-stat duo-stat--hearts" data-stat="hearts">${svg('heart')}<span class="duo-stat__v" aria-hidden="true"><b>5</b></span><span class="sr-only">Серця: 5 з 5</span></li>
-<li class="duo-stat duo-stat--xp" data-stat="xp">${svg('bolt')}<span class="duo-stat__v" aria-hidden="true"><b>0</b> з 20 XP</span><span class="duo-stat__bar" aria-hidden="true"><i></i></span><span class="sr-only">Сьогодні 0 XP з цілі 20 XP</span></li>
+<a class="duo-top__brand" href="index.html"><img src="assets/ikorka-logo.png" width="28" height="28" alt=""><span class="duo-top__name">Ikorka</span><span class="sr-only">${N.homeSr}</span></a>
+<ul class="duo-stats" id="duo-stats" aria-label="${N.stats}">
+<li class="duo-stat duo-stat--streak" data-stat="streak">${svg('flame')}<span class="duo-stat__v" aria-hidden="true"><b>0</b> ${TB.daysShort}</span><span class="sr-only">${TB.streakSr(0, false)}</span></li>
+<li class="duo-stat duo-stat--hearts" data-stat="hearts">${svg('heart')}<span class="duo-stat__v" aria-hidden="true"><b>5</b></span><span class="sr-only">${TB.heartsSr(5, 5)}</span></li>
+<li class="duo-stat duo-stat--xp" data-stat="xp">${svg('bolt')}<span class="duo-stat__v" aria-hidden="true"><b>0</b>${TB.ofXp(20)}</span><span class="duo-stat__bar" aria-hidden="true"><i></i></span><span class="sr-only">${TB.xpSr(0, 20)}</span></li>
 </ul>
 </div>
 </header>
-<nav class="duo-nav" aria-label="Розділи">
+<nav class="duo-nav" aria-label="${N.sections}">
 <div class="duo-nav__in">${tabs}</div>
 </nav>`;
 }

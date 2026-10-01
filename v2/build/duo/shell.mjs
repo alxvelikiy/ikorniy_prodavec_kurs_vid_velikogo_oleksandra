@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { navHtml } from './nav.mjs';
+import { COPY } from './copy.mjs';
 
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const BUILD = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'); // v2/build
@@ -56,7 +57,7 @@ ${accountsOn ? '<meta name="ikorka-coach" content="on">' : ''}
 ${styles}
 </head>
 <body class="duo duo-page--${esc(slug)}${nav ? ' duo-has-nav' : ''}${bodyClass ? ' ' + esc(bodyClass) : ''}">
-<a class="skip-link" href="#main-content">Перейти до змісту</a>
+<a class="skip-link" href="#main-content">${esc(COPY.pages.skip)}</a>
 ${nav ? navHtml(slug) : ''}
 ${beforeMain}
 <main id="main-content" tabindex="-1" class="duo-main">
