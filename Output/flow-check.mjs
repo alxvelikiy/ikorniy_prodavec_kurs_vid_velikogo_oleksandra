@@ -218,6 +218,19 @@ async function finishNode(page) {
   await ctx.close();
 }
 
+// ---- підписи карток підсумку не рвуться посеред слова на вузьких екранах («ТОЧНІСТЬ») ----
+{
+  console.log('== підписи карток підсумку на 320/360');
+  for (const width of [320, 360]) {
+    const { ctx, page, errs } = await mk('vprava.html?n=u01-1', { width, prep: '(() => Duo.progress.setOnboarded())()' });
+    await finishNode(page); await page.waitForTimeout(1500);
+    const r = await page.evaluate(() => [...document.querySelectorAll('.dl-stat .d-stat__label')].map(e => ({ t: e.textContent, lines: Math.round(e.getBoundingClientRect().height / (parseFloat(getComputedStyle(e).lineHeight) || 16)) })));
+    ok(r.length === 3 && r.every(x => x.lines === 1), width + ' px: підписи в один рядок ' + JSON.stringify(r));
+    ok(errs.length === 0, 'консоль чиста ' + errs.join(';'));
+    await ctx.close();
+  }
+}
+
 await browser.close(); srv.close();
 console.log(fails ? '\nFAILS: ' + fails : '\nALL OK');
 process.exit(fails ? 1 : 0);

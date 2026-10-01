@@ -188,6 +188,9 @@
 .dl-done__stats--1 { grid-template-columns: minmax(0, 1fr); max-width: 50%; }
 .dl-stat { padding: var(--s-4) var(--s-2); }
 .dl-stat .d-stat__label { max-width: 100%; overflow-wrap: anywhere; }
+/* вузькі екрани: картка ~100px — менше полів і розрядки, щоб «ТОЧНІСТЬ» не рвалась посеред слова */
+@media (max-width: 420px) { .dl-stat .d-stat__label { padding-inline: var(--s-2); letter-spacing: 0.02em; } }
+@media (max-width: 340px) { .dl-stat { padding-inline: var(--s-1); } .dl-stat .d-stat__label { padding-inline: var(--s-1); } }
 .dl-stat__unit { margin-top: var(--s-1); font-size: var(--fs-sm); font-weight: var(--fw-bold); color: var(--c-muted); }
 .dl-done__epithet { margin: 0; font-size: var(--fs-lg); font-weight: var(--fw-xbold); }
 .dl-done__meta { margin: 0; font-size: var(--fs-sm); color: var(--c-muted); line-height: var(--lh-normal); }
