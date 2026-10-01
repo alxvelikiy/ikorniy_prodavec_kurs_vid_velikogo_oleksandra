@@ -74,6 +74,9 @@ async function open(ctx, url) {
 }
 async function scan(page, label, theme) {
   scans++;
+  // контраст міряємо після появи: скінченні анімації (popIn карток підсумку тощо) мають завершитися,
+  // інакше axe бачить напівпрозорий текст і рахує змішаний колір (хибне порушення контрасту)
+  await page.waitForFunction(() => document.getAnimations().every(a => a.playState !== 'running' || (a.effect && a.effect.getTiming().iterations === Infinity)), null, { timeout: 3000 }).catch(() => {});
   const res = await page.evaluate(async src => {
     if (!window.axe) { const s = document.createElement('script'); s.textContent = src; document.head.appendChild(s); }
     const r = await window.axe.run(document, { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'] }, resultTypes: ['violations', 'incomplete'] });
