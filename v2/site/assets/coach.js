@@ -60,13 +60,13 @@
   function setStatus(mode, reason) {
     status.mode = mode; status.reason = reason || '';
     if (!chip) return;
-    var txt = mode === 'live' ? 'Тренер онлайн' : mode === 'mock' ? 'Демо-режим: відповіді-заготовки, не ІІ' : mode === 'checking' ? 'Перевіряю зв\'язок…' : 'Тренер офлайн';
+    var txt = mode === 'live' ? 'Тренер онлайн' : mode === 'mock' ? 'Демо-режим: відповіді-заготовки, не ШІ' : mode === 'checking' ? 'Перевіряю зв\'язок…' : 'Тренер офлайн';
     chip.textContent = txt;
     chip.className = 'coach-status ' + (mode === 'live' || mode === 'mock' ? 'on' : mode === 'checking' ? '' : 'off');
     var note = app.querySelector('.coach-offline-note');
     if (note) note.hidden = mode !== 'offline';
   }
-  var REASON = { 'no-key': 'на сервері не задано ключ API', limit: 'вичерпано ліміт розборів на сьогодні', timeout: 'сервер ІІ не відповів вчасно', error: 'помилка сервера ІІ', format: 'тренер відповів у неправильному форматі', static: 'сайт відкрито без сервера тренера', network: 'немає зв\'язку з сервером тренера' };
+  var REASON = { 'no-key': 'на сервері не задано ключ API', limit: 'вичерпано ліміт розборів на сьогодні', timeout: 'сервер ШІ не відповів вчасно', error: 'помилка сервера ШІ', format: 'тренер відповів у неправильному форматі', static: 'сайт відкрито без сервера тренера', network: 'немає зв\'язку з сервером тренера' };
 
   // ---------- офлайн-розбір за правилами уроків ----------
   function stems(t) { return String(t || '').toLowerCase().split(/[^a-zа-яіїєґ']+/i).filter(function (w) { return w.length > 3; }).map(function (w) { return w.slice(0, 5); }); }
@@ -122,14 +122,14 @@
   // ---------- каркас сторінки ----------
   app.innerHTML = '';
   var head = el('section', 'mvp-card coach-head');
-  head.innerHTML = '<div class="mvp-test-head"><p class="mvp-card-title">ІІ-тренер</p><span class="coach-status" role="status"></span></div>' +
-    '<p>Дві вправи. <b>Розмова з ІІ-клієнтом</b>: клієнт висуває заперечення, ти відповідаєш — до ' + MAX_TURNS + ' реплік, потім розбір. <b>Розбір моєї відповіді</b>: обери ситуацію, напиши відповідь — тренер розбере її в три рядки.</p>' +
+  head.innerHTML = '<div class="mvp-test-head"><p class="mvp-card-title">ШІ-тренер</p><span class="coach-status" role="status"></span></div>' +
+    '<p>Дві вправи. <b>Розмова з ШІ-клієнтом</b>: клієнт висуває заперечення, ти відповідаєш — до ' + MAX_TURNS + ' реплік, потім розбір. <b>Розбір моєї відповіді</b>: обери ситуацію, напиши відповідь — тренер розбере її в три рядки.</p>' +
     '<p class="mvp-hint">Тренер радить лише фрази, які дослівно є в уроках. Якщо готової фрази немає, він так і пише: «У курсі немає готової фрази — див. правило N».</p>' +
-    '<p class="mvp-hint coach-offline-note" hidden>Зараз тренер офлайн: розбір іде за парами «помилка → як правильно» з уроків, розмова з ІІ-клієнтом недоступна. Сцени без ІІ — у <a href="trenazher.html">симуляторі</a>.</p>' +
-    '<div class="sos-tabs coach-tabs" role="tablist" aria-label="Вправи тренера"><button type="button" role="tab" class="sos-tab on" aria-selected="true" data-tab="rp">Розмова з ІІ-клієнтом</button><button type="button" role="tab" class="sos-tab" aria-selected="false" data-tab="fb">Розбір моєї відповіді</button></div>';
+    '<p class="mvp-hint coach-offline-note" hidden>Зараз тренер офлайн: розбір іде за парами «помилка → як правильно» з уроків, розмова з ШІ-клієнтом недоступна. Сцени без ШІ — у <a href="trenazher.html">симуляторі</a>.</p>' +
+    '<div class="sos-tabs coach-tabs" role="tablist" aria-label="Вправи тренера"><button type="button" role="tab" class="sos-tab on" aria-selected="true" data-tab="rp">Розмова з ШІ-клієнтом</button><button type="button" role="tab" class="sos-tab" aria-selected="false" data-tab="fb">Розбір моєї відповіді</button></div>';
   app.appendChild(head);
   chip = head.querySelector('.coach-status');
-  var paneRp = el('section', 'mvp-card coach-pane'); paneRp.setAttribute('data-pane', 'rp'); paneRp.setAttribute('aria-label', 'Розмова з ІІ-клієнтом');
+  var paneRp = el('section', 'mvp-card coach-pane'); paneRp.setAttribute('data-pane', 'rp'); paneRp.setAttribute('aria-label', 'Розмова з ШІ-клієнтом');
   var paneFb = el('section', 'mvp-card coach-pane'); paneFb.setAttribute('data-pane', 'fb'); paneFb.setAttribute('aria-label', 'Розбір моєї відповіді'); paneFb.hidden = true;
   app.appendChild(paneRp); app.appendChild(paneFb);
   [].forEach.call(head.querySelectorAll('.sos-tab'), function (tb) {
@@ -205,7 +205,7 @@
         if (r && r.ok) {
           setStatus(r.mode);
           history.push({ r: 'c', t: r.reply });
-          say('c', r.reply, r.guarded ? 'ІІ-клієнт спробував вигадати умови — репліку замінено запереченням з уроку' : '');
+          say('c', r.reply, r.guarded ? 'ШІ-клієнт спробував вигадати умови — репліку замінено запереченням з уроку' : '');
           if (r.last || mTurns() >= MAX_TURNS) finish(); else ta.focus();
         } else {
           setStatus('offline', r && r.reason);
