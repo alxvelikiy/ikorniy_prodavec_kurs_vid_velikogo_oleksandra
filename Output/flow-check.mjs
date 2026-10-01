@@ -240,6 +240,18 @@ async function finishNode(page) {
   }
 }
 
+// ---- кнопки в картках «Практики» не виходять за картку на 320/360 (регрес 1.8: «Працювати над помилками») ----
+{
+  console.log('== кнопки в картках Практики');
+  for (const width of [320, 360]) {
+    const { ctx, page, errs } = await mk('praktyka.html', { width, prep: "(() => { Duo.progress.setOnboarded(); Duo.progress.recordMistake({ lesson: 1, stepId: 'u01-1-s2', nodeId: 'u01-1' }); })()" });
+    const r = await page.evaluate(() => [...document.querySelectorAll('.mt-actions .d-btn')].map(b => { const a = b.getBoundingClientRect(), c = b.closest('.mt-card').getBoundingClientRect(); return { t: b.textContent.trim(), inside: a.left >= c.left && a.right <= c.right, clip: b.scrollWidth > b.clientWidth + 1 }; }));
+    ok(r.length >= 2 && r.every(x => x.inside && !x.clip), width + ' px: кнопки в межах картки ' + JSON.stringify(r));
+    ok(errs.length === 0, 'консоль чиста ' + errs.join(';'));
+    await ctx.close();
+  }
+}
+
 // ---- підписи карток підсумку не рвуться посеред слова на вузьких екранах («ТОЧНІСТЬ») ----
 {
   console.log('== підписи карток підсумку на 320/360');

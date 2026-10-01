@@ -24,6 +24,8 @@
 .mt-mascot { flex: none; width: 72px; }
 .mt-mascot svg { display: block; width: 100%; height: auto; }
 .mt-actions { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-top: var(--s-3); }
+/* довгий підпис («Працювати над помилками») не виходить за картку: переноситься, висота — за вмістом */
+.mt-actions .d-btn { max-width: 100%; height: auto; min-height: var(--btn-h); padding-block: var(--s-2); white-space: normal; text-align: center; line-height: 1.2; }
 /* телефон: маскот не ховаємо — менший (48px) у правому верхньому куті картки, текст і кнопки на всю ширину */
 @media (max-width: 400px) {
   .mt-hero, .mt-chest { position: relative; }
