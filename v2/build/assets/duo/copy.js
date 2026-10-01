@@ -202,6 +202,7 @@
         chest: function (n) { return 'Скриня ' + n; }, chestLabel: 'Скриня',
         boss: function (n, title) { return 'Бос ' + n + ': ' + title; }, bossKicker: 'Бос',
         cheat: 'Шпаргалка',
+        dayHref: function (day) { return 'den-' + (day < 10 ? '0' : '') + day + '.html'; }, dayLinkSr: ', план дня',
         onbTitle: 'Привіт! Я Ікринка',
         onbLead: 'Допоможу тобі вивчити перші дні роботи в Ikorka Shop.',
         onbHowLabel: 'Як це працює',

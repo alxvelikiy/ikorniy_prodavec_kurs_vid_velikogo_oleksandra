@@ -139,6 +139,25 @@ async function finishNode(page) {
   await ctx.close();
 }
 
+// ---- 1.5 заголовок дня на шляху → den-NN; кнопка «Шпаргалка» окремо ----
+{
+  console.log('== 1.5 заголовок дня → den-NN');
+  const { ctx, page, errs } = await mk('index.html', { prep: '(() => Duo.progress.setOnboarded())()' });
+  const r = await page.evaluate(() => [...document.querySelectorAll('.duo-unit')].map(u => {
+    const a = u.querySelector('.duo-unit__title a'), c = u.querySelector('.duo-unit__cheat');
+    return { href: a && a.getAttribute('href'), name: a && a.textContent.replace(/\s+/g, ' ').trim(), cheat: c && c.getAttribute('href') };
+  }));
+  console.log('  ', JSON.stringify(r[0]));
+  ok(r.length === 5 && r.every((x, i) => x.href === 'den-0' + (i + 1) + '.html'), '5 заголовків днів → den-01…den-05');
+  ok(r.every((x, i) => x.cheat === 'shpargalka.html#den-' + (i + 1)), '«Шпаргалка» лишилась окремою кнопкою');
+  ok(/^День 1 .+, план дня$/.test(r[0].name), 'назва посилання для читалки: «День 1 … , план дня»');
+  for (let i = 1; i <= 5; i++) { const res = await page.request.get(base + '/den-0' + i + '.html'); ok(res.status() === 200, 'den-0' + i + '.html відкривається'); }
+  await page.click('.duo-unit__title a >> nth=0'); await page.waitForURL(/den-01\.html$/);
+  ok(true, 'клік по «День 1» → den-01.html');
+  ok(errs.length === 0, 'консоль чиста ' + errs.join(';'));
+  await ctx.close();
+}
+
 await browser.close(); srv.close();
 console.log(fails ? '\nFAILS: ' + fails : '\nALL OK');
 process.exit(fails ? 1 : 0);

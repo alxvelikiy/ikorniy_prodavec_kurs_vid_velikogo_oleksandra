@@ -30,7 +30,7 @@ export function render({ course, esc, mascotSvg }) {
   const units = course.units.map(u => `
 <section class="duo-unit" id="den-${esc(u.day)}" data-unit="${esc(u.n)}" data-color="${esc(u.color)}" aria-labelledby="den-${esc(u.day)}-h">
 <header class="duo-unit__head">
-<h2 class="duo-unit__title" id="den-${esc(u.day)}-h"><span class="duo-unit__day">${esc(u.title)}</span><span class="duo-unit__topic">${esc(u.topic)}</span></h2>
+<h2 class="duo-unit__title" id="den-${esc(u.day)}-h"><a class="duo-unit__link" href="${esc(X.dayHref(u.day))}"><span class="duo-unit__day">${esc(u.title)}</span> <span class="duo-unit__topic">${esc(u.topic)}</span><span class="sr-only">${esc(X.dayLinkSr)}</span></a></h2>
 <a class="d-btn d-btn--secondary d-btn--sm duo-unit__cheat" href="${esc(u.cheat)}"><span class="d-btn__label">${esc(X.cheat)}</span></a>
 </header>
 <ol class="duo-path">

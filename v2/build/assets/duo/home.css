@@ -136,6 +136,10 @@ body.duo-has-nav {
 .duo-unit__title { margin: 0; min-width: 0; font-size: var(--fs-md); }
 .duo-unit__day { display: block; font-size: var(--fs-sm); font-weight: var(--fw-black); text-transform: uppercase; letter-spacing: var(--tracking-caps); }
 .duo-unit__topic { display: block; margin-top: 2px; font-size: var(--fs-md); font-weight: var(--fw-xbold); line-height: var(--lh-snug); }
+/* заголовок дня — посилання на сторінку дня den-NN (план, чек-лист); рамка фокуса світла — на кольоровій плашці */
+.duo-unit__link { display: block; color: inherit; text-decoration: none; border-radius: var(--r-sm); }
+.duo-unit__link:hover .duo-unit__topic { text-decoration: underline; text-underline-offset: 3px; }
+.duo-unit__link:focus-visible { outline: var(--focus-ring-w) solid var(--c-text-inverse); outline-offset: var(--focus-ring-offset); }
 .duo-unit__cheat { flex: none; height: var(--btn-h); padding-inline: var(--s-3); font-size: var(--fs-xs); }
 
 .duo-path { list-style: none; margin: 0; padding: var(--s-5) 0 0; display: flex; flex-direction: column; align-items: center; }
