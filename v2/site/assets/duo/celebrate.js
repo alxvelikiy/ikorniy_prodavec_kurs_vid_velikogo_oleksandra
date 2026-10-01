@@ -4,36 +4,18 @@
  *   Duo.celebrate.run() → Promise          — показує екрани по одному (кожен чекає «Продовжити»), резолвить, коли черга порожня
  * Порядок: lessonComplete → streak → goal → quest → achievement (завдання одного уроку зливаються в один екран).
  * Не падає без Duo.mascot / Duo.signals / Duo.motion / Duo.progress. Esc екран не закриває (потрібна кнопка).
- * Також тримає назви завдань і досягнень: Duo.celebrate.copy (їх використовує meta.js).
+ * Тексти — Duo.copy (copy.js); Duo.celebrate.copy лишився як сумісний доступ до назв завдань і досягнень.
  * Анімація — тільки transform/opacity; за «зменшити рух» екран з'являється одразу, без конфеті. */
 (function () {
   'use strict';
   var W = window, doc = document, Duo = W.Duo = W.Duo || {};
 
   /* ---------------------------------------------------------------- */
-  /* Тексти                                                            */
+  /* Тексти — лише з Duo.copy (copy.js, CORE_JS перед celebrate.js)    */
   /* ---------------------------------------------------------------- */
-  var QUEST = {
-    perfect:       { title: 'Пройди урок без помилок' },
-    xp30:          { title: 'Набери 30 XP' },
-    coach:         { title: 'Пройди бос-випробування' },
-    coachOffline:  { title: 'Відпрацюй 3 заперечення' }
-  };
-  var ACH = {
-    objections: { name: 'Майстер заперечень', what: 'Відпрацьовані заперечення' },
-    streak:     { name: 'Вогняна серія',      what: 'Найдовша серія, днів' },
-    perfect:    { name: 'Без жодної помилки', what: 'Уроки без помилок' },
-    builder:    { name: 'Знавець скрипта',    what: 'Зібрані фрази скрипта' },
-    boss:       { name: 'Легенда дзвінка',    what: 'Пройдені босі' },
-    course:     { name: 'Крок за кроком',     what: 'Повністю пройдені уроки' }
-  };
-  var DAYS = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'нд'];
-
-  function plural(n, one, few, many) {
-    var a = Math.abs(n) % 100, b = a % 10;
-    if (a > 10 && a < 20) return many;
-    if (b === 1) return one;
-    return b > 1 && b < 5 ? few : many;
+  function T() {
+    if (!Duo.copy) { var m = '[Duo] copy.js не завантажено: Duo.copy відсутній.'; if (W.console) console.error(m); throw new Error(m); }
+    return Duo.copy;
   }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function safe(fn) { try { return fn(); } catch (e) { return undefined; } }
@@ -49,10 +31,10 @@
   var ROMAN = ['', 'I', 'II', 'III', 'IV', 'V'];
 
   var copy = {
-    quest: function (id) { return (QUEST[id] || { title: 'Щоденне завдання' }).title; },
-    achievement: function (id) { return ACH[id] || { name: 'Досягнення', what: 'Прогрес' }; },
+    quest: function (id) { return T().quest(id); },
+    achievement: function (id) { return T().achievement(id); },
     roman: function (n) { return ROMAN[n] || String(n); },
-    plural: plural
+    plural: function (n, a, b, c) { return T().plural(n, a, b, c); }
   };
 
   /* ---------------------------------------------------------------- */
@@ -118,22 +100,20 @@
   /* ---------------------------------------------------------------- */
   /* Екрани: кожен повертає { emotion, sound, html, after(el) }        */
   /* ---------------------------------------------------------------- */
-  var BTN = 'Продовжити';
-
   function screenStreak(d) {
     var n = Math.max(1, (d && d.after) || 1), before = d && d.before != null ? d.before : Math.max(0, n - 1);
-    var st = Duo.progress && safe(function () { return Duo.progress.streak(); });
+    var X = T(), st = Duo.progress && safe(function () { return Duo.progress.streak(); });
     var week = '';
     if (st && st.week) {
-      week = '<ul class="dcel__week" aria-label="Цей тиждень">' + st.week.map(function (w, i) {
-        var on = w.active, nm = DAYS[i];
-        return '<li class="dcel__day' + (on ? ' is-on' : '') + (w.today ? ' is-today' : '') + '"><span class="dcel__dot">' + (on ? icon('check', 18) : '') + '</span><span aria-hidden="true">' + nm + '</span><span class="sr-only">' + nm + (on ? ', зараховано' : ', без занять') + (w.today ? ', сьогодні' : '') + '</span></li>';
+      week = '<ul class="dcel__week" aria-label="' + X.thisWeek + '">' + st.week.map(function (w, i) {
+        var on = w.active, nm = X.weekdays[i];
+        return '<li class="dcel__day' + (on ? ' is-on' : '') + (w.today ? ' is-today' : '') + '"><span class="dcel__dot">' + (on ? icon('check', 18) : '') + '</span><span aria-hidden="true">' + nm + '</span><span class="sr-only">' + nm + (on ? X.dayMark.done : X.dayMark.none) + (w.today ? X.dayMark.today : '') + '</span></li>';
       }).join('') + '</ul>';
     }
     return {
       cls: 'streak', emotion: 'excited', sound: 'streak',
-      title: 'Серія: ' + n + ' ' + plural(n, 'день', 'дні', 'днів'),
-      sub: n === 1 ? 'Перший день є. Повертайся завтра й продовжуй!' : 'Ти займаєшся щодня. Так тримати!',
+      title: X.streakText(n),
+      sub: n === 1 ? X.celebrate.streakFirst : X.celebrate.streakMore,
       big: '<span class="dcel__big" aria-hidden="true">' + icon('flame', 48) + '<span data-count="' + n + '" data-from="' + before + '">' + n + '</span></span>',
       extra: week, confetti: n >= 7 || n === 3
     };
@@ -141,23 +121,23 @@
 
   function screenGoal(d) {
     var target = (d && d.target) || 20, xp = d && d.after != null ? d.after : target;
-    var C = 2 * Math.PI * 54;
+    var C = 2 * Math.PI * 54, X = T().celebrate;
     return {
       cls: 'goal', emotion: 'cheer', sound: 'goal',
-      title: 'Ціль дня виконано!',
-      sub: 'Сьогодні ' + xp + ' XP. Ціль була ' + target + ' XP.',
-      big: '<div class="dcel__ring" aria-hidden="true"><svg viewBox="0 0 132 132"><circle class="d-ring__track" cx="66" cy="66" r="54"/><circle class="d-ring__fill" cx="66" cy="66" r="54" stroke-dasharray="' + C.toFixed(1) + '" stroke-dashoffset="' + C.toFixed(1) + '" data-full="0"/></svg><b>' + Math.min(xp, target) + '<small>з ' + target + ' XP</small></b></div>',
+      title: X.goalTitle,
+      sub: X.goalSub(xp, target),
+      big: '<div class="dcel__ring" aria-hidden="true"><svg viewBox="0 0 132 132"><circle class="d-ring__track" cx="66" cy="66" r="54"/><circle class="d-ring__fill" cx="66" cy="66" r="54" stroke-dasharray="' + C.toFixed(1) + '" stroke-dashoffset="' + C.toFixed(1) + '" data-full="0"/></svg><b>' + Math.min(xp, target) + '<small>' + X.ofXp(target) + '</small></b></div>',
       extra: '', confetti: true
     };
   }
 
   function screenQuest(items) {
     var list = items.map(function (it) { return it && it.id; }).filter(Boolean);
-    var many = list.length > 1;
+    var many = list.length > 1, X = T().celebrate;
     return {
       cls: 'quest', emotion: 'happy', sound: 'quest',
-      title: many ? 'Завдання виконано' : 'Завдання виконано!',
-      sub: many ? 'Заглянь у вкладку «Завдання» по скриню.' : 'Так тримати. Скриня з XP чекає у вкладці «Завдання».',
+      title: many ? X.questMany : X.questOne,
+      sub: many ? X.questSubMany : X.questSubOne,
       big: '<ul class="dcel__list">' + list.map(function (id) {
         return '<li class="dcel__item"><span class="dcel__tick">' + icon('check', 18) + '</span><span>' + esc(copy.quest(id)) + '</span></li>';
       }).join('') + '</ul>',
@@ -166,27 +146,27 @@
   }
 
   function screenAchievement(d) {
-    var id = d && d.id, lvl = (d && d.level) || 1, a = copy.achievement(id);
+    var id = d && d.id, lvl = (d && d.level) || 1, a = copy.achievement(id), X = T();
     var all = Duo.progress && safe(function () { return Duo.progress.achievements(); });
     var cur = all && all.filter(function (x) { return x.id === id; })[0];
-    var line = cur && cur.next != null ? a.what + ': ' + cur.value + ' з ' + cur.next + ' до наступного рівня.' : (cur ? 'Найвищий рівень відкрито.' : '');
+    var line = cur && cur.next != null ? X.celebrate.achNext(a.what, cur.value, cur.next) : (cur ? X.celebrate.achTop : '');
     return {
       cls: 'achievement', emotion: 'cheer', sound: 'achievement',
-      title: 'Нове досягнення!',
+      title: X.celebrate.achTitle,
       sub: a.name,
-      big: '<div class="dcel__medal" aria-hidden="true">' + icon('medal', 56) + '</div><span class="dcel__lvl">Рівень ' + lvl + ' з 3</span>',
+      big: '<div class="dcel__medal" aria-hidden="true">' + icon('medal', 56) + '</div><span class="dcel__lvl">' + X.level(lvl, 3) + '</span>',
       extra: line ? '<p class="dcel__sub" style="font-size:var(--fs-md,16px)">' + esc(line) + '</p>' : '', confetti: true
     };
   }
 
   function screenLesson(d) {
     d = d || {};
-    var cards = '';
-    if (d.xp != null) cards += '<div class="d-card d-stat d-stat--xp"><div class="d-stat__label">XP</div><div class="d-stat__value">' + esc(d.xp) + '</div></div>';
-    if (d.accuracy != null) cards += '<div class="d-card d-stat d-stat--success"><div class="d-stat__label">Точність</div><div class="d-stat__value">' + esc(d.accuracy) + '%</div></div>';
+    var cards = '', X = T().celebrate;
+    if (d.xp != null) cards += '<div class="d-card d-stat d-stat--xp"><div class="d-stat__label">' + X.xp + '</div><div class="d-stat__value">' + esc(d.xp) + '</div></div>';
+    if (d.accuracy != null) cards += '<div class="d-card d-stat d-stat--success"><div class="d-stat__label">' + X.accuracy + '</div><div class="d-stat__value">' + esc(d.accuracy) + '%</div></div>';
     return {
       cls: 'lesson', emotion: 'cheer', sound: 'lesson',
-      title: 'Урок пройдено!', sub: d.title ? String(d.title) : 'Гарна робота.',
+      title: X.partTitle, sub: d.title ? String(d.title) : X.partSub,
       big: cards ? '<div class="dcel__cards">' + cards + '</div>' : '', extra: '', confetti: true
     };
   }
@@ -242,7 +222,7 @@
           '<h2 class="dcel__title" id="dcel-title" tabindex="-1">' + esc(spec.title) + '</h2>' +
           (spec.sub ? '<p class="dcel__sub">' + esc(spec.sub) + '</p>' : '') + '</div>' +
           (spec.big || '') + (spec.extra || '') +
-          '<button type="button" class="d-btn d-btn--primary d-btn--lg d-btn--block dcel__act"><span class="d-btn__label">' + BTN + '</span></button>' +
+          '<button type="button" class="d-btn d-btn--primary d-btn--lg d-btn--block dcel__act"><span class="d-btn__label">' + esc(T().celebrate.cont) + '</span></button>' +
         '</div>' +
         '<div class="sr-only" aria-live="polite" role="status"></div>';
       var title = el.querySelector('#dcel-title'), btn = el.querySelector('.dcel__act'), live = el.querySelector('[aria-live]');

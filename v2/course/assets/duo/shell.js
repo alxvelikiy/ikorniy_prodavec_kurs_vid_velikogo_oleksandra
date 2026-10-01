@@ -6,7 +6,7 @@
   var D = window.Duo = window.Duo || {};
   var root = null, timer = 0;
   // позначка «Ціль виконано»: іконка + текст (текст — від 480px), не лише колір
-  var DONE_MARK = '<span class="duo-stat__done"><svg class="d-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12.5l5 5L20 6.5"/></svg><span class="duo-stat__donetxt">Ціль виконано</span></span>';
+  var DONE_MARK = '<span class="duo-stat__done"><svg class="d-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12.5l5 5L20 6.5"/></svg><span class="duo-stat__donetxt">{t}</span></span>';
   function addStyle() {
     if (document.querySelector('style[data-duo-shell]')) return;
     var st = document.createElement('style'); st.setAttribute('data-duo-shell', '');
@@ -15,11 +15,10 @@
     document.head.appendChild(st);
   }
 
-  function plural(n, one, few, many) {
-    var a = Math.abs(n) % 100, b = a % 10;
-    if (a > 10 && a < 20) return many;
-    if (b === 1) return one;
-    return b > 1 && b < 5 ? few : many;
+  // тексти лічильників — Duo.copy.topbar (copy.js)
+  function T() {
+    if (!D.copy) { var m = '[Duo] copy.js не завантажено: Duo.copy відсутній.'; if (window.console) console.error(m); throw new Error(m); }
+    return D.copy;
   }
   function q(sel) { return root.querySelector(sel); }
   function setText(li, vHtml, sr) {
@@ -32,22 +31,22 @@
     var P = D.progress;
     if (!root || !P) return;
     clearTimeout(timer);
-    var st = P.streak(), h = P.hearts(), g = P.dailyGoal();
+    var st = P.streak(), h = P.hearts(), g = P.dailyGoal(), X = T().topbar;
     var sl = q('[data-stat="streak"]'), hl = q('[data-stat="hearts"]'), xl = q('[data-stat="xp"]');
     if (sl) {
-      setText(sl, '<b>' + st.count + '</b> дн.', 'Серія: ' + st.count + ' ' + plural(st.count, 'день', 'дні', 'днів') + (st.activeToday ? ', сьогодні зараховано' : ''));
+      setText(sl, '<b>' + st.count + '</b> ' + X.daysShort, X.streakSr(st.count, st.activeToday));
       sl.classList.toggle('is-idle', !st.count);
     }
     if (hl) {
-      setText(hl, '<b>' + h.n + '</b>', 'Серця: ' + h.n + ' з ' + h.max);
+      setText(hl, '<b>' + h.n + '</b>', X.heartsSr(h.n, h.max));
       hl.classList.toggle('is-idle', h.n === 0);
     }
     if (xl) {
       var xp = g.xpToday != null ? g.xpToday : P.xpToday(), frac = g.target ? Math.min(1, xp / g.target) : 0;
       // над ціллю показуємо «ціль з цілі» (20 з 20 XP) і позначку; реальний XP лишається в профілі
       var shown = Math.min(xp, g.target);
-      setText(xl, '<b>' + shown + '</b> з ' + g.target + ' XP' + (g.done ? DONE_MARK : ''),
-        g.done ? 'Ціль виконано: ' + g.target + ' XP з ' + g.target + ' XP на сьогодні' : 'Сьогодні ' + xp + ' XP з цілі ' + g.target + ' XP');
+      setText(xl, '<b>' + shown + '</b>' + X.ofXp(g.target) + (g.done ? DONE_MARK.replace('{t}', X.goalDone) : ''),
+        g.done ? X.xpSrDone(g.target) : X.xpSr(xp, g.target));
       var bar = xl.querySelector('.duo-stat__bar i');
       if (bar) bar.style.transform = 'scaleX(' + frac + ')';
       xl.classList.toggle('is-done', !!g.done);
