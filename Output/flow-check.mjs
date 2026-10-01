@@ -218,6 +218,16 @@ async function finishNode(page) {
   await ctx.close();
 }
 
+// ---- стрілка «›» у заголовку дня: видима, прихована від читалки, назва посилання без змін ----
+{
+  console.log('== стрілка в заголовку дня');
+  const { ctx, page, errs } = await mk('index.html', { prep: '(() => Duo.progress.setOnboarded())()' });
+  const r = await page.evaluate(() => [...document.querySelectorAll('.duo-unit__link')].map(a => { const g = a.querySelector('.duo-unit__go'); const b = g && g.getBoundingClientRect(); return { go: !!g, hidden: g && g.getAttribute('aria-hidden'), w: b && Math.round(b.width) }; }));
+  ok(r.length === 5 && r.every(x => x.go && x.hidden === 'true' && x.w > 0), '5 заголовків зі стрілкою (aria-hidden, видима)');
+  ok(errs.length === 0, 'консоль чиста ' + errs.join(';'));
+  await ctx.close();
+}
+
 // ---- підписи карток підсумку не рвуться посеред слова на вузьких екранах («ТОЧНІСТЬ») ----
 {
   console.log('== підписи карток підсумку на 320/360');
