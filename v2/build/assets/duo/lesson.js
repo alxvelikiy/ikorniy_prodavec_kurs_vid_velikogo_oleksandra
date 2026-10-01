@@ -659,7 +659,9 @@
   }
 
   function showDone(res, payload) {
-    var D = TX.done, title = S.practice ? D.titlePractice : S.mode === 'boss' ? TX.boss.titleDone : D.title;
+    // остання частина уроку (idx = of) — «Урок пройдено!», інші частини — «Частину пройдено!»
+    var f = S.mode === 'node' ? findItem(S.node.id) : null, lastPart = !!(f && f.item.idx && f.item.idx === f.item.of);
+    var D = TX.done, title = S.practice ? D.titlePractice : S.mode === 'boss' ? TX.boss.titleDone : lastPart ? D.titleLesson : D.title;
     var streakN = res.streak ? res.streak.after : 0;
     var kinds = (res.xpBreakdown || []).map(function (b) { return (D.xpKinds[b[0]] || b[0]) + ' +' + b[1]; }).join(' · ');
     root.setAttribute('data-state', 'done');

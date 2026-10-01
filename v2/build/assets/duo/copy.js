@@ -85,7 +85,7 @@
         noMistakes: 'Помилок для повторення немає. Так тримати!'
       },
       done: {
-        title: 'Частину пройдено!', titlePractice: 'Повторення завершено!', xp: 'XP', accuracy: 'Точність', streak: 'Серія', time: 'Час', mistakes: 'Помилок',
+        title: 'Частину пройдено!', titleLesson: 'Урок пройдено!', titlePractice: 'Повторення завершено!', xp: 'XP', accuracy: 'Точність', streak: 'Серія', time: 'Час', mistakes: 'Помилок',
         min: 'хв', sec: 'с',
         xpKinds: { lesson: 'Частина', repeat: 'Повтор частини', perfect: 'Без помилок', practice: 'Практика', practicePerfect: 'Без помилок', boss: 'Бос', bossPerfect: 'Без помилок' }
       },
