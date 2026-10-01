@@ -158,6 +158,35 @@ async function finishNode(page) {
   await ctx.close();
 }
 
+// ---- 1.6 прогрес роздільний (варіант Б): Duo не пише в ikorka-done/ikorka-mvp, теорія не пише в ikorka-duo ----
+{
+  console.log('== 1.6 міграція: заповнений localStorage до і після');
+  // дані підставляємо на сторінці Duo: стара сторінка теорії при виході зберігає свій стан із пам'яті й перезаписала б їх
+  const { ctx, page, errs } = await mk('index.html');
+  const done0 = { vstup: true, 'den-01': true, 'urok-03': true };
+  const mvp0 = { v: 1, created: 1, days: {}, last: null, pos: {}, lessons: { 1: { tries: {}, test: { passed: true, pct: 90, conf: 3, t: 1, runs: 1 } } }, review: {}, daily: {}, goal: null, goals: [], sections: {}, final: [], sim: {}, deck: [] };
+  await page.evaluate(([d, m]) => { localStorage.setItem('ikorka-done', JSON.stringify(d)); localStorage.setItem('ikorka-mvp', JSON.stringify(m)); }, [done0, mvp0]);
+  const snap = () => page.evaluate(() => ({ done: localStorage.getItem('ikorka-done'), mvp: localStorage.getItem('ikorka-mvp'), duo: localStorage.getItem('ikorka-duo') }));
+  const s0 = await snap();
+  console.log('   до:', JSON.stringify({ done: s0.done, mvpLessons: JSON.parse(s0.mvp).lessons, duo: s0.duo }));
+  // Duo: дві частини уроку 1, шлях, профіль
+  for (const n of ['u01-1', 'u01-2']) { await page.goto(base + '/vprava.html?n=' + n); await finishNode(page); }
+  for (const u of ['index.html', 'profil.html', 'praktyka.html', 'zavdannia.html']) { await page.goto(base + '/' + u); await page.waitForTimeout(250); }
+  const s1 = await snap();
+  ok(s1.done === s0.done, 'ikorka-done не змінився після Duo (байт у байт)');
+  ok(s1.mvp === s0.mvp, 'ikorka-mvp не змінився після Duo (байт у байт)');
+  const duo1 = JSON.parse(s1.duo || '{}');
+  ok(!!(duo1.nodes && duo1.nodes['u01-1'] && duo1.nodes['u01-2']), 'ikorka-duo: частини u01-1 і u01-2 записані');
+  // теорія після Duo: ikorka-duo не чіпає, тест уроку 1 як і раніше зараховано
+  await page.goto(base + '/urok-01.html'); await page.waitForTimeout(400);
+  const s2 = await snap();
+  ok(s2.duo === s1.duo, 'сторінка теорії не змінює ikorka-duo');
+  ok(JSON.parse(s2.mvp).lessons[1].test.passed === true && JSON.parse(s2.done)['urok-03'] === true, 'старий прогрес теорії на місці (тест уроку 1, позначка urok-03)');
+  console.log('   після:', JSON.stringify({ done: s2.done, duoNodes: Object.keys(duo1.nodes || {}) }));
+  ok(errs.length === 0, 'консоль чиста ' + errs.join(';'));
+  await ctx.close();
+}
+
 await browser.close(); srv.close();
 console.log(fails ? '\nFAILS: ' + fails : '\nALL OK');
 process.exit(fails ? 1 : 0);
