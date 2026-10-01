@@ -81,7 +81,9 @@
 .mt-kpi.d-stat { padding: var(--s-4) var(--s-3); }
 .mt-kpi .d-stat__value { font-size: var(--fs-xl); }
 .mt-kpi .d-stat__value small { font-size: var(--fs-sm); font-weight: var(--fw-xbold); color: var(--c-muted); }
-@media (min-width: 560px) { .mt-kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* 5 показників: на телефоні 2 колонки й останній непарний на всю ширину; від 560px — 3 (колонка контенту вузька для 5) */
+.mt-kpis > .mt-kpi:last-child:nth-child(odd) { grid-column: 1 / -1; }
+@media (min-width: 560px) { .mt-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } .mt-kpis > .mt-kpi:last-child:nth-child(odd) { grid-column: auto; } }
 
 /* Календар */
 .mt-week { list-style: none; margin: 0 0 var(--s-4); padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--s-1); }

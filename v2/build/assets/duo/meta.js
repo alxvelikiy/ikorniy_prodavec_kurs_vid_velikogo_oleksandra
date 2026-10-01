@@ -125,6 +125,16 @@
     c.units.forEach(function (u) { u.items.forEach(function (it) { if (it.kind === 'node') { t++; if (p.isDone ? p.isDone(it.id) : p.nodeState(it.id) === 'done') d++; } }); });
     return { done: d, total: t };
   }
+  // уроки теорії: зараховано, коли пройдено всі частини (так само рахує досягнення «Крок за кроком», progress-core _lessonsDone)
+  function lessonsDone() {
+    var c = W.DUO_COURSE, p = P(), d = 0, t = 0;
+    if (!c || !c.lessons) return null;
+    Object.keys(c.lessons).forEach(function (n) {
+      var ids = c.lessons[n].nodes || []; t++;
+      if (ids.length && ids.every(function (id) { return p.isDone ? p.isDone(id) : p.nodeState(id) === 'done'; })) d++;
+    });
+    return { done: d, total: t };
+  }
 
   function activeSet(state) {
     var set = {};
@@ -165,12 +175,13 @@
 
   function profile() {
     var p = P(); if (!p) return;
-    var st = p.streak(), nd = nodesDone(), X = M();
+    var st = p.streak(), nd = nodesDone(), ld = lessonsDone(), X = M(), of = T().lesson.aria.of;
     setHtml($('pf-stats'),
       kpi('streak', X.kpiStreak, st.count, T().days(st.count)) +
       kpi('xp', X.kpiXpTotal, num(p.xpTotal()), '') +
       kpi('xp', X.kpiXpToday, p.xpToday(), '') +
-      kpi('success', X.kpiParts, nd ? nd.done + ' <small>' + T().lesson.aria.of + ' ' + nd.total + '</small>' : '—', ''));
+      kpi('success', X.kpiLessons, ld ? ld.done + ' <small>' + of + ' ' + ld.total + '</small>' : '—', '') +
+      kpi('success', X.kpiParts, nd ? nd.done + ' <small>' + of + ' ' + nd.total + '</small>' : '—', ''));
     safe(calendar);
 
     var list = p.achievements() || [];

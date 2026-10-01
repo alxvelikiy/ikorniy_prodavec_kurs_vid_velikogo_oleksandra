@@ -107,7 +107,7 @@ for (const theme of ['light', 'dark']) for (const [pg, name, prep] of SC) {
   if (pg === 'profil') {
     const a = await page.evaluate(() => ({ kp: document.querySelectorAll('.mt-kpi').length, ach: document.querySelectorAll('.mt-ach').length, cells: document.querySelectorAll('.mt-month td .mt-day').length, week: document.querySelectorAll('.mt-wd').length, stats: document.getElementById('pf-stats').innerText.replace(/\s+/g, ' '), sw: document.querySelectorAll('#pf-signals input[type=checkbox]').length, noreset: !/скинути|скидання|видалити прогрес/i.test(document.getElementById('main-content').innerText) }));
     console.log('  ', JSON.stringify(a));
-    ok(a.kp === 4 && a.ach === 6 && a.week === 7 && a.cells >= 28 && a.sw === 2 && a.noreset, 'профіль: 4 KPI, 6 досягнень, тиждень 7, місяць, 2 перемикачі, без скидання');
+    ok(a.kp === 5 && a.ach === 6 && a.week === 7 && a.cells >= 28 && a.sw === 2 && a.noreset, 'профіль: 5 KPI, 6 досягнень, тиждень 7, місяць, 2 перемикачі, без скидання');
     if (name === 'rich') ok(/Рівень/.test(t), 'rich: є рівні досягнень');
   }
   await axe(page, pg + '/' + name + '/' + theme);

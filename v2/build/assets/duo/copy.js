@@ -145,7 +145,7 @@
       chestLive: function (xp) { return 'Скриню відкрито: +' + xp + ' XP'; },
       monthActive: function (n) { return 'У цьому місяці занять: ' + n + ' ' + days(n) + '. Підсвічені дні зараховані.'; },
       monthNone: 'У цьому місяці занять поки немає. Пройди частину, і день підсвітиться.',
-      kpiStreak: 'Серія', kpiXpTotal: 'XP всього', kpiXpToday: 'XP сьогодні', kpiParts: 'Пройдено частин',
+      kpiStreak: 'Серія', kpiXpTotal: 'XP всього', kpiXpToday: 'XP сьогодні', kpiLessons: 'Уроків пройдено', kpiParts: 'Частин пройдено',
       notYet: 'Ще не відкрито',
       achProgress: function (what, v, next) { return what + ': ' + v + ' з ' + next; },
       achTop: function (what, v) { return what + ': ' + v + '. Найвищий рівень!'; },

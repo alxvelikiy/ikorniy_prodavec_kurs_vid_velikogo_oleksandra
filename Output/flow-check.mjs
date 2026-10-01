@@ -90,6 +90,26 @@ async function finishNode(page) {
   await ctx.close();
 }
 
+// ---- 1.3 профіль: «Уроків пройдено X з 12» = досягнення «Крок за кроком», «Частин пройдено Y з 24» ----
+{
+  console.log('== 1.3 лічильники профілю');
+  // 9 частин: уроки 1–4 повністю (8 частин) + перша частина уроку 5 → 4 уроки
+  const ids = ['u01-1', 'u01-2', 'u02-1', 'u02-2', 'u03-1', 'u03-2', 'u04-1', 'u04-2', 'u05-1'];
+  const { ctx, page, errs } = await mk('profil.html', { prep: DONE(ids) });
+  const r = await page.evaluate(() => {
+    const kpi = [...document.querySelectorAll('.mt-kpi')].map(e => ({ l: e.querySelector('.d-stat__label').textContent, v: e.querySelector('.d-stat__value').textContent.replace(/\s+/g, ' ').trim() }));
+    const ach = (Duo.progress.achievements() || []).filter(a => a.id === 'course')[0];
+    return { kpi, achValue: ach && ach.value };
+  });
+  console.log('  ', JSON.stringify(r));
+  const get = l => (r.kpi.find(k => k.l === l) || {}).v;
+  ok(get('Уроків пройдено') === '4 з 12', 'Уроків пройдено 4 з 12');
+  ok(get('Частин пройдено') === '9 з 24', 'Частин пройдено 9 з 24');
+  ok(r.achValue === 4, 'збігається з досягненням «Крок за кроком» (value ' + r.achValue + ')');
+  ok(errs.length === 0, 'консоль чиста ' + errs.join(';'));
+  await ctx.close();
+}
+
 await browser.close(); srv.close();
 console.log(fails ? '\nFAILS: ' + fails : '\nALL OK');
 process.exit(fails ? 1 : 0);
