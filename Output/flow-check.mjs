@@ -228,6 +228,18 @@ async function finishNode(page) {
   await ctx.close();
 }
 
+// ---- маскот на «Практиці» й «Завданнях» видно й на телефоні (менший, у куті картки) ----
+{
+  console.log('== маскот на телефоні (Практика, Завдання)');
+  for (const width of [360, 390]) for (const url of ['praktyka.html', 'zavdannia.html']) {
+    const { ctx, page, errs } = await mk(url, { width, prep: '(() => Duo.progress.setOnboarded())()' });
+    const r = await page.evaluate(() => { const m = document.querySelector('.mt-mascot'), card = m && m.parentElement; if (!m) return null; const a = m.getBoundingClientRect(), b = card.getBoundingClientRect(); return { w: Math.round(a.width), shown: getComputedStyle(m).display !== 'none', inside: a.left >= b.left && a.right <= b.right && a.top >= b.top }; });
+    ok(!!r && r.shown && r.w > 0 && r.inside, width + ' px ' + url + ': маскот видно в межах картки ' + JSON.stringify(r));
+    ok(errs.length === 0, 'консоль чиста ' + errs.join(';'));
+    await ctx.close();
+  }
+}
+
 // ---- підписи карток підсумку не рвуться посеред слова на вузьких екранах («ТОЧНІСТЬ») ----
 {
   console.log('== підписи карток підсумку на 320/360');
