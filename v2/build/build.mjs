@@ -17,6 +17,7 @@ import { tokensCss } from './lib/tokens.mjs';
 import { buildTrainerData, displayedLessonRaw, isHiddenStat, isMentorSource, loadExclusions, normText } from './lib/trainer.mjs';
 import { buildMvpPages } from './lib/mvp-pages.mjs';
 import { buildDuo, DUO_HOME, DUO_SLUGS } from './duo/build-duo.mjs';
+import { COPY } from './duo/copy.mjs';
 
 // Частки «N з M» з базою 26 / базою наставника / непідтвердженою базою за замовчуванням приховані
 // (MVP-рішення). SHOW_STATS=1 node v2/build/build.mjs — показати оригінальні числа.
@@ -540,10 +541,12 @@ function buildCallLibraryPage(entries) {
 // 6. index.html — зміст курсу
 // ============================================================
 function buildIndexPage(pageMeta, slug = 'index') {
+  // з Duo-головною сторінка живе в sogodni.html і зветься «Маршрут курсу» (Duo.copy), без Duo — «Сьогодні» на index.html
+  const pageTitle = slug === 'sogodni' ? COPY.pages.route.title : 'Сьогодні';
   const heroHtml = `
   <div class="mockup-panel"><div class="cover tint-c1 course-cover">
     <span class="cover-eyebrow tag-c1">Ikorka Shop · курс новачка</span>
-    <h1 class="cover-title">Сьогодні</h1>
+    <h1 class="cover-title">${escapeHtml(pageTitle)}</h1>
     <p class="cover-sub">Самостійне навчання: 12 навичок дзвінка, дзвониш із першого дня, норма — 75 дзвінків на день.</p>
     <div class="cover-plaque"><span>Курс новачка · Ikorka Shop</span> · <span class="right">5 днів · 12 навичок</span></div>
   </div></div>`;
@@ -610,7 +613,7 @@ function buildIndexPage(pageMeta, slug = 'index') {
 </details>`;
 
   return shellPage({
-    activeSlug: slug, title: 'Сьогодні', description: 'Курс адаптації менеджера Ikorka Shop — наступний крок, прогрес і маршрут по днях.',
+    activeSlug: slug, title: pageTitle, description: 'Курс адаптації менеджера Ikorka Shop — наступний крок, прогрес і маршрут по днях.',
     // pageKind лишається 'index': за ним trainer.js вмикає «Сьогодні», колоду і файл прогресу
     heroHtml, bodyHtml, prev: null, next: { slug: 'vstup', title: 'Вступ' }, pageSlug: slug, pageKind: 'index',
   });

@@ -187,6 +187,19 @@ async function finishNode(page) {
   await ctx.close();
 }
 
+// ---- 1.7 «Маршрут курсу» (sogodni.html): посилання з «Практики», заголовок сторінки ----
+{
+  console.log('== 1.7 Маршрут курсу');
+  const { ctx, page, errs } = await mk('praktyka.html', { prep: '(() => Duo.progress.setOnboarded())()' });
+  const a = await page.evaluate(() => { const l = document.querySelector('#main-content a[href="sogodni.html"]'); return l && l.textContent.replace(/\s+/g, ' ').trim(); });
+  ok(!!a && /^Маршрут курсу/.test(a), '«Практика» → sogodni.html: ' + a);
+  await page.click('#main-content a[href="sogodni.html"]'); await page.waitForURL(/sogodni\.html$/); await page.waitForTimeout(300);
+  const r = await page.evaluate(() => ({ h1: document.querySelector('h1').textContent.trim(), title: document.title, app: !!document.getElementById('today-app') }));
+  ok(r.h1 === 'Маршрут курсу' && /^Маршрут курсу/.test(r.title) && r.app, 'sogodni.html: заголовок «Маршрут курсу», маршрут (today-app) на місці');
+  ok(errs.length === 0, 'консоль чиста ' + errs.join(';'));
+  await ctx.close();
+}
+
 await browser.close(); srv.close();
 console.log(fails ? '\nFAILS: ' + fails : '\nALL OK');
 process.exit(fails ? 1 : 0);
