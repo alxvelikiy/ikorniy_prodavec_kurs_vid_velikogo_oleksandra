@@ -78,6 +78,7 @@
       correctAnswer: 'Правильна відповідь:',
       buttons: { check: 'Перевірити', next: 'Далі', gotIt: 'Зрозуміло', cont: 'Продовжити', toLearn: 'До навчання', stay: 'Продовжити', leave: 'Вийти', refill: 'Поповнити', close: 'Вийти' },
       exit: { title: 'Точно вийти?', text: 'Прогрес не збережеться.' },
+      theory: 'Теорія уроку', newTab: ' (відкриється в новій вкладці)',
       heartsEmpty: { title: 'Серця закінчилися', text: 'Поповни серця, щоб продовжити. Або повернись до навчання й повтори помилки.' },
       errors: {
         load: 'Не вдалося завантажити частину. Перевір з\'єднання й спробуй ще раз.',
@@ -85,7 +86,7 @@
         noMistakes: 'Помилок для повторення немає. Так тримати!'
       },
       done: {
-        title: 'Частину пройдено!', titlePractice: 'Повторення завершено!', xp: 'XP', accuracy: 'Точність', streak: 'Серія', time: 'Час', mistakes: 'Помилок',
+        title: 'Частину пройдено!', titleLesson: 'Урок пройдено!', titlePractice: 'Повторення завершено!', xp: 'XP', accuracy: 'Точність', streak: 'Серія', time: 'Час', mistakes: 'Помилок',
         min: 'хв', sec: 'с',
         xpKinds: { lesson: 'Частина', repeat: 'Повтор частини', perfect: 'Без помилок', practice: 'Практика', practicePerfect: 'Без помилок', boss: 'Бос', bossPerfect: 'Без помилок' }
       },
@@ -145,7 +146,7 @@
       chestLive: function (xp) { return 'Скриню відкрито: +' + xp + ' XP'; },
       monthActive: function (n) { return 'У цьому місяці занять: ' + n + ' ' + days(n) + '. Підсвічені дні зараховані.'; },
       monthNone: 'У цьому місяці занять поки немає. Пройди частину, і день підсвітиться.',
-      kpiStreak: 'Серія', kpiXpTotal: 'XP всього', kpiXpToday: 'XP сьогодні', kpiParts: 'Пройдено частин',
+      kpiStreak: 'Серія', kpiXpTotal: 'XP всього', kpiXpToday: 'XP сьогодні', kpiLessons: 'Уроків пройдено', kpiParts: 'Частин пройдено',
       notYet: 'Ще не відкрито',
       achProgress: function (what, v, next) { return what + ': ' + v + ' з ' + next; },
       achTop: function (what, v) { return what + ': ' + v + '. Найвищий рівень!'; },
@@ -194,10 +195,14 @@
       index: {
         title: 'Навчання', h1: 'Навчання',
         description: 'Курс новачка Ikorka Shop: уроки з коротких частин, серія, XP і щоденна ціль.',
-        part: function (title) { return 'Частина уроку: ' + title; },
+        // підпис частини на шляху: видимий кікер і назва для читалки (стан додає path.js)
+        // нерозривні пробіли: рядок ламається лише після «·» («Урок 2 ·» / «частина 2 з 2»)
+        partKicker: function (n, idx, of) { return 'Урок\u00a0' + n + ' · частина\u00a0' + idx + '\u00a0з\u00a0' + of; },
+        part: function (n, idx, of, title) { return 'Урок ' + n + ', частина ' + idx + ' з ' + of + ': ' + title; },
         chest: function (n) { return 'Скриня ' + n; }, chestLabel: 'Скриня',
         boss: function (n, title) { return 'Бос ' + n + ': ' + title; }, bossKicker: 'Бос',
         cheat: 'Шпаргалка',
+        dayHref: function (day) { return 'den-' + (day < 10 ? '0' : '') + day + '.html'; }, dayLinkSr: ', план дня',
         onbTitle: 'Привіт! Я Ікринка',
         onbLead: 'Допоможу тобі вивчити перші дні роботи в Ikorka Shop.',
         onbHowLabel: 'Як це працює',
