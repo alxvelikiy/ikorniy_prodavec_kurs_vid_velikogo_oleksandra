@@ -3,87 +3,28 @@
    Власник: builder-lesson. Плеєр уроку: vprava.html?n=<nodeId> (вузол шляху) або ?mode=mistakes (повтор помилок).
    Контракти: docs/design/ARCHITECTURE.md §4 (Duo.env/ui/motion/sfx/progress/celebrate/mascot/copy).
    Черга кроків із повтором помилок, серця, комбо, лист-результат, екран підсумку. Вправи — exercises.js.
-   Не падає без Duo.mascot / Duo.copy / Duo.celebrate (перевірки на існування).
+   Тексти — Duo.copy (обов'язковий, без нього явна помилка). Не падає без Duo.mascot / Duo.celebrate.
    ========================================================================== */
 (function () {
   'use strict';
   var Duo = window.Duo = window.Duo || {};
 
   /* --------------------------------------------------------------------- */
-  /* Тимчасова мікрокопія (Duo.copy потім замінить). Українською.          */
+  /* Тексти — лише з Duo.copy (copy.js, підключений у CORE_JS перед плеєром). */
+  /* Без нього плеєр не запускається: явна помилка в консоль, не порожні тексти. */
   /* --------------------------------------------------------------------- */
-  var FALLBACK_COPY = {
-    praise: [
-      'Чудово!', 'Так тримати!', 'Влучно!', 'Ти в темі!', 'Саме так!', 'Точно!', 'Гарна робота!', 'Впевнено!',
-      'У точку!', 'Чітко!', 'Молодець!', 'Сильний хід!', 'Без вагань!', 'Ось це рівень!', 'Так і роби!', 'Тримаєш темп!'
-    ],
-    wrongTitles: ['Не зовсім', 'Майже', 'Тут була пастка', 'Варто запам\'ятати', 'Ще не те'],
-    comboSuffix: 'поспіль!',
-    correctAnswer: 'Правильна відповідь:',
-    buttons: { check: 'Перевірити', next: 'Далі', gotIt: 'Зрозуміло', cont: 'Продовжити', toPath: 'До шляху', stay: 'Продовжити урок', leave: 'Вийти', refill: 'Поповнити', close: 'Вийти з уроку' },
-    exit: { title: 'Точно вийти?', text: 'Прогрес цього вузла не збережеться.' },
-    heartsEmpty: { title: 'Серця закінчились', text: 'Поповни серця, щоб продовжити. Або вийди до шляху й повтори помилки.' },
-    loading: 'Завантажую урок…',
-    errors: {
-      load: 'Не вдалося завантажити урок. Перевір з\'єднання й спробуй ще раз.',
-      missing: 'Такого вузла немає. Повернись до шляху й обери урок.',
-      boss: 'Цей вузол — розмова з ІІ-клієнтом, її відкриває шлях навчання.',
-      noMistakes: 'Помилок для повторення немає. Так тримати!'
-    },
-    done: {
-      title: 'Урок пройдено!', titlePractice: 'Повторення завершено!', xp: 'XP', accuracy: 'Точність', streak: 'Серія', time: 'Час', mistakes: 'Помилок',
-      daysOne: 'день', daysFew: 'дні', daysMany: 'днів', min: 'хв', sec: 'с',
-      epithets: { 100: 'Ідеально!', 90: 'Чудово!', 75: 'Добре!', 50: 'Непогано, є що підтягнути', 0: 'Повтор — найкращий друг пам\'яті' },
-      xpKinds: { lesson: 'Урок', repeat: 'Повтор уроку', perfect: 'Без помилок', practice: 'Практика', practicePerfect: 'Без помилок', boss: 'Бос', bossPerfect: 'Без помилок' }
-    },
-    mistakesMode: { title: 'Повторення помилок' },
-    sos: { title: 'Швидке повторення', done: 'Готово!', sub: 'Ключові правила повторено', cards: 'Карток', answers: 'Відповідей', note: 'Це швидке повторення: без сердець і XP.' },
-    chest: { locked: 'Сундук відкриється після вузла «{t}». Пройди його на шляху.', opened: 'Сундук відкрито!', already: 'Цей сундук уже відкрито', sub: 'Нагорода за блок уроків', nodes: 'Вузлів пройдено', reward: 'Нагорода', take: 'Забрати', alreadyText: 'XP за нього вже зараховано.' },
-    boss: { titleDone: 'Боса пройдено!', retry: 'Ще раз!', retryText: 'Потрібно щонайменше {n} з {t} вірних з першої спроби. Повтори правила й спробуй знову.', again: 'Спробувати ще раз', got: 'Вірно з першої' },
-    settings: { label: 'Налаштування сигналів', title: 'Сигнали', done: 'Готово' },
-    aria: { progress: 'Прогрес уроку', heartsOf: 'Серця', of: 'з', step: 'Крок', right: 'Правильно.', wrong: 'Неправильно.', stage: 'Вміст кроку' },
-    ex: {
-      clientSays: 'Клієнт каже', manager: 'Менеджер', client: 'Клієнт', example: 'Приклад фрази',
-      theoryTitle: 'Запам\'ятай', pChoice: 'Обери найкращу відповідь', pTruefalse: 'Правда чи міф?', pBuild: 'Склади фразу',
-      pMatch: 'Поєднай пари', pOrder: 'Розстав по порядку', pFill: 'Встав пропущене', pSpot: 'Знайди помилку менеджера',
-      'true': 'Правда', 'false': 'Міф', trueFull: 'Правда', falseFull: 'Міф — твердження хибне', blank: 'Пропуск',
-      spotAnswer: 'Помилка тут:', yourAnswer: 'Твоя відповідь', wordBank: 'Доступні слова', tapWords: 'Торкайся слів нижче, щоб скласти фразу',
-      yourOrder: 'Твій порядок', stepsBank: 'Кроки для розстановки', tapSteps: 'Торкайся кроків у правильному порядку', rightOrder: 'Правильний порядок:',
-      matchLeft: 'Ліва колонка', matchRight: 'Права колонка', pair: 'пара', rightPairs: 'Правильні пари:', matchTries: 'Помилкових спроб: {n}. Ще один підхід — і пари закріпляться.'
-    }
-  };
-
-  /* --------------------------------------------------------------------- */
-  /* Доступ до копії: Duo.copy, якщо є функція, інакше FALLBACK_COPY        */
-  /* --------------------------------------------------------------------- */
-  var lastPraise = -1, lastWrong = -1;
-  function pickRotating(list, last) {
-    if (list.length < 2) return { i: 0, t: list[0] };
-    var i; do { i = Math.floor(Math.random() * list.length); } while (i === last);
-    return { i: i, t: list[i] };
+  var COPY = Duo.copy;
+  if (!COPY || !COPY.lesson) {
+    var COPY_ERR = '[Duo] copy.js не завантажено: Duo.copy відсутній, плеєр уроку не запущено.';
+    if (window.console) console.error(COPY_ERR);
+    throw new Error(COPY_ERR);
   }
-  function copyCall(name, arg) {
-    try {
-      var c = Duo.copy;
-      if (c && typeof c[name] === 'function') { var v = c[name](arg); if (typeof v === 'string' && v) return v; }
-    } catch (e) { /* падаємо на запасний текст */ }
-    return null;
-  }
-  function praise() {
-    var v = copyCall('praise'); if (v) return v;
-    var p = pickRotating(FALLBACK_COPY.praise, lastPraise); lastPraise = p.i; return p.t;
-  }
-  function wrongTitle() {
-    var v = copyCall('wrongTitle'); if (v) return v;
-    var p = pickRotating(FALLBACK_COPY.wrongTitles, lastWrong); lastWrong = p.i; return p.t;
-  }
-  function comboText(n) { return copyCall('comboBadge', n) || (n + ' ' + FALLBACK_COPY.comboSuffix); }
-  function epithet(pct) {
-    var v = copyCall('accuracyEpithet', pct); if (v) return v;
-    var e = FALLBACK_COPY.done.epithets;
-    return pct >= 100 ? e[100] : pct >= 90 ? e[90] : pct >= 75 ? e[75] : pct >= 50 ? e[50] : e[0];
-  }
-  var B = FALLBACK_COPY.buttons;
+  var TX = COPY.lesson;
+  function praise() { return COPY.praise(); }
+  function wrongTitle() { return COPY.wrongTitle(); }
+  function comboText(n) { return COPY.comboBadge(n); }
+  function epithet(pct) { return COPY.accuracyEpithet(pct); }
+  var B = TX.buttons;
 
   /* --------------------------------------------------------------------- */
   /* Утиліти                                                                */
@@ -95,12 +36,8 @@
   }
   function el(tag, cls) { var e = document.createElement(tag); if (cls) e.className = cls; return e; }
   function icon(name, size) { return Duo.icon ? Duo.icon(name, { size: size || 20 }) : ''; }
-  function plural(n, one, few, many) {
-    var a = Math.abs(n) % 100, b = a % 10;
-    return (a > 10 && a < 20) ? many : b === 1 ? one : (b >= 2 && b <= 4) ? few : many;
-  }
   function fmtTime(ms) {
-    var s = Math.max(1, Math.round(ms / 1000)), m = Math.floor(s / 60), D = FALLBACK_COPY.done;
+    var s = Math.max(1, Math.round(ms / 1000)), m = Math.floor(s / 60), D = TX.done;
     return m ? m + ' ' + D.min + ' ' + (s % 60) + ' ' + D.sec : s + ' ' + D.sec;
   }
   // Усі звуки/вібрація/реакції маскота — через Duo.signals.emit (signals.js); без модуля — тихий no-op
@@ -146,19 +83,19 @@
   function init() {
     root = document.getElementById('duo-lesson');
     if (!root) return;
-    if (Duo.exercises) Duo.exercises.labels = FALLBACK_COPY.ex;
+    if (Duo.exercises) Duo.exercises.labels = TX.ex;
     var mode = qs('mode'), n = qs('n');
     if (mode === 'mistakes') return startMistakes();
     if (mode === 'sos') return startSos();
     if (/^c\d+$/.test(n || '')) return startChest(n);
     if (/^b\d+$/.test(n || '')) return startBoss(n);
     var m = /^u(\d\d)-(\d+)$/.exec(n || '');
-    if (!m) return fail(FALLBACK_COPY.errors.missing);
+    if (!m) return fail(TX.errors.missing);
     loadLesson(Number(m[1])).then(function (data) {
       var node = findNode(data, n);
-      if (!node) return fail(FALLBACK_COPY.errors.missing);
+      if (!node) return fail(TX.errors.missing);
       start({ id: n, lesson: Number(m[1]), title: node.title, steps: node.steps, mode: 'node' });
-    }, function () { fail(FALLBACK_COPY.errors.load, true); });
+    }, function () { fail(TX.errors.load, true); });
   }
 
   function fail(text, retry) {
@@ -174,14 +111,14 @@
       box.appendChild(r);
     }
     var a = el('a', 'd-btn d-btn--secondary d-btn--lg d-btn--block');
-    a.href = 'index.html'; a.textContent = B.toPath;
+    a.href = 'index.html'; a.textContent = B.toLearn;
     box.appendChild(a);
   }
 
   function startMistakes() {
     var list = (Duo.progress && Duo.progress.mistakes && Duo.progress.mistakes()) || [];
     list = list.slice(0, 10);
-    if (!list.length) return fail(FALLBACK_COPY.errors.noMistakes);
+    if (!list.length) return fail(TX.errors.noMistakes);
     var lessons = {};
     list.forEach(function (m) { lessons[m.lesson] = 1; });
     Promise.all(Object.keys(lessons).map(function (k) { return loadLesson(Number(k)); })).then(function () {
@@ -191,9 +128,9 @@
         var st = node && node.steps.filter(function (s) { return s.id === m.stepId; })[0];
         if (st && st.type !== 'theory') steps.push(st);
       });
-      if (!steps.length) return fail(FALLBACK_COPY.errors.noMistakes);
-      start({ id: 'mistakes', lesson: 0, title: FALLBACK_COPY.mistakesMode.title, steps: steps, mode: 'mistakes' });
-    }, function () { fail(FALLBACK_COPY.errors.load, true); });
+      if (!steps.length) return fail(TX.errors.noMistakes);
+      start({ id: 'mistakes', lesson: 0, title: TX.mistakesMode.title, steps: steps, mode: 'mistakes' });
+    }, function () { fail(TX.errors.load, true); });
   }
 
   /* ---------------- курс: вузли, пул кроків для SOS і боса ---------------- */
@@ -236,14 +173,14 @@
     loadLessonsFor(ids).then(function () {
       var theory = shuffleList(collectEntries(ids, function (t) { return t === 'theory'; })).slice(0, 8);
       var qs = shuffleList(collectEntries(ids, function (t) { return t === 'truefalse' || t === 'choice'; })).slice(0, 4);
-      if (!theory.length && !qs.length) return fail(FALLBACK_COPY.errors.missing);
-      start({ id: 'sos', lesson: 0, title: FALLBACK_COPY.sos.title, entries: theory.concat(qs), mode: 'sos' });
-    }, function () { fail(FALLBACK_COPY.errors.load, true); });
+      if (!theory.length && !qs.length) return fail(TX.errors.missing);
+      start({ id: 'sos', lesson: 0, title: TX.sos.title, entries: theory.concat(qs), mode: 'sos' });
+    }, function () { fail(TX.errors.load, true); });
   }
 
   function startBoss(id) {
     var f = findItem(id);
-    if (!f || f.item.kind !== 'boss') return fail(FALLBACK_COPY.errors.missing);
+    if (!f || f.item.kind !== 'boss') return fail(TX.errors.missing);
     var lessons = f.item.lessons || f.unit.lessons || [], course = courseData(), all = [];
     lessons.forEach(function (n) { var L = course.lessons && course.lessons[n]; if (L) all = all.concat(L.nodes); });
     var okType = function (t) { return t === 'choice' || t === 'truefalse' || t === 'fill' || t === 'build'; };
@@ -251,16 +188,16 @@
       var pool = collectEntries(all.filter(isDone), okType);
       if (pool.length < 8) pool = collectEntries(all, okType);
       var entries = shuffleList(pool).slice(0, 8);
-      if (!entries.length) return fail(FALLBACK_COPY.errors.missing);
+      if (!entries.length) return fail(TX.errors.missing);
       start({ id: id, lesson: 0, title: f.item.title || '', entries: entries, mode: 'boss' });
-    }, function () { fail(FALLBACK_COPY.errors.load, true); });
+    }, function () { fail(TX.errors.load, true); });
   }
 
   function startChest(id) {
     var f = findItem(id);
-    if (!f || f.item.kind !== 'chest') return fail(FALLBACK_COPY.errors.missing);
-    if (!isDone(f.item.after)) return fail(FALLBACK_COPY.chest.locked.replace('{t}', nodeTitle(f.item.after)));
-    var C = FALLBACK_COPY.chest, r = { xp: 0, already: false };
+    if (!f || f.item.kind !== 'chest') return fail(TX.errors.missing);
+    if (!isDone(f.item.after)) return fail(TX.chest.locked.replace('{t}', nodeTitle(f.item.after)));
+    var C = TX.chest, r = { xp: 0, already: false };
     try { if (Duo.progress && Duo.progress.openChest) r = Duo.progress.openChest(id); } catch (e) { if (window.console) console.error(e); }
     // блок = вузли юніта до сундука включно
     var ids = [];
@@ -304,10 +241,10 @@
     root.innerHTML =
       '<header class="dl-top"><div class="dl-top__in">' +
         '<button type="button" class="dl-close" aria-label="' + esc(B.close) + '">' + icon('close', 22) + '</button>' +
-        '<div class="d-progress dl-progress" role="progressbar" aria-label="' + esc(FALLBACK_COPY.aria.progress) + '" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">' +
+        '<div class="d-progress dl-progress" role="progressbar" aria-label="' + esc(TX.aria.progress) + '" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">' +
           '<div class="d-progress__track"><div class="d-progress__fill" style="transform:scaleX(0)"><span class="d-progress__shine"></span></div></div></div>' +
         '<div class="dl-hearts" role="img"><span class="dl-hearts__icon">' + icon('heart', 26) + '</span><span class="dl-hearts__n"></span></div>' +
-        (Duo.signals && typeof Duo.signals.mountSettings === 'function' ? '<button type="button" class="dl-gear" aria-label="' + esc(FALLBACK_COPY.settings.label) + '">' + icon('gear', 22) + '</button>' : '') +
+        (Duo.signals && typeof Duo.signals.mountSettings === 'function' ? '<button type="button" class="dl-gear" aria-label="' + esc(TX.settings.label) + '">' + icon('gear', 22) + '</button>' : '') +
       '</div><div class="dl-combo-wrap"><div class="dl-combo d-badge d-badge--streak" hidden aria-hidden="true"></div></div></header>' +
       '<div class="dl-stage"><div class="dl-stage__in"><section class="dl-card" tabindex="-1" role="group"></section></div></div>' +
       '<footer class="dl-foot"><div class="dl-foot__in">' +
@@ -346,7 +283,7 @@
     if (!ui.hearts) return;
     var h = heartsNow();
     ui.heartN.textContent = String(h.n);
-    ui.hearts.setAttribute('aria-label', FALLBACK_COPY.aria.heartsOf + ': ' + h.n + ' ' + FALLBACK_COPY.aria.of + ' ' + h.max);
+    ui.hearts.setAttribute('aria-label', TX.aria.heartsOf + ': ' + h.n + ' ' + TX.aria.of + ' ' + h.max);
     ui.hearts.classList.toggle('is-empty', h.n === 0);
     if (animateLoss) call('heartBreak', ui.heartIcon, { empty: h.n === 0 });
     else if (h.n > 0 && ui.heartIcon) ui.heartIcon.style.opacity = '';
@@ -426,7 +363,7 @@
   // Прокручувана зона без жодного елемента, що отримує фокус (після перевірки плитки/варіанти вимкнені), недосяжна з клавіатури:
   // тоді сама зона стає фокусованою (WCAG 2.1.1)
   function syncScrollers() {
-    var list = [[root.querySelector('.dl-stage'), FALLBACK_COPY.aria.stage], [root.querySelector('.dl-sheet__row'), null]];
+    var list = [[root.querySelector('.dl-stage'), TX.aria.stage], [root.querySelector('.dl-sheet__row'), null]];
     list.forEach(function (p) {
       var e = p[0]; if (!e) return;
       var need = e.scrollHeight > e.clientHeight + 1 && !e.querySelector('button:not([disabled]):not([tabindex="-1"]), a[href], input:not([disabled]), [tabindex="0"]');
@@ -489,7 +426,7 @@
     setCombo(S.combo);
     var title = praise();
     showSheet('ok', title, res);
-    announce(FALLBACK_COPY.aria.right + ' ' + title + (S.combo >= COMBO_FROM ? ' ' + comboText(S.combo) : ''));
+    announce(TX.aria.right + ' ' + title + (S.combo >= COMBO_FROM ? ' ' + comboText(S.combo) : ''));
   }
 
   function onWrong(res) {
@@ -509,7 +446,7 @@
     emit('wrong');
     var title = wrongTitle();
     showSheet('bad', title, res);
-    announce(FALLBACK_COPY.aria.wrong + ' ' + (res.answer ? FALLBACK_COPY.correctAnswer + ' ' + res.answer : ''));
+    announce(TX.aria.wrong + ' ' + (res.answer ? TX.correctAnswer + ' ' + res.answer : ''));
   }
 
   function showSheet(kind, title, res) {
@@ -518,10 +455,10 @@
       '<div class="dl-sheet__body"><p class="dl-sheet__title" id="dl-sheet-t-res">' + esc(title) + '</p>';
     if (kind === 'bad') {
       if (res.answerList) {
-        h += '<p class="dl-sheet__label">' + esc(res.answerLabel || FALLBACK_COPY.correctAnswer) + '</p><ol class="dl-sheet__list">' +
+        h += '<p class="dl-sheet__label">' + esc(res.answerLabel || TX.correctAnswer) + '</p><ol class="dl-sheet__list">' +
           res.answerList.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ol>';
       } else if (res.answer) {
-        h += '<p class="dl-sheet__label">' + esc(res.answerLabel || FALLBACK_COPY.correctAnswer) + '</p><p class="dl-sheet__answer">' + esc(res.answer) + '</p>';
+        h += '<p class="dl-sheet__label">' + esc(res.answerLabel || TX.correctAnswer) + '</p><p class="dl-sheet__answer">' + esc(res.answer) + '</p>';
       }
       if (res.note) h += '<p class="dl-sheet__why">' + esc(res.note) + '</p>';
     }
@@ -568,7 +505,7 @@
 
   function openExit() {
     if (!S || S.dead || dialogOpen() || !Duo.ui) { if (!Duo.ui) go('index.html'); return; }
-    var E = FALLBACK_COPY.exit;
+    var E = TX.exit;
     var sh = Duo.ui.sheet({
       tone: 'neutral',
       html: mascotBlock('sad') + '<h2 class="dl-sheet-title">' + esc(E.title) + '</h2><p class="dl-sheet-text">' + esc(E.text) + '</p>',
@@ -585,7 +522,7 @@
 
   function openSettings() {
     if (!S || S.dead || dialogOpen() || !Duo.ui || !Duo.signals || !Duo.signals.mountSettings) return;
-    var T = FALLBACK_COPY.settings;
+    var T = TX.settings;
     var sh = Duo.ui.sheet({
       tone: 'neutral',
       html: '<h2 class="dl-sheet-title">' + esc(T.title) + '</h2><div class="dl-settings"></div>',
@@ -598,7 +535,7 @@
 
   function heartsGate(cont) {
     if (S.free || heartsNow().n > 0 || !Duo.ui) return cont();
-    var H = FALLBACK_COPY.heartsEmpty, refilled = false;
+    var H = TX.heartsEmpty, refilled = false;
     nameSheet(Duo.ui.sheet({
       tone: 'error',
       html: mascotBlock('sad') + '<h2 class="dl-sheet-title">' + esc(H.title) + '</h2><p class="dl-sheet-text">' + esc(H.text) + '</p>',
@@ -661,7 +598,7 @@
   }
 
   function finishSos() {
-    var T = FALLBACK_COPY.sos, theory = S.total - S.exTotal;
+    var T = TX.sos, theory = S.total - S.exTotal;
     emit('node_complete');
     showSimple({
       title: T.done, sub: T.sub, medal: 'book',
@@ -669,17 +606,17 @@
         { cls: 'xp', label: T.cards, value: String(theory) },
         { cls: 'success', label: T.answers, value: S.correct + ' з ' + S.exTotal }
       ],
-      note: T.note, primary: B.toPath, dest: 'index.html'
+      note: T.note, primary: B.toLearn, dest: 'index.html'
     });
   }
 
   function finishBossFail(need) {
-    var T = FALLBACK_COPY.boss;
+    var T = TX.boss;
     showSimple({
       title: T.retry, sub: S.node.title, medal: 'target',
       cards: [{ cls: 'neutral', label: T.got, value: S.correct + ' з ' + S.exTotal }],
       note: T.retryText.replace('{n}', String(need)).replace('{t}', String(S.exTotal)),
-      primary: T.again, reload: true, secondary: { label: B.toPath, href: 'index.html' }
+      primary: T.again, reload: true, secondary: { label: B.toLearn, href: 'index.html' }
     });
   }
 
@@ -722,7 +659,7 @@
   }
 
   function showDone(res, payload) {
-    var D = FALLBACK_COPY.done, title = S.practice ? D.titlePractice : S.mode === 'boss' ? FALLBACK_COPY.boss.titleDone : D.title;
+    var D = TX.done, title = S.practice ? D.titlePractice : S.mode === 'boss' ? TX.boss.titleDone : D.title;
     var streakN = res.streak ? res.streak.after : 0;
     var kinds = (res.xpBreakdown || []).map(function (b) { return (D.xpKinds[b[0]] || b[0]) + ' +' + b[1]; }).join(' · ');
     root.setAttribute('data-state', 'done');
@@ -734,13 +671,13 @@
         '<div class="dl-done__stats">' +
           '<div class="d-card d-stat d-stat--xp dl-stat"><div class="d-stat__label">' + esc(D.xp) + '</div><div class="d-stat__value"><span data-xp>0</span></div></div>' +
           '<div class="d-card d-stat d-stat--success dl-stat"><div class="d-stat__label">' + esc(D.accuracy) + '</div><div class="d-stat__value"><span data-acc>0</span>%</div></div>' +
-          '<div class="d-card d-stat d-stat--streak dl-stat"><div class="d-stat__label">' + esc(D.streak) + '</div><div class="d-stat__value">' + streakN + '</div><div class="dl-stat__unit">' + esc(plural(streakN, D.daysOne, D.daysFew, D.daysMany)) + '</div></div>' +
+          '<div class="d-card d-stat d-stat--streak dl-stat"><div class="d-stat__label">' + esc(D.streak) + '</div><div class="d-stat__value">' + streakN + '</div><div class="dl-stat__unit">' + esc(COPY.days(streakN)) + '</div></div>' +
         '</div>' +
         '<p class="dl-done__epithet">' + esc(epithet(res.accuracy)) + '</p>' +
         '<p class="dl-done__meta">' + esc(D.time) + ': ' + esc(fmtTime(payload.ms)) + ' · ' + esc(D.mistakes) + ': ' + payload.mistakes + (kinds ? '<br>' + esc(kinds) : '') + '</p>' +
         '<div class="dl-done__actions">' +
           '<button type="button" class="d-btn d-btn--primary d-btn--lg d-btn--block dl-continue"><span class="d-btn__label">' + esc(B.cont) + '</span><span class="d-btn__spinner"></span></button>' +
-          (res.nextNodeId ? '<a class="d-btn d-btn--ghost d-btn--lg d-btn--block" href="index.html">' + esc(B.toPath) + '</a>' : '') +
+          (res.nextNodeId ? '<a class="d-btn d-btn--ghost d-btn--lg d-btn--block" href="index.html">' + esc(B.toLearn) + '</a>' : '') +
         '</div>' +
       '</section><div class="sr-only dl-live" aria-live="polite"></div>';
     var cards = Array.prototype.slice.call(root.querySelectorAll('.dl-stat'));
@@ -779,7 +716,7 @@
   }
 
   Duo.lesson = Duo.lesson || {};
-  Duo.lesson.copy = FALLBACK_COPY;
+  Duo.lesson.copy = TX;
   Duo.lesson.next = next; // для автотестів: показати наступний крок черги
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();

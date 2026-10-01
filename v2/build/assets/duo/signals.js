@@ -71,8 +71,10 @@
       box.appendChild(l);
       return inp;
     }
-    row('dsig-sound', 'Звук', 'Короткі тони під час уроку', function () { return S.sound; }, function (v) { S.sound = v; });
-    var vib = row('dsig-haptics', 'Вібрація', reduced() ? 'Вимкнена, бо в системі увімкнено «зменшити рух»' : 'Короткий відгук на телефоні',
+    var X = Duo.copy && Duo.copy.signals;
+    if (!X) { var m = '[Duo] copy.js не завантажено: Duo.copy відсутній.'; if (W.console) console.error(m); throw new Error(m); }
+    row('dsig-sound', X.sound, X.soundHint, function () { return S.sound; }, function (v) { S.sound = v; });
+    var vib = row('dsig-haptics', X.haptics, reduced() ? X.hapticsReduced : X.hapticsHint,
       function () { return Duo.haptics && Duo.haptics.enabled; }, function (v) { S.haptics = v; });
     if (reduced() || !(W.navigator && typeof W.navigator.vibrate === 'function')) vib.disabled = true;
     el.appendChild(box);

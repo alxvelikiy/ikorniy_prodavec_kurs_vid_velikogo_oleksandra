@@ -118,7 +118,7 @@ for (const theme of ['light', 'dark']) {
   await page.locator('.duo-node[data-state="locked"][data-kind="node"]').first().click({ force: true });
   await page.waitForTimeout(200);
   const toast = await page.evaluate(() => { const t = document.querySelector('.d-toast'); return t && t.textContent; });
-  ok(toast === 'Спершу заверши попередній вузол', 'locked → тост: ' + toast);
+  ok(toast === 'Спершу заверши попередню частину', 'locked → тост: ' + toast);
   ok(page.url().endsWith('index.html'), 'locked не навігує');
   await page.locator('.duo-node[data-state="current"]').click();
   await page.waitForURL(/vprava\.html\?n=u01-1/, { timeout: 4000 }).catch(() => {});

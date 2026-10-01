@@ -288,6 +288,28 @@ for (const theme of ['light', 'dark']) {
   await ctx.close();
 }
 
+{ // Duo.copy: є на кожній Duo-сторінці; без copy.js плеєр падає з явною помилкою в консоль, а не з порожніми текстами
+  console.log('== Duo.copy');
+  for (const url of ['index.html', 'vprava.html?n=u01-1', 'praktyka.html', 'zavdannia.html', 'profil.html', 'shpargalka.html']) {
+    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const page = await ctx.newPage();
+    await page.goto(base + '/' + url); await page.waitForTimeout(150);
+    const r = await page.evaluate(() => ({ copy: !!(window.Duo && Duo.copy && Duo.copy.lesson && Duo.copy.meta), tag: !!document.querySelector('script[src="assets/duo/copy.js"]') }));
+    ok(r.copy && r.tag, url + ': copy.js підключено, Duo.copy завантажено');
+    await ctx.close();
+  }
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  await ctx.route('**/assets/duo/copy.js', r => r.abort());
+  const page = await ctx.newPage(); const errs = [];
+  page.on('console', m => { if (m.type() === 'error') errs.push(m.text()); });
+  page.on('pageerror', e => errs.push('pageerror: ' + e.message));
+  await page.goto(base + '/vprava.html?n=u01-1'); await page.waitForTimeout(400);
+  const blank = await page.evaluate(() => [...document.querySelectorAll('#duo-lesson .d-btn__label')].filter(e => !e.textContent.trim()).length);
+  ok(errs.some(e => /copy\.js не завантажено/.test(e)), 'без copy.js: явна помилка в консолі («copy.js не завантажено»)');
+  ok(blank === 0, 'без copy.js: немає кнопок із порожніми підписами');
+  await ctx.close();
+}
+
 await browser.close(); srv.close();
 console.log(fails ? '\nFAILS: ' + fails : '\nALL OK');
 process.exit(fails ? 1 : 0);

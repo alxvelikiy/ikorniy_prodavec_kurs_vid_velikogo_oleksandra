@@ -7,9 +7,11 @@
   var D = window.Duo = window.Duo || {};
   var root, onb, done, jump, tip, tipFor = null, tipH = null, io = null, curEl = null, ready = false, mascotH = null, mascotLi = null;
 
-  var STATE_TXT = { locked: 'закрито', available: 'доступно', current: 'поточний', done: 'пройдено' };
-  var CHEST_TXT = { locked: 'закритий', available: 'готовий, можна відкрити', done: 'відкрито' };
-  var BOSS_TXT = { locked: 'недоступний', available: 'доступний', done: 'пройдено' };
+  // тексти станів і підказок — Duo.copy.path (copy.js)
+  function T() {
+    if (!D.copy) { var m = '[Duo] copy.js не завантажено: Duo.copy відсутній.'; if (window.console) console.error(m); throw new Error(m); }
+    return D.copy;
+  }
   var CHEST_OPEN = '<svg class="d-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12h16v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6z"/><path d="M4 12l1.6-6.5h12.8L20 12"/><rect x="10" y="12" width="4" height="3" rx="1"/></svg>';
 
   function iconFor(kind, st) {
@@ -36,7 +38,7 @@
       tip = document.createElement('span');
       tip.className = 'duo-node__tip';
       tip.setAttribute('aria-hidden', 'true');
-      tip.textContent = 'Почати';
+      tip.textContent = T().path.start;
     }
     el.querySelector('.duo-node__box').appendChild(tip);
     if (D.motion && D.motion.bounceTooltip) tipH = D.motion.bounceTooltip(tip);
@@ -69,7 +71,7 @@
       var el = nodes[i], kind = el.getAttribute('data-kind'), st = p.nodeState(el.getAttribute('data-id'));
       if (st === 'current') cur = el;
       if (el.getAttribute('data-state') !== st) el.setAttribute('data-state', st);
-      var txt = kind === 'chest' ? CHEST_TXT[st] : kind === 'boss' ? BOSS_TXT[st] : STATE_TXT[st];
+      var X = T().path, txt = kind === 'chest' ? X.chest[st] : kind === 'boss' ? X.boss[st] : X.state[st];
       var label = el.getAttribute('data-a') + ', ' + (txt || st);
       if (el.getAttribute('aria-label') !== label) el.setAttribute('aria-label', label);
       if (st === 'locked') el.setAttribute('aria-disabled', 'true'); else el.removeAttribute('aria-disabled');
@@ -148,7 +150,7 @@
     if (a.getAttribute('data-state') === 'locked') {
       e.preventDefault();
       var boss = a.getAttribute('data-kind') === 'boss';
-      if (D.ui && D.ui.toast) D.ui.toast(boss ? 'Спершу заверши всі уроки цього дня' : 'Спершу заверши попередній вузол');
+      if (D.ui && D.ui.toast) D.ui.toast(boss ? T().path.lockedBoss : T().path.lockedPart);
       var face = a.querySelector('.duo-node__face');
       if (D.motion && D.motion.shake && face) D.motion.shake(face);
       return;
