@@ -198,7 +198,7 @@ export function feedbackPrompt(ctx, replies, history) {
 // ---------- Перевірка відповідей моделі ----------
 // Ознаки того, що модель вийшла з ролі або «злила» інструкції: службові слова промпту, розмова про ІІ/моделі,
 // сторонні теми, відповідь не українською. Це друга лінія оборони — після інструкцій у промпті.
-export const LEAK_RE = /правила ролі|репліка_менеджера|матеріал уроку|фрази з уроку, які можна|системн\w* (промпт|інструкц)|system prompt|\bprompt\b|промпт|інструкці[їяйю]|мої вказівки|(^|[^а-яіїєґa-z])(?:ІІ|ШІ)([^а-яіїєґa-z]|$)|штучн\w* інтелект|мовн\w* модел|language model|\bas an ai\b|i am an ai|\bassistant\b|anthropic|claude/i;
+export const LEAK_RE = /правила ролі|репліка_менеджера|матеріал уроку|фрази з уроку, які можна|системн\w* (промпт|інструкц)|system prompt|\bprompt\b|промпт|інструкці[їяйю]|мої вказівки|(^|[^а-яіїєґa-z])(?:ІІ|ШІ)([^а-яіїєґa-z]|$)|штучн[а-яіїєґ]* інтелект|мовн\w* модел|language model|\bas an ai\b|i am an ai|\bassistant\b|anthropic|claude/i;
 export const OFFTOPIC_RE = /рецепт|інгредієнт|борщ|вірш|анекдот|програмн\w* код|javascript|python/i;
 export const INJECTION_INPUT_RE = /ігнор\w*|ignore|інструкц\w*|промпт|prompt|system|систем\w*|адмін\w*|admin|тестуван\w*|тобі можна|вийди з ролі|translate|переклад\w*|забудь/i;
 export function latinHeavy(t) { const lat = (String(t).match(/[a-z]/gi) || []).length, cyr = (String(t).match(/[а-яіїєґ]/gi) || []).length; return lat > 8 && lat > cyr; }

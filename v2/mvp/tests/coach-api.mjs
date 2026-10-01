@@ -7,7 +7,7 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { startServer, Results, V2 } from './lib.mjs';
-import { listScenes, sceneContext, grounding, GROUNDING_MAX_BYTES, NO_PHRASE } from '../../coach/lib/coach-core.mjs';
+import { listScenes, sceneContext, grounding, GROUNDING_MAX_BYTES, NO_PHRASE, LEAK_RE } from '../../coach/lib/coach-core.mjs';
 import { normText, inText } from '../../coach/lib/verbatim.mjs';
 import { INJECTIONS, judgeRoleplay, judgeFeedback } from './injections.mjs';
 
@@ -37,6 +37,15 @@ const port = () => 5100 + Math.floor(Math.random() * 800);
   R.check('coach.grounding-3kb', Math.max(...sizes) <= GROUNDING_MAX_BYTES, `${sizes.length} сцен, найбільше ${Math.max(...sizes)} байт`);
   const bad = listScenes().filter(s => { const g = grounding(sceneContext(s.id)); return /^\s*$/.test(g) || /(\d+\s*(з|із)\s*\d+)/.test(g) && !/з\s*75/.test(g); });
   R.check('coach.grounding-no-shares', bad.length === 0, bad.map(b => b.id).join(', ') || 'без часток «N з 26»');
+}
+
+// ---- вартовий виходу з ролі: модель називає себе ШІ/ІІ/штучним інтелектом (кирилиця — явний клас, не \w) ----
+{
+  const leak = ['Я штучний інтелект', 'Як штучний інтелект, я не можу', 'Я — модель штучного інтелекту', 'я — ІІ-модель', 'Я ШІ, не людина', 'Штучний інтелект тут'];
+  const clean = ['Добрий день, ікру беру', 'шість банок, будь ласка', 'Ціна вища, ніж я думав', 'Інтелектуальна розмова'];
+  const missed = leak.filter(t => !LEAK_RE.test(t)), falsePos = clean.filter(t => LEAK_RE.test(t));
+  R.check('coach.leak-ai-self', missed.length === 0, missed.length ? 'не спіймано: ' + missed.join(' | ') : leak.length + ' випадків спіймано');
+  R.check('coach.leak-no-false-positive', falsePos.length === 0, falsePos.length ? 'хибно: ' + falsePos.join(' | ') : clean.length + ' звичайних реплік пропущено');
 }
 
 // 2. Мок-сервер
