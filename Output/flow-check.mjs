@@ -66,6 +66,30 @@ async function finishNode(page) {
   await ctx.close();
 }
 
+// ---- 1.2 підпис частини на шляху: «Урок N · частина i з n», читалка — «Урок N, частина i з n: {назва}, {стан}» ----
+{
+  console.log('== 1.2 підписи частин на шляху');
+  const { ctx, page, errs } = await mk('index.html', { prep: '(() => Duo.progress.setOnboarded())()' });
+  const r = await page.evaluate(() => {
+    const n = id => document.querySelector('.duo-node[data-id="' + id + '"]');
+    const k = id => { const e = n(id).querySelector('.duo-node__kicker'); return e ? e.textContent.replace(/\u00a0/g, ' ') : null; };
+    const nodes = [...document.querySelectorAll('.duo-node[data-kind="node"]')];
+    return {
+      a1: n('u01-1').getAttribute('aria-label'), k1: k('u01-1'),
+      a2: n('u02-2').getAttribute('aria-label'), k2: k('u02-2'), k12: k('u12-2'),
+      total: nodes.length, withKicker: nodes.filter(e => e.querySelector('.duo-node__kicker')).length,
+      oldWord: nodes.some(e => /Вузол|Частина уроку:/.test(e.getAttribute('aria-label')))
+    };
+  });
+  console.log('  ', JSON.stringify(r));
+  ok(r.k1 === 'Урок 1 · частина 1 з 2' && r.k2 === 'Урок 2 · частина 2 з 2' && r.k12 === 'Урок 12 · частина 2 з 2', 'кікер «Урок N · частина i з n»');
+  ok(r.a1 === 'Урок 1, частина 1 з 2: Перша фраза дзвінка, поточна', 'читалка: поточна частина');
+  ok(r.a2 === 'Урок 2, частина 2 з 2: Чотири типи гачка, закрито', 'читалка: закрита частина');
+  ok(r.total === 24 && r.withKicker === 24 && !r.oldWord, 'усі 24 частини з кікером, без «Вузол» і наскрізної нумерації');
+  ok(errs.length === 0, 'консоль чиста ' + errs.join(';'));
+  await ctx.close();
+}
+
 await browser.close(); srv.close();
 console.log(fails ? '\nFAILS: ' + fails : '\nALL OK');
 process.exit(fails ? 1 : 0);

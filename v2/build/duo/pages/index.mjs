@@ -11,13 +11,13 @@ const X = COPY.pages.index, GOALS = COPY.pages.goals;
 const LOCK = '<svg class="d-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
 
 export function render({ course, esc, mascotSvg }) {
-  let nodeNo = 0, chestNo = 0, bossNo = 0, i = 0;
+  let chestNo = 0, bossNo = 0, i = 0;
 
   const item = it => {
     // хвиля: коефіцієнт k у [-1; 1], амплітуда — у CSS (--wave залежить від ширини екрана)
     const k = Math.sin(i++ * 0.85).toFixed(2);
     let label, name, kicker = '';
-    if (it.kind === 'node') { nodeNo++; name = X.part(it.title); label = esc(it.title); }
+    if (it.kind === 'node') { name = X.part(it.lesson, it.idx, it.of, it.title); label = esc(it.title); kicker = `<span class="duo-node__kicker duo-node__kicker--part">${esc(X.partKicker(it.lesson, it.idx, it.of))}</span>`; }
     else if (it.kind === 'chest') { chestNo++; name = X.chest(chestNo); label = esc(X.chestLabel); }
     else { bossNo++; name = X.boss(bossNo, it.title); label = esc(it.title); kicker = `<span class="duo-node__kicker">${esc(X.bossKicker)}</span>`; }
     return `<li class="duo-path__item" style="--k:${k}">

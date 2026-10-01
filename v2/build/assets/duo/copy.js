@@ -194,7 +194,10 @@
       index: {
         title: 'Навчання', h1: 'Навчання',
         description: 'Курс новачка Ikorka Shop: уроки з коротких частин, серія, XP і щоденна ціль.',
-        part: function (title) { return 'Частина уроку: ' + title; },
+        // підпис частини на шляху: видимий кікер і назва для читалки (стан додає path.js)
+        // нерозривні пробіли: рядок ламається лише після «·» («Урок 2 ·» / «частина 2 з 2»)
+        partKicker: function (n, idx, of) { return 'Урок\u00a0' + n + ' · частина\u00a0' + idx + '\u00a0з\u00a0' + of; },
+        part: function (n, idx, of, title) { return 'Урок ' + n + ', частина ' + idx + ' з ' + of + ': ' + title; },
         chest: function (n) { return 'Скриня ' + n; }, chestLabel: 'Скриня',
         boss: function (n, title) { return 'Бос ' + n + ': ' + title; }, bossKicker: 'Бос',
         cheat: 'Шпаргалка',

@@ -166,6 +166,8 @@ body.duo-has-nav {
   display: block; margin-bottom: 2px; font-size: var(--fs-xs); font-weight: var(--fw-black);
   text-transform: uppercase; letter-spacing: var(--tracking-caps); color: var(--c-brand-on-soft);
 }
+/* підпис частини «Урок N · частина i з n»: без капслоку — у верхньому регістрі «З» схожа на цифру 3 */
+.duo-node__kicker--part { text-transform: none; letter-spacing: normal; font-weight: var(--fw-xbold); }
 
 /* --- Стани: форма + значок + пара кольорів, не лише колір --- */
 .duo-node[data-state="done"] { --f: var(--face-done); --e: var(--edge-done); }
