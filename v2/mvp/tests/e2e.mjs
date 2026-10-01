@@ -428,7 +428,7 @@ async function slice4(browser, base, R) {
     await click(page, page.locator('.coach-send'));
     await page.waitForFunction(() => document.querySelectorAll('.coach-log .coach-msg.client').length === 3);
     const injReply = await page.locator('.coach-log .coach-msg.client').last().textContent();
-    R.check('4.rp.injection-blocked', !/90|%|знижк/i.test(injReply.replace(/ІІ-клієнт спробував.*$/, '')) && /замінено/.test(injReply), injReply);
+    R.check('4.rp.injection-blocked', !/90|%|знижк/i.test(injReply.replace(/ШІ-клієнт спробував.*$/, '')) && /замінено/.test(injReply), injReply);
     await click(page, page.locator('.coach-finish'));
     await page.waitForSelector('.coach-pane[data-pane="rp"] .coach-result .fb3');
     await expectFb3(R, '4.rp.feedback-fb3', page.locator('.coach-pane[data-pane="rp"] .coach-result .fb3'));

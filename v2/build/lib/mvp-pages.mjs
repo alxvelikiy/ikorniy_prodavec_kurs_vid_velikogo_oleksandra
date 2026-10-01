@@ -43,8 +43,8 @@ export function buildMvpPages({ shellPage, renderCover, trainer, accountsOn = fa
     slug: 'trener',
     html: shellPage({
       activeSlug: 'trener', pageSlug: 'trener', pageKind: 'trener',
-      title: 'ІІ-тренер', description: 'Розмова з ІІ-клієнтом за запереченнями з таблиці компанії і розбір відповіді за правилами уроків',
-      heroHtml: cover('ІІ-тренер', 'Розмова з ІІ-клієнтом за запереченнями з таблиці компанії і розбір твоєї відповіді за правилами уроків. Тренер радить лише фрази з уроків.'),
+      title: 'ШІ-тренер', description: 'Розмова з ШІ-клієнтом за запереченнями з таблиці компанії і розбір відповіді за правилами уроків',
+      heroHtml: cover('ШІ-тренер', 'Розмова з ШІ-клієнтом за запереченнями з таблиці компанії і розбір твоєї відповіді за правилами уроків. Тренер радить лише фрази з уроків.'),
       bodyHtml: `<p class="mvp-pii" role="note"><b>Увага:</b> ${escapeHtml(PII_WARNING)}</p>
 <div id="coach-app" class="mvp-app"><p class="lesson-body">Тренер завантажується…</p></div>${noJs('Тренер працює з увімкненим JavaScript.')}`,
       prev: null, next: null, extraScripts: ['assets/coach.js'],
